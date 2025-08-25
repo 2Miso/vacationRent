@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean class="com.example.ezen.Car">
+		<constructor-arg name="a" value="spring"/>
+		<constructor-arg index="1" value="2.5" />
+		
+		<property name="name" value="BMW"/>
+		<!-- setName -> Name -> name -->
+		<property name="plate" value="9999"/>
+		<!-- setPlate -> Plate -> plate -->
+	</bean>
+	<!-- com.example.ezen.Car클래스를 스프링에서 관리하게끔 bean으로 등록 -->
+	<!-- bean은 이름이 있다. 클래스의 첫 문자를 소문자로 바꾼게 이름 -->
+	<!-- 
+		Car car = new Car("spring", 2.5);
+		car.setName("BMW");
+		car.setPlate(9999);
+	-->
+</beans>

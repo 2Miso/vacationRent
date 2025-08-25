@@ -3,6 +3,7 @@ package com.example.ezen;
 public class Car{
 	private String name;
 	private int plate;
+	private String test;
 	
 	public Car(String a, double b) {
 		

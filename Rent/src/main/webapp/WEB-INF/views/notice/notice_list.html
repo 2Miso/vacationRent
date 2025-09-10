@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link href="resources/css/color_orange.css" rel="stylesheet" type="text/css">
+	<script src="resources/js/jquery-3.7.1.min.js"></script>
+    <!-- 부트스트랩 아이콘 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- 부트스트랩 글꼴 -->
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <style>
+        /* 헤더 스타일 */
+    body {
+      --bs-font-sans-serif: margin:0;
+      padding: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      font-family: 'Pretendard', 'Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;
+      color: #464646;
+      letter-spacing: 0;
+      -webkit-text-size-adjust: none;
+      font-weight: 400
+    }
+
+    header {
+      color: black;
+      border-bottom: 1px solid gray;
+    }
+
+    .navvar_wrapper {
+      width: 1250px;
+      background-color: black;
+      margin: 0 auto;
+
+    }
+
+    .navbar {
+      background-color: white !important;
+    }
+    /* 헤더스타일 끝 */
+
+
+
+        a{
+            text-decoration:none;
+            color:inherit;
+        }
+        a:hover{
+            text-decoration:underline;
+        }
+        .pageTitle{
+            width:1024px;
+            margin:auto;
+        }
+        h1{
+            display:inline-block;
+        }
+        .write-btn{
+            position:relative;
+            left:70%;
+            bottom: 10px;
+        }
+        .listArea table{
+            table-layout: fixed;
+            width:1024px;
+            margin:50px auto;
+        }
+        .listArea tr{
+            font-size:1.5em;
+            border-bottom:1px solid var(--bs-orange);
+        }
+        .listArea tr:first-child{
+            border-top:1px solid var(--bs-orange);
+        }
+        .listArea td{
+            padding:20px 5px;
+        }
+        .listArea .title{
+            width:80%;
+            overflow:hidden;
+            text-overflow:ellipsis;
+            white-space:nowrap;
+        }
+        .listArea .space{
+            width:5%;
+        }
+        .listArea .wdate{
+            width:15%;
+            color:gray;
+        }
+        /* *{
+            border:1px solid red;
+        } */
+    </style>
+    <script>
+        $(function(){
+            $(".page-item").on( "click", function() {
+                console.log(this);
+            } );
+        });
+    </script>
+</head>
+<body>
+    <header>
+    <div class="navvar_wrapper"><!--navvarwarp start-->
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+
+          <a class="navbar-brand" href="#">여기에 사이트 로고 삽입</a> <!--로고나 사이트이름을 삽입해야 합니다, 메인페이지 링크도 걸어야 합니다.-->
+
+
+          <div class="collapse navbar-collapse " id="navbarNavDropdown" style="margin-left:850px;">
+            <ul class="navbar-nav">
+
+              <span class="navbar-text">
+                "닉네임"님
+              </span>
+              <li class="nav-item dropdown">
+
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <i class="bi bi-list"></i>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">로그인하기</a></li> <!--로그인 링크를 걸어야 합니다-->
+                  <li><a class="dropdown-item" href="#">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </nav>
+    </div><!--navvarwarp end-->
+    </header>
+    <section>
+    <div class="pageTitle">
+        <h1>공지사항</h1>
+        <button type="button" class="btn btn-primary write-btn">글쓰기</button>
+    </div> <!-- end:pageTitle -->
+    <div class="listArea">
+        <table>
+            <tr>
+                <td class="title">
+                    <a href="#">
+                    제목입니다. 길어지면 말줄임표를 사용합니다.
+                    제목입니다. 길어지면 말줄임표를 사용합니다.
+                    제목입니다. 길어지면 말줄임표를 사용합니다.
+                    제목입니다. 길어지면 말줄임표를 사용합니다.
+                    </a>
+                </td>
+                <td class="space"></td>
+                <td class="wdate">
+                    2025.09.04
+                </td>
+            </tr>
+            <tr>
+                <td class="title">
+                    <a href="#">
+                        제목입니다. 길어지면 말줄임표를 사용합니다.
+                        제목입니다. 길어지면 말줄임표를 사용합니다.
+                        제목입니다. 길어지면 말줄임표를 사용합니다.
+                    </a>
+                </td>
+                <td class="space"></td>
+                <td class="wdate">
+                    2025.09.04
+                </td>
+            </tr>
+        </table>
+    </div> <!-- end:listArea -->
+    <div class="Page">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#">&lt;</a></li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
+        </ul>
+    </div> <!-- end:Page -->
+    </section>
+    <footer style="height:500px;  background-color:#F2F2F2"><!--footer start-->
+
+        <div style="height:10px;"></div><!--footer의 여백-->
+        <div style="width:1024px; margin: 0 auto;"><!--footer 가운데 정렬용-->
+
+            <div class="d-flex mb-3"><!--footer 상단부-->
+
+                <div class="me-auto p-2"><!--고객센터-->
+                    <h1 style="font-weight:bold; font-size:24px;">고객센터</h1>
+                    <p>전화 운영시간 : xx시-xx시<br>채팅 상담 : 24시간</p>
+                    <div>
+                        <button type="button"
+                            style="width:200px; height:50px; font-size:20px; border-radius:12px; border-width:0.5px;"><i
+                                class="bi bi-telephone-fill"
+                                style="margin-right:5px;"></i>0000-0000</button><!--링크를 걸어야 합니다-->
+                        <button type="button"
+                            style="width:200px; height:50px; font-size:20px; border-radius:12px; border-width:0.5px;"><i
+                                class="bi bi-chat-fill" style="margin-right:5px;"></i>채팅 상담</button><!--링크를 걸어야 합니다-->
+                    </div>
+                </div>
+
+                <div class="p-2"><!--회사소개-->
+                    <h1 style="font-weight:bold; font-size:24px;">회사</h1>
+                    <a href="#" style="text-decoration:none; color:black;">회사소개</a><!--링크를 걸어야 합니다-->
+                </div>
+
+                <div class="p-2"><!--서비스-->
+                    <h1 style="font-weight:bold; font-size:24px;">서비스</h1>
+                    <a href="#" style="text-decoration:none; color:black;">공지사항</a><br><!--링크를 걸어야 합니다-->
+                    <a href="#" style="text-decoration:none; color:black;">자주묻는질문</a><!--링크를 걸어야 합니다-->
+                </div>
+
+            </div><!--footer 상단부 끝-->
+
+
+            <div class="me-auto p-2"><!--footer 하단부-->
+
+                <div><!--회사상세내역소개-->
+                    (주)회사이름<br>
+                    주소 : 회사 주소| 대표이사 : 이름 | 사업자등록번호 : 사업자등록번호 입력<br>
+                    전자우편주소 : xxxx@xxxx.com | 통신판매번호 : 2017-서울강남-01779 | 관광사업자 등록번호 : 제1026-24호 | 전화번호 :xxxx-xxxx<br>
+                    호스팅서비스제공자의 상호 표시 : ㈜회사이름<br>
+                    (주)회사이름 통신판매중개자로서 통신판매의 당사자가 아니며, 상품의 예약, 이용 및 환불 등과 관련한 의무와 책임은 각 판매자에게 있습니다.<br>
+                </div>
+
+                <div class="d-flex mb-3" style="margin-top:24px; margin-bottom:24px;"><!--이용야관개인정보처리방침등등-->
+                    <a href="#"
+                        style="text-decoration:none; font-weight:bold; color:black; padding-right:40px;">이용약관</a><!--링크를 걸어야 합니다-->
+                    <a href="#"
+                        style="text-decoration:none; font-weight:bold; color:black; padding-right:40px;">개인정보처리방침</a><!--링크를 걸어야 합니다-->
+                    <a href="#" style="text-decoration:none; font-weight:bold; color:black; padding-right:40px;">소비자
+                        분쟁해결 기준</a><!--링크를 걸어야 합니다-->
+                    <a href="#"
+                        style="text-decoration:none; font-weight:bold; color:black; padding-right:40px;">콘텐츠산업진흥법에 의한
+                        표시</a><!--링크를 걸어야 합니다-->
+                </div>
+
+                <div><!--카피라이트-->
+                    Copyright xxxx Corp. All rights reserved
+                </div>
+
+            </div><!--footer 하단부 끝-->
+
+        </div>
+    </footer><!--footer end-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

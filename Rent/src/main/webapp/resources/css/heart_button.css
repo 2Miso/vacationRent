@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+.heartContainer {
+    position: relative;
+}
+
+.button {
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+    background: none;
+    cursor: pointer;
+    transition: background 0.5s ease;
+}
+
+.active#heart:before,
+.active#heart:after {
+    background: red !important;
+}
+
+#heart {
+    width: 50px;
+    height: 45px;
+    transition: background 0.5s ease;
+}
+
+#heart:before,
+#heart:after {
+    transition: background 0.5s ease;
+    position: absolute;
+    content: "";
+    left: 25px;
+    top: 0;
+    width: 25px;
+    height: 40px;
+    background: dimgrey;
+    border-radius: 50px 50px 0 0;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+}
+
+#heart:after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+}

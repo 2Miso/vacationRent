@@ -1,6 +1,12 @@
+<%@page import="com.rent.vaca.notice.NoticeVO"%>
+<%@page import="java.util.List"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header_nosearchbar.jsp" %>
+<%
+List<NoticeVO> list = (List<NoticeVO>)request.getAttribute("noticeList");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -9,12 +15,12 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link href="resources/css/color_orange.css" rel="stylesheet" type="text/css">
 	<script src="resources/js/jquery-3.7.1.min.js"></script>
     <!-- 부트스트랩 아이콘 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <!-- 부트스트랩 글꼴 -->
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link href="resources/css/color_orange.css" rel="stylesheet" type="text/css">
     <style>
         a{
             text-decoration:none;
@@ -80,37 +86,25 @@
     <section>
     <div class="pageTitle">
         <h1>공지사항</h1>
-        <button type="button" class="btn btn-primary write-btn">글쓰기</button>
+        <%-- <c:if test=${not empty sessionScope.user}"> --%>
+        	<button type="button" onclick="location.href='<c:url value="/notice/write" />'" class="btn btn-primary write-btn">글쓰기</button>
+        <%-- </c:if> --%>
     </div> <!-- end:pageTitle -->
     <div class="listArea">
         <table>
+        <c:forEach var="notice" items="${noticeList}">
             <tr>
                 <td class="title">
-                    <a href="#">
-                    제목입니다. 길어지면 말줄임표를 사용합니다.
-                    제목입니다. 길어지면 말줄임표를 사용합니다.
-                    제목입니다. 길어지면 말줄임표를 사용합니다.
-                    제목입니다. 길어지면 말줄임표를 사용합니다.
+                    <a href="<c:url value="notice/view/${notice.noticeNo}" />">
+                    	${notice.title}
                     </a>
                 </td>
                 <td class="space"></td>
                 <td class="wdate">
-                    2025.09.04
+                    ${notice.wdate}
                 </td>
             </tr>
-            <tr>
-                <td class="title">
-                    <a href="#">
-                        제목입니다. 길어지면 말줄임표를 사용합니다.
-                        제목입니다. 길어지면 말줄임표를 사용합니다.
-                        제목입니다. 길어지면 말줄임표를 사용합니다.
-                    </a>
-                </td>
-                <td class="space"></td>
-                <td class="wdate">
-                    2025.09.04
-                </td>
-            </tr>
+           </c:forEach>
         </table>
     </div> <!-- end:listArea -->
     <div class="Page">

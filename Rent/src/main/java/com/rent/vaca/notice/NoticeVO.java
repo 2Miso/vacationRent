@@ -36,7 +36,7 @@ public class NoticeVO {
 		this.content = content;
 	}
 	public String getWdate() {
-		return wdate;
+		return wdate.substring(0,10);
 	}
 	public void setWdate(String wdate) {
 		this.wdate = wdate;

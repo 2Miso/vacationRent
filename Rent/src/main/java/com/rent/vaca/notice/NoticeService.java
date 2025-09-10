@@ -7,7 +7,7 @@ public interface NoticeService {
 	List<NoticeVO> selectAllNotice();
 	
 	//공지사항 단건조회
-	//NoticeVO selectNoticeByNoticeNo(int noticeNo);
+	NoticeVO selectNoticeByNoticeNo(int noticeNo);
 	
 	
 }

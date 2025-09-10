@@ -15,8 +15,13 @@ public class NoticeRepository {
 		this.template = template;
 	}
 	
-	//1. 공지사항 목록조회
+	//공지사항 목록조회
 	public List<NoticeVO> selectAllNotice(){
 		return template.selectList("noticeMapper.selectAllNotice");
+	}
+	
+	//공지사항 단건조회
+	public NoticeVO selectNoticeByNoticeNo(int noticeNo) {
+		return template.selectOne("noticeMapper.selectNoticeByNoticeNo", noticeNo);
 	}
 }

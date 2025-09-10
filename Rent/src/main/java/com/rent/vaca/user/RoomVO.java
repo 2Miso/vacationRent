@@ -1,6 +1,6 @@
 package com.rent.vaca.user;
 
-public class roomVO{
+public class RoomVO{
 	private int roomNo;
 	private int accoNo;
 	private String ho;

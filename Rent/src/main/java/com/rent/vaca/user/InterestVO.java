@@ -1,6 +1,6 @@
 package com.rent.vaca.user;
 
-public class interestVO{
+public class InterestVO{
 	private int interestNo;
 	private int userId;
 	private int accoNo;

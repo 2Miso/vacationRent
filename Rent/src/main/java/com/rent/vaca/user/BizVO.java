@@ -1,6 +1,6 @@
 package com.rent.vaca.user;
 
-public class bizVO{
+public class BizVO{
 	private int id;	
 	private String email;
 	private String pw;

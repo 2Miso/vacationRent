@@ -1,4 +1,4 @@
-package com.rent.vaca.user;
+package com.rent.vaca.notice;
 
 public class NoticeVO {
 	private int noticeNo;

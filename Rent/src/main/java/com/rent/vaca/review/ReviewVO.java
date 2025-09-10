@@ -1,4 +1,4 @@
-package com.rent.vaca.user;
+package com.rent.vaca.review;
 
 public class ReviewVO {
 	private int reviewNo;

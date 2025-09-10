@@ -1,6 +1,6 @@
 package com.rent.vaca.user;
 
-public class reviewPhotoVO{
+public class ReviewPhotoVO{
 	private int photoNo;
 	private int reviewNo;
 	private String savedName;

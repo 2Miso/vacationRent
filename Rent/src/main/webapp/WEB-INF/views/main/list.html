@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>검색</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link href="color_orange.css" rel="stylesheet" type="text/css">
+    <link href="size.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/@xpressengine/xeicon@2.3.3/xeicon.min.css" rel="stylesheet">
+    <style>
+    body {
+        --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
+    }
+    .header_wrap{
+        width:1024px;
+        height:100px;
+        margin: 0 auto;
+    }
+
+
+    
+    .navbar{
+       background-color:white !important;
+    }
+    section{
+        width:1024px; 
+        margin: 0 auto;
+    }
+    </style>
+    <script>
+        let category = false;
+        function categorychangeFn(obj){
+            if(category == false){
+                $(obj).text("카테고리 접기");
+                category=true;
+            }else{
+                $(obj).text("카테고리 펼치기")
+                category=false;
+            }
+           
+        }
+        
+        
+    </script>
+</head>
+
+
+<body>
+<header style="border-bottom:1px solid gray; height:120px;">
+    <div class="header_wrap">
+
+        <div class="navvar_wrapper" style="height:60px;"><!--navvarwarp start-->
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid d-flex justify-content-between">
+            <a class="navbar-brand" href="#">사이트 로고 삽입</a> <!--로고나 사이트이름을 삽입해야 합니다, 메인페이지 링크도 걸어야 합니다.-->
+            <div class="collapse navbar-collapse" style="margin-left: 670px;" id="navbarNavDropdown"><!--로그인버튼 또는 닉네임-->
+            <ul class="navbar-nav">
+                
+                <span class="navbar-text">
+                "닉네임"님
+                </span>
+                <li class="nav-item dropdown">
+                
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-list"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">로그인하기</a></li> <!--로그인 링크를 걸어야 합니다-->
+                    <li><a class="dropdown-item" href="#">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
+                </ul>
+                </li>
+            </ul>
+            </div>
+            </div>
+            </nav>
+        </div><!--navvarwarp end-->
+
+        <div class="d-flex  justify-content-around " style="height:50px;"><!--헤더 검색창 시작-->
+            <input type="text" class="form-control " placeholder="검색하기" style="width:350px; height:50px;">
+            <div class="d-flex align-items-center">
+            <input type="date" class="form-control" placeholder="일정(부터)" style="width:150px; height:50px;">-
+            <input type="date" class="form-control" placeholder="일정(까지)" style="width:150px; height:50px;">
+             </div>
+            <input type="text" class="form-control " placeholder="인원(명)" style="width:100px; height:50px;">
+            <button link="#" class="btn btn-primary " type="submit" style="width:200px; height:50px;">검색하기</button>
+        </div><!--헤더 검색창 끝-->
+
+    </div>
+</header>
+
+<section>
+    <div class="d-flex" ><!--사이드바와 내용 수평정렬-->
+        <div class="my-2 mx-2" style="width: 200px;"><!--사이드바 시작-->
+
+            <div class="my-2"><!--정렬 순서 시작-->
+               <h5 style="font-weight: bold;">정렬</h5>
+                <select onchange="location.href=this.value;" class="form-select" >
+                    <option value="이동할 페이지 경로">높은가격순</option>
+                    <option value="이동할 페이지 경로">낮은가격순</option>
+                    <option value="이동할 페이지 경로">별점높은순</option>
+                </select> 
+            </div><!--정렬 순서 끝-->
+            
+            <div class="my-2"><!--가격 시작-->
+                <h5 style="font-weight: bold;">가격</h5>
+                    <div class="d-flex align-items-center">
+                        <input type="text" class="form-control " placeholder="최소">-
+                        <input type="text" class="form-control " placeholder="최대">
+                    </div>          
+            </div><!--가격 끝-->
+            
+            <div class="my-2"><!--숙소유형 시작-->
+                <h5 style="font-weight: bold;">숙소유형</h5>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                    <label class="form-check-label" for="checkDefault">  전체</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                    <label class="form-check-label" for="checkDefault">  모텔</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                    <label class="form-check-label" for="checkDefault">  호텔,리조트</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                    <label class="form-check-label" for="checkDefault"> 펜션</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                    <label class="form-check-label" for="checkDefault">  홈,빌라</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                    <label class="form-check-label" for="checkDefault"> 캠핑</label>
+                </div>
+            </div><!--숙소유형 끝-->
+        </div><!--사이드바 끝-->
+
+        <div><!--내용 시작-->
+            <div><!--숙소 시작-->
+                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
+                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
+                    <div  class="mx-2">
+                        <h5>숙소 이름 입력</h5>
+                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
+                        <p>여기에 별점 입력</p>
+                        <p>여기에 가격 입력 ex)500,000원</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
+                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
+                    <div  class="mx-2">
+                        <h5>숙소 이름 입력</h5>
+                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
+                        <p>여기에 별점 입력</p>
+                        <p>여기에 가격 입력 ex)500,000원</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
+                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
+                    <div  class="mx-2">
+                        <h5>숙소 이름 입력</h5>
+                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
+                        <p>여기에 별점 입력</p>
+                        <p>여기에 가격 입력 ex)500,000원</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
+                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
+                    <div  class="mx-2">
+                        <h5>숙소 이름 입력</h5>
+                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
+                        <p>여기에 별점 입력</p>
+                        <p>여기에 가격 입력 ex)500,000원</p>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
+                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
+                    <div  class="mx-2">
+                        <h5>숙소 이름 입력</h5>
+                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
+                        <p>여기에 별점 입력</p>
+                        <p>여기에 가격 입력 ex)500,000원</p>
+                    </div>
+                </div>
+            </div><!--숙소 끝-->
+
+            <div><!--페이지네이션 시작-->
+                <nav aria-label="Page navigation example" style="margin: 0 auto;">
+                    <ul class="pagination align-items-center" style="margin: 0 auto;">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span></a>
+                        </li>
+
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div><!--페이지네이션 끝-->
+
+        </div><!--숙소리스트끝-->
+    </div>
+
+</section>
+</body>
+</html>

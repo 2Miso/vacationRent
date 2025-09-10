@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>메인페이지</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link href="color_orange.css" rel="stylesheet" type="text/css">
+    <link href="size.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/@xpressengine/xeicon@2.3.3/xeicon.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
+        }
+    </style>
+
+    <script>
+        let category = false;
+        function categorychangeFn(obj){
+            if(category == false){
+                $(obj).text("카테고리 접기");
+                category=true;
+            }else{
+                $(obj).text("카테고리 펼치기")
+                category=false;
+            }
+           
+        }
+    </script>
+</head>
+
+<body>
+<section>
+<div class="main_search" style="position:relative;">
+    <div><img src="./example.png" style="filter: brightness(0.5); width:100vw; height:500px; object-fit:cover;"></div><!--이미지-->
+
+    <div style="position:absolute; top:150px; width:100vw">
+        <div style="margin:0 auto; width:1024px; height:140px; background-color: white; border-radius:6px; "><!--내용물-->
+            <div style="height:10px;"></div><!--여백-->
+            
+            <h3 class="fw-bold mx-2 my-2">검색하기</h3><!--검색하기 시작-->
+            <div class="d-flex  justify-content-around " style="height:50px;">
+                <input type="text" class="form-control " placeholder="검색하기" style="width:350px; height:50px;">
+                <div class="d-flex align-items-center">
+                <input type="date" class="form-control" placeholder="일정(부터)" style="width:150px; height:50px;">-
+                <input type="date" class="form-control" placeholder="일정(까지)" style="width:150px; height:50px;">
+                </div>
+                <input type="text" class="form-control " placeholder="인원(명)" style="width:100px; height:50px;">
+                <button link="#" class="btn btn-primary " type="submit" style="width:200px; height:50px;">검색하기</button>
+            </div><!--검색하기 끝-->
+
+            <div class="collapse" id="collapseExample" ><!--카테고리 열고 접기-->
+                <div class="d-flex align-items-center" style="height:150px;  background-color: white;"><!--카테고리 내용물 시작-->
+                    <div class="mx-2"><!--가격 카테고리 시작-->
+                        <h3 class="fw-bold my-3">가격</h3>
+                        <div class="d-flex align-items-center ">
+                            <input type="text" class="form-control" placeholder="최저" style="width:150px;">-
+                            <input type="text" class="form-control" placeholder="최대" style="width:150px;">
+                        </div>
+                    </div><!--가격 카테고리 끝-->
+                    
+                    <div class="mx-2"><!--숙소이름 카테고리 시작-->
+                        <h3 class="fw-bold my-3">숙소이름</h3>
+                        <div class="d-flex">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                                <label class="form-check-label">전체</label>
+                            </div>
+
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                                <label class="form-check-label">호텔</label>
+                            </div>
+
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                                <label class="form-check-label">모텔</label>
+                            </div>
+
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                                <label class="form-check-label">리조트</label>
+                            </div>
+
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                                <label class="form-check-label">펜션</label>
+                            </div>
+
+                            <div class="form-check mx-2">
+                                <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                                <label class="form-check-label">빌라</label>
+                            </div>
+                        </div>
+                    </div><!--숙소이름 카테고리끝-->
+                    
+                </div><!--카테고리 내용물 끝-->
+            </div><!--카테고리 열고 접기 끝-->
+
+            <div style="background-color: white; height:10px;"></div><!--카테고리 펼치기 시작-->
+            <div class="align-items-center" style="height:30px; background-color: white; border-bottom-left-radius:6px; border-bottom-right-radius:6px; ">
+                <p class="d-flex justify-content-center">
+                    <i class="bi bi-list"></i>
+                    <a style="color:black; text-decoration: none;" data-bs-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample" onclick="categorychangeFn(this)">카테고리 펼치기</a>
+                </p>
+            </div><!--카테고리 펼치기 끝-->
+            
+        </div>
+    </div>
+</div>
+
+</div>
+</section>
+</body>
+</html>

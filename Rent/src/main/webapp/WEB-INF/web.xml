@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee https://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	
+	<!-- 
+		톰캣이 실행되면서 프로젝트에서 가장 먼저 읽히는 파일
+		톰캣이 web.xml파일을 읽어서 해석(파싱)하고 
+	-->
+
+	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring/root-context.xml</param-value>
+	</context-param>
+	<!-- 
+		현재 스프링프로젝트에서 전역적으로 읽을 수 있는 변수
+		변수 이름 : contextConfigLocation
+		변수 값 : /WEB-INF/spring/root-context.xml
+	 -->
+	
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!--
+		리스너 : 톰캣이 실행되고, 종료될 때 같이 실행할 클래스 
+		1. contextConfigLocation변수를 읽고, 변수값에 해당하는 파일을 읽어서
+		파일 안의 설정을 토대로 스프링에서 관리하는 객체인 bean을 생성한다.
+		2. 스프링에서 bean을 관리하는 공간인 IOC컨테이너를 생성한다.
+		3. root-context.xml파일 설정으로 생성한 bean을 IOC컨테이너에 넣는다.
+		
+		IOC : 제어의 역전(Inversion of Control)
+		객체의 생성과 소멸을 개발자에게 맡기지 않고 스프링에게 맡긴다.
+		IOC컨테이너 : IOC를 통해 생성된 객체가 저장되는 공간(메모리)
+	 -->
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!--
+		서블릿 : java코드를 이용해서 서버에서 html을 만들어서 클라이언트로 반환해주는클래스
+		server(서버) + let(조각)
+		서버에서 HTML을 만들어주는 형태 : SSR(Server Side Rendering)
+		
+		서블릿 이름과 클래스를 지정하는 태그
+		DispatcherServlet클래스를 appServlet이라는 이름으로 지정하고 해당 서블릿클래스
+		내부에서만 사용할 수 있는 변수 contextConfigLocation을 만들고 변수값으로
+		/WEB-INF/spring/appServlet/servlet-context.xml 문자열을 전달한다.
+		
+		load-on-startup : 톰캣이 실행될 때 미리 서블릿 클래스를 생성(낮은 수 부터 우선)
+		톰캣이 실행되면서 DispatcherServlet클래스의 생성자를 호출
+		1. servlet-context.xml에 설정한 파일을 읽어서 bean을 등록하고
+		IOC컨테이너에 bean을 넣는다.
+		2. 직접 xml태그로 등록한bean + component-scane을 이용해 등록된 bean
+		
+		viewResolver, @Controller, @Service, @Repository, @Component
+		서블릿으로 요청이 왔을 때에만 사용 가능한 bean
+	 -->
+		
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<!-- 
+		서블릿클래스가 동작할 url
+		/로 요청이 오면 appServlet이라는 이름의 서블릿클래스를 찾아서 url을 매핑
+		프론트컨트롤러 패턴 : 모든 url요청은 하나의 서블릿이 받고 서블릿이 url패턴에 따라
+		호출할 메서드를 결정
+	-->
+	
+	<!-- 
+		필터
+		디스패처 서블릿(컨트롤러)에 요청이 전달되기 전에 해당 요청에 대한 부가작업을 처리
+		1. 인코딩필터
+		모든 요청에 대해서 서블릿에 요청이 전달되기 전에 요청 데이터에 대해 인코딩을 실행한다.
+	-->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+</web-app>

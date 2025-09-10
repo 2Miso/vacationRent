@@ -33,3 +33,10 @@
 .dropdown-menu{
     --bs-dropdown-link-active-bg: var(--bs-orange);
 }
+.modal .nav-link{
+    color: black;
+}
+.modal .nav-link.active{
+    color:var(--bs-orange);
+    font-weight:bold;
+}

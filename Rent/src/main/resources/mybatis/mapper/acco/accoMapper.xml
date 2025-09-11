@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis mapper파일 -->
+	<!-- namespace, id, resultType 3가지가 중요 -->
+
+<mapper namespace="accoMapper">
+<!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
+	<resultMap id="accoRoomMap" type="acco">
+		<id property="accoNo" column="acco_no" /> <!-- type : BoardVO , property : BoardVO의 필드 이름 -->
+		<result property="accoNo" column="acco_no" />
+		<result property="type" column="type" />
+		<result property="name" column="name" />
+		<result property="addr" column="addr" />
+		<result property="phone" column="phone" />
+		<result property="description" column="description" />
+		<result property="bizHour" column="biz_hour" />
+		<result property="delyn" column="delyn" />
+		<result property="checkin" column="checkin" />
+		<result property="checkout" column="checkout" />
+		<result property="bizId" column="biz_id" />
+		
+		<!-- 1:1 테이블 관계 매핑 -->
+		<association property="biz" javaType="biz">
+			<id property="id" column="id" />
+			<result property="email" column="email" />
+			<result property="pw" column="pw" />
+			<result property="phone" column="phone" />
+			<result property="wdate" column="wdate" />
+			<result property="approveyn" column="approveyn" />
+			<result property="delyn" column="delyn" />
+			<result property="name" column="name" />
+			<result property="owner" column="owner" />
+			<result property="certificateNo" column="certificate_no" />
+			<result property="certificateOriginalName" column="certificate_original_name" />
+			<result property="certificateSavedName" column="certificate_saved_name" />
+			<result property="banyn" column="banyn" />
+			<result property="banReason" column="ban_reason" />
+		</association>
+		
+		<!-- 1:n 테이블 관계 매핑 -->
+		<collection property="roomList" ofType="room"> <!-- file : FileVO의 alias -->
+			<id property="roomNo" column="room_no" />
+			<result property="accoNo" column="acco_no" />
+			<result property="ho" column="ho" />
+			<result property="name" column="name" />
+			<result property="price" column="price" />
+			<result property="area" column="area" />
+			<result property="bedType" column="bed_type" />
+			<result property="restroomNo" column="restroom_no" />
+			<result property="delyn" column="delyn" />
+			<result property="standardHead" column="standard_head" />
+			<result property="extraHead" column="extra_heaad" />
+			<result property="description" column="description" />
+		</collection>
+	</resultMap>
+
+	<!-- 숙소1건 조회 -->
+	<select id="selectAccoByAccoNo" parameterType="int" resultMap="accoRoomMap">
+		select * from accotb a left join biztb b on a.biz_id=b.id left join roomtb r on a.acco_no=r.acco_no left join acco_phototb p on a.acco_no=p.acco_no where a.acco_no=#{accoNo};
+	</select>
+</mapper>

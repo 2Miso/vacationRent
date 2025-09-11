@@ -1,3 +1,9 @@
+<%@page import="com.rent.vaca.acco.AccoVO"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+AccoVO board = (AccoVO)request.getAttribute("acco");
+%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -302,8 +308,8 @@
         </article>
         <div class="titleArea">
             <div>
-                <h6>펜션</h6>
-                <h2>아주좋은펜션</h2>
+                <h6>${acco.type}</h6>
+                <h2>${acco.name}</h2>
             </div>
             <div class="heartContainer">
                 <div id='heart' class='button'></div>
@@ -340,7 +346,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <h4>객실정보</h4>
-                                    <div>체크인/체크아웃</div>
+                                    <div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
                                     <div>기준인원/최대인원</div>
                                     <div>더블침대 1개</div>
                                     <div>거실1개 방2개 욕실2개 / 00.0㎡</div>
@@ -397,9 +403,7 @@
         <article class="acco_intro">
             <h3>숙소소개</h3>
             <div>
-                숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용
-                숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용
-                숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용 숙소소개 내용
+                ${acco.description}
             </div>
         </article><!-- end:acco_intro -->
         <hr>
@@ -420,7 +424,7 @@
         <hr>
         <article class="acco_info">
             <h3>숙소정보</h3>
-            <div>체크인/아웃 시간</div>
+            <div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
             <div>추가요금</div>
             <div>등등 공통정보</div>
         </article>
@@ -439,23 +443,23 @@
                     <table>
                         <tr>
                             <th>상호</th>
-                            <td>아주좋은펜션</td>
+                            <td>${acco.name}</td>
                         </tr>
                         <tr>
                             <th>대표자명</th>
-                            <td>김길동</td>
+                            <td>${acco.biz.owner}</td>
                         </tr>
                         <tr>
                             <th>주소</th>
-                            <td>전북 전주시 덕진구 백제대로 572 4층</td>
+                            <td>${acco.addr}</td>
                         </tr>
                         <tr>
                             <th>이메일</th>
-                            <td>email@email.com</td>
+                            <td>${acco.biz.email}</td>
                         </tr>
                         <tr>
                             <th>사업자번호</th>
-                            <td>000-00-00000</td>
+                            <td>${acco.biz.certificateNo}</td>
                         </tr>
                     </table><br>
                     <ul>
@@ -473,9 +477,8 @@
         <hr>
         <article id="location">
             <h3>위치</h3>
-            <div>전북 전주시 덕진구 백제대로 572 4층</div>
-            <div id="map" style="border:1px solid black; width:100%; padding-bottom:400px;">
-                지도
+            <div>${acco.addr}</div>
+            <div id="map" style="border:1px solid black; width:1024px; height:426px;">
             </div>
         </article>
         <hr>

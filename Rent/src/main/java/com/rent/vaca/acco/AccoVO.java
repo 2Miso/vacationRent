@@ -1,5 +1,13 @@
 package com.rent.vaca.acco;
 
+import java.util.List;
+
+import com.rent.vaca.review.ReviewPhotoVO;
+import com.rent.vaca.review.ReviewVO;
+import com.rent.vaca.room.RoomVO;
+import com.rent.vaca.user.BizVO;
+
+
 public class AccoVO {
 	private int accoNo;
 	private int type;
@@ -12,6 +20,27 @@ public class AccoVO {
 	private String checkin;
 	private String checkout;
 	private int bizId;
+	private BizVO biz;
+	private List<RoomVO> roomList;
+	
+	public AccoVO() {}
+	public AccoVO(int accoNo, int type, String name, String addr, String phone, String description, String bizHour,
+			String delyn, String checkin, String checkout, int bizId, BizVO biz, List<RoomVO> roomList) {
+		this.accoNo = accoNo;
+		this.type = type;
+		this.name = name;
+		this.addr = addr;
+		this.phone = phone;
+		this.description = description;
+		this.bizHour = bizHour;
+		this.delyn = delyn;
+		this.checkin = checkin;
+		this.checkout = checkout;
+		this.bizId = bizId;
+		this.biz = biz;
+		this.roomList = roomList;
+	}
+
 	public int getAccoNo() {
 		return accoNo;
 	}
@@ -61,13 +90,13 @@ public class AccoVO {
 		this.delyn = delyn;
 	}
 	public String getCheckin() {
-		return checkin;
+		return checkin.substring(0, 5);
 	}
 	public void setCheckin(String checkin) {
 		this.checkin = checkin;
 	}
 	public String getCheckout() {
-		return checkout;
+		return checkout.substring(0,5);
 	}
 	public void setCheckout(String checkout) {
 		this.checkout = checkout;
@@ -78,6 +107,16 @@ public class AccoVO {
 	public void setBizId(int bizId) {
 		this.bizId = bizId;
 	}
-	
-	
+	public BizVO getBiz() {
+		return biz;
+	}
+	public void setBiz(BizVO biz) {
+		this.biz = biz;
+	}
+	public List<RoomVO> getRoomList() {
+		return roomList;
+	}
+	public void setRoomList(List<RoomVO> roomList) {
+		this.roomList = roomList;
+	}
 }

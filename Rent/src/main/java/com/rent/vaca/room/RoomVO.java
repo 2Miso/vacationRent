@@ -1,4 +1,4 @@
-package com.rent.vaca.acco;
+package com.rent.vaca.room;
 
 public class RoomVO{
 	private int roomNo;

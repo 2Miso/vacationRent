@@ -17,5 +17,10 @@
 		<typeAlias type="com.rent.vaca.file.FileVO" alias="file"/>
 		<typeAlias type="com.rent.vaca.user.UserVO" alias="user"/> -->
 		<typeAlias type="com.rent.vaca.notice.NoticeVO" alias="notice" />
+		<typeAlias type="com.rent.vaca.acco.AccoVO" alias="acco" />
+		<typeAlias type="com.rent.vaca.room.RoomVO" alias="room" />
+		<typeAlias type="com.rent.vaca.review.ReviewVO" alias="review" />
+		<typeAlias type="com.rent.vaca.review.ReviewPhotoVO" alias="reviewPhoto" />
+		<typeAlias type="com.rent.vaca.user.BizVO" alias="biz" />
 	</typeAliases>
 </configuration>

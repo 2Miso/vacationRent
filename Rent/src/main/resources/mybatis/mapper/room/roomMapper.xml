@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis mapper파일 -->
+	<!-- namespace, id, resultType 3가지가 중요 -->
+
+<mapper namespace="roomMapper">
+<!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
+	<select id="selectRoomByAccoNo" parameterType="int" resultType="room">
+		select * from roomtb where acco_no=#{accoNo}
+	</select>
+
+</mapper>

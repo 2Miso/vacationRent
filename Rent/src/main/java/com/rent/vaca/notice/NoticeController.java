@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/notice")
 public class NoticeController {
 	private static final Logger logger = LoggerFactory.getLogger(NoticeController.class);
 	
@@ -25,7 +24,7 @@ public class NoticeController {
 	}
 	
 	//공지 목록 조회
-	@RequestMapping(value="/list", method=RequestMethod.GET)
+	@RequestMapping(value="/notice/list", method=RequestMethod.GET)
 	public String list(Model model) {
 		List<NoticeVO> list = noticeService.selectAllNotice();
 		
@@ -35,7 +34,7 @@ public class NoticeController {
 	}
 	
 	//공지 단건조회
-	@RequestMapping(value="/view/{noticeNo}", method=RequestMethod.GET)
+	@RequestMapping(value="/notice/view/{noticeNo}", method=RequestMethod.GET)
 	public String view(@PathVariable("noticeNo") int noticeNo, Model model) {
 		NoticeVO vo = noticeService.selectNoticeByNoticeNo(noticeNo);
 		model.addAttribute("notice", vo);
@@ -43,13 +42,18 @@ public class NoticeController {
 	}
 	
 	//공지 작성
-	@RequestMapping(value="/write", method=RequestMethod.GET)
+	@RequestMapping(value="/notice/write", method=RequestMethod.GET)
 	public String write() {
 		return "notice/n_write";
 	}
-	@RequestMapping(value="/write", method=RequestMethod.POST)
+	@RequestMapping(value="/notice/write", method=RequestMethod.POST)
 	public String write(@ModelAttribute NoticeVO vo) {
 		return null;
 	}
 	
+	//FAQ 목록 조회
+	@RequestMapping(value="/customer/faq", method=RequestMethod.GET)
+	public String faq() {
+		return "notice/customer";
+	}
 }

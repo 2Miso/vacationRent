@@ -16,7 +16,8 @@ NoticeVO board = (NoticeVO)request.getAttribute("notice");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <script src="resources/js/jquery-3.7.1.min.js"></script>
+    <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <style>
         a{
             text-decoration:none;
@@ -85,12 +86,7 @@ NoticeVO board = (NoticeVO)request.getAttribute("notice");
     <div class="content">
         ${notice.content}
     </div> <!-- end: .content -->
-    <div class="attachment">
-        <p><a href="#" download>첨부파일 이름1</a></p>
-        <p><a href="#" download>첨부파일 이름2</a></p>
-    </div>
     </section>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 </html>
 <%@ include file="../include/footer.jsp"%>

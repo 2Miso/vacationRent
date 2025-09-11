@@ -1,6 +1,7 @@
 <%@page import="com.rent.vaca.acco.AccoVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 AccoVO board = (AccoVO)request.getAttribute("acco");
 %>
@@ -15,7 +16,7 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link href="resources/css/color_orange.css" rel="stylesheet" type="text/css">
     <!-- jQuery js -->
-    <script src="resources/js/jquery-3.7.1.min.js"></script>
+    <script src="<c:url value="/resources/js/jquery-3.7.1.min.js"/>"></script>
     <!-- 부트스트랩 js -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
@@ -31,7 +32,7 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
     <link rel="stylesheet" href="resources/css/reviewSwiper.css">
 
 	<!-- 지도 -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?767914bf0cfc904dd9cb8b0fd6dd25bc"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=767914bf0cfc904dd9cb8b0fd6dd25bc"></script>
 
     <!-- 스와이퍼 js -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -241,7 +242,14 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
                   $('html, body').animate({scrollTop:$(this.id).position().top}, 'fast');
             });
 
-
+            //지도
+            var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+    		var options = { //지도를 생성할 때 필요한 기본 옵션
+    			center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표. 위도, 경도 순서로.
+    			level: 3 //지도의 레벨(확대, 축소 정도)
+    		};
+    		
+    		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
         });
         //객실사진 조회 모달 탭 바꾸기
         function changeTabMenu(obj){
@@ -252,15 +260,6 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
             $("[data-content-id="+tabId+"]").addClass("active");
             $("[data-thumb-id="+tabId+"]").addClass("active");
         }
-        
-        //지도
-        var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
-		var options = { //지도를 생성할 때 필요한 기본 옵션
-			center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표. 위도, 경도 순서로.
-			level: 3 //지도의 레벨(확대, 축소 정도)
-		};
-		
-		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
     </script>
 </head>
 

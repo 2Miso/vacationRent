@@ -25,4 +25,10 @@
 	<bean class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
+	
+	<!-- MyBatis Mapper 인터페이스 스캔 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.rent.vaca.payment" />
+	</bean>
+	
 </beans>

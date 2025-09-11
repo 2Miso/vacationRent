@@ -1,27 +1,35 @@
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="Rent" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <script src="resources/js/jquery-3.7.1.min.js"></script>
+    <title>예약 및 결제</title>
+    <script src="<Rent:url value='/resources/js/jquery-3.7.1.min.js' />"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
-    <link href="resources/css/color_orange.css" rel="stylesheet" type="text/css">
+    <link href="<Rent:url value ='/resources/css/color_orange.css' />" rel="stylesheet" type="text/css">
     <style>
         body {
-            --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
+            --bs-font-sans-serif;
+            margin:0;
+            padding:0;
+            font-size:14px;
+            line-height:1.6;
+            font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;
+            color:#464646;
+            letter-spacing:0;
+            -webkit-text-size-adjust:none;
+            font-weight:400;
         }
-        .custom-kakaopay-button, .custom-kakaopay-button:hover
+        .custom-kakaopay-button, .custom-kakaopay-button:hover,
         .custom-kakaopay-button:checked, #option3 + label, #option3:hover + label,
         #option3:checked + label{
-        background-image: url('path/kakao_pay_logo.svg'); /* 준비한 로고 이미지 경로 */
+        background-image: url('<Rent:url value="/resources/img/kakao_pay_logo.svg" />'); /* 준비한 로고 이미지 경로 */
         background-repeat: no-repeat;
         background-position:center;
         background-size:50%;
@@ -43,12 +51,12 @@
             border:none;
         }
         #option1:checked + label, #option2:checked + label{
-            border:2px solid black;
+            outline:2px solid black;
             color:black;
             font-weight:bold;
         }
         #option3:checked + label{
-            border:2px solid black;
+            outline:2px solid black;
         }
         .mb-3{
             width:200px;
@@ -77,27 +85,48 @@
         }
     </style>
     <script>
-        $(function () {
-            // "전체 선택" 체크박스
-            const checkAll = document.getElementById('checkDefault');
-
-            // 개별 항목 체크박스들
-            const items = document.querySelectorAll('.item');
-
-            // 전체 선택 클릭 시
-            checkAll.addEventListener('change', function () {
-                items.forEach(function (checkbox) {
-                checkbox.checked = checkAll.checked;
-                });
-            });
-            items.forEach(function (checkbox) {
-                checkbox.addEventListener('change', function () {
-                    // 모두 체크된 경우에만 전체선택 체크박스를 체크 상태로
-                    const allChecked = [...items].every(item => item.checked);
-                    checkAll.checked = allChecked;
-                });
-            });
-        })
+	    $(function () {
+	        let $checkAll = $('#checkAll');
+	        let $items = $('.item'); // 개별 약관 체크박스
+	
+	        $checkAll.on('change', function () {
+	            $items.prop('checked', this.checked);
+	        });
+	
+	        $items.on('change', function () {
+	            let allChecked = $items.length === $items.filter(':checked').length;
+	            $checkAll.prop('checked', allChecked);
+	        });
+	
+	        // 카드 결제 선택 시 select 활성화
+	        $("input[name='options-base']").on("change", function () {
+	            if ($("#option2").is(":checked")) {
+	                $("#card-select-container").show();
+	            } else {
+	                $("#card-select-container").hide();
+	            }
+	        });
+	
+	        // 초기에는 숨기기
+	        $("#card-select-container").hide();
+	
+	        $("#payBtn").on("click", function (e) {
+	            let allChecked =
+	                $("#agreeRule").is(":checked") &&
+	                $("#agreePersonal").is(":checked") &&
+	                $("#agreeThird").is(":checked") &&
+	                $("#agreeAge").is(":checked");
+	
+	            if (!allChecked) {
+	                alert("약관에 모두 동의하셔야 합니다.");
+	                return;
+	            }
+	
+	            // 모든 체크가 완료되었을 때 모달 열기
+	            let confirmModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+	            confirmModal.show();
+	        });
+	    });
     </script>
 </head>
 <body>
@@ -112,7 +141,7 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item"> 
-                <a href="#" class="nav-link active" aria-current="page"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
+                <a href="#" class="nav-link text-white" aria-current="page"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
                     <i class="bi bi-house me-2  "></i>예약 내역
                 </a>
                 </li>
@@ -164,25 +193,26 @@
             <input type="radio" class="btn-check" name="options-base" id="option3" autocomplete="off">
             <label class="btn custom-kakaopay-button" for="option3"></label>
 
-            <div>아래 셀렉트 박스는 카드결제 눌렀을 때만 활성화</div>
-            <select class="form-select" aria-label="select example">
-                <option selected>카드를 선택해주세요.</option>
-                <option value="kb">국민카드</option>
-                <option value="nh">농협카드</option>
-                <option value="ss">삼성카드</option>
-                <option value="jb">전북카드</option>
-                <option value="sh">신한카드</option>
-                <option value="hd">현대카드</option>
-                <option value="lt">롯데카드</option>
-            </select>
-            <select class="form-select" aria-label="select example">
-                <option selected>일시불</option>
-                <option value="2">2개월</option>
-                <option value="3">3개월</option>
-                <option value="4">4개월</option>
-                <option value="5">5개월</option>
-                <option value="6">6개월</option>
-            </select>
+            <div  id="card-select-container" style="display:none;">
+	            <select class="form-select" aria-label="select example">
+	                <option selected>카드를 선택해주세요.</option>
+	                <option value="kb">국민카드</option>
+	                <option value="nh">농협카드</option>
+	                <option value="ss">삼성카드</option>
+	                <option value="jb">전북카드</option>
+	                <option value="sh">신한카드</option>
+	                <option value="hd">현대카드</option>
+	                <option value="lt">롯데카드</option>
+	            </select>
+	            <select class="form-select" aria-label="select example">
+	                <option selected>일시불</option>
+	                <option value="2">2개월</option>
+	                <option value="3">3개월</option>
+	                <option value="4">4개월</option>
+	                <option value="5">5개월</option>
+	                <option value="6">6개월</option>
+	            </select>
+           	</div>
         </div>
         <div><!--사이드바 시작-->
             <div class="" style="height:80vh;" >
@@ -190,12 +220,12 @@
                     <div class="pay">숙소정보</div>
                     <div class="pay">결제정보</div>
                     <div style="margin-right:44px;" class="form-check-reverse">
-                        <label style="margin-right:13px;" class="form-check-label" for="checkDefault">약관 전체동의</label>
-                        <input class="form-check-input" type="checkbox" value="" id="checkDefault">
+                        <label style="margin-right:13px;" class="form-check-label" for="checkAll">약관 전체동의</label>
+                        <input class="form-check-input" type="checkbox" value="" id="checkAll">
                     </div>
                     <div class="agree form-check-reverse">
-                        <label class="form-check-label" for="checkDefault">숙소 이용규칙 및 취소/환불규정 동의 (필수)</label>
-                        <input class="form-check-input item" type="checkbox" value="" id="checkDefault1">
+                        <label class="form-check-label" for="checkAll">숙소 이용규칙 및 취소/환불규정 동의 (필수)</label>
+                        <input class="form-check-input item" type="checkbox" value="" id="agreeRule">
                         <i class="bi bi-chevron-right" data-bs-toggle="modal" data-bs-target="#cancelModal"></i>
                         <!-- Modal -->
                         <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
@@ -233,8 +263,8 @@
                         </div><!--Modal end-->
                     </div>
                     <div class="agree form-check-reverse">
-                        <label class="form-check-label" for="checkDefault">개인정보 수집 및 이용 동의 (필수)</label>
-                        <input class="form-check-input item" type="checkbox" value="" id="checkDefault2">
+                        <label class="form-check-label" for="checkAll">개인정보 수집 및 이용 동의 (필수)</label>
+                        <input class="form-check-input item" type="checkbox" value="" id="agreePersonal">
                         <i class="bi bi-chevron-right" data-bs-toggle="modal" data-bs-target="#useModal"></i>
                         <!-- Modal -->
                         <div class="modal fade" id="useModal" tabindex="-1" aria-labelledby="useModalLabel" aria-hidden="true">
@@ -270,8 +300,8 @@
                         </div><!--Modal end-->
                     </div>
                     <div class="agree form-check-reverse">
-                        <label class="form-check-label" for="checkDefault">개인정보 제3자 제공 동의 (필수)</label>
-                        <input class="form-check-input item" type="checkbox" value="" id="checkDefault3">
+                        <label class="form-check-label" for="checkAll">개인정보 제3자 제공 동의 (필수)</label>
+                        <input class="form-check-input item" type="checkbox" value="" id="agreeThird">
                         <i class="bi bi-chevron-right" data-bs-toggle="modal" data-bs-target="#agreeModal"></i>
                         <!-- Modal -->
                         <div class="modal fade" id="agreeModal" tabindex="-1" aria-labelledby="agreeModalLabel" aria-hidden="true">
@@ -298,8 +328,8 @@
                         </div><!--Modal end-->
                     </div>
                     <div class="agree form-check-reverse">
-                        <label class="form-check-label" for="checkDefault">만 14세 이상 확인 (필수)</label>
-                        <input class="form-check-input item" type="checkbox" value="" id="checkDefault4">
+                        <label class="form-check-label" for="checkAll">만 14세 이상 확인 (필수)</label>
+                        <input class="form-check-input item" type="checkbox" value="" id="agreeAge">
                         <i class="bi bi-chevron-right" data-bs-toggle="modal" data-bs-target="#ageModal"></i>
                         <!-- Modal -->
                         <div class="modal fade" id="ageModal" tabindex="-1" aria-labelledby="ageModalLabel" aria-hidden="true">
@@ -317,7 +347,7 @@
                             </div>
                         </div><!--Modal end-->
                     </div>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">결제하기</button>
+                    <button id="payBtn" class="btn btn-primary">결제하기</button>
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
@@ -340,7 +370,9 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                    <button type="button" class="btn btn-primary">동의 후 결제</button>
+                                    <form action="<Rent:url value="/payment/payment_ok" />">
+                                    	<button type="submit" class="btn btn-primary">동의 후 결제</button>
+                                	</form>
                                 </div>
                             </div>
                         </div>

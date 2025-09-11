@@ -1,17 +1,18 @@
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="Rent" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>예약 내역</title>
+    <script src="<Rent:url value='/resources/js/jquery-3.7.1.min.js' />"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link href="resources/css/color_orange.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link rel="stylesheet" type="text/css" href="<Rent:url value="/resources/css/color_orange.css" />">
     <style>
       body {
         --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
@@ -81,17 +82,17 @@
       </div><!--사이드바 끝-->
       <div class="d-flex mx-3 my-3"><!--내용 시작입니다. 이곳에 내용을 작성하면 됩니다-->
         <div style="margin-left:30px;">
-          <h2>예약내역</h2>
+          <h2>예약내역</h2><br><br>
           <h3>예약한 숙소</h3>
           <br>
           <div class="swiper swiper1">
               <div class="swiper-wrapper">
-                  <div class="swiper-slide"><img src="./path/sample1.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample2.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample3.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample4.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample5.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample6.png" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample1.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample2.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample3.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample4.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample5.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample6.png" />" alt="sample"></div>
               </div>
               <div class="swiper-button-next swiper1-button-next"></div>
               <div class="swiper-button-prev swiper1-button-prev"></div>
@@ -101,12 +102,12 @@
           <br>
           <div class="swiper swiper2">
               <div class="swiper-wrapper">
-                  <div class="swiper-slide"><img src="./path/sample1.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample2.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample3.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample4.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample5.png" alt="sample"></div>
-                  <div class="swiper-slide"><img src="./path/sample6.png" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample1.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample2.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample3.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample4.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample5.png" />" alt="sample"></div>
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample6.png" />" alt="sample"></div>
               </div>
               <div class="swiper-button-next swiper2-button-next"></div>
               <div class="swiper-button-prev swiper2-button-prev"></div>

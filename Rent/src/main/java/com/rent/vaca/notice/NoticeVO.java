@@ -1,7 +1,12 @@
 package com.rent.vaca.notice;
 
+import java.util.List;
+
+import com.rent.vaca.user.UserVO;
+
 public class NoticeVO {
 	private int noticeNo;
+	private int userId;
 	private String type;
 	private String title;
 	private String content;
@@ -10,12 +15,20 @@ public class NoticeVO {
 	private String answeryn;
 	private String answerContent;
 	private String answerDate;
-	
+	private UserVO user;
+	private List<QuestionAttachVO> questionAttachList;
+
 	public int getNoticeNo() {
 		return noticeNo;
 	}
 	public void setNoticeNo(int noticeNo) {
 		this.noticeNo = noticeNo;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getType() {
 		return type;
@@ -64,5 +77,17 @@ public class NoticeVO {
 	}
 	public void setAnswerDate(String answerDate) {
 		this.answerDate = answerDate;
+	}
+	public UserVO getUser() {
+		return user;
+	}
+	public void setUser(UserVO user) {
+		this.user = user;
+	}
+	public List<QuestionAttachVO> getQuestionAttachList() {
+		return questionAttachList;
+	}
+	public void setQuestionAttachList(List<QuestionAttachVO> questionAttachList) {
+		this.questionAttachList = questionAttachList;
 	}
 }

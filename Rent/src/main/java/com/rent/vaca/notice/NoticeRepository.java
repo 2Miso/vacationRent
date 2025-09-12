@@ -1,10 +1,12 @@
 package com.rent.vaca.notice;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Repository
 public class NoticeRepository {
@@ -23,5 +25,14 @@ public class NoticeRepository {
 	//공지사항 단건조회
 	public NoticeVO selectNoticeByNoticeNo(int noticeNo) {
 		return template.selectOne("noticeMapper.selectNoticeByNoticeNo", noticeNo);
+	}
+	
+	//1대1 문의 작성
+	public int insertQuestionOne(NoticeVO vo){
+		return template.insert("noticeMapper.insertQuestionOne", vo);
+	}
+
+	public NoticeVO selectQuestionByNoticeNo(int noticeNo) {
+		return template.selectOne("noticeMapper.selectQuestionByNoticeNo", noticeNo);
 	}
 }

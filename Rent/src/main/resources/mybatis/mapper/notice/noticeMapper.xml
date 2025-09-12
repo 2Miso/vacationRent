@@ -9,11 +9,23 @@
 <mapper namespace="noticeMapper">
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
 
+	<!-- 공지목록 조회 -->
 	<select id="selectAllNotice" resultType="notice">
 		select * from noticetb where type='N' and delyn='N' order by wdate desc;
 	</select>
 
+	<!-- 공지 1건 조회 -->
 	<select id="selectNoticeByNoticeNo" parameterType="int" resultType="notice">
 		select * from noticetb where notice_no=#{noticeNo} and type='N' and delyn='N';
+	</select>
+	
+	<!-- 1대1문의 1건 등록 -->
+	<insert id="insertQuestionOne" parameterType="notice" useGeneratedKeys="true" keyProperty="noticeNo">
+		insert into noticetb(user_id, type, title, content) values(#{userId}, #{type}, #{title}, #{content});
+	</insert>
+	
+	<!-- 1대1문의 1건 조회 -->
+	<select id="selectQuestionByNoticeNo" parameterType="int" resultType="notice">
+		select * from noticetb where notice_no=#{noticeNo} and type='Q' and delyn='N';
 	</select>
 </mapper>

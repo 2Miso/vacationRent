@@ -5,6 +5,7 @@
 
 <configuration>
 	<settings>
+		<setting name="logImpl" value="LOG4J2"/>
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 		<!-- 
 			테이블의 _컬럼을 카멜케이스 자바변수로 변환 
@@ -22,5 +23,6 @@
 		<typeAlias type="com.rent.vaca.review.ReviewVO" alias="review" />
 		<typeAlias type="com.rent.vaca.review.ReviewPhotoVO" alias="reviewPhoto" />
 		<typeAlias type="com.rent.vaca.user.BizVO" alias="biz" />
+		<typeAlias type="com.rent.vaca.notice.QuestionAttachVO" alias="attach" />
 	</typeAliases>
 </configuration>

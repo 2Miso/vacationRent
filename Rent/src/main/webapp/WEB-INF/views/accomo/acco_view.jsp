@@ -14,7 +14,7 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link href="resources/css/color_orange.css" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/resources/css/color_orange.css" />" rel="stylesheet" type="text/css">
     <!-- jQuery js -->
     <script src="<c:url value="/resources/js/jquery-3.7.1.min.js"/>"></script>
     <!-- 부트스트랩 js -->
@@ -28,17 +28,14 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
         href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
     <!-- 스와이퍼 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="resources/css/mainSwiper.css">
-    <link rel="stylesheet" href="resources/css/reviewSwiper.css">
-
+    <link rel="stylesheet" href="<c:url value="/resources/css/mainSwiper.css" />">
+    <link rel="stylesheet" href="<c:url value="/resources/css/reviewSwiper.css" />">
 	<!-- 지도 -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=767914bf0cfc904dd9cb8b0fd6dd25bc"></script>
-
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=767914bf0cfc904dd9cb8b0fd6dd25bc&libraries=services"></script>
     <!-- 스와이퍼 js -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
     <!-- 하트 -->
-    <link rel="stylesheet" href="resources/css/heart_button.css">
+    <link rel="stylesheet" href="<c:url value="/resources/css/heart_button.css" />">
 
     <style>
         section {
@@ -242,14 +239,50 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
                   $('html, body').animate({scrollTop:$(this.id).position().top}, 'fast');
             });
 
-            //지도
-            var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
+            //카카오지도
+            /* var container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
     		var options = { //지도를 생성할 때 필요한 기본 옵션
     			center: new kakao.maps.LatLng(33.450701, 126.570667), //지도의 중심좌표. 위도, 경도 순서로.
     			level: 3 //지도의 레벨(확대, 축소 정도)
     		};
     		
-    		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
+    		var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴 */
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+            mapOption = {
+                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                level: 3 // 지도의 확대 레벨
+            };  
+
+        // 지도를 생성합니다    
+        var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+        // 주소-좌표 변환 객체를 생성합니다
+        var geocoder = new kakao.maps.services.Geocoder();
+
+        // 주소로 좌표를 검색합니다
+        geocoder.addressSearch('${acco.addr}', function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면 
+             if (status === kakao.maps.services.Status.OK) {
+
+                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                // 결과값으로 받은 위치를 마커로 표시합니다
+                var marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                // 인포윈도우로 장소에 대한 설명을 표시합니다
+                var infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">${acco.name}</div>'
+                });
+                infowindow.open(map, marker);
+
+                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+                map.setCenter(coords);
+            } 
+        });    
         });
         //객실사진 조회 모달 탭 바꾸기
         function changeTabMenu(obj){
@@ -270,31 +303,31 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
                 <div class="row">
                     <div class="col bigImage">
                         <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                            <img src="C:\Users\MYCOM\Pictures\쿼드룸.jpg" alt="쿼드룸">
+                            <img src="" alt="">
                         </div>
                     </div>
                     <div class="col smallImage">
                         <div class="row">
                             <div class="col">
                                 <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                                    <img src="C:\Users\MYCOM\Pictures\쿼드룸.jpg" alt="쿼드룸">
+                                    <img src="" alt="">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                                    <img src="C:\Users\MYCOM\Pictures\쿼드룸.jpg" alt="쿼드룸">
+                                    <img src="" alt="">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                                    <img src="C:\Users\MYCOM\Pictures\쿼드룸.jpg" alt="쿼드룸">
+                                    <img src="" alt="">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                                    <img src="resources/img/거실.jpg" alt="쿼드룸">
+                                    <img src="" alt="">
                                 </div>
                             </div>
                         </div>
@@ -323,7 +356,7 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
             <h3>객실선택</h3>
             <div class="room container orangeContainer row">
                 <div class="col-3 roomPhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                    <img src="resources/img/오션뷰.jpg" alt="">
+                    <img src="" alt="">
                     <div class="morePhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
                         +n
                     </div>
@@ -709,10 +742,10 @@ AccoVO board = (AccoVO)request.getAttribute("acco");
     </div> <!-- end: mainPhoto Modal -->
 
     <!-- mainPhoto Swiper -->
-    <script src="resources/js/initialize_mainSwiper.js"></script>
+    <script src="<c:url value="/resources/js/initialize_mainSwiper.js" />"></script>
     <!-- heart button -->
     <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
-    <script src="resources/js/heart_button.js"></script>
+    <script src="<c:url value="/resources/js/heart_button.js" />"></script>
 
 </body>
 

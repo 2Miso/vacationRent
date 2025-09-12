@@ -44,15 +44,21 @@
             margin:40px auto;
             vertical-align: center;
             padding:20px 40px;
+            position:relative;
         }
         .csInfo .bi-telephone-fill{
             font-size:6em;
             position:relative;
             bottom:15px;
         }
-        .csInfo .text{
+        .csInfo .text, .csInfo .write-q{
             display:inline-block;
             padding-left:40px;
+        }
+        .write-q{
+        	position:absolute;
+        	top:83px;
+        	right:70px;
         }
         .csInfo .phoneNo{
             font-size:5em;
@@ -84,6 +90,9 @@
         <div class="text">
             <span class="phoneNo">0000-0000</span><br>
             <p><strong class="phoneTime">전화상담가능 시간 : </strong><span>xx시 - xx시</span></p>
+        </div>
+        <div class="write-q">
+			<button type="button" class="btn btn-primary" onclick="location.href='<c:url value="/customer/question" />'">문의하기</button>
         </div>
     </div> <!-- end:csInfo -->
 

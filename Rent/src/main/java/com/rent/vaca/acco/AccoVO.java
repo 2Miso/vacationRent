@@ -22,24 +22,6 @@ public class AccoVO {
 	private int bizId;
 	private BizVO biz;
 	private List<RoomVO> roomList;
-	
-	public AccoVO() {}
-	public AccoVO(int accoNo, int type, String name, String addr, String phone, String description, String bizHour,
-			String delyn, String checkin, String checkout, int bizId, BizVO biz, List<RoomVO> roomList) {
-		this.accoNo = accoNo;
-		this.type = type;
-		this.name = name;
-		this.addr = addr;
-		this.phone = phone;
-		this.description = description;
-		this.bizHour = bizHour;
-		this.delyn = delyn;
-		this.checkin = checkin;
-		this.checkout = checkout;
-		this.bizId = bizId;
-		this.biz = biz;
-		this.roomList = roomList;
-	}
 
 	public int getAccoNo() {
 		return accoNo;
@@ -47,8 +29,25 @@ public class AccoVO {
 	public void setAccoNo(int accoNo) {
 		this.accoNo = accoNo;
 	}
-	public int getType() {
-		return type;
+	public String getType() {
+		String typeKo;
+		switch(type) {
+			case 1:
+				typeKo="호텔";
+				break;
+			case 2:
+				typeKo="펜션";
+				break;
+			case 3:
+				typeKo="모텔";
+				break;
+			case 4:
+				typeKo="게스트하우스";
+				break;
+			default:
+				typeKo=""+type;
+		}
+		return typeKo;
 	}
 	public void setType(int type) {
 		this.type = type;

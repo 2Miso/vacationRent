@@ -47,6 +47,8 @@
         $(function(){
             title = $("[name=title]");
             content = $("[name=content]");
+            
+            //등록버튼 클릭
             $("#register").on( "click", function() {
                 if(title.val().trim()==""){
                     alert("제목을 입력하세요.");
@@ -57,6 +59,10 @@
                 }
             } );
 
+			//취소버튼 클릭
+            $("#cencel").on("click", function(){
+            	location.href="<c:url value="/notice/list" />";
+            });
         });
     </script>
 </head>
@@ -72,7 +78,8 @@
         <div class="content">
             <textarea name="content"></textarea>
         </div>
-        <div class="attachment">
+		
+		<div class="attachment">
             <input type="file" name="attachment" multiple>
         </div>
         <div class="buttonGroup">

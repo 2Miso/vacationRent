@@ -1,5 +1,6 @@
 package com.rent.vaca.notice;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import com.rent.vaca.user.UserVO;
 
 @Controller
 public class NoticeController {
@@ -56,4 +61,30 @@ public class NoticeController {
 	public String faq() {
 		return "notice/customer";
 	}
+
+	//1대1 문의 작성
+	@RequestMapping(value="/customer/question", method=RequestMethod.GET)
+	public String question() {
+		return "notice/q_write";
+	}
+	@RequestMapping(value="/customer/question", method=RequestMethod.POST)
+	public String question(
+							@ModelAttribute NoticeVO vo,
+							@RequestParam("attachment") List<MultipartFile> attach,
+							@SessionAttribute("user") UserVO user
+							) throws IllegalArgumentException, IOException {
+		vo.setUserId(user.getId());
+		vo.setType("Q");
+		noticeService.insertQuestionOne(vo, attach);
+		return "redirect:/customer/question/" + vo.getNoticeNo(); 
+	}
+
+	//1대1 문의 단건조회
+  @RequestMapping(value="/customer/question/{noticeNo}", method=RequestMethod.GET)
+  public String question(@PathVariable("noticeNo") int noticeNo, Model model) {
+	  NoticeVO vo = noticeService.selectQuestionByNoticeNo(noticeNo);
+	  model.addAttribute("notice", vo);
+	  return "/notice/question_view";
+  }
+ 
 }

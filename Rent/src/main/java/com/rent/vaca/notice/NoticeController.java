@@ -46,7 +46,7 @@ public class NoticeController {
 		return "notice/notice_view";
 	}
 	
-	//공지 작성
+	//관리자 공지 작성
 	@RequestMapping(value="/notice/write", method=RequestMethod.GET)
 	public String write() {
 		return "notice/n_write";
@@ -54,6 +54,14 @@ public class NoticeController {
 	@RequestMapping(value="/notice/write", method=RequestMethod.POST)
 	public String write(@ModelAttribute NoticeVO vo) {
 		return null;
+	}
+	
+	//관리자 1대1 문의 답변 확인
+	@RequestMapping(value="/admin/QnA/answer/{noticeNo}", method=RequestMethod.GET)
+	public String answerResult(@PathVariable("noticeNo") int noticeNo, Model model) {
+		NoticeVO vo = noticeService.selectQuestionByNoticeNo(noticeNo);
+		model.addAttribute("question", vo);
+		return "admin/qna_result";
 	}
 	
 	//FAQ 목록 조회
@@ -78,13 +86,38 @@ public class NoticeController {
 		noticeService.insertQuestionOne(vo, attach);
 		return "redirect:/customer/question/" + vo.getNoticeNo(); 
 	}
-
-	//1대1 문의 단건조회
-  @RequestMapping(value="/customer/question/{noticeNo}", method=RequestMethod.GET)
+	
+	//개인회원 1대1 문의 단건조회
+  @RequestMapping(value="/mypage/question/{noticeNo}", method=RequestMethod.GET)
   public String question(@PathVariable("noticeNo") int noticeNo, Model model) {
 	  NoticeVO vo = noticeService.selectQuestionByNoticeNo(noticeNo);
-	  model.addAttribute("notice", vo);
+	  model.addAttribute("question", vo);
 	  return "/notice/question_view";
   }
- 
+ //개인회원 1대1 문의 삭제
+  @RequestMapping(value="/mypage/question/{noticeNo}", method=RequestMethod.POST)
+  public String deleteQuestion(@PathVariable("noticeNo") int noticeNo, @SessionAttribute("user") UserVO user) {
+	  int result = noticeService.deleteQuestionOne(noticeNo, user.getId());
+	  if(result <= 0) {
+		  return "redirect:/customer/question/" + noticeNo;
+	  }
+	  return "redirect:/마이페이지 1대1 문의 목록";
+  }
+  
+	//관리자 1대1 문의 답변 작성
+	@RequestMapping(value="/admin/QnA/{noticeNo}", method=RequestMethod.GET)
+	public String answer(@PathVariable("noticeNo") int noticeNo, Model model) {
+		NoticeVO vo = noticeService.selectQuestionByNoticeNo(noticeNo);
+		model.addAttribute("question", vo);
+		return "admin/answer_to_question";
+	}
+	@RequestMapping(value="/admin/QnA/{noticeNo}", method=RequestMethod.POST)
+	public String answer(@PathVariable("noticeNo") int noticeNo, @ModelAttribute NoticeVO vo, @SessionAttribute("user") UserVO user) {
+		vo.setAnsweryn("Y");
+		int result = noticeService.updateAnswerOne(vo, user);
+		if(!(result==1)) {
+			return "redirect:/admin/QnA/" + noticeNo;
+		}
+		return "redirect:/admin/QnA/answer/" + noticeNo;
+	}
 }

@@ -14,9 +14,7 @@
 	</settings>
 	
 	<typeAliases>
-		<!-- <typeAlias type="com.rent.vaca.board.BoardVO" alias="board"/>
-		<typeAlias type="com.rent.vaca.file.FileVO" alias="file"/>
-		<typeAlias type="com.rent.vaca.user.UserVO" alias="user"/> -->
+		<typeAlias type="com.rent.vaca.user.UserVO" alias="user"/>
 		<typeAlias type="com.rent.vaca.notice.NoticeVO" alias="notice" />
 		<typeAlias type="com.rent.vaca.acco.AccoVO" alias="acco" />
 		<typeAlias type="com.rent.vaca.room.RoomVO" alias="room" />

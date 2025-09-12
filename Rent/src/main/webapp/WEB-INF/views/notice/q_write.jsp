@@ -2,9 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-UserVO user = new UserVO();
-user.setId(1);
-session.setAttribute("user", user);
+/* 작성자 입력을 위한 임시 로그인 객체. 나중에 삭제할 것.*/
+	UserVO user = new UserVO();
+	user.setId(1);
+	session.setAttribute("user", user);
+/* 작성자 입력을 위한 임시 로그인 객체. 나중에 삭제할 것.*/
 %>
 <%@ include file="../include/header_nosearchbar.jsp" %>
 <!DOCTYPE html>

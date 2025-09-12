@@ -32,7 +32,18 @@ public class NoticeRepository {
 		return template.insert("noticeMapper.insertQuestionOne", vo);
 	}
 
+	//1대1 문의 조회
 	public NoticeVO selectQuestionByNoticeNo(int noticeNo) {
 		return template.selectOne("noticeMapper.selectQuestionByNoticeNo", noticeNo);
+	}
+	
+	//1대1 문의 삭제
+	public int deleteQuestionOne(int noticeNo) {
+		return template.delete("noticeMapper.deleteQuestionOne", noticeNo);
+	}
+	
+	//관리자1대1 문의 답변등록
+	public int updateAnswerOne(NoticeVO vo) {
+		return template.update("noticeMapper.updateAnswerOne", vo);
 	}
 }

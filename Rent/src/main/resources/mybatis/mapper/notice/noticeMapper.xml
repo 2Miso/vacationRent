@@ -8,6 +8,43 @@
 
 <mapper namespace="noticeMapper">
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
+	<resultMap id="questionFileMap" type="notice">
+		<id property="noticeNo" column="notice_no" />
+		<result property="userId" column="user_id"/>
+		<result property="type" column="type"/>
+		<result property="title" column="title"/>
+		<result property="content" column="content"/>
+		<result property="wdate" column="wdate"/>
+		<result property="delyn" column="delyn"/>
+		<result property="answeryn" column="answeryn"/>
+		<result property="answerContent" column="answer_content"/>
+		<result property="answerDate" column="answer_date"/>
+		
+		<!-- 1:1 테이블 관계 매핑 -->
+		<association property="user" javaType="user">
+			<id property="id" column="id" />
+			<result property="name" column="name" />
+			<result property="nickname" column="nickname" />
+			<result property="pw" column="pw" />
+			<result property="wdate" column="wdate" />
+			<result property="email" column="email" />
+			<result property="phone" column="phone" />
+			<result property="grade" column="grade" />
+			<result property="social" column="social" />
+			<result property="delyn" column="delyn" />
+			<result property="banyn" column="banyn" />
+			<result property="banReason" column="ban_reason" />
+		</association>
+		
+		<!-- 1:n 테이블 관계 매핑 -->
+		<collection property="questionAttachList" ofType="attach">
+			<id property="fno" column="fno" />
+			<result property="noticeNo" column="notice_no"/>
+			<result property="savedName" column="saved_name"/>
+			<result property="originalName" column="original_name"/>
+		</collection>
+	</resultMap>
+
 
 	<!-- 공지목록 조회 -->
 	<select id="selectAllNotice" resultType="notice">
@@ -25,7 +62,17 @@
 	</insert>
 	
 	<!-- 1대1문의 1건 조회 -->
-	<select id="selectQuestionByNoticeNo" parameterType="int" resultType="notice">
-		select * from noticetb where notice_no=#{noticeNo} and type='Q' and delyn='N';
+	<select id="selectQuestionByNoticeNo" parameterType="int" resultMap="questionFileMap">
+		select * from noticetb n left join question_attachtb a on n.notice_no = a.notice_no where n.notice_no=#{noticeNo} and n.type='Q' and n.delyn='N';
 	</select>
+	
+	<!-- 1대1 문의 삭제 -->
+	<update id="deleteQuestionOne" parameterType="int">
+		update noticetb set delyn='Y' where notice_no=#{noticeNo} and type='Q';
+	</update>
+	
+	<!-- 관리자 1대1 문의 답변 등록 -->
+	<update id="updateAnswerOne" parameterType="notice">
+		update noticetb set answeryn=#{answeryn}, answer_content=#{answerContent} where notice_no=#{noticeNo};
+	</update>
 </mapper>

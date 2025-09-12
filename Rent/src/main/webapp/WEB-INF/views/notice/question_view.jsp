@@ -1,10 +1,13 @@
+<%@page import="com.rent.vaca.user.UserVO"%>
 <%@page import="com.rent.vaca.notice.NoticeVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%
-NoticeVO vo = (NoticeVO)request.getAttribute("notice");
+UserVO user = new UserVO();
+user.setId(1);
+session.setAttribute("user", user);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -22,6 +25,9 @@ NoticeVO vo = (NoticeVO)request.getAttribute("notice");
         a{
             text-decoration:none;
             color:inherit;
+        }
+        a:hover{
+        	text-decoration:underline;
         }
         i{
             font-size:2em;
@@ -69,8 +75,7 @@ NoticeVO vo = (NoticeVO)request.getAttribute("notice");
     <script>
         $(function(){
             $("#delete").on("click", function(){
-                console.log(this);
-                location.href="#";
+                $(this).parent().submit();
             });
         });
     </script>
@@ -82,31 +87,31 @@ NoticeVO vo = (NoticeVO)request.getAttribute("notice");
         <table>
             <tr>
                 <td class="title">
-                    ${notice.title}
+                    ${question.title}
                 </td>
                 <td class="space"></td>
                 <td class="wdate">
-                    ${notice.wdate}
+                    ${question.wdate}
                 </td>
             </tr>
         </table>
     </div> <!-- end: .titleArea -->
     <h2>Q.</h2>
     <div class="content">
-        ${notice.content}
+        ${question.content}
     </div> <!-- end: .content -->
     <div class="attachment">
-    	<c:forEach var="file" items="${notice.questionAttachList}">
-        	<p><a href="<c:url value="/questions/${file.savedName}" />" download="${file.originalName}">${file.originalName}</a></p>
+    	<c:forEach var="file" items="${question.questionAttachList}">
+        	<p><a href="<c:url value="/questions/${file.savedName}" />" download="${file.originalName}" style="color:gray;">${file.originalName}</a></p>
         </c:forEach>
     </div>
     <form action="" method="post">
         <button type="button" class="btn btn-primary write-btn" id="delete">삭제</button>
     </form>
-    <c:if test="${notice.answeryn == 'Y'}">
+    <c:if test="${question.answeryn == 'Y'}">
 	    <h2 style="clear:both;">A.</h2>
 	    <div class="answer">
-	        ${notice.answerContent}
+	        ${question.answerContent}
 	    </div> <!-- end: .answer -->
     </c:if>
     </section>

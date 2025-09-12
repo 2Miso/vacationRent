@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rent.vaca.user.UserVO;
+
 @Service
 public class NoticeServiceImpl implements NoticeService{
 	private final NoticeRepository noticeRepository;
@@ -26,13 +28,13 @@ public class NoticeServiceImpl implements NoticeService{
 		this.context = context;
 		this.attachRepository = attachRepository;
 	}
-	
+	//공지사항 목록 조회
 	@Override
 	public List<NoticeVO> selectAllNotice() {
 		return noticeRepository.selectAllNotice();
 	}
 
-
+	//공지사항 1건 조회
 	@Override
 	public NoticeVO selectNoticeByNoticeNo(int noticeNo) {
 		return noticeRepository.selectNoticeByNoticeNo(noticeNo);
@@ -80,9 +82,26 @@ public class NoticeServiceImpl implements NoticeService{
 		
 	}
 
+	//1대1 문의 1건 조회
 	@Override
 	public NoticeVO selectQuestionByNoticeNo(int noticeNo) {
 		return noticeRepository.selectQuestionByNoticeNo(noticeNo);
 	}
 	
+	//1대1 문의 삭제
+	@Override
+	public int deleteQuestionOne(int noticeNo, int id) {
+		NoticeVO vo = selectQuestionByNoticeNo(noticeNo);
+		if(!(vo.getUserId()==id)) {
+			return 0;
+		}
+		return noticeRepository.deleteQuestionOne(noticeNo);
+	}
+	@Override
+	public int updateAnswerOne(NoticeVO vo, UserVO user) {
+		if(!user.getGrade().equals("A")) {
+			return 0;
+		}
+		return noticeRepository.updateAnswerOne(vo);
+	}
 }

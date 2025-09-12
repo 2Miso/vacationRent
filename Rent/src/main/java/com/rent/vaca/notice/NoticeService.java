@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.rent.vaca.user.UserVO;
+
 public interface NoticeService {
 	//공지사항 목록조회
 	List<NoticeVO> selectAllNotice();
@@ -18,4 +20,10 @@ public interface NoticeService {
 	
 	//1대1 문의 단건조회, 답변 확인
 	NoticeVO selectQuestionByNoticeNo(int noticeNo);
+	
+	//1대1 문의 삭제
+	int deleteQuestionOne(int noticeNo, int id);
+	
+	//관리자 1대1 답변 등록(update)
+	int updateAnswerOne(NoticeVO vo, UserVO user);
 }

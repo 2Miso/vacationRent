@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.rent.vaca.user.UserRepository;
-import com.rent.vaca.user.User.UserService;
+import com.rent.vaca.user.UserService;
 
 //����Ͻ�����
 //repository�� ���

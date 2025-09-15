@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.rent.vaca.user.User.Response;
+import com.rent.vaca.user.Response;
 
 @Controller
 @RequestMapping("")
@@ -59,29 +59,9 @@ public class UserController {
 	
 	
 	
+
 	
 	
-	
-	
-	//이메일찾기페이지
-	@RequestMapping(value="/user/find/email", method = RequestMethod.GET) 
-	public String findEmail() {
-		return "user/find/email";
-	}
-	//이메일찾기기능
-	@RequestMapping(value="user/find/email", method = RequestMethod.POST) 
-	public String findEmail(UserVO vo) {
-		System.out.println("버튼눌림");
-		userService.join(vo);
-		return "redirect:/user/join/finish";
-	}
-	
-	//비밀번호찾기페이지
-	@RequestMapping(value="/user/find/pw", method = RequestMethod.GET) 
-	public String findPw() {
-		return "user/join/finish";
-	}
-	//비밀번호찾기기능
 	
 
 	

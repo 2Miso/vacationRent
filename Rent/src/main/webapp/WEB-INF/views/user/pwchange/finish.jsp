@@ -1,9 +1,11 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>비밀번호 변경</title>
+    <title>비밀번호 변경하기</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -28,12 +30,12 @@
 
 <body>
 <section>
-  <div class="login_form">
+  <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder">비밀번호 변경 </h1>
-    <p>비밀번호 변경 이메일이 발송되었습니다.<br>이메일을 확인 해 주세요.</p>
+    <p>비밀번호가 변경되었습니다.<br>다시 로그인해 주세요.</p>
 
     <div class="d-grid gap-2">
-      <button link="#" class="btn btn-primary " type="button" style="height:50px;">홈으로</button><!--링크를 걸어야 합니다-->
+      <button link="#" class="btn btn-primary" type="button" style="height:50px;">로그인</button><!--링크를 걸어야 합니다-->
     </div>
   </div>
 </section>

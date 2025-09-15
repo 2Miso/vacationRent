@@ -1,3 +1,5 @@
+<!-- URL : /mypage/question/{noticeNo} -->
+
 <%@page import="com.rent.vaca.user.UserVO"%>
 <%@page import="com.rent.vaca.notice.NoticeVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -75,7 +77,7 @@
 </head>
 <body>
     <section>
-    <p><a href="<c:url value="#" />"><i class="bi bi-arrow-left"></i></a></p>
+    <p><a href="<c:url value="/mypage/myQnA" />"><i class="bi bi-arrow-left"></i></a></p>
     <div class="titleArea">
         <table>
             <tr>

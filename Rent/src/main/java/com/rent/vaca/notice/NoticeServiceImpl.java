@@ -39,7 +39,13 @@ public class NoticeServiceImpl implements NoticeService{
 	public NoticeVO selectNoticeByNoticeNo(int noticeNo) {
 		return noticeRepository.selectNoticeByNoticeNo(noticeNo);
 	}
-
+	//관리자 공지사항 등록
+	@Override
+	public void insertNoticeOne(NoticeVO vo, String grade) {
+		if(grade.equals("A")) {
+			noticeRepository.insertNoticeOne(vo);
+		}
+	}
 	//1대1문의 작성
 	@Override
 	@Transactional //문의글 등록 실패하면 첨부파일도 등록되지 않음 
@@ -97,6 +103,7 @@ public class NoticeServiceImpl implements NoticeService{
 		}
 		return noticeRepository.deleteQuestionOne(noticeNo);
 	}
+	//관리자 1대1 문의 답변
 	@Override
 	public int updateAnswerOne(NoticeVO vo, UserVO user) {
 		if(!user.getGrade().equals("A")) {

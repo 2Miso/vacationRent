@@ -1,3 +1,5 @@
+<!-- URL : /notice/list -->
+
 <%@page import="com.rent.vaca.notice.NoticeVO"%>
 <%@page import="java.util.List"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -5,7 +7,11 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header_nosearchbar.jsp" %>
 <%
-/* List<NoticeVO> list = (List<NoticeVO>)request.getAttribute("noticeList"); */
+UserVO userTest = new UserVO();
+userTest.setId(2);
+userTest.setNickname("닉네임입니다");
+userTest.setGrade("A");
+session.setAttribute("user", userTest);
 %>
 <!DOCTYPE html>
 <html lang="ko">

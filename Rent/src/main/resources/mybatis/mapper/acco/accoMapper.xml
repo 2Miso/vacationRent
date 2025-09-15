@@ -45,20 +45,20 @@
 			<id property="roomNo" column="room_no" />
 			<result property="accoNo" column="acco_no" />
 			<result property="ho" column="ho" />
-			<result property="name" column="name" />
+			<result property="name" column="rname" />
 			<result property="price" column="price" />
 			<result property="area" column="area" />
 			<result property="bedType" column="bed_type" />
 			<result property="restroomNo" column="restroom_no" />
 			<result property="delyn" column="delyn" />
 			<result property="standardHead" column="standard_head" />
-			<result property="extraHead" column="extra_heaad" />
-			<result property="description" column="description" />
+			<result property="extraHead" column="extra_head" />
+			<result property="description" column="r_description" />
 		</collection>
 	</resultMap>
 
 	<!-- 숙소1건 조회 -->
 	<select id="selectAccoByAccoNo" parameterType="int" resultMap="accoRoomMap">
-		select * from accotb a left join biztb b on a.biz_id=b.id left join roomtb r on a.acco_no=r.acco_no left join acco_phototb p on a.acco_no=p.acco_no where a.acco_no=#{accoNo};
+		select a.*, b.*, r.name as rname, r.price, r.area, r.bed_type, r.restroom_no, r.standard_head, r.extra_head, r.description as r_description from accotb a left join biztb b on a.biz_id=b.id left join roomtb r on a.acco_no=r.acco_no where a.acco_no=#{accoNo} and a.delyn='N' and r.delyn='N';
 	</select>
 </mapper>

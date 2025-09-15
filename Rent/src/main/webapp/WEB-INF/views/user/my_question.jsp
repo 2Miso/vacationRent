@@ -1,6 +1,13 @@
 <!-- URL : /mypage/myQnA -->
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+UserVO userTest = new UserVO();
+userTest.setId(2);
+userTest.setNickname("닉네임입니다");
+userTest.setGrade("A");
+session.setAttribute("user", userTest);
+%>
 <%@include file="../include/header_nosearchbar.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">

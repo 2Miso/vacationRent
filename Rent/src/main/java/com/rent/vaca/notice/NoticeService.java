@@ -15,6 +15,9 @@ public interface NoticeService {
 	//공지사항 단건조회
 	NoticeVO selectNoticeByNoticeNo(int noticeNo);
 	
+	//공지사항 작성
+	void insertNoticeOne(NoticeVO vo, String grade);
+	
 	//1대1 문의 작성 + 첨부파일 첨부
 	void insertQuestionOne(NoticeVO vo, List<MultipartFile> attach) throws IllegalArgumentException, IOException;
 	

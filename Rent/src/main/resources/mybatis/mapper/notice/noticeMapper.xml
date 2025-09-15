@@ -8,7 +8,7 @@
 
 <mapper namespace="noticeMapper">
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
-	<resultMap id="questionFileMap" type="notice">
+	<resultMap id="questionAttachMap" type="notice">
 		<id property="noticeNo" column="notice_no" />
 		<result property="userId" column="user_id"/>
 		<result property="type" column="type"/>
@@ -56,13 +56,18 @@
 		select * from noticetb where notice_no=#{noticeNo} and type='N' and delyn='N';
 	</select>
 	
+	<!-- 공지사항 1건 등록 -->
+	<insert id="insertNoticeOne" parameterType="notice" useGeneratedKeys="true" keyProperty="noticeNo">
+		insert into noticetb(user_id, type, title, content) values(#{userId}, #{type}, #{title}, #{content});
+	</insert>
+
 	<!-- 1대1문의 1건 등록 -->
 	<insert id="insertQuestionOne" parameterType="notice" useGeneratedKeys="true" keyProperty="noticeNo">
 		insert into noticetb(user_id, type, title, content) values(#{userId}, #{type}, #{title}, #{content});
 	</insert>
 	
 	<!-- 1대1문의 1건 조회 -->
-	<select id="selectQuestionByNoticeNo" parameterType="int" resultMap="questionFileMap">
+	<select id="selectQuestionByNoticeNo" parameterType="int" resultMap="questionAttachMap">
 		select * from noticetb n left join question_attachtb a on n.notice_no = a.notice_no where n.notice_no=#{noticeNo} and n.type='Q' and n.delyn='N';
 	</select>
 	

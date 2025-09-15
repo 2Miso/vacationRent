@@ -26,6 +26,10 @@ public class NoticeRepository {
 	public NoticeVO selectNoticeByNoticeNo(int noticeNo) {
 		return template.selectOne("noticeMapper.selectNoticeByNoticeNo", noticeNo);
 	}
+	//공지사항 등록
+	public int insertNoticeOne(NoticeVO vo) {
+		return template.insert("noticeMapper.insertNoticeOne", vo);
+	}
 	
 	//1대1 문의 작성
 	public int insertQuestionOne(NoticeVO vo){

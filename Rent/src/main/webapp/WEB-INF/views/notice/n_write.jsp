@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+
+%>
 <%@ include file="../include/header_nosearchbar.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -73,9 +76,9 @@
             <textarea name="content"></textarea>
         </div>
 		
-		<div class="attachment">
+<!-- 		<div class="attachment">
             <input type="file" name="attachment" multiple>
-        </div>
+        </div> -->
         <div class="buttonGroup">
             <button type="button" class="btn btn-primary write-btn" id="cancel">취소</button>
             <button type="button" class="btn btn-primary write-btn" id="register">등록</button>

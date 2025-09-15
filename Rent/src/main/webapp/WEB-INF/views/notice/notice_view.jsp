@@ -1,3 +1,5 @@
+<!-- URL : /notice/view/{noticeNo} -->
+
 <%@page import="com.rent.vaca.notice.NoticeVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

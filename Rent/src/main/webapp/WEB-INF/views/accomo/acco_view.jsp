@@ -105,6 +105,7 @@
 
         .room {
             height: 200px;
+            margin-bottom:10px;
         }
         .roomPhoto{
             padding:0;
@@ -138,9 +139,13 @@
         .roomDetail{
             position:relative;
         }
-        .roomDetail span{
+        .roomDetail > *{
             position:absolute;
             right:20px;
+        }
+        .roomDetail > *:last-child{
+        	top:30px;
+        	right:25px;
         }
         .roomPrice{
             padding-top:26px;
@@ -226,6 +231,11 @@
                   $('html, body').animate({scrollTop:$(this.id).position().top}, 'fast');
             });
 
+            //예약페이지로 이동
+            $(".reserv-btn").on("click", function(){
+            	location.href="<c:url value="/reservation/reserv_ok_payment" />";
+            });
+            
             //카카오지도
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
             mapOption = {
@@ -233,36 +243,36 @@
                 level: 3 // 지도의 확대 레벨
             };  
 
-        // 지도를 생성합니다    
-        var map = new kakao.maps.Map(mapContainer, mapOption); 
-
-        // 주소-좌표 변환 객체를 생성합니다
-        var geocoder = new kakao.maps.services.Geocoder();
-
-        // 주소로 좌표를 검색합니다
-        geocoder.addressSearch('${acco.addr}', function(result, status) {
-
-            // 정상적으로 검색이 완료됐으면 
-             if (status === kakao.maps.services.Status.OK) {
-
-                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-                // 결과값으로 받은 위치를 마커로 표시합니다
-                var marker = new kakao.maps.Marker({
-                    map: map,
-                    position: coords
-                });
-
-                // 인포윈도우로 장소에 대한 설명을 표시합니다
-                var infowindow = new kakao.maps.InfoWindow({
-                    content: '<div style="width:150px;text-align:center;padding:6px 0;">${acco.name}</div>'
-                });
-                infowindow.open(map, marker);
-
-                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-                map.setCenter(coords);
-            } 
-        });    
+	        // 지도를 생성합니다    
+	        var map = new kakao.maps.Map(mapContainer, mapOption); 
+	
+	        // 주소-좌표 변환 객체를 생성합니다
+	        var geocoder = new kakao.maps.services.Geocoder();
+	
+	        // 주소로 좌표를 검색합니다
+	        geocoder.addressSearch('${acco.addr}', function(result, status) {
+	
+	            // 정상적으로 검색이 완료됐으면 
+	             if (status === kakao.maps.services.Status.OK) {
+	
+	                var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	
+	                // 결과값으로 받은 위치를 마커로 표시합니다
+	                var marker = new kakao.maps.Marker({
+	                    map: map,
+	                    position: coords
+	                });
+	
+	                // 인포윈도우로 장소에 대한 설명을 표시합니다
+	                var infowindow = new kakao.maps.InfoWindow({
+	                    content: '<div style="width:150px;text-align:center;padding:6px 0;">${acco.name}</div>'
+	                });
+	                infowindow.open(map, marker);
+	
+	                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+	                map.setCenter(coords);
+	            } 
+	        });
         });
         //객실사진 조회 모달 탭 바꾸기
         function changeTabMenu(obj){
@@ -330,86 +340,63 @@
         <article class="subInfo">
             <div id="#review" class="orangeContainer">리뷰</div>
             <div id="#facil" class="orangeContainer">서비스 및 부대시설</div>
-            <div id="#location" class="orangeContainer">주소</div>
+            <div id="#location" class="orangeContainer">주소><br><br>${acco.addr}</div>
         </article>
         <article class="roomList">
             <h3>객실선택</h3>
-            <div class="room container orangeContainer row">
-                <div class="col-3 roomPhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                    <img src="" alt="">
-                    <div class="morePhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                        +n
-                    </div>
-                </div>
-                <div class="col roomInfo align-content-between">
-                    <h4 class="row roomName">
-                        객실이름
-                    </h4>
-                    <div class="row roomDetail">
-                        <span class="cursorPointer"  data-bs-toggle="modal" data-bs-target="#roomModal">상세정보&gt;</span>
-                    </div>
-                    <!-- Modal -->
-                    <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="roomModalLabel">객실이름</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h4>객실정보</h4>
-                                    <div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
-                                    <div>기준인원/최대인원</div>
-                                    <div>더블침대 1개</div>
-                                    <div>거실1개 방2개 욕실2개 / 00.0㎡</div>
-                                    <hr>
-                                    <h4>추가정보</h4>
-                                    <div>추가인원 요금 0,000원</div>
-                                    <hr>
-                                    <h4>편의시설</h4>
-                                    <div>TV, 전기포트, 금고, 에어컨, 냉장고, 와이파이</div>
-                                </div><!-- end:movda-body -->
-                            </div><!-- end: modal-content -->
-                        </div><!-- end: modal-dialog -->
-                    </div>
-                    <!-- end:Modal -->
-                    <div class="row roomPrice">
-                        <strong>100,000</strong>원
-                    </div>
-                    <div class="row roomSimpleInfo">
-                        기준n인/추가n인<br>
-                        추가정보 설명
-                    </div>
-                </div>
-            </div><!-- end:room -->
-            <div class="roomInfo" data-bs-toggle="modal" data-bs-target="#roomModal">
-
-            </div>
-            <!-- Modal -->
-            <div class="modal fade" id="roomModal" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="roomModalLabel">객실이름</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h4>객실정보</h4>
-                    <div>체크인/체크아웃</div>
-                    <div>기준인원/최대인원</div>
-                    <div>더블침대 1개</div>
-                    <div>거실1개 방2개 욕실2개 / 00.0㎡</div>
-                    <hr>
-                    <h4>추가정보</h4>
-                    <div>추가인원 요금 0,000원</div>
-                    <hr>
-                    <h4>편의시설</h4>
-                    <div>TV, 전기포트, 금고, 에어컨, 냉장고, 와이파이</div>
-                </div><!-- end:movda-body -->
-            </div><!-- end: modal-content -->
-            </div><!-- end: modal-dialog -->
-            </div>
-            <!-- end:Modal -->
+            <c:forEach var="room" items="${acco.roomList}" varStatus="cnt">
+	            <div class="room container orangeContainer row">
+	                <div class="col-3 roomPhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
+	                    <img src="" alt="">
+	                    <div class="morePhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
+	                        +n
+	                    </div>
+	                </div>
+	                <div class="col roomInfo align-content-between">
+	                    <h4 class="row roomName">
+	                        ${room.name}
+	                    </h4>
+	                    <div class="row roomDetail">
+	                        <span class="cursorPointer"  data-bs-toggle="modal" data-bs-target="#roomModal${cnt.count}">상세정보&gt;</span><br>
+	                        <c:if test="${not empty sessionScope.user}">
+	                        	<button class="btn btn-primary reserv-btn">예약하기</button>
+	                        </c:if>
+	                    </div>
+	                    <!-- Modal -->
+	                    <div class="modal fade" id="roomModal${cnt.count}" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
+	                        <div class="modal-dialog modal-dialog-centered">
+	                            <div class="modal-content">
+	                                <div class="modal-header">
+	                                    <h5 class="modal-title" id="roomModalLabel">${room.name}</h5>
+	                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	                                </div>
+	                                <div class="modal-body">
+	                                    <h4>객실정보</h4>
+	                                    <div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
+	                                    <div>기준인원 ${room.standardHead}명 / 최대인원 ${room.standardHead + room.extraHead}명</div>
+	                                    <div>${room.bedType}</div>
+	                                    <div>화장실 ${room.restroomNo}개, ${room.description} / ${room.area}㎡</div>
+	                                    <hr>
+	                                    <h4>추가정보</h4>
+	                                    <div>추가인원 요금 0,000원</div>
+	                                    <hr>
+	                                    <h4>편의시설</h4>
+	                                    <div>TV, 전기포트, 금고, 에어컨, 냉장고, 와이파이</div>
+	                                </div><!-- end:movda-body -->
+	                            </div><!-- end: modal-content -->
+	                        </div><!-- end: modal-dialog -->
+	                    </div>
+	                    <!-- end:Modal -->
+	                    <div class="row roomPrice">
+	                        <strong>${room.price}</strong>원
+	                    </div>
+	                    <div class="row roomSimpleInfo">
+	                        기준 ${room.standardHead}인 / 추가 ${room.extraHead}인<br>
+	                        ${room.description}
+	                    </div>
+	                </div>
+	            </div><!-- end:room -->
+            </c:forEach>
         </article><!-- end: .roomList -->
         <hr>
         <article class="acco_intro">

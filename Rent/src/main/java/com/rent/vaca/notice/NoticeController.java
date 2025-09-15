@@ -52,8 +52,12 @@ public class NoticeController {
 		return "notice/n_write";
 	}
 	@RequestMapping(value="/notice/write", method=RequestMethod.POST)
-	public String write(@ModelAttribute NoticeVO vo) {
-		return null;
+	public String write(@ModelAttribute NoticeVO vo, @SessionAttribute("user") UserVO user) {
+		vo.setUserId(user.getId());
+		vo.setType("N");
+		noticeService.insertNoticeOne(vo, user.getGrade());
+		
+		return "redirect:/notice/view/" + vo.getNoticeNo();
 	}
 	
 	//관리자 1대1 문의 답변 확인
@@ -84,7 +88,7 @@ public class NoticeController {
 		vo.setUserId(user.getId());
 		vo.setType("Q");
 		noticeService.insertQuestionOne(vo, attach);
-		return "redirect:/customer/question/" + vo.getNoticeNo(); 
+		return "redirect:/mypage/question/" + vo.getNoticeNo(); 
 	}
 	
 	//개인회원 1대1 문의 단건조회
@@ -101,7 +105,7 @@ public class NoticeController {
 	  if(result <= 0) {
 		  return "redirect:/customer/question/" + noticeNo;
 	  }
-	  return "redirect:/마이페이지 1대1 문의 목록";
+	  return "redirect:/mypage/myQnA";
   }
   
 	//관리자 1대1 문의 답변 작성

@@ -3,9 +3,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%
-NoticeVO board = (NoticeVO)request.getAttribute("notice");
-%>
 <%@include file="../include/header_nosearchbar.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,20 +10,18 @@ NoticeVO board = (NoticeVO)request.getAttribute("notice");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <style>
-        a{
+        header{
+        	margin-bottom:50px;
+        }
+        section a{
             text-decoration:none;
             color:inherit;
         }
-        a:hover{
-            text-decoration: underline;
+        section a:hover{
+            text-decoration:underline;
         }
-        i{
+        section i{
             font-size:2em;
         }
         section{
@@ -62,14 +57,14 @@ NoticeVO board = (NoticeVO)request.getAttribute("notice");
         .attachment{
             margin-top:23px;
         }
-        /* *{
-            border:1px solid red;
-        } */
+	    footer{
+	    	margin-top:150px;
+	    }
     </style>
 </head>
 <body>
     <section>
-    <p><a href="#"><i class="bi bi-arrow-left"></i></a></p>
+    <p><a href="<c:url value="/notice/list" />"><i class="bi bi-arrow-left"></i></a></p>
     <div class="titleArea">
         <table>
             <tr>

@@ -120,4 +120,10 @@ public class NoticeController {
 		}
 		return "redirect:/admin/QnA/answer/" + noticeNo;
 	}
+	
+	//관리자 1대1 문의 목록 조회
+	@RequestMapping(value="/mypage/myQnA", method=RequestMethod.GET)
+	public String myQna(@SessionAttribute("user") UserVO user, Model model) {
+		return "/user/my_question";
+	}
 }

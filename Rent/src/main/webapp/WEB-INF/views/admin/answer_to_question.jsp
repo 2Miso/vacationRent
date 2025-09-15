@@ -1,45 +1,26 @@
+<!-- URL : /admin/QnA/answer/{noticeNo} -->
+
 <%@page import="com.rent.vaca.user.UserVO"%>
 <%@page import="com.rent.vaca.notice.NoticeVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-UserVO user = new UserVO();
-user.setId(2);
-user.setGrade("A");
-session.setAttribute("user", user);
-%>
+<%@include file="../include/header_nosearchbar.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>문의내역 답변작성</title>
-    <!-- css 초기화 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <!-- 부트스트랩 css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-	<!-- 부트스트랩 아이콘 css -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <!-- fontawesome 아이콘 css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- 글꼴 css -->
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
-    <!-- 오렌지 테마 css -->
-    <link href="<c:url value="/resources/css/color_orange.css" />" rel="stylesheet" type="text/css">
-    <!--  -->
     <link href="<c:url value="/resources/css/board_style.css" />" rel="stylesheet" type="text/css">
-    <!-- jQuery -->
-    <script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
-    <!-- 부트스트랩 js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <style>
-        a{
+        section a{
             text-decoration:none;
             color:inherit;
         }
-        a:hover{
+        section a:hover{
             text-decoration:underline;
         }
         .listTitle, form, input:not([type=file]), textarea{
@@ -129,10 +110,10 @@ session.setAttribute("user", user);
                 <label for="exampleFormControlTextarea1" class="form-label">본문</label>
                 <textarea name="answerContent" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="본문을 입력해주세요."></textarea>
             </div>
-            <div class="mb-3">
+<!--             <div class="mb-3">
                 <label for="formFile" class="form-label">파일을 첨부해주세요.</label>
                 <input style="width:500px;" class="form-control" type="file" id="formFile" multiple>
-            </div>
+            </div> -->
             <div class="buttonGroup">
                 <button type="button" class="btn btn-primary write-btn" id="cancel">취소</button>
                 <button type="button" class="btn btn-primary write-btn" id="register">등록</button>

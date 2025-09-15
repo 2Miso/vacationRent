@@ -16,6 +16,7 @@
     --bs-pagination-color:var(--bs-orange);
     --bs-pagination-hover-color:var(--bs-orange);
     --bs-pagination-focus-color:var(--bs-orange);
+    --bs-pagination-focus-box-shadow:0 0 0 0.25rem #FFC067;
     --bs-pagination-active-bg:var(--bs-orange);
     --bs-pagination-active-border-color:var(--bs-orange);
 }
@@ -33,10 +34,23 @@
 .dropdown-menu{
     --bs-dropdown-link-active-bg: var(--bs-orange);
 }
-.modal .nav-link{
-    color: black;
+.dropdown-item:hover {
+    background-color: #FFC067;
 }
-.modal .nav-link.active{
-    color:var(--bs-orange);
-    font-weight:bold;
+.form-control:focus{
+    border-color: #FFC067;
+    box-shadow: 0 0 0 0.25rem #FFC067;
+}
+
+.form-check-input:checked {
+    background-color: var(--bs-orange);
+    border-color: var(--bs-orange);
+}
+.form-check-input:focus {
+    border-color: var(--bs-orange);
+    box-shadow: 0 0 0 0.25rem #FFC067;
+}
+.form-select:focus{
+    border-color:#FFC067;
+    box-shadow:0 0 0  0.25rem #FFC067;
 }

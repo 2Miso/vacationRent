@@ -5,7 +5,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../include/header_nosearchbar.jsp" %>
 <%
-List<NoticeVO> list = (List<NoticeVO>)request.getAttribute("noticeList");
+/* List<NoticeVO> list = (List<NoticeVO>)request.getAttribute("noticeList"); */
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -13,32 +13,22 @@ List<NoticeVO> list = (List<NoticeVO>)request.getAttribute("noticeList");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- 부트스트랩 css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <!-- 부트스트랩 아이콘 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <!-- 부트스트랩 글꼴 -->
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
-    <!-- 오렌지 테마 css -->
-    <link href="<c:url value="/resources/css/color_orange.css" />" rel="stylesheet" type="text/css">
-    <!-- jQuery -->
-	<script src="<c:url value="/resources/js/jquery-3.7.1.min.js" />"></script>
-	<!-- 부트스트랩 js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <style>
-        a{
+        header{
+        	margin-bottom:50px;
+        }
+        section a{
             text-decoration:none;
             color:inherit;
         }
-        a:hover{
+        section a:hover{
             text-decoration:underline;
         }
         .pageTitle{
             width:1024px;
             margin:auto;
         }
-        h1{
+        section h1{
             display:inline-block;
         }
         .write-btn{
@@ -74,9 +64,9 @@ List<NoticeVO> list = (List<NoticeVO>)request.getAttribute("noticeList");
             width:15%;
             color:gray;
         }
-        /* *{
-            border:1px solid red;
-        } */
+	    footer{
+	    	margin-top:150px;
+	    }
     </style>
     <script>
         $(function(){
@@ -91,9 +81,9 @@ List<NoticeVO> list = (List<NoticeVO>)request.getAttribute("noticeList");
     <section>
     <div class="pageTitle">
         <h1>공지사항</h1>
-        <%-- <c:if test=${not empty sessionScope.user}"> --%>
+        <c:if test="${not empty sessionScope.user && sessionScope.user.grade == 'A'}">
         	<button type="button" onclick="location.href='<c:url value="/notice/write" />'" class="btn btn-primary write-btn">글쓰기</button>
-        <%-- </c:if> --%>
+        </c:if>
     </div> <!-- end:pageTitle -->
     <div class="listArea">
         <table>

@@ -1,66 +1,113 @@
 package com.rent.vaca.payment;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URISyntaxException;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
-
+ 
 import com.rent.vaca.acco.AccoHasFacilVO;
 import com.rent.vaca.reserv.ReservVO;
 
 @Service
 public class KakaoPayService {
 	
-	@Value("${payment.kakao.secretKey}")
-    private String secretKey;
+	private static final Logger log = LoggerFactory.getLogger(KakaoPayService.class);
 
-    @Value("${payment.kakao.cid}")
-    private String cid;
+    private final String kakaoPayReadyUrl = "https://kapi.kakao.com";
 
-    private final String kakaoPayReadyUrl = "https://kapi.kakao.com/v1/payment/ready";
-
-    public String readyToPay(ReservVO vo, AccoHasFacilVO vo1) {
-        RestTemplate restTemplate = new RestTemplate();
+    private KakaoPayReadyVO kakaoPayReadyVO;
+    private KakaoPayApprovalVO kakaoPayApprovalVO;
+    
+    public String kakaoPayReady(ReservVO vo, AccoHasFacilVO vo1) {
+        
+    	RestTemplate restTemplate = new RestTemplate();
 
         // HTTP Header 세팅
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-        headers.set("Authorization", "KakaoAK " + secretKey);
+        headers.add("Authorization", "KakaoAK " + "3d7b04ea706625424c698a4d05fbdc24");
+        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
 
-        // 결제 준비 요청 파라미터 세팅 (예시)
-        Map<String, String> params = new HashMap<>();
-        params.put("cid", cid);  // 가맹점 코드
-        params.put("partner_order_id", vo.getReservCode());  // 주문번호, 예약 고유번호 활용 가능
-        params.put("partner_user_id", String.valueOf(vo.getUserId()));  // 사용자 아이디
-        params.put("item_name", "숙소 예약 결제");
-        params.put("quantity", "1");
-        params.put("total_amount", String.valueOf(vo1.getPrice())); // 결제금액 (예약VO에 총금액 필드 있다고 가정)
-        params.put("tax_free_amount", "0");
-        params.put("approval_url", "http://yourdomain.com/payment/kakao_success");  // 결제 성공 시 redirect URL
-        params.put("cancel_url", "http://yourdomain.com/payment/kakao_cancel");   // 결제 취소 시 redirect URL
-        params.put("fail_url", "http://yourdomain.com/payment/kakao_fail");       // 결제 실패 시 redirect URL
-
-        // HttpEntity에 Header와 Params 담기
-        HttpEntity<Map<String, String>> entity = new HttpEntity<>(params, headers);
-
-        // POST 요청 보내기
-        ResponseEntity<Map> response = restTemplate.postForEntity(URI.create(kakaoPayReadyUrl), entity, Map.class);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            Map body = response.getBody();
-            // 결제 준비 성공 시 응답에서 결제 페이지 URL 추출
-            String redirectUrl = (String) body.get("next_redirect_pc_url");
-            return redirectUrl;
-        } else {
-            throw new RuntimeException("카카오페이 결제 준비 실패: " + response.getStatusCode());
-        }
+     // 서버로 요청할 Body
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("partner_order_id", vo.getReservCode());
+        params.add("partner_user_id", vo.getEmail());
+        params.add("item_name", vo1.getDescription());
+        params.add("quantity", "1");
+        params.add("total_amount", String.valueOf(vo1.getPrice()));
+        params.add("tax_free_amount", "0");
+        params.add("approval_url", "http://localhost:8080/Rent/payment/payment_ok");
+        params.add("cancel_url", "http://localhost:8080/Rent/payment/payment_fail");
+        params.add("fail_url", "http://localhost:8080/Rent/payment/payment_");
+        
+        
+        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+        
+		try {
+			
+		    kakaoPayReadyVO = restTemplate.postForObject(new URI(kakaoPayReadyUrl + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
+		
+		    log.info("" + kakaoPayReadyVO);
+		            
+        	return kakaoPayReadyVO.getNext_redirect_pc_url();
+		 
+        }catch(RestClientException e){
+        	e.printStackTrace();
+        }catch (URISyntaxException e) {
+		    e.printStackTrace();
+		}
+		return "redirect:/payment/payment_fail";
     }
+    
+    public KakaoPayApprovalVO kakaoPayInfo(
+    		String pg_token, ReservVO vo, AccoHasFacilVO vo1) {
+    	 
+        log.info("카카오페이 승인 응답: {}", kakaoPayApprovalVO);
+        
+        RestTemplate restTemplate = new RestTemplate();
+ 
+        // 서버로 요청할 Header
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "KakaoAK " + "3d7b04ea706625424c698a4d05fbdc24");
+        headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
+        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+ 
+        // 서버로 요청할 Body
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("cid", "TC0ONETIME");
+        params.add("tid", kakaoPayReadyVO.getTid());
+        params.add("partner_order_id", vo.getReservCode());
+        params.add("partner_user_id", vo.getEmail());
+        params.add("pg_token", pg_token);
+        params.add("total_amount", String.valueOf(vo1.getPrice()));
+        
+        HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+        
+        try {
+        	
+            kakaoPayApprovalVO = restTemplate.postForObject(new URI(kakaoPayReadyUrl + "/v1/payment/approve"), body, KakaoPayApprovalVO.class);
+            
+            log.info("" + kakaoPayApprovalVO);
+          
+            return kakaoPayApprovalVO;
+        
+        } catch(RestClientException e){
+            e.printStackTrace();
+        } catch(URISyntaxException e){
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
 }

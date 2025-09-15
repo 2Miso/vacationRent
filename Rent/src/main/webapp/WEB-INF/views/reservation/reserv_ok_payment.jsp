@@ -61,14 +61,17 @@
         .mb-3{
             width:200px;
         }
+        .total{
+        	display:flex;
+        }
         .content{
-            margin-top:50px;
+            margin:50px 0 0 200px;
+        }
+        .payinfo{
+        	margin:50px 0 0 200px;
         }
         h2, h3{
             margin-bottom:20px;
-        }
-        .d-flex{
-            justify-content: space-between;
         }
         .agree{
             display:flex;
@@ -111,7 +114,22 @@
 	        $("#card-select-container").hide();
 	
 	        $("#payBtn").on("click", function (e) {
-	            let allChecked =
+	        	e.preventDefault(); // submit 방지
+	        	
+	        	let name = $("input[name='name']").val().trim();
+	            let phone = $("input[name='phone']").val().trim();
+
+	            if (name === "") {
+	                alert("예약자 이름을 입력해주세요.");
+	                return;
+	            }
+
+	            if (phone === "") {
+	                alert("핸드폰 번호를 입력해주세요.");
+	                return;
+	            }
+	        	
+	        	let allChecked =
 	                $("#agreeRule").is(":checked") &&
 	                $("#agreePersonal").is(":checked") &&
 	                $("#agreeThird").is(":checked") &&
@@ -121,11 +139,17 @@
 	                alert("약관에 모두 동의하셔야 합니다.");
 	                return;
 	            }
-	
+	            
 	            // 모든 체크가 완료되었을 때 모달 열기
 	            let confirmModal = new bootstrap.Modal(document.getElementById('exampleModal'));
 	            confirmModal.show();
 	        });
+	        
+	     		// 모달 내 '동의 후 결제' 버튼 클릭 시 폼 제출
+	        	$("#confirmPayBtn").on("click", function () {
+	            	$("#paymentForm").submit();
+	        	});
+	        
 	    });
     </script>
 </head>
@@ -171,7 +195,8 @@
             </div>
             </div>
         </div><!--사이드바 끝-->
-    
+    	<form id="paymentForm" action="<Rent:url value="/payment/payment_ok" />" method="post">
+        <div class="total">
         <div class="content">
             <h2>예약 확인 및 결제</h2>
             <h3>예약자 정보</h3>
@@ -184,13 +209,13 @@
                 <input type="text" name="phone" class="form-control" id="exampleFormControlInput2" placeholder="010-0000-0000">
             </div>
             <div>결제수단</div>
-            <input type="radio" class="btn-check" name="options-base" id="option1" autocomplete="off" checked>
+            <input type="radio" class="btn-check" name="payment" id="option1" value="0" autocomplete="off" checked>
             <label class="btn btn-primary payment" for="option1">계좌이체</label>
 
-            <input type="radio" class="btn-check" name="options-base" id="option2" autocomplete="off">
+            <input type="radio" class="btn-check" name="payment" id="option2" value="1" autocomplete="off">
             <label class="btn btn-primary payment" for="option2">카드결제</label>
 
-            <input type="radio" class="btn-check" name="options-base" id="option3" autocomplete="off">
+            <input type="radio" class="btn-check" name="payment" id="option3" value="2" autocomplete="off">
             <label class="btn custom-kakaopay-button" for="option3"></label>
 
             <div  id="card-select-container" style="display:none;">
@@ -215,7 +240,7 @@
            	</div>
         </div>
         <div><!--사이드바 시작-->
-            <div class="" style="height:80vh;" >
+            <div class="payinfo" style="height:80vh;" >
                 <div style="width: 280px;" class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" >
                     <div class="pay">숙소정보</div>
                     <div class="pay">결제정보</div>
@@ -370,16 +395,17 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                                    <form action="<Rent:url value="/payment/payment_ok" />">
-                                    	<button type="submit" class="btn btn-primary">동의 후 결제</button>
-                                	</form>
+                                    	<button id="confirmPayBtn" type="submit" class="btn btn-primary">동의 후 결제</button>
+                                	
                                 </div>
                             </div>
                         </div>
                     </div><!--Modal end-->
                 </div>
             </div>
-        </div><!--사이드바 끝-->
+            </div><!--사이드바 끝-->
+        </div>
+		</form>
     </section>
 </body>
 </html>

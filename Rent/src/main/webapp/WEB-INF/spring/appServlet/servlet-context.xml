@@ -86,5 +86,8 @@
 		id="restTemplate"
 	 	class="org.springframework.web.client.RestTemplate" 
  	/>
+ 	
+	<!-- 스프링 시큐리티 암호화 클래스 bean 등록 -->
+	<beans:bean class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 	
 </beans:beans>

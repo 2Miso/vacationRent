@@ -31,4 +31,7 @@ public interface PaymentService {
 	// 抗距内靛 积己
 	String createCode(ReservVO vo);
 	
+	// DB 历厘
+	ReservVO saveReservation(ReservVO vo);
+	
 }

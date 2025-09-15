@@ -33,6 +33,13 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
+		<!-- 스프링시큐리티 -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>4.2.13.RELEASE</version>
+		</dependency>
+		
 		<!-- https://mvnrepository.com/artifact/com.mysql/mysql-connector-j -->
 		<dependency>
 		    <groupId>com.mysql</groupId>

@@ -2,6 +2,7 @@ package com.rent.vaca.payment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.rent.vaca.acco.AccoHasFacilVO;
@@ -10,6 +11,7 @@ import com.rent.vaca.reserv.ReservVO;
 import com.rent.vaca.room.RoomVO;
 
 @Service
+@Primary
 public class PaymentServiceImpl implements PaymentService{
 	
 	public static final int PAYMENT_ACCOUNT = 0;
@@ -34,7 +36,7 @@ public class PaymentServiceImpl implements PaymentService{
 
     @Override
     public String processKakaoPayment(ReservVO vo, AccoHasFacilVO vo1) {
-        return kakaoPayService.readyToPay(vo, vo1);
+        return kakaoPayService.kakaoPayReady(vo, vo1);
     }
 
 	@Override
@@ -70,6 +72,18 @@ public class PaymentServiceImpl implements PaymentService{
         }
 		
 		return code;
+	}
+	
+	@Override
+	public ReservVO saveReservation(ReservVO vo) {
+	    // 1) 예약코드 생성
+	    String reservCode = createCode(vo);
+	    vo.setReservCode(reservCode);
+	    
+	    // DB에 저장
+	    paymentRepository.insertReservation(vo);
+	    
+	    return vo;
 	}
 
 }

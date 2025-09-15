@@ -12,7 +12,7 @@ import com.rent.vaca.room.RoomVO;
 public interface PaymentRepository {
 	
 	// 결제 정보 저장
-	void insertPayment(ReservVO vo);
+	// void insertPayment(ReservVO vo);
 	
 	// 예약 중복 체크
 	int duplicationReservations(
@@ -22,6 +22,8 @@ public interface PaymentRepository {
 	
 	// 예약 코드 중복 체크
 	boolean existsByReservCode(String code);
+	
+	// 예약 정보 저장
     void insertReservation(ReservVO vo);
 	
 	// 숙소, 방, 가격 조회

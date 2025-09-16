@@ -113,7 +113,7 @@ public class UserController {
 		UserVO user = userService.login(vo);
 		//logger.info("");
 		
-		
+		//ㄹㄴㅇㅁㄹㄴㅇ
 		System.out.println("test");
 		System.out.println(vo);
 		System.out.println("user객체정보");

@@ -4,14 +4,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 /* 닉네임 출력 테스트용. 삭제할 것.
+
 UserVO userTest = new UserVO();
 userTest.setId(2);
 userTest.setNickname("닉네임입니다");
 userTest.setGrade("A");
 session.setAttribute("user", userTest);
-*/
 
-UserVO user = (UserVO)session.getAttribute("user");
+*/
+if(session.getAttribute("user")!=null) {
+	UserVO user = (UserVO)session.getAttribute("user");
+}
 %>
 <!doctype html>
 <html lang="ko">

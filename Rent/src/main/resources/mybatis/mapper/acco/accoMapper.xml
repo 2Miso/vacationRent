@@ -61,4 +61,19 @@
 	<select id="selectAccoByAccoNo" parameterType="int" resultMap="accoRoomMap">
 		select a.*, b.*, r.name as rname, r.price, r.area, r.bed_type, r.restroom_no, r.standard_head, r.extra_head, r.description as r_description from accotb a left join biztb b on a.biz_id=b.id left join roomtb r on a.acco_no=r.acco_no where a.acco_no=#{accoNo} and a.delyn='N' and r.delyn='N';
 	</select>
+	
+	<!-- 관심숙소 등록 -->
+	<insert id="insertInterestOne" parameterType="com.rent.vaca.user.InterestVO">
+		insert into interesttb(user_id, acco_no) values(#{userId}, #{accoNo});
+	</insert>
+	
+	<!-- 관심숙소 삭제 -->
+	<delete id="deleteInterestOne" parameterType="com.rent.vaca.user.InterestVO">
+		delete from interesttb where user_id=#{userId} and acco_no=#{accoNo};
+	</delete>
+	
+	<!-- 관심숙소 조회 -->
+	<select id="selectInterestOne" parameterType="com.rent.vaca.user.InterestVO">
+		select * from interesttb where user_id=#{userId} and acco_no=#{accoNo};
+	</select>
 </mapper>

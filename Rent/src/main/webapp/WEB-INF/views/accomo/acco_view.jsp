@@ -4,6 +4,17 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="../include/header_nosearchbar.jsp" %>
+<%
+/* 임시 로그인. 삭제할 것. */
+UserVO userTest = new UserVO();
+userTest.setId(2);
+userTest.setNickname("닉네임입니다");
+userTest.setGrade("A");
+session.setAttribute("user", userTest);
+
+UserVO user = (UserVO)session.getAttribute("user");
+/* 임시 로그인. 삭제할 것. */
+%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -220,7 +231,6 @@
     }
     </style>
     <script>
-        /* 숙소 찜 ajax 사용 */
         $(function(){
             let navItem = $(".nav-item");
             $(navItem).on("click", function(){
@@ -234,6 +244,26 @@
             //예약페이지로 이동
             $(".reserv-btn").on("click", function(){
             	location.href="<c:url value="/reservation/reserv_ok_payment" />";
+            });
+            //하트 클릭 시 관심에 등록
+            $(".heartContainer").on("click", function(){
+ 				$.ajax({
+					//요청부분
+					url : "<c:url value='/mypage/interest' />",
+					type : "post",
+					data : {
+						"userId" : "${sessionScope.user.id}",
+						"accoNo" : ${acco.accoNo}
+					},
+					
+					//응답부분
+					success : function(response){
+						console.log("성공");
+					},
+					error : function(){
+						console.log("에러");
+					}
+				});
             });
             
             //카카오지도
@@ -271,7 +301,7 @@
 	
 	                // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
 	                map.setCenter(coords);
-	            } 
+	            }
 	        });
         });
         //객실사진 조회 모달 탭 바꾸기

@@ -43,6 +43,7 @@
       function termscheckFn(){
         if($('#termsofuse').is(':checked')&&$('#termsover14').is(':checked')&&$('#termspersonal1').is(':checked') == true){
           //동의했으니 페이지 이동하는 링크를 걸어야 합니다
+        	location.href="/vaca/user/join/form";
         }else{
           alert("필수 약관에 체크해주세요");
         }
@@ -55,6 +56,7 @@
 <section>
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder">약관 동의하기 </h1>
+    <form action="" method="POST">
     <p>약관에 동의해주세요</p>
     <div class="d-flex mb-3 align-items-center" style="background-color: rgb(214, 214, 214); border-radius: 6px; height:55px;"><!--전체동의니까 좀 눈에 잘 띄게 수정할 필요가 있습니다.-->
       <input class="form-check-input p-2 form-check-inline my-auto mx-2" type="checkbox" value=""  id="termsall" onclick="termsallcheckFn()">
@@ -100,6 +102,7 @@
     <div class="d-grid gap-2">
       <button link="#" class="btn btn-primary " type="button" onclick="termscheckFn()" style="height:50px;">다음</button><!--링크를 걸어야 합니다-->
     </div>
+    </form>
   </div>
 </section>
 </body>

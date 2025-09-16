@@ -11,4 +11,6 @@ public interface UserService {
 	
 	//�̸��� �ߺ�üũ �߻�޼���
 	int emailCheck(String email);
+	
+	UserVO findEmail(UserVO vo);
 }

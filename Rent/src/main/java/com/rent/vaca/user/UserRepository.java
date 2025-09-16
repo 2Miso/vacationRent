@@ -29,6 +29,10 @@ public class UserRepository {
 		return template.selectOne("userMapper.emailCheck", email);
 	}
 	
+	public UserVO findEmail(UserVO vo) {
+		return template.selectOne("userMapper.findEMail",vo);
+	}
+	
 
 	
 }

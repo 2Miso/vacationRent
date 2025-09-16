@@ -33,5 +33,10 @@ public class UserServiceImpl implements UserService {
 		return repository.emailCheck(id);
 	}
 
+	@Override
+	public UserVO findEmail(UserVO vo) {
+		return repository.findEmail(vo);
+	}
+
 }
 

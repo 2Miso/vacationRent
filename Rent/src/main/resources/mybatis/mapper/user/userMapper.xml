@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<!-- mybatis mapper파일 -->
+
+<mapper namespace="userMapper">
+	<!-- 일반유저 회원가입 -->
+	<insert id="join" parameterType="user">
+		insert into usertb(id,name,nickname,pw,wdate,email,phone,grade,social,delyn,banyn,ban_reason)
+ 		values(null , #{name}, #{nickname} ,#{pw} ,NOW(),#{email} ,#{phone}, "U" , "N"  , "N" , "N" , "");
+	</insert><!-- id auto increment 적용됨 -->
+	
+	<!-- 이메일 중복검사 -->
+	<select id="emailCheck" parameterType="String" resultType="int">
+		select count(email) from usertb where email = #{a}
+		<!-- 0이면사용가능 1이면 불가능 -->
+	</select>
+	
+	<!-- 로그인 -->
+	<select id="login" parameterType="user" resultType="user">
+		select * from usertb where email = #{email} and pw = #{pw}
+	</select>
+	
+	<!-- 이메일찾기 -->
+	<select id="findEmail" parameterType="String" resultType="user">
+		select email from usertb where name = #{name} and phone = #{phone}
+	</select>
+	
+</mapper>

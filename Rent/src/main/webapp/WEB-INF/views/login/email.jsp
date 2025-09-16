@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -54,7 +56,7 @@
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder"> 이메일로 로그인 </h1>
 
-    <form action="#" method="post" id="inputform"> <!--이메일과 비밀번호 전송할 주소를 지정해야 합니다-->
+    <form action="#" method="POST"> <!--이메일과 비밀번호 전송할 주소를 지정해야 합니다-->
       <div class="form-floating form-field">
         <input type="email" class="form-control" id="floatingInput" placeholder="이메일 주소 입력" name="email">
         <label for="floatingInput">이메일 주소 입력</label>
@@ -68,7 +70,7 @@
       </div>
 
       <div class="d-grid gap-2"><!--버튼-->
-        <button link="#" class="btn btn-primary " type="button" style="height:50px;" onclick="loginFn()">로그인</button><!--이메일과 비밀번호를 전송할 버튼-->
+        <button link="#" class="btn btn-primary " type="submit" style="height:50px;" onclick="loginFn()">로그인</button><!--이메일과 비밀번호를 전송할 버튼-->
       </div>
     </form>
   

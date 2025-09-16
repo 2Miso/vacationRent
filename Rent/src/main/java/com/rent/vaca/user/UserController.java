@@ -1,6 +1,8 @@
 package com.rent.vaca.user;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +59,25 @@ public class UserController {
 		return "user/join/finish";
 	}
 	
+	//이메일찾기 페이지
+	@RequestMapping(value="/user/find/email", method = RequestMethod.GET) 
+	public String findEmail() {
+		return "user/find/email";
+	}
+	
+	//이메일찾기페이지 기능 
+	@RequestMapping(value="/user/find/email", method = RequestMethod.POST) 
+	public String findEmail(UserVO vo,HttpServletRequest request) throws Exception{
+		UserVO email = userService.findEmail(vo);
+		if(email != null) {
+			request.setAttribute("msg", "가입된 이메일은 #{} 입니다");
+			
+		}else {//일치하는 이메일이 없을 때 
+			request.setAttribute("msg", "없는 회원정보입니다");
+		}
+		return null;
+	}
+	
 	
 	
 
@@ -75,19 +96,20 @@ public class UserController {
 	
 	
 	
-	
+
 	
 	
 	
 	//로그인 페이지
-	@RequestMapping(value="login/emaillogin", method = RequestMethod.GET) 
+	@RequestMapping(value="/login/email", method = RequestMethod.GET) 
 	public String login() {
-		return "login/emaillogin";
-	}
+		return "login/email";
+	}//로그인 페이지 접속가능
+	
 	//로그인 기능구현
-	@RequestMapping(value="login/emaillogin", method = RequestMethod.POST) 
+	@RequestMapping(value="/login/email", method = RequestMethod.POST) 
 	public String login(UserVO vo ,HttpSession session) {
-
+		System.out.println("버튼눌림");
 		UserVO user = userService.login(vo);
 		//logger.info("");
 		
@@ -99,7 +121,7 @@ public class UserController {
 		
 		if(user == null) {
 			System.out.println("로그인정보없음");
-			return "redirect:/login/emaillogin";
+			return "redirect:/login/email";
 			
 		}
 		session.setAttribute("user", user); 
@@ -108,7 +130,7 @@ public class UserController {
 		return "redirect:/main/main";
 	}
 	
-	//로그아웃기능메서드
+	//로그아웃 구현
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session){
 		session.invalidate();

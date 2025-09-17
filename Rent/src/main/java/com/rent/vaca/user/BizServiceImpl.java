@@ -26,6 +26,13 @@ public class BizServiceImpl implements BizService{
 
 	@Override
 	public int insertBizOne(BizVO vo) {
+		
+		// 이메일 중복확인
+		int count = repository.selectBizCntByEmail(vo.getEmail());
+		if (count > 0) {
+			throw new IllegalArgumentException("이미 등록된 이메일입니다.");
+		}
+		// 비밀번호 암호화 후 인서트
 		String encPw = passwordEncoder.encode(vo.getPw());
 		vo.setPw(encPw);
 		return repository.insertBizOne(vo);
@@ -40,7 +47,7 @@ public class BizServiceImpl implements BizService{
 	@Override
 	public int selectBizCntByEmail(String email) {
 		// TODO Auto-generated method stub
-		return 0;
+		return repository.selectBizCntByEmail(email);
 	}
 
 	@Override

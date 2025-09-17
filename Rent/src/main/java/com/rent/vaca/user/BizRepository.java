@@ -25,7 +25,7 @@ public class BizRepository {
 	
 	// 이메일 중복확인
 	public int selectBizCntByEmail(String email) {
-		return template.selectOne("bizMapper.insertBizOne", email);
+		return template.selectOne("bizMapper.selectBizCntByEmail", email);
 	}
 	
 }

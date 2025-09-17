@@ -1,0 +1,193 @@
+<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>비즈니스 회원 - 숙소 관리</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <style>
+    body {
+        --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
+    }
+    </style>
+    <script>
+      function accochangeFn(){
+        if($("input[name=acconame]").val() == ""){//숙소이름유효성검사
+          $("input[name=acconame]").parent().children("span").text("숙소 이름을 입력해 주세요.").css("color","red");
+        }else{
+          $("input[name=acconame]").parent().children("span").text("");
+        }
+
+        if($("input[name=accostartime]").val() == ""){//숙소시작시간유효성검사
+          $("input[name=accostartime]").parent().children("span").text("시작시간을 입력해 주세요.").css("color","red");
+        }else{
+          $("input[name=accostartime]").parent().children("span").text("");
+        }
+
+        if($("input[name=accoendtime]").val() == ""){//숙소마감시간유효성검사
+          $("input[name=accoendtime]").parent().children("span").text("마감시간을 입력해 주세요.").css("color","red");
+        }else{
+          $("input[name=accoendtime]").parent().children("span").text("");
+        }
+
+        if($("input[name=accophone]").val() == ""){//숙소전화번호유효성검사
+          $("input[name=accophone]").parent().children("span").text("전화번호를 입력해 주세요.").css("color","red");
+        }else{
+          $("input[name=accophone]").parent().children("span").text("");
+        }
+
+        if($("input[name=accoprice]").val() == ""){//숙소가격유효성검사
+          $("input[name=accoprice]").parent().children("span").text("숙소가격을 입력해 주세요.").css("color","red");
+        }else{
+          $("input[name=accoprice]").parent().children("span").text("");
+        }
+
+        if($("input[name=accodesc]").val() == ""){//숙소설명유효성검사
+          $("input[name=accodesc]").parent().children("span").text("숙소설명을 입력해 주세요.").css("color","red");
+        }else{
+          $("input[name=accodesc]").parent().children("span").text("");
+        }
+      }
+    </script>
+</head>
+
+
+<body>
+<section class="d-flex">
+  <div><!--사이드바 시작-->
+  <div class="d-flex" style="height:100vh;" >
+      <div style="width: 280px;" class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" >
+    <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <i class="bi bi-gear me-2" style="font-size:24px;"></i>
+      <span class="fs-4" style="font-weight: bold;">비즈니스 회원</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item"> 
+        <a href="#" class="nav-link active" aria-current="page"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
+          <i class="bi bi-house me-2  "></i>숙소 관리
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+          <i class="bi bi-file me-2"></i>
+          객실 관리
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
+          <i class="bi bi-people me-2"></i>
+          예약자 관리
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
+          <i class="bi bi-person-circle me-2"></i>
+          계정 설정
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <i class="bi bi-question-circle me-2"></i>
+          1대1 문의 확인
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="nav-link text-white">
+          <i class="bi bi-house-fill"></i><!--홈으로 이동하는 페이지로 링크 걸어야 합니다-->
+          홈으로
+        </a>
+    </div>
+    </div>
+    </div>
+  </div><!--사이드바 끝-->
+
+  <div class="d-flex mx-3 my-3"><!--내용 시작입니다. 이곳에 내용을 작성하면 됩니다-->
+          
+        <div><!--숙소 정보 글로 수정하기-->
+          <h3 class="fw-bold">숙소 관리</h3>
+          <div>숙소 이름 변경</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="acconame">
+            <label for="floatingInput">변경할 숙소 이름 입력</label>
+            <span></span>
+          </div>
+
+          <div>운영 시간 변경</div>
+          <div class="d-flex">
+              <div>
+                <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accostarttime">
+                <label for="floatingInput">입실 시간 ex) 00:00</label>
+                <span>경고 문구창</span>
+                </div>
+              </div>
+
+           
+              <div>
+                <div class="form-floating">
+                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accoendtime">
+                <label for="floatingInput">퇴실 시간 ex) 24:00</label>
+                <span>경고 문구창</span>
+                </div>
+              </div>
+          </div>
+
+          <div>숙소 대표번호 변경</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accophone">
+            <label for="floatingInput">변경할 숙소 대표번호 입력</label>
+            <span>제이쿼리 사용해서 불가능한 값 입력될시 빨간색 경고 문구 입력</span>
+          </div>
+
+          <div>숙소 가격 변경</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accoprice">
+            <label for="floatingInput">변경할 숙소 가격 입력</label>
+            <span>제이쿼리 사용해서 불가능한 값 입력될시 빨간색 경고 문구 입력</span>
+          </div>
+
+          <div>숙소 설명 변경</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accodesc">
+            <label for="floatingInput">변경할 숙소 설명 입력</label>
+            <span>제이쿼리 사용해서 불가능한 값 입력될시 빨간색 경고 문구 입력</span>
+          </div>
+
+          
+            <button link="#" class="btn btn-primary " type="button" onclick="accochangeFn()">수정하기</button><!--링크를 걸어야 합니다-->
+        </div><!--숙소 정보 글로 수정하기-->
+          
+        <div class="mx-3" style="background-color: aqua; width:400px; height:600px; overflow: auto;"><!--이미지 업로드 or 확인-->
+          <h3 class="fw-bold">이미지 관리</h3>
+          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">1번 이미지 (예시)</div>
+          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
+
+          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">2번 이미지 (예시)</div>
+          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
+
+          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">3번 이미지 (예시)</div>
+          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
+
+          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">4번 이미지 (예시)</div>
+          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
+
+          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">5번 이미지 (예시)</div>
+          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
+          
+        </div>
+          
+
+  </div><!--내용 끝-->
+</section>
+</body>
+</html>

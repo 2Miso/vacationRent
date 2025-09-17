@@ -5,11 +5,15 @@
 	
 <!-- mybatis mapper파일 -->
 
-<mapper namespace="com.rent.vaca.payment.BizRepository">
+<mapper namespace="bizMapper">
 	<!-- 회원가입 -->
 	<insert id="insertBizOne" parameterType="biz">
-		insert int biztb(email, pw, phone, name, owner)
-		values(#{email}, #{pw}, #{phone}, #{name}, #{owner})
+		insert into biztb(email, pw, phone, name, owner, certificate_no)
+		values(#{email}, #{pw}, #{phone}, #{name}, #{owner}, #{certificateNo})
 	</insert>
+	
+	<select id="selectBizCntByEmail" resultType="int" parameterType="string">
+		select count(*) from biztb where email = #{email}
+	</select>
 	
 </mapper>

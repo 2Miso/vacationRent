@@ -30,7 +30,7 @@ public class MailService {
 			messageHelper.setTo(to);
 			messageHelper.setText(body);
 			mailSender.send(message);
-			
+			//
 		} catch (Exception e) 
 		{
 			e.printStackTrace();

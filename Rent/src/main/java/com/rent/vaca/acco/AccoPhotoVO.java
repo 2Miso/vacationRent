@@ -4,6 +4,7 @@ public class AccoPhotoVO {
 	private int photoNo;
 	private String savedName;
 	private String originalName;
+	private int roomNo;
 	
 	public int getPhotoNo() {
 		return photoNo;
@@ -22,5 +23,11 @@ public class AccoPhotoVO {
 	}
 	public void setOriginalName(String originalName) {
 		this.originalName = originalName;
+	}
+	public int getRoomNo() {
+		return roomNo;
+	}
+	public void setRoomNo(int roomNo) {
+		this.roomNo = roomNo;
 	}
 }

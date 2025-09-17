@@ -59,13 +59,20 @@ public class AccoController {
 	}
 	
 	//리뷰 정렬기준 변경
-	@RequestMapping(value="/acco/view/{accoNo}", method=RequestMethod.POST)
-	@ResponseBody
-	public List<ReviewVO> reviewOrder(@PathVariable("accoNo") int accoNo, @RequestParam("orderBy") String orderBy, AccoVO acco, Model model) {
+	@GetMapping("/accomo/reviewList/{accoNo}")
+	public String reviewList(@PathVariable("accoNo") int accoNo, @RequestParam("orderBy") String orderBy, AccoVO acco, Model model) {
 		acco.setAccoNo(accoNo);
 		acco.setOrderBy(orderBy);
-		return accoService.selectReviewsByAccoNo(acco);
+		List<ReviewVO> reviewList = accoService.selectReviewsByAccoNo(acco);
+		model.addAttribute("reviewList", reviewList);
+		
+		//리뷰개수
+		int reviewCount = accoService.countReview(accoNo);
+		model.addAttribute("reviewCount", reviewCount);
+		
+		return "accomo/reviewList";
 	}
+	
 	
 	//관심숙소 등록여부 조회
 	@GetMapping("/mypage/interest")

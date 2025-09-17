@@ -23,6 +23,7 @@ public class AccoVO {
 	private BizVO biz;
 	private List<RoomVO> roomList;
 	private String orderBy;
+	private List<AccoPhotoVO> photoList;
 
 	public int getAccoNo() {
 		return accoNo;
@@ -124,6 +125,12 @@ public class AccoVO {
 	}
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
+	}
+	public List<AccoPhotoVO> getPhotoList() {
+		return photoList;
+	}
+	public void setPhotoList(List<AccoPhotoVO> photoList) {
+		this.photoList = photoList;
 	}
 	@Override
 	public String toString() {

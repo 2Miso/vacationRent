@@ -70,6 +70,14 @@
 				<result property="childNo" column="child_no" />
 			</collection>
 		</collection>
+		
+		<!-- 1:n 테이블 관계 매핑 -->
+		<collection property="photoList" ofType="com.rent.vaca.acco.AccoPhotoVO">
+			<id property="photoNo" column="photo_no" />
+			<result property="savedName" column="saved_name" />
+			<result property="originalName" column="original_name" />
+			<result property="roomNo" column="room_no" />
+		</collection>
 	</resultMap>
 
 	<!-- 객실 등록용 해당 사업자 숙소 1건 조회 -->
@@ -88,12 +96,15 @@
 			r.restroom_no, 
 			r.standard_head, 
 			r.extra_head, 
-			r.description as r_description 
+			r.description as r_description,  
+			p.* 
 		from accotb a 
 			left join biztb b 
 				on a.biz_id=b.id and a.delyn='N' 
 			left join roomtb r 	
 				on a.acco_no=r.acco_no and r.delyn='N' 
+			left join acco_phototb p
+				on a.acco_no=p.acco_no 
 			left join reservtb 
 				on r.room_no=reservtb.room_no and reservtb.cancelyn='N' 
 		where a.acco_no=#{accoNo};

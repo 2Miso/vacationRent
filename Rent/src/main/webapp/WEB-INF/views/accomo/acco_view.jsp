@@ -371,23 +371,8 @@ footer {
 	        });
 	        //리뷰 정렬기준 선택
 	        $("#review_order").on("change", function(){
-	        	console.log($("#review_order option:selected").val());
- 	 	        $.ajax({
-					//요청부분
-					url : "<c:url value="/acco/view/${acco.accoNo}" />",
-					type : "post",
-					data : {
-						"orderBy" : '$("#review_order option:selected").val()'
-					},
-					
-					//응답부분
-					success : function(reviewList){
-						console.log(reviewList);
-					},
-					error : function(){
-						console.log("리뷰정렬 에러");
-					}
-				});
+				let param = $("#review_order option:selected").val();
+				$(".reviewListContainer").load("<c:url value='/accomo/reviewList/${acco.accoNo}' />?orderBy="+param);
 	        });
         });
         
@@ -654,7 +639,7 @@ footer {
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h1 class="modal-title fs-5" id="mainPhotoModalLabel">숙소이름</h1>
+					<h1 class="modal-title fs-5" id="mainPhotoModalLabel">${acco.name}</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
@@ -663,36 +648,11 @@ footer {
 						<li class="nav-item" data-tab-id="content01"
 							onclick="changeTabMenu(this)"><a class="nav-link active"
 							href="#">전경</a></li>
+						<c:forEach var="room" items="${acco.roomList}">
 						<li class="nav-item" data-tab-id="content02"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실1</a>
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">${room.name}</a>
 						</li>
-						<li class="nav-item" data-tab-id="content03"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실2</a>
-						</li>
-						<li class="nav-item" data-tab-id="content04"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실3</a>
-						</li>
-						<li class="nav-item" data-tab-id="content05"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실4</a>
-						</li>
-						<li class="nav-item" data-tab-id="content06"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실5</a>
-						</li>
-						<li class="nav-item" data-tab-id="content07"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실6</a>
-						</li>
-						<li class="nav-item" data-tab-id="content08"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실7</a>
-						</li>
-						<li class="nav-item" data-tab-id="content09"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실8</a>
-						</li>
-						<li class="nav-item" data-tab-id="content10"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실9</a>
-						</li>
-						<li class="nav-item" data-tab-id="content11"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실10</a>
-						</li>
+						</c:forEach>
 					</ul>
 				</div>
 				<!-- end:.modal-header -->

@@ -22,5 +22,6 @@
 		<typeAlias type="com.rent.vaca.review.ReviewPhotoVO" alias="reviewPhoto" />
 		<typeAlias type="com.rent.vaca.user.BizVO" alias="biz" />
 		<typeAlias type="com.rent.vaca.notice.QuestionAttachVO" alias="attach" />
+		<typeAlias type="com.rent.vaca.acco.AccoPhotoVO" alias="accoPhoto" />
 	</typeAliases>
 </configuration>

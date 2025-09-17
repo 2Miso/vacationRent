@@ -61,9 +61,14 @@ public class BizServiceImpl implements BizService{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public int selectBizCntByAccoNo(int bizId) {
+		return repository.selectBizCntByBizId(bizId);
+	}
 
 	@Override
-	public void addRoom(RoomVO vo) {
+	public void insertRoomOne(RoomVO vo) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -72,6 +77,11 @@ public class BizServiceImpl implements BizService{
 	public void updateRoom(RoomVO vo) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public int selectLastInsertedRoomNo(int roomNo) {
+		return repository.selectLastInsertedRoomNo(roomNo);
 	}
 
 	@Override
@@ -102,8 +112,6 @@ public class BizServiceImpl implements BizService{
 	public List<NoticeVO> myQnaList(NoticeVO vo) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	
+	}	
 	
 }

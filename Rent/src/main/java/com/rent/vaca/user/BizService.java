@@ -13,40 +13,46 @@ public interface BizService {
 
 	// 비즈니스 회원
 	
-	// 1. 회원가입
+	// 회원가입
 	int insertBizOne(BizVO vo);
 	
-	// 2. 로그인
+	// 로그인
 	BizVO selectBizOne(BizVO vo);
 	
-	// 3. 이메일 중복체크
+	// 이메일 중복체크
 	int selectBizCntByEmail(String email);
 	
-	// 4. 숙소 정보 등록
+	// 숙소 정보 등록
 	void addAccoInfo(AccoVO vo);
 	
-	// 5. 숙소 정보 수정
+	// 숙소 정보 수정
 	void updateAccoInfo(AccoVO vo);
 	
-	// 6. 객실 정보 등록
-	void addRoom(RoomVO vo);
+	// 숙소 한건 조회
+	int selectBizCntByAccoNo(int bizId);
 	
-	// 7. 객실 정보 수정
+	// 객실 한건 등록
+	void insertRoomOne(RoomVO vo);
+	
+	// 객실 정보 수정
 	void updateRoom(RoomVO vo);
 	
-	// 8. 예약자 리스트 조회
+	// 방금 등록한 객실 정보 조회(객실 사진 등록용)
+	int selectLastInsertedRoomNo(int roomNo);
+	
+	// 예약자 리스트 조회
 	List<ReservVO> reservList(BizVO vo);
 	
-	// 9. 예약자 상태 변경
+	// 예약자 상태 변경
 	void updateReservStatus(ReservVO vo);
 	
-	// 10. 회원정보 수정
+	//  회원정보 수정
 	void updateBizInfo(BizVO vo);
 	
-	// 11. 관리자에게 문의하기
+	// 관리자에게 문의하기
 	void adminQna(QuestionAttachVO vo);
 	
-	// 12. 내 문의내역 조회
+	// 내 문의내역 조회
 	List<NoticeVO> myQnaList(NoticeVO vo);
 	
 }

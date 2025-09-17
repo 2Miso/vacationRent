@@ -3,6 +3,7 @@ package com.rent.vaca.user;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -146,12 +147,42 @@ public class BizController {
 		return "/biz/biz_mypage_room";
 	}
 	
+	// 객실 등록 처리 페이지
 	@RequestMapping(value = "/biz_mypage_room", method = RequestMethod.POST)
-	public String addRoom(RoomVO vo) {
+	public String addRoom(RoomVO vo, HttpSession session, Model model,
+			@RequestParam("image[]") List<MultipartFile> imageFiles,
+			HttpServletRequest request
+			) throws Exception {
+		// 현재 로그인 정보 가져오기
+		BizVO biz = (BizVO) session.getAttribute("biz");
+		if(biz == null) {
+			// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
+			return "redirect:/login/biz_login";
+		}
 		
+		// 로그인한 비즈니스 회원의 숙소정보 가져오기
+	    int bizId = biz.getId();
+	    int accoNo = bizService.selectBizCntByAccoNo(bizId);
 		
-		
-		return "/biz/biz_mypage_room";
+	    if(accoNo == 0){
+	        model.addAttribute("errorMessage", "숙소 정보가 없습니다.");
+	        return "/biz/biz_mypage_room";
+	    }
+	    
+	    vo.setAccoNo(accoNo);
+	    
+	    try {
+	    	// 객실정보 등록
+	        bizService.insertRoomOne(vo);
+	        
+	        int roomNo = bizService.selectLastInsertedRoomNo(vo.getRoomNo());
+	        
+	    } catch (Exception e) {
+	        model.addAttribute("errorMessage", "객실 등록 실패");
+	        return "/biz/biz_mypage_room";
+	    }
+	    
+		return "redirect:/biz/biz_mypage_room";
 	}
 	
 }

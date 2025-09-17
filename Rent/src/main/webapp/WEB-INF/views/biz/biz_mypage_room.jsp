@@ -62,12 +62,36 @@
 				$("input[name=price]").parent().children("span").text("");
 			}
 			
-			 // 객실호실 유효성검사
+			// 객실호실 유효성검사
 			if($("input[name=ho]").val() == ""){
 				$("input[name=ho]").parent().children("span").text("객실 호실을 입력해 주세요.").css("color","red");
 				return false;
 			}else{
 				$("input[name=ho]").parent().children("span").text("");
+			}
+			
+			// 객실면적 유효성검사
+			if($("input[name=area]").val() == ""){
+				$("input[name=area]").parent().children("span").text("객실 면적을 입력해 주세요.").css("color","red");
+				return false;
+			}else{
+				$("input[name=area]").parent().children("span").text("");
+			}
+			
+			// 침대 타입 유효성검사
+			if($("input[name=bed_type]").val() == ""){
+				$("input[name=bed_type]").parent().children("span").text("침대 타입을 입력해 주세요.").css("color","red");
+				return false;
+			}else{
+				$("input[name=bed_type]").parent().children("span").text("");
+			}
+			
+			// 화장실 개수 유효성검사
+			if($("input[name=restroom_no]").val() == ""){
+				$("input[name=restroom_no]").parent().children("span").text("화장실 개수를 입력해 주세요.").css("color","red");
+				return false;
+			}else{
+				$("input[name=restroom_no]").parent().children("span").text("");
 			}
 			
 			// 객실 최소인원 유효성검사
@@ -261,7 +285,25 @@
             <input class="form-control" type="text" placeholder="객실 호수를 입력하세요." aria-label="default input example" name="ho">
             <span id="" style="display: inline-block;"></span>
           </div>
-
+          
+          <div>
+            <h5>객실 면적</h5>
+            <input class="form-control" type="text" placeholder="객실 면적(소수점까지)을 입력하세요." aria-label="default input example" name="area">
+            <span id="" style="display: inline-block;"></span>
+          </div>
+		  
+		  <div>
+            <h5>침대 타입</h5>
+            <input class="form-control" type="text" placeholder="침대 타입을 입력하세요. 예)트윈베드,온돌방" aria-label="default input example" name="bed_type">
+            <span id="" style="display: inline-block;"></span>
+          </div>
+		  
+		  <div>
+            <h5>화장실 개수</h5>
+            <input class="form-control" type="text" placeholder="화장실 개수를 입력하세요." aria-label="default input example" name="restroom_no">
+            <span id="" style="display: inline-block;"></span>
+          </div>
+		  
 		  <div>
             <h5>객실 최소 수용인원</h5>
             <input class="form-control" type="text" placeholder="객실 최소 인원수를 입력하세요." aria-label="default input example" name="standard_head">
@@ -291,7 +333,7 @@
           <!-- 대표 이미지 인덱스를 서버로 보내기 위한 hidden input -->
 		  <input type="hidden" id="mainImageIndex" name="mainImageIndex" value="">
           
-            <button class="btn btn-primary " type="submit" onclick="return roomAddFn()">등록하기</button><!--링크를 걸어야 합니다-->
+            <button class="btn btn-primary " type="submit" onclick="return roomAddFn()">등록하기</button>
         </form>
         </div><!--숙소 정보 글로 수정하기-->
           

@@ -68,27 +68,6 @@
 				<result property="payment" column="payment" />
 				<result property="adultNo" column="adult_no" />
 				<result property="childNo" column="child_no" />
-				<association property="review" javaType="com.rent.vaca.review.ReviewVO">
-					<id property="reviewNo" column="review_no" />
-					<result property="star" column="star" />
-					<result property="content" column="content" />
-					<result property="wdate" column="wdate" />
-					<result property="reply" column="reply" />
-						<association property="author" javaType="com.rent.vaca.user.UserVO">
-							<id property="id" column="id" />
-							<result property="name" column="name" />
-							<result property="nickname" column="nickname" />
-							<result property="pw" column="pw" />
-							<result property="wdate" column="wdate" />
-							<result property="email" column="email" />
-							<result property="phone" column="phone" />
-							<result property="grade" column="grade" />
-							<result property="social" column="social" />
-							<result property="delyn" column="delyn" />
-							<result property="banyn" column="banyn" />
-							<result property="banReason" column="ban_reason" />
-						</association>
-				</association>
 			</collection>
 		</collection>
 	</resultMap>
@@ -105,20 +84,14 @@
 			r.restroom_no, 
 			r.standard_head, 
 			r.extra_head, 
-			r.description as r_description, 
-			reviewtb.*,
-			usertb.nickname 
+			r.description as r_description 
 		from accotb a 
 			left join biztb b 
 				on a.biz_id=b.id and a.delyn='N' 
-			left join roomtb r 
+			left join roomtb r 	
 				on a.acco_no=r.acco_no and r.delyn='N' 
 			left join reservtb 
 				on r.room_no=reservtb.room_no and reservtb.cancelyn='N' 
-			left join reviewtb 
-				on reservtb.reserv_code=reviewtb.reserv_code 
-			left join usertb 
-				on reviewtb.user_id=usertb.id 
 		where a.acco_no=#{accoNo};
 	</select>
 	

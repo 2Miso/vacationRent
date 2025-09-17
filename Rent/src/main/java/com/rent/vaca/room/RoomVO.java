@@ -97,6 +97,13 @@ public class RoomVO{
 	public void setReservList(List<ReservVO> reservList) {
 		this.reservList = reservList;
 	}
+	@Override
+	public String toString() {
+		return "RoomVO [roomNo=" + roomNo + ", accoNo=" + accoNo + ", ho=" + ho + ", name=" + name + ", price=" + price
+				+ ", area=" + area + ", bedType=" + bedType + ", restroomNo=" + restroomNo + ", delyn=" + delyn
+				+ ", standardHead=" + standardHead + ", extraHead=" + extraHead + ", description=" + description
+				+ ", reservList=" + reservList + "]";
+	}
 	
 	
 }

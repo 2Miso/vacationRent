@@ -22,6 +22,7 @@ public class AccoVO {
 	private int bizId;
 	private BizVO biz;
 	private List<RoomVO> roomList;
+	private String orderBy;
 
 	public int getAccoNo() {
 		return accoNo;
@@ -117,5 +118,17 @@ public class AccoVO {
 	}
 	public void setRoomList(List<RoomVO> roomList) {
 		this.roomList = roomList;
+	}
+	public String getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+	@Override
+	public String toString() {
+		return "AccoVO [accoNo=" + accoNo + ", type=" + type + ", name=" + name + ", addr=" + addr + ", phone=" + phone
+				+ ", description=" + description + ", bizHour=" + bizHour + ", delyn=" + delyn + ", checkin=" + checkin
+				+ ", checkout=" + checkout + ", bizId=" + bizId + ", biz=" + biz + ", roomList=" + roomList + "]";
 	}
 }

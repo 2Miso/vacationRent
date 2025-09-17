@@ -1,5 +1,7 @@
 package com.rent.vaca.acco;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import com.rent.vaca.review.ReviewVO;
 import com.rent.vaca.user.InterestVO;
 import com.rent.vaca.user.UserVO;
 
@@ -31,20 +34,37 @@ public class AccoController {
 	
 	//숙소 1건 조회
 	@RequestMapping(value="/acco/view/{accoNo}", method=RequestMethod.GET)
-	public String view(@PathVariable("accoNo") int accoNo, Model model) {
+	public String view(@PathVariable("accoNo") int accoNo, AccoVO acco, Model model) {
 		AccoVO accoVO = accoService.selectAccoByAccoNo(accoNo);
 		model.addAttribute("acco", accoVO);
 
+		//리뷰개수
 		int reviewCount = accoService.countReview(accoNo);
 		model.addAttribute("reviewCount", reviewCount);
 
+		//별점평균
 		Double starAvg = accoService.starAvg(accoNo);
 		if(starAvg != null) {
 			starAvg = Math.round(accoService.starAvg(accoNo)*10)/10.0;
 		}
-		
 		model.addAttribute("starAvg", starAvg);
+		
+		//리뷰목록
+		acco.setAccoNo(accoNo);
+		acco.setOrderBy("newest");
+		List<ReviewVO> reviewList = accoService.selectReviewsByAccoNo(acco);
+		model.addAttribute("reviewList", reviewList);
+		
 		return "accomo/acco_view";
+	}
+	
+	//리뷰 정렬기준 변경
+	@RequestMapping(value="/acco/view/{accoNo}", method=RequestMethod.POST)
+	@ResponseBody
+	public List<ReviewVO> reviewOrder(@PathVariable("accoNo") int accoNo, @RequestParam("orderBy") String orderBy, AccoVO acco, Model model) {
+		acco.setAccoNo(accoNo);
+		acco.setOrderBy(orderBy);
+		return accoService.selectReviewsByAccoNo(acco);
 	}
 	
 	//관심숙소 등록여부 조회

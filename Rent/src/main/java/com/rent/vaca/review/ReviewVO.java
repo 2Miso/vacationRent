@@ -46,4 +46,11 @@ public class ReviewVO {
 	public void setAuthor(UserVO author) {
 		this.author = author;
 	}
+	@Override
+	public String toString() {
+		return "ReviewVO [reviewNo=" + reviewNo + ", star=" + star + ", content=" + content + ", wdate=" + wdate
+				+ ", reply=" + reply + ", author=" + author + "]";
+	}
+	
 }
+

@@ -32,12 +32,4 @@
 			<result property="reply" column="reply" />
 		</association>
 	</resultMap>
-
-
-
-
-
-	<select id="selectRoomByAccoNo" parameterType="int" resultType="room">
-		select * from roomtb where acco_no=#{accoNo}
-	</select>
 </mapper>

@@ -102,6 +102,13 @@ public class ReservVO {
 	public void setReview(ReviewVO review) {
 		this.review = review;
 	}
+	@Override
+	public String toString() {
+		return "ReservVO [reservCode=" + reservCode + ", userId=" + userId + ", roomNo=" + roomNo + ", name=" + name
+				+ ", phone=" + phone + ", email=" + email + ", checkin=" + checkin + ", checkout=" + checkout
+				+ ", reservDate=" + reservDate + ", cancelyn=" + cancelyn + ", payment=" + payment + ", adultNo="
+				+ adultNo + ", childNo=" + childNo + ", review=" + review + "]";
+	}
 	
 	
 }

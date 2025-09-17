@@ -125,7 +125,6 @@ section {
 }
 
 .room {
-	height: 200px;
 	margin-bottom: 10px;
 }
 
@@ -133,6 +132,8 @@ section {
 	padding: 0;
 	border-radius: 15px;
 	overflow: hidden;
+	width:185px;
+	height:185px;
 }
 
 .roomPhoto img {
@@ -184,7 +185,7 @@ section {
 }
 .roomSimpleInfo{
 	white-space:normal;
-	word-break:normal;
+	word-break:break-word;
 }
 hr {
 	color: var(--bs-orange);
@@ -368,7 +369,28 @@ footer {
 	                map.setCenter(coords);
 	            }
 	        });
+	        //리뷰 정렬기준 선택
+	        $("#review_order").on("change", function(){
+	        	console.log($("#review_order option:selected").val());
+ 	 	        $.ajax({
+					//요청부분
+					url : "<c:url value="/acco/view/${acco.accoNo}" />",
+					type : "post",
+					data : {
+						"orderBy" : '$("#review_order option:selected").val()'
+					},
+					
+					//응답부분
+					success : function(response){
+						console.log("리뷰정렬 성공");
+					},
+					error : function(){
+						console.log("리뷰정렬 에러");
+					}
+				});
+	        });
         });
+        
         //객실사진 조회 모달 탭 바꾸기
         function changeTabMenu(obj){
             let tabId = $(obj).data("tabId");
@@ -501,7 +523,7 @@ footer {
 						</div>
 						<div class="row roomSimpleInfo">
 							기준 ${room.standardHead}인 / 추가 ${room.extraHead}인<br>
-							${room.description}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+							${room.description}
 						</div><!-- end:.roomSimpleInfo -->
 					</div><!-- end:.roomInfo -->
 				</div> <!-- end:room -->
@@ -602,26 +624,25 @@ footer {
 			<div class="reviewTitle">
 				<h3 style="font-size: 1em;">★리뷰 ${starAvg} ${reviewCount}개</h3>
 				<select id="review_order">
-					<option value="1" selected>최신순</option>
-					<option value="2">평점 높은 순</option>
-					<option value="3">평점 낮은 순</option>
+					<option value="newest" selected>최신순</option>
+					<option value="highest">평점 높은 순</option>
+					<option value="lowest">평점 낮은 순</option>
 				</select>
 			</div>
 			<div class="reviewList">
-				<c:forEach var="room" items="${acco.roomList}">
-				<c:forEach var="reserv" items="${room.reservList}" varStatus="cnt">
-				<c:if test="${not empty reserv.review}">
+				<c:forEach var="review" items="${reviewList}" varStatus="cnt">
+				<c:if test="${reviewCount != 0}">
 					<div class="review">
-						<div>${reserv.review.author.nickname}</div>
+						<div>${review.author.nickname}</div>
 						<div>
 							<span style="color: orange;">
-								<c:forEach var="i" begin="1" end="${reserv.review.star}">
+								<c:forEach var="i" begin="1" end="${review.star}">
 								★
 								</c:forEach>
-								<c:forEach var="i" begin="${reserv.review.star}" end="4">
+								<c:forEach var="i" begin="${review.star}" end="4">
 								☆
 								</c:forEach>
-							</span> ${reserv.review.wdate}
+							</span> ${review.wdate}
 						</div>
 						<div class="reviewPhoto">
 							<div class="row justify-content-evenly">
@@ -708,13 +729,12 @@ footer {
 						<!-- end: .modal -->
 						<!-- end:Modal -->
 						<div class="reviewText">
-							${reserv.review.content}
+							${review.content}
 						</div>
 						<!-- end:.reviewText -->
 					</div>
 					<!-- end:.review -->
 				</c:if>
-				</c:forEach>
 				</c:forEach>
 			</div>
 			<!-- end:reviewList -->

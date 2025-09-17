@@ -36,13 +36,13 @@ public class AccoVO {
 				typeKo="호텔";
 				break;
 			case 2:
-				typeKo="펜션";
-				break;
-			case 3:
 				typeKo="모텔";
 				break;
+			case 3:
+				typeKo="리조트";
+				break;
 			case 4:
-				typeKo="게스트하우스";
+				typeKo="펜션";
 				break;
 			default:
 				typeKo=""+type;

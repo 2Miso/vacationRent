@@ -8,8 +8,45 @@
 
 <mapper namespace="roomMapper">
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
+	<resultMap id="roomReservRoomMap" type="room">
+		<id property="roomNo" column="room_no" />
+		<result property="accoNo" column="acco_no" />
+		<result property="ho" column="ho" />
+		<result property="name" column="name" />
+		<result property="price" column="price" />
+		<result property="area" column="area" />
+		<result property="bedType" column="bed_type" />
+		<result property="restroomNo" column="restroom_no" />
+		<result property="delyn" column="delyn" />
+		<result property="standardHead" column="standard_head" />
+		<result property="extraHead" column="extra_head" />
+		<result property="description" column="description" />
+
+		<!-- 1:n 테이블 관계 매핑 -->
+		<collection property="reservList" ofType="com.rent.vaca.reserv.ReservVO">
+			<id property="reservCode" column="reserv_code" />
+			<result property="userId" column="user_id" />
+			<result property="roomNo" column="room_no" />
+			<result property="name" column="name" />
+			<result property="phone" column="phone" />
+			<result property="email" column="email" />
+			<result property="checkin" column="checkin" />
+			<result property="checkout" column="checkout" />
+			<result property="reservDate" column="reserv_date" />
+			<result property="cancelyn" column="cancelyn" />
+			<result property="payment" column="payment" />
+			<result property="adultNo" column="adult_no" />
+			<result property="childNo" column="child_no" />
+		</collection>
+	</resultMap>
+
+
+
+
+
 	<select id="selectRoomByAccoNo" parameterType="int" resultType="room">
 		select * from roomtb where acco_no=#{accoNo}
 	</select>
 
+	
 </mapper>

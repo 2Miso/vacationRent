@@ -33,7 +33,17 @@ public class AccoRepository {
 	}
 	
 	//관심숙소 조회
-	public InterestVO selectInterestOne(InterestVO vo) {
+	public int selectInterestOne(InterestVO vo) {
 		return template.selectOne("accoMapper.selectInterestOne", vo);
+	}
+	
+	//리뷰개수 조회
+	public int countReview(int accoNo) {
+		return template.selectOne("accoMapper.countReview", accoNo);
+	}
+	
+	//별점평균 조회
+	public Double starAvg(int accoNo) {
+		return template.selectOne("accoMapper.starAvg", accoNo);
 	}
 }

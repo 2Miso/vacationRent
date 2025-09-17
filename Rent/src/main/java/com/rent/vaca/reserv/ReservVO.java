@@ -1,5 +1,7 @@
 package com.rent.vaca.reserv;
 
+import com.rent.vaca.review.ReviewVO;
+
 public class ReservVO {
 	private String reservCode;
 	private int userId;
@@ -14,6 +16,8 @@ public class ReservVO {
 	private int payment;
 	private int adultNo;
 	private int childNo;
+	private ReviewVO review;
+	
 	public String getReservCode() {
 		return reservCode;
 	}
@@ -91,6 +95,12 @@ public class ReservVO {
 	}
 	public void setChildNo(int childNo) {
 		this.childNo = childNo;
+	}
+	public ReviewVO getReview() {
+		return review;
+	}
+	public void setReview(ReviewVO review) {
+		this.review = review;
 	}
 	
 	

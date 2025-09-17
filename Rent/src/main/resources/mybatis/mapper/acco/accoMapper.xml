@@ -9,7 +9,7 @@
 <mapper namespace="accoMapper">
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
 	<resultMap id="accoRoomMap" type="acco">
-		<id property="accoNo" column="acco_no" /> <!-- type : BoardVO , property : BoardVO의 필드 이름 -->
+		<id property="accoNo" column="acco_no" />
 		<result property="accoNo" column="acco_no" />
 		<result property="type" column="type" />
 		<result property="name" column="name" />
@@ -41,7 +41,7 @@
 		</association>
 		
 		<!-- 1:n 테이블 관계 매핑 -->
-		<collection property="roomList" ofType="room"> <!-- file : FileVO의 alias -->
+		<collection property="roomList" ofType="room">
 			<id property="roomNo" column="room_no" />
 			<result property="accoNo" column="acco_no" />
 			<result property="ho" column="ho" />
@@ -54,12 +54,72 @@
 			<result property="standardHead" column="standard_head" />
 			<result property="extraHead" column="extra_head" />
 			<result property="description" column="r_description" />
+			<collection property="reservList" ofType="com.rent.vaca.reserv.ReservVO">
+				<id property="reservCode" column="reserv_code" />
+				<result property="userId" column="user_id" />
+				<result property="roomNo" column="room_no" />
+				<result property="name" column="name" />
+				<result property="phone" column="phone" />
+				<result property="email" column="email" />
+				<result property="checkin" column="checkin" />
+				<result property="checkout" column="checkout" />
+				<result property="reservDate" column="reserv_date" />
+				<result property="cancelyn" column="cancelyn" />
+				<result property="payment" column="payment" />
+				<result property="adultNo" column="adult_no" />
+				<result property="childNo" column="child_no" />
+				<association property="review" javaType="com.rent.vaca.review.ReviewVO">
+					<id property="reviewNo" column="review_no" />
+					<result property="star" column="star" />
+					<result property="content" column="content" />
+					<result property="wdate" column="wdate" />
+					<result property="reply" column="reply" />
+						<association property="author" javaType="com.rent.vaca.user.UserVO">
+							<id property="id" column="id" />
+							<result property="name" column="name" />
+							<result property="nickname" column="nickname" />
+							<result property="pw" column="pw" />
+							<result property="wdate" column="wdate" />
+							<result property="email" column="email" />
+							<result property="phone" column="phone" />
+							<result property="grade" column="grade" />
+							<result property="social" column="social" />
+							<result property="delyn" column="delyn" />
+							<result property="banyn" column="banyn" />
+							<result property="banReason" column="ban_reason" />
+						</association>
+				</association>
+			</collection>
 		</collection>
 	</resultMap>
 
 	<!-- 숙소1건 조회 -->
 	<select id="selectAccoByAccoNo" parameterType="int" resultMap="accoRoomMap">
-		select a.*, b.*, r.name as rname, r.price, r.area, r.bed_type, r.restroom_no, r.standard_head, r.extra_head, r.description as r_description from accotb a left join biztb b on a.biz_id=b.id left join roomtb r on a.acco_no=r.acco_no where a.acco_no=#{accoNo} and a.delyn='N' and r.delyn='N';
+		select 
+			a.*, 
+			b.*, 
+			r.name as rname,
+			r.price,
+			r.area,
+			r.bed_type,
+			r.restroom_no, 
+			r.standard_head, 
+			r.extra_head, 
+			r.description as r_description, 
+			reviewtb.*,
+			usertb.nickname 
+		from accotb a 
+			left join biztb b 
+				on a.biz_id=b.id and a.delyn='N' 
+			left join roomtb r 
+				on a.acco_no=r.acco_no and r.delyn='N' 
+			left join reservtb 
+				on r.room_no=reservtb.room_no and reservtb.cancelyn='N' 
+			left join reviewtb 
+				on reservtb.reserv_code=reviewtb.reserv_code 
+			left join usertb 
+				on reviewtb.user_id=usertb.id 
+		where a.acco_no=#{accoNo};
 	</select>
 	
 	<!-- 관심숙소 등록 -->
@@ -71,9 +131,35 @@
 	<delete id="deleteInterestOne" parameterType="com.rent.vaca.user.InterestVO">
 		delete from interesttb where user_id=#{userId} and acco_no=#{accoNo};
 	</delete>
-	
+
 	<!-- 관심숙소 조회 -->
-	<select id="selectInterestOne" parameterType="com.rent.vaca.user.InterestVO">
-		select * from interesttb where user_id=#{userId} and acco_no=#{accoNo};
+	<select id="selectInterestOne" parameterType="com.rent.vaca.user.InterestVO" resultType="int">
+		select count(*) from interesttb where user_id=#{userId} and acco_no=#{accoNo};
+	</select>
+	
+	<!-- 리뷰개수 조회 -->
+	<select id="countReview" parameterType="int" resultType="int">
+		select count(*) 
+			from accotb 
+			inner join roomtb 
+				on accotb.acco_no=roomtb.acco_no 
+			inner join reservtb 
+				on roomtb.room_no=reservtb.room_no 
+			inner join reviewtb 
+				on reservtb.reserv_code=reviewtb.reserv_code
+		where accotb.acco_no=${accoNo};
+	</select>
+	
+	<!-- 별점평균 조회 -->
+	<select id="starAvg" parameterType="int" resultType="Double">
+		select avg(star) 
+			from accotb 
+			inner join roomtb 
+				on accotb.acco_no=roomtb.acco_no 
+			inner join reservtb 
+				on roomtb.room_no=reservtb.room_no 
+			inner join reviewtb
+				on reservtb.reserv_code=reviewtb.reserv_code
+		where accotb.acco_no=#{accoNo};
 	</select>
 </mapper>

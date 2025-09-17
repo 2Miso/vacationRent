@@ -1,236 +1,275 @@
 <!-- URL : /acco/view/{accoNo} -->
 <%@page import="com.rent.vaca.acco.AccoVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@include file="../include/header_nosearchbar.jsp" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@include file="../include/header_nosearchbar.jsp"%>
 <%
 /* 임시 로그인. 삭제할 것. */
 UserVO userTest = new UserVO();
-userTest.setId(2);
+userTest.setId(1);
 userTest.setNickname("닉네임입니다");
-userTest.setGrade("A");
+userTest.setGrade("U");
 session.setAttribute("user", userTest);
 
-UserVO user = (UserVO)session.getAttribute("user");
+UserVO user = (UserVO) session.getAttribute("user");
 /* 임시 로그인. 삭제할 것. */
 %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- 스와이퍼 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="<c:url value="/resources/css/mainSwiper.css" />">
-    <link rel="stylesheet" href="<c:url value="/resources/css/reviewSwiper.css" />">
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-	<!-- 지도 -->
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=767914bf0cfc904dd9cb8b0fd6dd25bc&libraries=services"></script>
-    <!-- 하트 -->
-    <link rel="stylesheet" href="<c:url value="/resources/css/heart_button.css" />">
-    <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
-    <style>
-        section {
-            padding: 50px 0;
-            width: 1024px;
-            margin: 0 auto;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<!-- 스와이퍼 -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/mainSwiper.css" />">
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/reviewSwiper.css" />">
+<script
+	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!-- 지도 -->
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=767914bf0cfc904dd9cb8b0fd6dd25bc&libraries=services"></script>
+<!-- 하트 -->
+<link rel="stylesheet"
+	href="<c:url value="/resources/css/heart_button.css" />">
+<script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
+<style>
+section {
+	padding: 50px 0;
+	width: 1024px;
+	margin: 0 auto;
+}
 
-        .mainPhoto .container {
-            width: 1024px;
-            height: 500px;
-            position:relative;
-        }
+.mainPhoto .container {
+	width: 1024px;
+	height: 500px;
+	position: relative;
+}
 
-        .bigImage,
-        .smallImage {
-            width: 500px;
-            height: 500px;
-        }
+.bigImage, .smallImage {
+	width: 500px;
+	height: 500px;
+}
 
-        .row {
-            margin: 0;
-        }
+.row {
+	margin: 0;
+}
 
-        .row>* {
-            padding: 1px;
-        }
+.row>* {
+	padding: 1px;
+}
 
-        .smallImage .row {
-            height: 50%;
-        }
+.smallImage .row {
+	height: 50%;
+}
 
-        .smallImage .col {
-            width: 50%;
-        }
+.smallImage .col {
+	width: 50%;
+}
 
-        .imgContainer {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            border-radius: 20px;
-        }
+.imgContainer {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: 20px;
+}
 
-        .imgContainer img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .morePhoto{
-            display:inline-block;
-            background:rgba(255, 255, 255, 0.451);
-            border-radius:5px;
-            padding:0 5px;
-            position:absolute;
-        }
-        .mainPhoto .morePhoto{
-            right:30px;
-            bottom:15px;
-        }
-        .titleArea {
-            padding: 30px;
-            display: flex;
-            justify-content: space-between;
-        }
+.imgContainer img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
 
-        .subInfo {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-      .orangeContainer{
-            border-radius:15px;
-            border:3px solid var(--bs-orange);
-            padding:10px;
-        }
-        .subInfo>div {
-            width: 30%;
-            height: 150px;
-        }
+.morePhoto {
+	display: inline-block;
+	background: rgba(255, 255, 255, 0.451);
+	border-radius: 5px;
+	padding: 0 5px;
+	position: absolute;
+}
 
-        .roomList {
-            padding: 30px 0;
-        }
+.mainPhoto .morePhoto {
+	right: 30px;
+	bottom: 15px;
+}
 
-        .room {
-            height: 200px;
-            margin-bottom:10px;
-        }
-        .roomPhoto{
-            padding:0;
-            border-radius:15px;
-            overflow:hidden;
-        }
-        .roomPhoto img{
-            width:100%;
-            height:100%;
-            object-fit:cover;
-            object-position:center center;
-        }
-        .room .morePhoto{
-            position:relative;
-            bottom:30px;
-            left:210px;
-        }
-        .roomInfo{
-            padding-left:20px;
-        }
-        .roomInfo .row *{
-            width:auto;
-        }
-        .roomName{
-            font-size:3em;
-        }
-        .cursorPointer:hover{
-            cursor:pointer;
-            font-weight:bold;
-        }
-        .roomDetail{
-            position:relative;
-        }
-        .roomDetail > *{
-            position:absolute;
-            right:20px;
-        }
-        .roomDetail > *:last-child{
-        	top:30px;
-        	right:25px;
-        }
-        .roomPrice{
-            padding-top:26px;
-        }
-        hr{
-            color:var(--bs-orange);
-            border-top:2px solid;
-            opacity:1;
-            margin:20px 0;
-        }
-        .owner_info table{
-            margin:0 auto;
-            width:100%;
-        }
-        .owner_info table, .owner_info table * {
-            border:1px solid black;
-        }
-        .owner_info tr > *{
-            padding:10px;
-        }
-        .owner_info th{
-            text-align:end;
-            background-color:#FFC067;
-        }
-        .owner_info h3{
-            margin:0;
-        }
-        .reviewTitle{
-            display:flex;
-            justify-content: space-between;
-            align-items:baseline;
-        }
-        .reviewList > div{
-            padding: 10px;
-            width:100%;
-            border-radius: 15px;
-            border: 1px solid var(--bs-orange);
-        }
-        .reviewPhoto{
-            position:relative;
-        }
-        .room .col-2, .reviewPhoto .col-2{
-            padding:0;
-            border-radius:15px;
-            height:167px;
-            overflow:hidden;
-        }
-        .room .col-2, .reviewPhoto img{
-            width:100%;
-            height:100%;
-            object-fit:cover;
-            object-position:center center;
-        }
-        .reviewPhoto .morePhoto{
-            right:75px;
-            bottom:10px;
-        }
-        .Page{
-            padding-top:20px;
-        }
+.titleArea {
+	padding: 30px;
+	display: flex;
+	justify-content: space-between;
+}
 
-    #mainPhotoModal .content_area, #mainPhotoModal .thumb_area {
-        display: none;
-    }
+.subInfo {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
 
-    #mainPhotoModal .content_area.active, #mainPhotoModal .thumb_area.active {
-        display: block;
-    }
-    
-    footer{
-    	margin-top:150px;
-    }
-    </style>
-    <script>
+.orangeContainer {
+	border-radius: 15px;
+	border: 3px solid var(--bs-orange);
+	padding: 10px;
+}
+
+.subInfo>div {
+	width: 30%;
+	height: 150px;
+}
+
+.roomList {
+	padding: 30px 0;
+}
+
+.room {
+	height: 200px;
+	margin-bottom: 10px;
+}
+
+.roomPhoto {
+	padding: 0;
+	border-radius: 15px;
+	overflow: hidden;
+}
+
+.roomPhoto img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center center;
+}
+
+.room .morePhoto {
+	position: relative;
+	bottom: 30px;
+	left: 210px;
+}
+
+.roomInfo {
+	padding-left: 20px;
+}
+
+.roomInfo .row * {
+	width: auto;
+}
+
+.roomName {
+	font-size: 3em;
+}
+
+.cursorPointer:hover {
+	cursor: pointer;
+	font-weight: bold;
+}
+
+.roomDetail {
+	position: relative;
+}
+
+.roomDetail>* {
+	position: absolute;
+	right: 20px;
+}
+
+.roomDetail>*:last-child {
+	top: 30px;
+	right: 25px;
+}
+
+.roomPrice {
+	padding-top: 26px;
+}
+.roomSimpleInfo{
+	white-space:normal;
+	word-break:normal;
+}
+hr {
+	color: var(--bs-orange);
+	border-top: 2px solid;
+	opacity: 1;
+	margin: 20px 0;
+}
+
+.owner_info table {
+	margin: 0 auto;
+	width: 100%;
+}
+
+.owner_info table, .owner_info table * {
+	border: 1px solid black;
+}
+
+.owner_info tr>* {
+	padding: 10px;
+}
+
+.owner_info th {
+	text-align: end;
+	background-color: #FFC067;
+}
+
+.owner_info h3 {
+	margin: 0;
+}
+
+.reviewTitle {
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+
+.reviewList>div {
+	padding: 10px;
+	width: 100%;
+	border-radius: 15px;
+	border: 1px solid var(--bs-orange);
+	margin-bottom:10px;
+}
+
+.reviewPhoto {
+	position: relative;
+}
+
+.room .col-2, .reviewPhoto .col-2 {
+	padding: 0;
+	border-radius: 15px;
+	height: 167px;
+	overflow: hidden;
+}
+
+.room .col-2, .reviewPhoto img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center center;
+}
+
+.reviewPhoto .morePhoto {
+	right: 75px;
+	bottom: 10px;
+}
+
+.Page {
+	padding-top: 20px;
+}
+
+#mainPhotoModal .content_area, #mainPhotoModal .thumb_area {
+	display: none;
+}
+
+#mainPhotoModal .content_area.active, #mainPhotoModal .thumb_area.active
+	{
+	display: block;
+}
+
+footer {
+	margin-top: 150px;
+}
+</style>
+<script>
         $(function(){
             let navItem = $(".nav-item");
             $(navItem).on("click", function(){
@@ -245,7 +284,28 @@ UserVO user = (UserVO)session.getAttribute("user");
             $(".reserv-btn").on("click", function(){
             	location.href="<c:url value="/reservation/reserv_ok_payment" />";
             });
-            //하트 클릭 시 관심에 등록
+            //페이지 로딩 시 관심등록 조회 후 관심숙소면 빨간하트
+            $.ajax({
+					//요청부분
+					url : "<c:url value='/mypage/interest' />",
+					type : "get",
+					data : {
+						"userId" : "${sessionScope.user.id}",
+						"accoNo" : ${acco.accoNo}
+					},
+					
+					//응답부분
+					success : function(response){
+						if(response==true){
+							$("#heart").addClass("active");
+						}
+					},
+					error : function(){
+						console.log("관심조회 에러");
+					}
+				});
+            
+            //하트 클릭 시 관심에 등록 또는 제거
             $(".heartContainer").on("click", function(){
  				$.ajax({
 					//요청부분
@@ -258,10 +318,15 @@ UserVO user = (UserVO)session.getAttribute("user");
 					
 					//응답부분
 					success : function(response){
-						console.log("성공");
+						if(response==1){
+							timeline.play();
+							$("#heart").addClass("active");
+						} else if(response==0){
+							$("#heart").removeClass("active");
+						}
 					},
 					error : function(){
-						console.log("에러");
+						console.log("관심버튼 클릭 에러");
 					}
 				});
             });
@@ -273,7 +338,7 @@ UserVO user = (UserVO)session.getAttribute("user");
                 level: 3 // 지도의 확대 레벨
             };  
 
-	        // 지도를 생성합니다    
+	        // 지도를 생성합니다
 	        var map = new kakao.maps.Map(mapContainer, mapOption); 
 	
 	        // 주소-좌표 변환 객체를 생성합니다
@@ -317,431 +382,504 @@ UserVO user = (UserVO)session.getAttribute("user");
 </head>
 
 <body>
-    <section>
-        <article class="mainPhoto">
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col bigImage">
-                        <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                            <img src="" alt="">
-                        </div>
-                    </div>
-                    <div class="col smallImage">
-                        <div class="row">
-                            <div class="col">
-                                <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                                    <img src="" alt="">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                                    <img src="" alt="">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                                    <img src="" alt="">
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="imgContainer" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                                    <img src="" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- end: .row -->
-                <div class="morePhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-                    +n
-                </div>
-            </div> <!-- end: .container -->
-        </article>
-        <div class="titleArea">
-            <div>
-                <h6>${acco.type}</h6>
-                <h2>${acco.name}</h2>
-            </div>
-            <div class="heartContainer">
-                <div id='heart' class='button'></div>
-            </div>
-        </div>
-        <article class="subInfo">
-            <div id="#review" class="orangeContainer">리뷰</div>
-            <div id="#facil" class="orangeContainer">서비스 및 부대시설</div>
-            <div id="#location" class="orangeContainer">주소><br><br>${acco.addr}</div>
-        </article>
-        <article class="roomList">
-            <h3>객실선택</h3>
-            <c:forEach var="room" items="${acco.roomList}" varStatus="cnt">
-	            <div class="room container orangeContainer row">
-	                <div class="col-3 roomPhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-	                    <img src="" alt="">
-	                    <div class="morePhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">
-	                        +n
-	                    </div>
-	                </div>
-	                <div class="col roomInfo align-content-between">
-	                    <h4 class="row roomName">
-	                        ${room.name}
-	                    </h4>
-	                    <div class="row roomDetail">
-	                        <span class="cursorPointer"  data-bs-toggle="modal" data-bs-target="#roomModal${cnt.count}">상세정보&gt;</span><br>
-	                        <c:if test="${not empty sessionScope.user}">
-	                        	<button class="btn btn-primary reserv-btn">예약하기</button>
-	                        </c:if>
-	                    </div>
-	                    <!-- Modal -->
-	                    <div class="modal fade" id="roomModal${cnt.count}" tabindex="-1" aria-labelledby="roomModalLabel" aria-hidden="true">
-	                        <div class="modal-dialog modal-dialog-centered">
-	                            <div class="modal-content">
-	                                <div class="modal-header">
-	                                    <h5 class="modal-title" id="roomModalLabel">${room.name}</h5>
-	                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	                                </div>
-	                                <div class="modal-body">
-	                                    <h4>객실정보</h4>
-	                                    <div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
-	                                    <div>기준인원 ${room.standardHead}명 / 최대인원 ${room.standardHead + room.extraHead}명</div>
-	                                    <div>${room.bedType}</div>
-	                                    <div>화장실 ${room.restroomNo}개, ${room.description} / ${room.area}㎡</div>
-	                                    <hr>
-	                                    <h4>추가정보</h4>
-	                                    <div>추가인원 요금 0,000원</div>
-	                                    <hr>
-	                                    <h4>편의시설</h4>
-	                                    <div>TV, 전기포트, 금고, 에어컨, 냉장고, 와이파이</div>
-	                                </div><!-- end:movda-body -->
-	                            </div><!-- end: modal-content -->
-	                        </div><!-- end: modal-dialog -->
-	                    </div>
-	                    <!-- end:Modal -->
-	                    <div class="row roomPrice">
-	                        <strong>${room.price}</strong>원
-	                    </div>
-	                    <div class="row roomSimpleInfo">
-	                        기준 ${room.standardHead}인 / 추가 ${room.extraHead}인<br>
-	                        ${room.description}
-	                    </div>
-	                </div>
-	            </div><!-- end:room -->
-            </c:forEach>
-        </article><!-- end: .roomList -->
-        <hr>
-        <article class="acco_intro">
-            <h3>숙소소개</h3>
-            <div>
-                ${acco.description}
-            </div>
-        </article><!-- end:acco_intro -->
-        <hr>
-        <article class="facil" id="facil">
-            <h3>서비스 및 부대시설</h3>
-            <div class="container text-center">
-                <div class="row">
-                    <div class="col-3">1</div>
-                    <div class="col-3">2</div>
-                    <div class="col-3">3</div>
-                    <div class="col-3">4</div>
-                    <div class="col-3">5</div>
-                    <div class="col-3">6</div>
-                    <div class="col-3">7</div>
-                </div>
-            </div>
-        </article>
-        <hr>
-        <article class="acco_info">
-            <h3>숙소정보</h3>
-            <div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
-            <div>추가요금</div>
-            <div>등등 공통정보</div>
-        </article>
-        <hr>
-        <div class="owner_info">
-            <h3  style="display:inline-block; cursor:pointer;" data-bs-toggle="modal" data-bs-target="#ownerModal">판매자정보 &gt;</h3>
-            <!-- Modal -->
-            <div class="modal fade" id="ownerModal" tabindex="-1" aria-labelledby="ownerModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="ownerModalLabel">판매자 정보</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table>
-                        <tr>
-                            <th>상호</th>
-                            <td>${acco.name}</td>
-                        </tr>
-                        <tr>
-                            <th>대표자명</th>
-                            <td>${acco.biz.owner}</td>
-                        </tr>
-                        <tr>
-                            <th>주소</th>
-                            <td>${acco.addr}</td>
-                        </tr>
-                        <tr>
-                            <th>이메일</th>
-                            <td>${acco.biz.email}</td>
-                        </tr>
-                        <tr>
-                            <th>사업자번호</th>
-                            <td>${acco.biz.certificateNo}</td>
-                        </tr>
-                    </table><br>
-                    <ul>
-                        <li>
-                            판매자 정보는 판매자의 명시적 동의 없이 영리 목적의 마케팅, 광고 등에 활용할 수 없습니다.<br>
-                            이를 어길 시 정보통신망법 등 관련 법령에 의거하여 과태료 부과 및 민형사상 책임을 지게 될 수 있습니다.
-                        </li>
-                    </ul>
-                </div><!-- end:movda-body -->
-            </div><!-- end: modal-content -->
-            </div><!-- end: modal-dialog -->
-            </div>
-            <!-- end:Modal -->
-        </div><!-- end:.owner_info -->
-        <hr>
-        <article id="location">
-            <h3>위치</h3>
-            <div>${acco.addr}</div>
-            <div id="map" style="border:1px solid black; width:1024px; height:426px;">
-            </div>
-        </article>
-        <hr>
-        <article id="review">
-            <div class="reviewTitle">
-                <h3 style="font-size:1em;">★리뷰 (별점평균) (리뷰개수)</h3>
-                <select id="review_order">
-                    <option value="1" selected>최신순</option>
-                    <option value="2">평점 높은 순</option>
-                    <option value="3">평점 낮은 순</option>
-                </select>
-            </div>
-            <div class="reviewList">
-                <div class="review">
-                    <div>(닉네임)</div>
-                    <div><span style="color:orange;">★★★★☆</span> (작성일자)</div>
-                    <div class="reviewPhoto">
-                        <div class="row justify-content-evenly">
-                            <div class="col-2" data-bs-toggle="modal" data-bs-target="#reviewPhotoModal">
-                                <img src="resources/img/거실.jpg" alt="">
-                            </div>
-                            <div class="col-2" data-bs-toggle="modal" data-bs-target="#reviewPhotoModal">
-                                <img src="resources/img/오션뷰.jpg" alt="">
-                            </div>
-                            <div class="col-2" data-bs-toggle="modal" data-bs-target="#reviewPhotoModal">
-                                <img src="resources/img/쿼드룸.jpg" alt="">
-                            </div>
-                            <div class="col-2" data-bs-toggle="modal" data-bs-target="#reviewPhotoModal">
-                                <img src="resources/img/쿼드룸.jpg" alt="">
-                            </div>
-                        </div><!-- end:.row -->
-                        <div class="morePhoto" data-bs-toggle="modal" data-bs-target="#reviewPhotoModal">
-                            +n
-                        </div>
-                    </div><!-- end:.reviewPhoto -->
-                        <!-- Modal -->
-                        <div class="modal fade" id="reviewPhotoModal" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered  modal-xl">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                    <!-- Swiper -->
-                                    <div class="swiper reviewSwiper">
-                                        <div class="swiper-wrapper">
+	<section>
+		<article class="mainPhoto">
+			<div class="container text-center">
+				<div class="row">
+					<div class="col bigImage">
+						<div class="imgContainer" data-bs-toggle="modal"
+							data-bs-target="#mainPhotoModal">
+							<img src="" alt="">
+						</div>
+					</div>
+					<div class="col smallImage">
+						<div class="row">
+							<div class="col">
+								<div class="imgContainer" data-bs-toggle="modal"
+									data-bs-target="#mainPhotoModal">
+									<img src="" alt="">
+								</div>
+							</div>
+							<div class="col">
+								<div class="imgContainer" data-bs-toggle="modal"
+									data-bs-target="#mainPhotoModal">
+									<img src="" alt="">
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="imgContainer" data-bs-toggle="modal"
+									data-bs-target="#mainPhotoModal">
+									<img src="" alt="">
+								</div>
+							</div>
+							<div class="col">
+								<div class="imgContainer" data-bs-toggle="modal"
+									data-bs-target="#mainPhotoModal">
+									<img src="" alt="">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end: .row -->
+				<div class="morePhoto" data-bs-toggle="modal"
+					data-bs-target="#mainPhotoModal">+n</div>
+			</div>
+			<!-- end: .container -->
+		</article>
+		<div class="titleArea">
+			<div>
+				<h6>${acco.type}</h6>
+				<h2>${acco.name}</h2>
+			</div>
+			<div class="heartContainer">
+				<div id='heart' class='button'></div>
+			</div>
+		</div>
+		<article class="subInfo">
+			<div id="#review" class="orangeContainer">리뷰</div>
+			<div id="#facil" class="orangeContainer">서비스 및 부대시설</div>
+			<div id="#location" class="orangeContainer">
+				주소><br>
+				<br>${acco.addr}</div>
+		</article>
+		<article class="roomList">
+			<h3>객실선택</h3>
+			<c:forEach var="room" items="${acco.roomList}" varStatus="cnt">
+				<div class="room container orangeContainer row">
+					<div class="col-3 roomPhoto" data-bs-toggle="modal"
+						data-bs-target="#mainPhotoModal">
+						<img src="" alt="">
+						<div class="morePhoto" data-bs-toggle="modal"
+							data-bs-target="#mainPhotoModal">+n</div>
+					</div>
+					<div class="col roomInfo align-content-between">
+						<h4 class="row roomName">${room.name}</h4>
+						<div class="row roomDetail">
+							<span class="cursorPointer" data-bs-toggle="modal"
+								data-bs-target="#roomModal${cnt.count}">상세정보&gt;</span><br>
+							<c:if test="${not empty sessionScope.user}">
+								<button class="btn btn-primary reserv-btn">예약하기</button>
+							</c:if>
+						</div>
+						<!-- Modal -->
+						<div class="modal fade" id="roomModal${cnt.count}" tabindex="-1"
+							aria-labelledby="roomModalLabel" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="roomModalLabel">${room.name}</h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<h4>객실정보</h4>
+										<div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
+										<div>기준인원 ${room.standardHead}명 / 최대인원
+											${room.standardHead + room.extraHead}명</div>
+										<div>${room.bedType}</div>
+										<div>화장실 ${room.restroomNo}개, ${room.description} /
+											${room.area}㎡</div>
+										<hr>
+										<h4>추가정보</h4>
+										<div>추가인원 요금 0,000원</div>
+										<hr>
+										<h4>편의시설</h4>
+										<div>TV, 전기포트, 금고, 에어컨, 냉장고, 와이파이</div>
+									</div>
+									<!-- end:movda-body -->
+								</div>
+								<!-- end: modal-content -->
+							</div>
+							<!-- end: modal-dialog -->
+						</div>
+						<!-- end:Modal -->
+						<div class="row roomPrice">
+							<strong>${room.price}</strong>원
+						</div>
+						<div class="row roomSimpleInfo">
+							기준 ${room.standardHead}인 / 추가 ${room.extraHead}인<br>
+							${room.description}aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+						</div><!-- end:.roomSimpleInfo -->
+					</div><!-- end:.roomInfo -->
+				</div> <!-- end:room -->
+			</c:forEach>
+		</article>
+		<!-- end: .roomList -->
+		<hr>
+		<article class="acco_intro">
+			<h3>숙소소개</h3>
+			<div>${acco.description}</div>
+		</article>
+		<!-- end:acco_intro -->
+		<hr>
+		<article class="facil" id="facil">
+			<h3>서비스 및 부대시설</h3>
+			<div class="container text-center">
+				<div class="row">
+					<div class="col-3">1</div>
+					<div class="col-3">2</div>
+					<div class="col-3">3</div>
+					<div class="col-3">4</div>
+					<div class="col-3">5</div>
+					<div class="col-3">6</div>
+					<div class="col-3">7</div>
+				</div>
+			</div>
+		</article>
+		<hr>
+		<article class="acco_info">
+			<h3>숙소정보</h3>
+			<div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
+			<div>추가요금</div>
+			<div>등등 공통정보</div>
+		</article>
+		<hr>
+		<div class="owner_info">
+			<h3 style="display: inline-block; cursor: pointer;"
+				data-bs-toggle="modal" data-bs-target="#ownerModal">판매자정보 &gt;</h3>
+			<!-- Modal -->
+			<div class="modal fade" id="ownerModal" tabindex="-1"
+				aria-labelledby="ownerModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="ownerModalLabel">판매자 정보</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<table>
+								<tr>
+									<th>상호</th>
+									<td>${acco.name}</td>
+								</tr>
+								<tr>
+									<th>대표자명</th>
+									<td>${acco.biz.owner}</td>
+								</tr>
+								<tr>
+									<th>주소</th>
+									<td>${acco.addr}</td>
+								</tr>
+								<tr>
+									<th>이메일</th>
+									<td>${acco.biz.email}</td>
+								</tr>
+								<tr>
+									<th>사업자번호</th>
+									<td>${acco.biz.certificateNo}</td>
+								</tr>
+							</table>
+							<br>
+							<ul>
+								<li>판매자 정보는 판매자의 명시적 동의 없이 영리 목적의 마케팅, 광고 등에 활용할 수 없습니다.<br>
+									이를 어길 시 정보통신망법 등 관련 법령에 의거하여 과태료 부과 및 민형사상 책임을 지게 될 수 있습니다.
+								</li>
+							</ul>
+						</div>
+						<!-- end:movda-body -->
+					</div>
+					<!-- end: modal-content -->
+				</div>
+				<!-- end: modal-dialog -->
+			</div>
+			<!-- end:Modal -->
+		</div>
+		<!-- end:.owner_info -->
+		<hr>
+		<article id="location">
+			<h3>위치</h3>
+			<div>${acco.addr}</div>
+			<div id="map"
+				style="border: 1px solid black; width: 1024px; height: 426px;">
+			</div>
+		</article>
+		<hr>
+		<article id="review">
+			<div class="reviewTitle">
+				<h3 style="font-size: 1em;">★리뷰 ${starAvg} ${reviewCount}개</h3>
+				<select id="review_order">
+					<option value="1" selected>최신순</option>
+					<option value="2">평점 높은 순</option>
+					<option value="3">평점 낮은 순</option>
+				</select>
+			</div>
+			<div class="reviewList">
+				<c:forEach var="room" items="${acco.roomList}">
+				<c:forEach var="reserv" items="${room.reservList}" varStatus="cnt">
+				<c:if test="${not empty reserv.review}">
+					<div class="review">
+						<div>${reserv.review.author.nickname}</div>
+						<div>
+							<span style="color: orange;">
+								<c:forEach var="i" begin="1" end="${reserv.review.star}">
+								★
+								</c:forEach>
+								<c:forEach var="i" begin="${reserv.review.star}" end="4">
+								☆
+								</c:forEach>
+							</span> ${reserv.review.wdate}
+						</div>
+						<div class="reviewPhoto">
+							<div class="row justify-content-evenly">
+								<div class="col-2" data-bs-toggle="modal"
+									data-bs-target="#reviewPhotoModal">
+									<img src="resources/img/거실.jpg" alt="">
+								</div>
+								<div class="col-2" data-bs-toggle="modal"
+									data-bs-target="#reviewPhotoModal${cnt.count}">
+									<img src="resources/img/오션뷰.jpg" alt="">
+								</div>
+								<div class="col-2" data-bs-toggle="modal"
+									data-bs-target="#reviewPhotoModal">
+									<img src="resources/img/쿼드룸.jpg" alt="">
+								</div>
+								<div class="col-2" data-bs-toggle="modal"
+									data-bs-target="#reviewPhotoModal">
+									<img src="resources/img/쿼드룸.jpg" alt="">
+								</div>
+							</div>
+							<!-- end:.row -->
+							<div class="morePhoto" data-bs-toggle="modal"
+								data-bs-target="#reviewPhotoModal">+n</div>
+						</div>
+						<!-- end:.reviewPhoto -->
+						<!-- Modal -->
+						<div class="modal fade" id="reviewPhotoModal${cnt.count}" tabindex="-1"
+							aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered  modal-xl">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<!-- Swiper -->
+										<div class="swiper reviewSwiper">
+											<div class="swiper-wrapper">
 
-                                        <!-- 
-                                        swiper-slide클래스에 swiper-slide-prev, swiper-slide-active, swiper-slide-next 클래스 추가/삭제
-                                        -->
+												<!-- 
+	                                        swiper-slide클래스에 swiper-slide-prev, swiper-slide-active, swiper-slide-next 클래스 추가/삭제
+	                                        -->
 
-                                        <div class="swiper-slide"><img src="resources/img/거실.jpg" alt=""></div>
-                                        <div class="swiper-slide">Slide 2</div>
-                                        <div class="swiper-slide"><img src="resources/img/오션뷰.jpg" alt=""></div>
-                                        <div class="swiper-slide">Slide 4</div>
-                                        <div class="swiper-slide"><img src="resources/img/쿼드룸.jpg" alt=""></div>
-                                        <div class="swiper-slide">Slide 6</div>
-                                        <div class="swiper-slide">Slide 7</div>
-                                        <div class="swiper-slide">Slide 8</div>
-                                        <div class="swiper-slide">Slide 9</div>
-                                        </div>
-                                        <div class="swiper-button-next"></div>
-                                        <div class="swiper-button-prev"></div>
-                                        <div class="swiper-pagination"></div>
-                                    </div>
-                                    <!-- Initialize Swiper -->
-                                    <script>
-                                        var reviewSwiper = new Swiper(".reviewSwiper", {
-                                        pagination: {
-                                            el: ".swiper-pagination",
-                                            type: "fraction",
-                                        },
-                                        navigation: {
-                                            nextEl: ".swiper-button-next",
-                                            prevEl: ".swiper-button-prev",
-                                        },
-                                        });
-                                    </script>
-                            </div><!-- end:movda-body -->
-                        </div><!-- end: .modal-content -->
-                        </div><!-- end: .modal-dialog -->
-                        </div><!-- end: .modal -->
-                        <!-- end:Modal -->
-                    <div class="reviewText">
-    
-                    </div><!-- end:.reviewText -->
-                </div><!-- end:.review -->
-            </div><!-- end:reviewList -->
-            <div class="Page">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#">&lt;</a></li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
-                </ul>
-            </div> <!-- end:Page -->
-        </article><!-- end:#review -->
+												<div class="swiper-slide">
+													<img src="resources/img/거실.jpg" alt="">
+												</div>
+												<div class="swiper-slide">Slide 2</div>
+												<div class="swiper-slide">
+													<img src="resources/img/오션뷰.jpg" alt="">
+												</div>
+												<div class="swiper-slide">Slide 4</div>
+												<div class="swiper-slide">
+													<img src="resources/img/쿼드룸.jpg" alt="">
+												</div>
+												<div class="swiper-slide">Slide 6</div>
+												<div class="swiper-slide">Slide 7</div>
+												<div class="swiper-slide">Slide 8</div>
+												<div class="swiper-slide">Slide 9</div>
+											</div>
+											<div class="swiper-button-next"></div>
+											<div class="swiper-button-prev"></div>
+											<div class="swiper-pagination"></div>
+										</div>
+										<!-- Initialize Swiper -->
+										<script>
+	                                        var reviewSwiper = new Swiper(".reviewSwiper", {
+	                                        pagination: {
+	                                            el: ".swiper-pagination",
+	                                            type: "fraction",
+	                                        },
+	                                        navigation: {
+	                                            nextEl: ".swiper-button-next",
+	                                            prevEl: ".swiper-button-prev",
+	                                        },
+	                                        });
+	                                    </script>
+									</div>
+									<!-- end:movda-body -->
+								</div>
+								<!-- end: .modal-content -->
+							</div>
+							<!-- end: .modal-dialog -->
+						</div>
+						<!-- end: .modal -->
+						<!-- end:Modal -->
+						<div class="reviewText">
+							${reserv.review.content}
+						</div>
+						<!-- end:.reviewText -->
+					</div>
+					<!-- end:.review -->
+				</c:if>
+				</c:forEach>
+				</c:forEach>
+			</div>
+			<!-- end:reviewList -->
+			<div class="Page">
+				<ul class="pagination justify-content-center">
+					<li class="page-item"><a class="page-link" href="#">&lt;</a></li>
+					<li class="page-item active"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
+				</ul>
+			</div>
+			<!-- end:Page -->
+		</article>
+		<!-- end:#review -->
 
-    </section>
-    <!-- mainPhoto Modal -->
-    <div class="modal fade" id="mainPhotoModal" tabindex="-1" aria-labelledby="mainPhotoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="mainPhotoModalLabel">숙소이름</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="photo_type_tab">
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item" data-tab-id="content01" onclick="changeTabMenu(this)">
-                            <a class="nav-link active" href="#">전경</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content02" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실1</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content03" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실2</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content04" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실3</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content05" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실4</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content06" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실5</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content07" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실6</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content08" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실7</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content09" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실8</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content10" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실9</a>
-                        </li>
-                        <li class="nav-item" data-tab-id="content11" onclick="changeTabMenu(this)">
-                            <a class="nav-link" href="#">객실10</a>
-                        </li>
-                    </ul>
-                </div><!-- end:.modal-header -->
-                <div class="modal-body">
-                    <!-- Swiper -->
-                    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
-                        class="accomo swiper mySwiper2 content_area active" data-content-id="content01">
-                        <div class="swiper-wrapper" style="align-items:center;">
-                            <div class="swiper-slide">
-                                <img src="resources/img/거실.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="resources/img/오션뷰.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="resources/img/쿼드룸.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-                            </div>
-                        </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                    <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
-                        class="accomo swiper mySwiper2 content_area" data-content-id="content02">
-                        <div class="swiper-wrapper" style="align-items:center;">
-                            <div class="swiper-slide">
-                                <img src="resources/img/다운로드 (1).jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="resources/img/sample1.png" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="resources/img/다운로드 (2).jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="resources/img/쿼드룸.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-                            </div>
-                        </div>
-                        <div class="swiper-button-next"></div>
-                        <div class="swiper-button-prev"></div>
-                    </div>
-                </div> <!-- end: modal-body -->
-                <div class="modal-footer">
-                    <div thumbsSlider="" class="swiper mySwiper">
-                        <div class="swiper-wrapper" style="align-items:center;">
-                            <!-- 
+	</section>
+	<!-- mainPhoto Modal -->
+	<div class="modal fade" id="mainPhotoModal" tabindex="-1"
+		aria-labelledby="mainPhotoModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="mainPhotoModalLabel">숙소이름</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="photo_type_tab">
+					<ul class="nav nav-tabs">
+						<li class="nav-item" data-tab-id="content01"
+							onclick="changeTabMenu(this)"><a class="nav-link active"
+							href="#">전경</a></li>
+						<li class="nav-item" data-tab-id="content02"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실1</a>
+						</li>
+						<li class="nav-item" data-tab-id="content03"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실2</a>
+						</li>
+						<li class="nav-item" data-tab-id="content04"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실3</a>
+						</li>
+						<li class="nav-item" data-tab-id="content05"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실4</a>
+						</li>
+						<li class="nav-item" data-tab-id="content06"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실5</a>
+						</li>
+						<li class="nav-item" data-tab-id="content07"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실6</a>
+						</li>
+						<li class="nav-item" data-tab-id="content08"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실7</a>
+						</li>
+						<li class="nav-item" data-tab-id="content09"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실8</a>
+						</li>
+						<li class="nav-item" data-tab-id="content10"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실9</a>
+						</li>
+						<li class="nav-item" data-tab-id="content11"
+							onclick="changeTabMenu(this)"><a class="nav-link" href="#">객실10</a>
+						</li>
+					</ul>
+				</div>
+				<!-- end:.modal-header -->
+				<div class="modal-body">
+					<!-- Swiper -->
+					<div
+						style="-swiper-navigation-color: #fff; - -swiper-pagination-color: #fff"
+						class="accomo swiper mySwiper2 content_area active"
+						data-content-id="content01">
+						<div class="swiper-wrapper" style="align-items: center;">
+							<div class="swiper-slide">
+								<img src="resources/img/거실.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="resources/img/오션뷰.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="resources/img/쿼드룸.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+							</div>
+						</div>
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+					</div>
+					<div
+						style="-swiper-navigation-color: #fff; - -swiper-pagination-color: #fff"
+						class="accomo swiper mySwiper2 content_area"
+						data-content-id="content02">
+						<div class="swiper-wrapper" style="align-items: center;">
+							<div class="swiper-slide">
+								<img src="resources/img/다운로드 (1).jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="resources/img/sample1.png" />
+							</div>
+							<div class="swiper-slide">
+								<img src="resources/img/다운로드 (2).jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="resources/img/쿼드룸.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+							</div>
+						</div>
+						<div class="swiper-button-next"></div>
+						<div class="swiper-button-prev"></div>
+					</div>
+				</div>
+				<!-- end: modal-body -->
+				<div class="modal-footer">
+					<div thumbsSlider="" class="swiper mySwiper">
+						<div class="swiper-wrapper" style="align-items: center;">
+							<!-- 
                             swiper-slide클래스에 swiper-slide-prev, swiper-slide-active, swiper-slide-next 추가/삭제
                             -->
-                            <div class="swiper-slide">
-                                <img src="resources/img/거실.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="resources/img/오션뷰.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="resources/img/쿼드룸.jpg" />
-                            </div>
-                            <div class="swiper-slide">
-                                <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-                            </div>
-                        </div> <!-- end: swiper-wrapper -->
-                    </div><!-- end:thumbSlider -->
-                    <!-- end:Swiper -->
-                </div> <!-- end: modal-footer -->
-            </div><!-- end:.modal-content -->
-        </div> <!-- end:.modal-dialog -->
-    </div> <!-- end: mainPhoto Modal -->
+							<div class="swiper-slide">
+								<img src="resources/img/거실.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="resources/img/오션뷰.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="resources/img/쿼드룸.jpg" />
+							</div>
+							<div class="swiper-slide">
+								<img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+							</div>
+						</div>
+						<!-- end: swiper-wrapper -->
+					</div>
+					<!-- end:thumbSlider -->
+					<!-- end:Swiper -->
+				</div>
+				<!-- end: modal-footer -->
+			</div>
+			<!-- end:.modal-content -->
+		</div>
+		<!-- end:.modal-dialog -->
+	</div>
+	<!-- end: mainPhoto Modal -->
 
-    <!-- mainPhoto Swiper -->
-    <script src="<c:url value="/resources/js/initialize_mainSwiper.js" />"></script>
-    <!-- heart button -->
-    <script src="<c:url value="/resources/js/heart_button.js" />"></script>
+	<!-- mainPhoto Swiper -->
+	<script src="<c:url value="/resources/js/initialize_mainSwiper.js" />"></script>
+	<!-- heart button -->
+	<script src="<c:url value="/resources/js/heart_button.js" />"></script>
 </body>
 </html>
-<%@include file="../include/footer.jsp" %>
+<%@include file="../include/footer.jsp"%>

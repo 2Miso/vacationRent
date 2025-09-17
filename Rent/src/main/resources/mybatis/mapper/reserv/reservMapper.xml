@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis mapper파일 -->
+	<!-- namespace, id, resultType 3가지가 중요 -->
+
+<mapper namespace="reservMapper">
+<!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
+	<resultMap id="reservReviewMap" type="com.rent.vaca.reserv.ReservVO">
+		<id property="reservCode" column="reserv_code" />
+		<result property="userId" column="user_id" />
+		<result property="roomNo" column="room_no" />
+		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+		<result property="email" column="email" />
+		<result property="checkin" column="checkin" />
+		<result property="checkout" column="checkout" />
+		<result property="reservDate" column="reserv_date" />
+		<result property="cancelyn" column="cancelyn" />
+		<result property="payment" column="payment" />
+		<result property="adultNo" column="adult_no" />
+		<result property="childNo" column="child_no" />
+
+		<!-- 1:1 테이블 관계 매핑 -->
+		<association property="review" javaType="com.rent.vaca.review.ReviewVO">
+			<id property="reviewNo" column="review_no" />
+			<result property="star" column="star" />
+			<result property="content" column="content" />
+			<result property="wdate" column="wdate" />
+			<result property="reply" column="reply" />
+		</association>
+	</resultMap>
+
+
+
+
+
+	<select id="selectRoomByAccoNo" parameterType="int" resultType="room">
+		select * from roomtb where acco_no=#{accoNo}
+	</select>
+</mapper>

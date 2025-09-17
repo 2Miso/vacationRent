@@ -11,4 +11,10 @@ public interface AccoService {
 	
 	//관심숙소 조회
 	boolean selectInterestOne(InterestVO vo);
+	
+	//리뷰개수 조회
+	int countReview(int accoNo);
+	
+	//별점 평균 조회
+	Double starAvg(int accoNo);
 }

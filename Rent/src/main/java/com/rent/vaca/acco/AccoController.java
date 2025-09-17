@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,6 @@ import com.rent.vaca.user.InterestVO;
 import com.rent.vaca.user.UserVO;
 
 @Controller
-@RequestMapping("/acco")
 public class AccoController {
 	private static final Logger logger = LoggerFactory.getLogger(AccoController.class);
 	
@@ -30,11 +30,30 @@ public class AccoController {
 	}
 	
 	//숙소 1건 조회
-	@RequestMapping(value="/view/{accoNo}", method=RequestMethod.GET)
+	@RequestMapping(value="/acco/view/{accoNo}", method=RequestMethod.GET)
 	public String view(@PathVariable("accoNo") int accoNo, Model model) {
 		AccoVO accoVO = accoService.selectAccoByAccoNo(accoNo);
 		model.addAttribute("acco", accoVO);
+
+		int reviewCount = accoService.countReview(accoNo);
+		model.addAttribute("reviewCount", reviewCount);
+
+		Double starAvg = accoService.starAvg(accoNo);
+		if(starAvg != null) {
+			starAvg = Math.round(accoService.starAvg(accoNo)*10)/10.0;
+		}
+		
+		model.addAttribute("starAvg", starAvg);
 		return "accomo/acco_view";
+	}
+	
+	//관심숙소 등록여부 조회
+	@GetMapping("/mypage/interest")
+	@ResponseBody
+	public boolean selectInterestOne(@RequestParam("userId") int userId, @RequestParam("accoNo") int accoNo, InterestVO vo) {
+		vo.setUserId(userId);
+		vo.setAccoNo(accoNo);
+		return accoService.selectInterestOne(vo);
 	}
 	
 	//관심숙소 버튼 클릭

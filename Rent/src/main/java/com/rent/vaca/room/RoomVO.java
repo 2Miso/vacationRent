@@ -1,5 +1,9 @@
 package com.rent.vaca.room;
 
+import java.util.List;
+
+import com.rent.vaca.reserv.ReservVO;
+
 public class RoomVO{
 	private int roomNo;
 	private int accoNo;
@@ -13,6 +17,7 @@ public class RoomVO{
 	private int standardHead;
 	private int extraHead;
 	private String description;
+	private List<ReservVO> reservList;
 	
 	public int getRoomNo() {
 		return roomNo;
@@ -85,6 +90,12 @@ public class RoomVO{
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public List<ReservVO> getReservList() {
+		return reservList;
+	}
+	public void setReservList(List<ReservVO> reservList) {
+		this.reservList = reservList;
 	}
 	
 	

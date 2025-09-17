@@ -1,11 +1,14 @@
 package com.rent.vaca.review;
 
+import com.rent.vaca.user.UserVO;
+
 public class ReviewVO {
 	private int reviewNo;
 	private int star;
 	private String content;
 	private String wdate;
 	private String reply;
+	private UserVO author;
 	
 	public int getReviewNo() {
 		return reviewNo;
@@ -26,7 +29,7 @@ public class ReviewVO {
 		this.content = content;
 	}
 	public String getWdate() {
-		return wdate;
+		return wdate.substring(0, 11);
 	}
 	public void setWdate(String wdate) {
 		this.wdate = wdate;
@@ -36,5 +39,11 @@ public class ReviewVO {
 	}
 	public void setReply(String reply) {
 		this.reply = reply;
+	}
+	public UserVO getAuthor() {
+		return author;
+	}
+	public void setAuthor(UserVO author) {
+		this.author = author;
 	}
 }

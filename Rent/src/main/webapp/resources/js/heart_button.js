@@ -50,7 +50,7 @@ $(document).ready(function () {
     // add tweens to timeline:
     timeline.add(tween1, tween2, tween3);
 
-
+/*
     // when clicking the button start the timeline/animation:
     $(".button").click(function () {
         if ($(this).hasClass('active')) {
@@ -60,6 +60,6 @@ $(document).ready(function () {
             $(this).addClass('active');
         }
     });
-
+*/
 
 });

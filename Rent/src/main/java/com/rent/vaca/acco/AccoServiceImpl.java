@@ -46,10 +46,22 @@ public class AccoServiceImpl implements AccoService {
 	//관심숙소 조회
 	@Override
 	public boolean selectInterestOne(InterestVO vo) {
-		if(accoRepository.selectInterestOne(vo) != null) {
+		if(accoRepository.selectInterestOne(vo) == 1) {
 			return true; //조회 데이터 있음
 		} else {
 			return false; //조회 데이터 없음
 		}
+	}
+
+	//리뷰개수 조회
+	@Override
+	public int countReview(int accoNo) {
+		return accoRepository.countReview(accoNo);
+	}
+
+	//별점평균 조회
+	@Override
+	public Double starAvg(int accoNo) {
+		return accoRepository.starAvg(accoNo);
 	}
 }

@@ -30,7 +30,7 @@ public class UserRepository {
 	}
 	
 	public UserVO findEmail(UserVO vo) {
-		return template.selectOne("userMapper.findEMail",vo);
+		return template.selectOne("userMapper.findEmail",vo);
 	}
 	
 

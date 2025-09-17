@@ -31,4 +31,28 @@
 		<property name="basePackage" value="com.rent.vaca.payment" />
 	</bean>
 	
+	<!-- 메일 서버 관련 정보 설정 -->
+	   	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+	     	<property name="host" value="smtp.gmail.com" />
+	     	<!-- google SMTP 메일 서버 포트 -->
+	     	<property name="port" value="587" /> 
+	     	
+	     	<!-- 자신의 메일, 비밀번호 설정 -->
+	 		<property name="username" value="본인 이메일 주소 입력"/> 
+	 		<!-- Google의 경우 계정 비밀번호가 아니라 2단계 인증을 거친 후 얻게 되는 16자리 비밀번호로 설정해야 한다-->
+	 		<property name="password" value="16자리 암호 입력"/> 
+	 		
+	 		<!-- 메일 전달 프로토콜 세부 속성 설정 -->
+			<property name="javaMailProperties">
+				<props>
+					<prop key="mail.transport.protocol">smtp</prop>
+					<prop key="mail.smtp.auth">true</prop>
+					<prop key="mail.smtp.starttls.enable">true</prop>
+					<prop key="mail.smtp.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+					<prop key="mail.debug">true</prop>
+				</props>
+			</property>
+		</bean>
+
+	
 </beans>

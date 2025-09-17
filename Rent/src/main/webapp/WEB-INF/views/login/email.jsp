@@ -31,21 +31,38 @@
     </style>
 
     <script>
-    function loginFn(){
-      if($("input[name=email]").val() == ""){//이메일유효성검사
-        $("#emailspan").text("이메일을 입력해 주세요").css("color","red");
-      }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test($("input[name=email]").val())){
-        $("#emailspan").text("이메일 주소가 아닌 것 같습니다.").css("color","red");
-      }else{
-        $("#emailspan").text(" ").css("color","red");
-      }
-
-      if($("input[name=pw]").val() == ""){//비밀번호유효성검사
-        $("#pwspan").text("비밀번호를 입력해 주세요").css("color","red");
-      }else{
-        $("#pwspan").text(" ").css("color","red");
-      }
-     }
+	let emailCheck = false;
+	let pwCheck = false;
+	
+	function loginFn(){
+		if($("input[name=email]").val() == ""){//이메일유효성검사
+	        $("#emailspan").text("이메일을 입력해 주세요").css("color","red");
+	        emailCheck = false;
+	    }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test($("input[name=email]").val())){
+	        $("#emailspan").text("이메일 주소가 아닌 것 같습니다.").css("color","red");
+	        emailCheck = false;
+	    }else{
+	        $("#emailspan").text(" ").css("color","red");
+	        emailCheck = true;
+	    }
+		
+		if($("input[name=pw]").val() == ""){//비밀번호유효성검사
+	        $("#pwspan").text("비밀번호를 입력해 주세요").css("color","red");
+	        pwCheck = false;
+	    }else{
+	        $("#pwspan").text(" ").css("color","red");
+	        pwCheck = true;
+	    }
+		
+		console.log(emailCheck&&pwCheck);
+		
+		if(emailCheck&&pwCheck){
+			return true;
+		}else{
+			return false;
+		}
+	
+	}
     </script>
     
 </head>
@@ -56,15 +73,15 @@
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder"> 이메일로 로그인 </h1>
 
-    <form action="#" method="POST"> <!--이메일과 비밀번호 전송할 주소를 지정해야 합니다-->
+    <form onsubmit="return loginFn()" action="#" method="POST" > <!--이메일과 비밀번호 전송할 주소를 지정해야 합니다-->
       <div class="form-floating form-field">
-        <input type="email" class="form-control" id="floatingInput" placeholder="이메일 주소 입력" name="email">
+        <input type="text" class="form-control" id="floatingInput" placeholder="이메일 주소 입력" name="email" >
         <label for="floatingInput">이메일 주소 입력</label>
         <span id="emailspan" style="display:inline-block;"></span>
       </div>
 
       <div class="form-floating">
-          <input type="password" class="form-control" id="floatingInput" placeholder="비밀번호 입력" name="pw">
+          <input type="password" class="form-control" id="floatingInput" placeholder="비밀번호 입력" name="pw" >
           <label for="floatingInput">비밀번호</label>
           <span id="pwspan" style="display:inline-block;"></span>
       </div>
@@ -75,9 +92,9 @@
     </form>
   
     <div class="mx-auto py-3">
-      <p class="my-0 mx-auto text-center "><a href="#" class="mx-auto text-center link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">아이디 찾기</a></p><!--아이디 찾기 링크를 걸어야 합니다-->
-      <p class="my-0 text-center"><a href="#" class="my-0 link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">비밀번호 찾기</a></p><!--비밀번호 찾기 링크를 걸어야 합니다-->
-      <p class="my-0 text-center  "><a href="#" class="my-0 link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">회원가입</a></p><!--회원가입 링크를 걸어야 합니다-->
+      <p class="my-0 mx-auto text-center"><a href="/vaca/user/find/email" class="mx-auto text-center link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">이메일 찾기</a></p><!--아이디 찾기 링크를 걸어야 합니다-->
+      <p class="my-0 text-center"><a href="/vaca/user/find/pw" class="my-0 link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">비밀번호 찾기</a></p><!--비밀번호 찾기 링크를 걸어야 합니다-->
+      <p class="my-0 text-center "><a href="/vaca/user/join/agree" class="my-0 link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">회원가입</a></p><!--회원가입 링크를 걸어야 합니다-->
     </div>
   </div>
 </section>

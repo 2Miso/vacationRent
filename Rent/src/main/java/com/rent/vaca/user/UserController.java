@@ -1,10 +1,17 @@
 package com.rent.vaca.user;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +29,7 @@ public class UserController {
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
+	
 	//약관동의페이지
 	@RequestMapping(value="/user/join/agree", method = RequestMethod.GET)
 	public String agree() {
@@ -33,6 +41,7 @@ public class UserController {
 	public String join() {
 		return "user/join/form";
 	}
+	
 	//회원가입 기능구현
 	@RequestMapping(value="user/join/form", method = RequestMethod.POST) 
 	public String join(UserVO vo) {
@@ -45,6 +54,7 @@ public class UserController {
 	@RequestMapping(value="user/join/form/emailCheck", method = RequestMethod.POST) 
 	@ResponseBody
 	public Response emailCheck(@RequestParam("email") String email) {
+		System.out.println("코드가 작동됨");
 		int cnt = userService.emailCheck(email);
 		System.out.println(cnt);
 		Response res = new Response();
@@ -67,19 +77,47 @@ public class UserController {
 	
 	//이메일찾기페이지 기능 
 	@RequestMapping(value="/user/find/email", method = RequestMethod.POST) 
-	public String findEmail(UserVO vo,HttpServletRequest request) throws Exception{
-		UserVO email = userService.findEmail(vo);
-		if(email != null) {
-			request.setAttribute("msg", "가입된 이메일은 #{} 입니다");
-			
-		}else {//일치하는 이메일이 없을 때 
-			request.setAttribute("msg", "없는 회원정보입니다");
+	public String findEmail(UserVO vo,HttpServletRequest request, HttpServletResponse response, Model model) throws Exception{
+		try {
+			String email = userService.findEmail(vo).getEmail();
+			System.out.println(userService.findEmail(vo).getEmail());
+			model.addAttribute("email", email);
+			response.setContentType("text/html; charset=UTF-8");
+		    PrintWriter writer = response.getWriter();
+		    writer.println("<script>");
+		    writer.println("alert('가입한 이메일은 "+email+"입니다.');");
+		    writer.println("window.location.href = '/vaca/user/find/email';");
+		    writer.println("</script>");
+		    writer.flush(); // 버퍼 비우기
+
+		}catch(NullPointerException e){
+			model.addAttribute("email", "입력한 정보가 일치하지 않거나 없는 정보입니다");
+			response.setContentType("text/html; charset=UTF-8");
+		    PrintWriter writer = response.getWriter();
+		    writer.println("<script>");
+		    writer.println("alert('입력한 정보가 일치하지 않거나 없는 정보입니다');");
+		    writer.println("window.location.href = '/vaca/user/find/email';");
+		    writer.println("</script>");
+		    writer.flush(); // 버퍼 비우기
+
+		}finally{
+
 		}
 		return null;
+
 	}
 	
+	//비밀번호찾기 페이지
+	@RequestMapping(value="/user/find/pw", method = RequestMethod.GET) 
+	public String findPw() {
+		return "user/find/pw";
+	}
 	
-	
+	//비밀번호찾기 메일보냈음페이지 
+	@RequestMapping(value="/user/find/mailsend", method = RequestMethod.GET) 
+	public String mailSend() {
+		return "user/find/mailsend";
+	}
 
 	
 	
@@ -108,25 +146,21 @@ public class UserController {
 	
 	//로그인 기능구현
 	@RequestMapping(value="/login/email", method = RequestMethod.POST) 
-	public String login(UserVO vo ,HttpSession session) {
-		System.out.println("버튼눌림");
+	public String login(UserVO vo ,HttpSession session,Model model,HttpServletResponse response) throws IOException {
 		UserVO user = userService.login(vo);
-		//logger.info("");
-		
-		//ㄹㄴㅇㅁㄹㄴㅇ
-		System.out.println("test");
-		System.out.println(vo);
-		System.out.println("user객체정보");
-		System.out.println(user);
-		
+		//로그인 실패
 		if(user == null) {
-			System.out.println("로그인정보없음");
-			return "redirect:/login/email";
-			
+			response.setContentType("text/html;charset=UTF-8");
+		    PrintWriter out = response.getWriter();
+		    out.println("<script>");
+		    out.println("alert('비밀번호가 일치하지 않거나 없는 계정입니다.');");
+		    out.println("history.back();"); // 또는 다른 페이지로 이동
+		    out.println("</script>");
+		    out.flush();
+		    out.close();
 		}
+		//로그인 성공
 		session.setAttribute("user", user); 
-		System.out.println("로그인성공,세션값");
-		System.out.println();
 		return "redirect:/main/main";
 	}
 	

@@ -31,13 +31,25 @@
     </style>
       
     <script>
+    let termsallcheck = false;
       function termsallcheckFn(){
+    	if (termsallcheck == false){
         $('#termsofuse').prop('checked', true);
         $('#termsover14').prop('checked', true);
         $('#termspersonal1').prop('checked', true);
         $('#termspersonal2').prop('checked', true);
         $('#termsmaketing').prop('checked', true);
         $('#termslocate').prop('checked', true);
+        termsallcheck = true;
+    	}else{
+    		$('#termsofuse').prop('checked', false);
+            $('#termsover14').prop('checked', false);
+            $('#termspersonal1').prop('checked', false);
+            $('#termspersonal2').prop('checked', false);
+            $('#termsmaketing').prop('checked', false);
+            $('#termslocate').prop('checked', false);
+            termsallcheck= false;
+    	}
       }
 
       function termscheckFn(){

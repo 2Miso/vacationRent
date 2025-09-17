@@ -12,6 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/color_orange.css" />">
     <style>
      body {
         --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
@@ -29,18 +30,37 @@
     </style>
 
     <script>
+      let namecheck = false;
+      let phonecheck = false;
+      
       function emailfindFn(){
-      if($("input[name=name]").val() == ""){//이메일유효성검사
-        $("#namespan").text("이메일을 입력해 주세요").css("color","red");
-      }else{
-        $("#namespan").text(" ").css("color","red");
-      }
+    	  if($("input[name=name]").val() == ""){//이메일유효성검사
+    	        $("#namespan").text("이름을 입력해 주세요").css("color","red");
+    	        namecheck = false;
+    	  }else{
+    	        $("#namespan").text(" ").css("color","red");
+    	        namecheck = true;
+    	  }
 
-      if($("input[name=phone]").val() == ""){//전화번호유효성검사
-        $("#phonespan").text("전화번호를 입력해 주세요").css("color","red");
-      }else{
-        $("#phonespan").text(" ").css("color","red");
-      }
+    	  if($("input[name=phone]").val() == ""){//전화번호유효성검사
+    	        $("#phonespan").text("전화번호를 입력해 주세요").css("color","red");
+    	        phonecheck = false;
+    	  }else if(!/^[0-9]*$/.test($("input[name=phone]").val())){
+    	        $("#phonespan").text("전화번호가 아닌 것 같습니다.").css("color","red");
+    	        phonecheck = false;
+    	  }else{
+    	        $("#phonespan").text(" ").css("color","red");
+    	        phonecheck = true;
+    	  }
+			
+    	      console.log(namecheck&&phonecheck);
+
+    	      if(namecheck&&phonecheck){
+    	    	  return true;
+    	      }else{
+    	    	  return false;
+    	      }
+      
      }
     </script>
 </head>
@@ -52,7 +72,7 @@
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder"> 이메일 찾기 </h1>
     <P>계정에 등록한 이름과 전화번호를 입력해 주세요</P>
-
+	<form action = "#" method="POST" onsubmit="return emailfindFn()">
     <div class="form-floating">
       <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="name">
       <label for="floatingInput">이름 입력</label>
@@ -66,9 +86,10 @@
     </div>
 
     <div class="d-grid gap-2">
-      <button link="#" class="btn btn-primary " type="button" style="height:50px;" onclick="emailfindFn()">다음</button><!--링크를 걸어야 합니다-->
+      <button link="#" class="btn btn-primary " type="submit" style="height:50px;" onclick="emailfindFn()">다음</button><!--링크를 걸어야 합니다-->
     </div>
-    
+    	
+	</form>
   </div>
 
  

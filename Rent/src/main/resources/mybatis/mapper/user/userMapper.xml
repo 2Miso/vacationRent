@@ -25,7 +25,7 @@
 	
 	<!-- 이메일찾기 -->
 	<select id="findEmail" parameterType="String" resultType="user">
-		select email from usertb where name = #{name} and phone = #{phone}
+		select * from usertb where name = #{name} and phone = #{phone}
 	</select>
 	
 </mapper>

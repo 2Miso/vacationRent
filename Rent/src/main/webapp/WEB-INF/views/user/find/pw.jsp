@@ -29,27 +29,7 @@
     }
     </style>
     <script>
-      function passwordfindFn(){
-      if($("input[name=email]").val() == ""){//이메일유효성검사
-        $("#emailspan").text("이메일을 입력해 주세요").css("color","red");
-      }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test($("input[name=email]").val())){
-        $("#emailspan").text("이메일 주소가 아닌 것 같습니다.").css("color","red");
-      }else{
-        $("#emailspan").text(" ").css("color","red");
-      }
-
-      if($("input[name=name]").val() == ""){//이름유효성검사
-        $("#namespan").text("이름을 입력해 주세요").css("color","red");
-      }else{
-        $("#namespan").text(" ").css("color","red");
-      }
-
-      if($("input[name=phone]").val() == ""){//전화번호유효성검사
-        $("#phonespan").text("전화번호를 입력해 주세요").css("color","red");
-      }else{
-        $("#phonespan").text(" ").css("color","red");
-      }
-     }
+      
     </script>
 </head>
 
@@ -60,29 +40,30 @@
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder"> 비밀번호 찾기 </h1>
     <P>계정에 등록한 이메일, 이름, 전화번호를 입력해 주세요</P>
-
-    <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
-      <label for="floatingInput">이메일 입력</label>
-      <span id="emailspan" style="display: inline-block;"></span>
-    </div>
-
-    <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="name">
-      <label for="floatingInput">이름</label>
-      <span id="namespan" style="display: inline-block;"></span>
-    </div>
-
-    <div class="form-floating">
-      <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="phone">
-      <label for="floatingInput">전화번호</label>
-      <span id="phonespan" style="display: inline-block;"></span>
-    </div>
-
-    <div class="d-grid gap-2">
-      <button link="#" class="btn btn-primary " type="button" style="height:50px;" onclick="passwordfindFn()">다음</button><!--링크를 걸어야 합니다-->
-    </div>
     
+	<form action="#" method="POST">
+	    <div class="form-floating">
+	      <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+	      <label for="floatingInput">이메일 입력</label>
+	      <span id="emailspan" style="display: inline-block;"></span>
+	    </div>
+	
+	    <div class="form-floating">
+	      <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="name">
+	      <label for="floatingInput">이름</label>
+	      <span id="namespan" style="display: inline-block;"></span>
+	    </div>
+	
+	    <div class="form-floating">
+	      <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="phone">
+	      <label for="floatingInput">전화번호</label>
+	      <span id="phonespan" style="display: inline-block;"></span>
+	    </div>
+	
+	    <div class="d-grid gap-2">
+	      <button link="#" class="btn btn-primary " type="submit" style="height:50px;" onclick="passwordfindFn()">다음</button><!--링크를 걸어야 합니다-->
+	    </div>
+    </form>
   </div>
 
  

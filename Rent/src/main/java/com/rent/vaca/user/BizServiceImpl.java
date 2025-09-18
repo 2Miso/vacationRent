@@ -52,19 +52,12 @@ public class BizServiceImpl implements BizService{
 
 	@Override
 	public void insertAccoOne(AccoVO vo) {
-		// TODO Auto-generated method stub
-		
+		repository.insertAccoOne(vo);
 	}
 	
 	@Override
 	public void insertAccoPhoto(AccoPhotoVO vo) {
 		repository.insertAccoPhoto(vo);
-	}
-
-	@Override
-	public Integer selectLastInsertedAccoNo(int accoNo) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

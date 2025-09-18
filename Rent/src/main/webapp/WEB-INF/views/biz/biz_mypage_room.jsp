@@ -207,31 +207,31 @@
           <div style="width:500px;">
             <h5>객실 이름</h5>
             <input class="form-control" style="height:50px;" type="text" placeholder="객실 이름을 입력하세요." aria-label="default input example" name="name">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
 
           <div>
             <h5>객실 가격</h5>
             <input class="form-control" type="text" placeholder="객실 가격을 입력하세요." aria-label="default input example" name="price">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
 		  
 		  <div>
             <h5>객실 호실</h5>
             <input class="form-control" type="text" placeholder="객실 호수를 입력하세요." aria-label="default input example" name="ho">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
           
           <div>
             <h5>객실 면적</h5>
             <input class="form-control" type="text" placeholder="객실 면적(소수점까지)을 입력하세요." aria-label="default input example" name="area">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
 		  
 		  <div>
             <h5>침대 타입</h5>
             <input class="form-control" type="text" placeholder="침대 타입을 입력하세요. 예)트윈베드,온돌방" aria-label="default input example" name="bed_type">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
 		  
 		  <div>
@@ -243,25 +243,25 @@
 		  <div>
             <h5>객실 최소 수용인원</h5>
             <input class="form-control" type="text" placeholder="객실 최소 인원수를 입력하세요." aria-label="default input example" name="standard_head">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
 
 		  <div>
             <h5>객실 추가가능 인원</h5>
             <input class="form-control" type="text" placeholder="객실 추가 가능한 인원수를 입력하세요." aria-label="default input example" name="extra_head">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
 
           <div>
             <h5>객실 설명</h5>
             <input class="form-control" type="text" placeholder="객실 설명을 적어주세요." aria-label="default input example" name="description">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
           
           <div>
             <h5>객실 이미지 등록</h5>
             <input id="imageUpload" class="form-control" type="file" multiple accept="image/*" name="image[]">
-            <span id="" style="display: inline-block;"></span>
+            <span style="display: inline-block;"></span>
           </div>
           
           <div id="imagePreviewContainer" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>

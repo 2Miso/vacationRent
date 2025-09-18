@@ -46,7 +46,7 @@
 	    <result property="originalName" column="original_name" />
 	</resultMap>
 	
-	
+	<!-- 객실 사진 등록 -->
 	<insert id="insertRoomPhoto" parameterType="accoPhoto">
 	    insert into acco_phototb (original_name, saved_name, room_no)
 	    values (#{originalName}, #{savedName}, 1)

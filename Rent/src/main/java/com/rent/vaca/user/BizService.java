@@ -32,9 +32,6 @@ public interface BizService {
 	// 숙소 정보 수정
 	void updateAccoInfo(AccoVO vo);
 	
-	// 방금 등록한 숙소 정보 조회(숙소 사진 등록용)
-	Integer selectLastInsertedAccoNo(int accoNo);
-	
 	// 숙소 한건 조회
 	Integer selectBizCntByAccoNo(int bizId);
 	

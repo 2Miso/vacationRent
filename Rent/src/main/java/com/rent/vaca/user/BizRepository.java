@@ -34,17 +34,12 @@ public class BizRepository {
 	
 	// 숙소 한건 등록
 	public Integer insertAccoOne(AccoVO vo) {
-		return template.insert("bizMapper.insertAccoOne", vo);
+		return template.insert("accoMapper.insertAccoOne", vo);
 	}
 	
 	// 숙소 사진 등록
 	public Integer insertAccoPhoto(AccoPhotoVO vo) {
 		return template.insert("accoMapper.insertAccoPhoto", vo);
-	}
-	
-	// 방금 등록한 숙소 조회(사진 등록용)
-	public Integer selectLastInsertedAccoNo(int accoNo) {
-		return template.insert("accoMapper.selectBizCntByBizId", accoNo);
 	}
 	
 	// 숙소 한건 조회

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -148,34 +149,52 @@ public class BizController {
 	
 	// 숙소 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.GET)
-	public String addAcco(AccoVO vo, HttpSession session) {
-		/*
+	public String addAcco(HttpSession session, Model model) {
+	
 		// 현재 로그인 정보 가져오기
 		BizVO biz = (BizVO) session.getAttribute("biz");
+		
 		if(biz == null) {
 			// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
 			return "redirect:/login/biz_login";
 		}
 		
-		int bizId = biz.getId();
+		// 숙소 사진 조회
+//		List<AccoVO> accoList = bizService.getAccoListByBizId(biz.getId());
+//	    model.addAttribute("accoList", accoList);
 		
-		vo.setBizId(bizId);
-	    */
+		model.addAttribute("biz", biz);
+	   
 		return "biz/biz_mypage_acco";
 	}
 	
 	// 숙소 등록 처리
 	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.POST)
-	public String addAcco(AccoVO vo, Model model,
-			@RequestParam("image[]") List<MultipartFile> imageFiles,
+	public String addAcco(BizVO vo, AccoVO vo1, Model model, HttpSession session,
+			@RequestParam("image") List<MultipartFile> imageFiles,
 			HttpServletRequest request) {
-	    
+		
 		try {
+			
+			// 현재 로그인 정보 가져오기
+			BizVO biz = (BizVO) session.getAttribute("biz");
+			
+			if(biz == null) {
+				// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
+				return "redirect:/login/biz_login";
+			}
+			
+			vo1.setBizId(biz.getId());
+			
+			System.out.println("등록 전 bizId = " + vo1.getBizId());
+			System.out.println("등록할 AccoVO = " + vo1);
+			
 	    	// 숙소정보 등록
-	        bizService.insertAccoOne(vo);
+	        bizService.insertAccoOne(vo1);
 	        
-	        int accoNo = bizService.selectLastInsertedAccoNo(vo.getAccoNo());
-	        
+	        int accoNo = vo1.getAccoNo();
+	        System.out.println("이미지 파일 개수: " + imageFiles.size());
+	        System.out.println("등록된 accoNo: " + vo1.getAccoNo());
 	        for (MultipartFile image : imageFiles) {
 	            if (!image.isEmpty()) {
 	                String originalName = image.getOriginalFilename();
@@ -183,15 +202,18 @@ public class BizController {
 	                String savedName = timeStamp + "_" + originalName;
 
 	                // 이미지 저장 경로
-	                String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/room");
+	                String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
 	                File saveFile = new File(uploadDir, savedName);
 	                image.transferTo(saveFile);
 
 	                // DB 저장용 VO 세팅
 	                AccoPhotoVO photoVO = new AccoPhotoVO();
-	                photoVO.setRoomNo(accoNo);
+	                photoVO.setAccoNo(accoNo);
+	                photoVO.setRoomNo(0);
 	                photoVO.setOriginalName(originalName);
 	                photoVO.setSavedName(savedName);
+	                
+	                System.out.println("[AccoPhotoVO] 저장할 이미지 정보: " + photoVO);
 
 	                // DB insert
 	                bizService.insertAccoPhoto(photoVO);
@@ -199,6 +221,7 @@ public class BizController {
 	        }
 	        
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	        model.addAttribute("errorMessage", "숙소 등록 실패");
 	        return "/biz/biz_mypage_acco";
 	    }
@@ -208,10 +231,11 @@ public class BizController {
 	
 	// 객실 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.GET)
-	public String addRoom(Model model, HttpSession session, RoomVO vo) {
+	public String addRoom(Model model, HttpSession session,
+			BizVO vo, RoomVO vo1) {
 		/*
 		// 현재 로그인 정보 가져오기
-		BizVO biz = (BizVO) session.getAttribute("biz");
+		BizVO biz = (BizVO) session.getAttribute("id");
 		if(biz == null) {
 			// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
 			return "redirect:/login/biz_login";
@@ -227,7 +251,7 @@ public class BizController {
 	        return "redirect:/biz/biz_mypage_acco";
 	    }
 	    
-	    vo.setAccoNo(accoNo);
+	    vo1.setAccoNo(accoNo);
 		*/
 		return "/biz/biz_mypage_room";
 	}

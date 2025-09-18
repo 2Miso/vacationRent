@@ -80,14 +80,26 @@
 		</collection>
 	</resultMap>
 	
-	<!-- 객실 등록용 해당 사업자 숙소 1건 조회 -->
-	<insert id="insertAccoOne" parameterType="acco">
-		insert into accotb(type, name, addr, phone, description, biz_hour, checkin, checkout)
-		values(#{type}, #{name}, #{addr}, #{phone}, #{description}, #{bizHour}, #{checkin}, #{checkout})
+	<resultMap id="accoPhotoMap" type="accoPhoto">
+	    <id property="photoNo" column="photo_no" />
+	    <result property="savedName" column="saved_name" />
+	    <result property="originalName" column="original_name" />
+	</resultMap>
+	
+	<!-- 숙소 사진 등록 -->
+	<insert id="insertAccoPhoto" parameterType="accoPhoto" useGeneratedKeys="true" keyProperty="accoNo">
+	    insert into acco_phototb (original_name, saved_name, acco_no, room_no)
+	    values (#{originalName}, #{savedName}, #{accoNo} , 0)
+	</insert>
+	
+	<!-- 숙소 등록 -->
+	<insert id="insertAccoOne" parameterType="acco" useGeneratedKeys="true" keyProperty="accoNo">
+		insert into accotb(type, name, addr, phone, description, biz_hour, checkin, checkout, biz_id)
+		values(#{type}, #{name}, #{addr}, #{phone}, #{description}, #{bizHour}, #{checkin}, #{checkout}, #{bizId})
 	</insert>
 
 	<!-- 객실 등록용 해당 사업자 숙소 1건 조회 -->
-	<select id="selectBizCntByBizId" parameterType="int" resultMap="accoRoomMap">
+	<select id="selectBizCntByBizId" parameterType="int" resultType="int">
 		select acco_no from accotb where biz_id = #{bizId}
 	</select>
 	

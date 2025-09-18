@@ -38,9 +38,9 @@
 	     	<property name="port" value="587" /> 
 	     	
 	     	<!-- 자신의 메일, 비밀번호 설정 -->
-	 		<property name="username" value="본인 이메일 주소 입력"/> 
+	 		<property name="username" value="3whitedog3@gmail.com"/> <!-- 개인이메일주소입니다... -->
 	 		<!-- Google의 경우 계정 비밀번호가 아니라 2단계 인증을 거친 후 얻게 되는 16자리 비밀번호로 설정해야 한다-->
-	 		<property name="password" value="16자리 암호 입력"/> 
+	 		<property name="password" value="alnuawqhkgvdqqhg"/> <!-- 개인이메일주소입니다... -->
 	 		
 	 		<!-- 메일 전달 프로토콜 세부 속성 설정 -->
 			<property name="javaMailProperties">

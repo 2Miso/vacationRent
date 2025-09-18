@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -36,7 +38,7 @@
 
     <div class="d-grid gap-2">
       <button link="#" style="height:50px; background-color:#03C75A; color: white; border:none;" class="btn btn-primary " type="button"><i class="xi-naver me-2"></i>네이버로 시작하기</button><!--네이버 소셜로그인 링크를 걸어야 합니다-->
-      <button link="#" style="height:50px; background-color:#FEE500; color: black; border:none;" class="btn btn-primary " type="button"><i class="xi-kakaotalk me-2"></i>카카오로 시작하기</button><!--카카오 소셜로그인 링크를 걸어야 합니다-->
+      <button onclick="location.href='https://kauth.kakao.com/oauth/authorize?client_id=d689d303f45b6b16979a1e2bcb396fe8&redirect_uri=http://localhost:8080/vaca/login/kakaocallback&response_type=code'" style="height:50px; background-color:#FEE500; color: black; border:none;" class="btn btn-primary " type="button"><i class="xi-kakaotalk me-2"></i>카카오로 시작하기</button><!--카카오 소셜로그인 링크를 걸어야 합니다-->
       <button link="#" style="height:50px; background-color:#F2F2F2; color: black; border:none;" class="btn btn-primary " type="button"><i class="bi bi-google me-2"></i>구글로 시작하기</button><!--구글 소셜로그인 링크를 걸어야 합니다-->
       <button link="#" style="height:50px;" class="btn btn-primary " type="button"><i class="bi bi-envelope me-2"></i>이메일로 로그인</button><!--이메일로 로그인하는 링크를 걸어야 합니다-->
     </div>

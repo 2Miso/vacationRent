@@ -37,6 +37,26 @@ public class UserServiceImpl implements UserService {
 	public UserVO findEmail(UserVO vo) {
 		return repository.findEmail(vo);
 	}
+	
+	@Override
+	public UserVO pwauto(UserVO vo) {
+		return repository.pwauto(vo);
+	}
+	
+	@Override
+	public UserVO findPw(UserVO vo) {
+		return repository.findPw(vo);
+	}
+	
+	@Override
+	public int kakaojoin(String accesstoken) {
+		return repository.kakaojoin(accesstoken);
+	}
+
+	@Override
+	public UserVO kakaologin(String accesstoken) {
+		return repository.kakaologin(accesstoken);
+	}
 
 }
 

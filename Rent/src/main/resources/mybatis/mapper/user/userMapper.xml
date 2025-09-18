@@ -28,4 +28,22 @@
 		select * from usertb where name = #{name} and phone = #{phone}
 	</select>
 	
+	<!--비밀번호 자동생성-->
+	<update id="pwauto" parameterType="String">
+		update usertb set pw = SUBSTRING(MD5(RAND()), 1, 16) where email=#{email} and name = #{name} and phone = #{phone}
+	</update>
+	
+	<!--비밀번호찾기-->
+	<select id="findPw" parameterType="String" resultType="user">
+  		select pw from usertb where email=#{email} and name = #{name} and phone = #{phone}
+	</select>
+	
+	<select id="kakaologin" parameterType="user" resultType="user">
+			select * from usertb where accesstoken = #{accesstoken}
+	</select>
+	
+	<insert id="kakaojoin" parameterType="user">
+			insert into usertb(id,name,nickname,pw,wdate,email,phone,grade,social,delyn,banyn,ban_reason,accesstoken)
+	 		values(null ,SUBSTRING(MD5(RAND()), 1, 5), #{nickname} ,SUBSTRING(MD5(RAND()), 1, 5),NOW(),SUBSTRING(MD5(RAND()), 1, 5) ,SUBSTRING(MD5(RAND()), 1, 5), "U" , "N"  , "N" , "N" , "",#{accesstoken});
+	</insert><!-- 사업자등록을 하지않으면 카카오에서는 불러올수 있는 정보가 닉네임밖에 없습니다 -->
 </mapper>

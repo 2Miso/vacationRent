@@ -25,7 +25,7 @@ public class MailService {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8"); 
 			
 			//메일 수신 시 표시될 이름 설정
-			messageHelper.setFrom("전달받은 상대에게 표시될 메일 주소","전달 받은 상대에게 표시될 이름");
+			messageHelper.setFrom("3whitedog3@gmail.com","메일테스트용..");
 			messageHelper.setSubject(subject);
 			messageHelper.setTo(to);
 			messageHelper.setText(body);

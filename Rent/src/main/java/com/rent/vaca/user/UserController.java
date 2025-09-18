@@ -1,8 +1,16 @@
 package com.rent.vaca.user;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,14 +18,37 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents
+;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.google.gson.JsonElement;
 import com.rent.vaca.user.Response;
+import com.rent.vaca.user.UserService;
+
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequestMapping("")
@@ -119,24 +150,91 @@ public class UserController {
 		return "user/find/mailsend";
 	}
 
-	
-	
-	
+//================================================================================================
+//카카오 소셜로그인 성공...
+	@RequestMapping(value="/login/kakaocallback", method=RequestMethod.GET)
+	public String kakaoLogin(@RequestParam(value = "code", required = false) String code,HttpSession session,UserVO vo,Model model) throws Exception {
+		System.out.println("#########" + code);
+		
 
+		String access_Token = UserService.getAccessToken(code);
+		System.out.println("###access_Token#### : " + access_Token);
+		
+		HashMap<String, Object> userInfo = UserService.getUserInfo(access_Token);
+		System.out.println("###access_Token#### : " + access_Token);
+		System.out.println("###nickname#### : " + userInfo.get("nickname"));
+		System.out.println("###kakaoid#### : " + userInfo.get("kakaoid"));
+		String kakaoid = userInfo.get("kakaoid").toString();
+			try {
+				UserVO user = userService.kakaologin(kakaoid);
+				if(user != null) {
+					System.out.println("존재함");
+					System.out.println(user);
+					session.setAttribute("user", user); 
+					System.out.println("유저확인하기"+user);
+					System.out.println("유저확인하기"+user.getNickname());
+					return "main/main";
+				}else {
+					System.out.println("user값없ㄷ을때");
+					userService.kakaojoin(kakaoid);
+					user = userService.kakaologin(kakaoid);
+					System.out.println("유저확인하기"+user);
+					session.setAttribute("user", user); 
+					
+					return "main/main";
+				}
+				
+			}catch(Exception e) {
+				userService.kakaojoin(access_Token);
+				UserVO user = userService.kakaologin(access_Token);
+				session.setAttribute("user", user); 
+				return "main/main";
+			}finally {
 	
+			}
+		
+		
+    	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+//=======================================================================================================	
 
-	
-	
+
+
+	    @GetMapping("/auth/naver")
+	    public void naverLogin(HttpServletRequest request, HttpServletResponse response){
+	        final String loginUrl = UserService.getRequestLoginUrl();
+	        try {
+	            response.sendRedirect(loginUrl);
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	    @GetMapping("/vaca/login/navercallback")
+	    @ResponseBody
+	    public Object requestAccessCallback( @RequestParam(value = "code") String authCode, 
+	                                         @RequestParam(value = "state") String state){
+	        
+	      ResponseEntity<?> responseEntity = UserService.requestAccessToken(authCode, state);
+
+	      Object responseMessage = responseEntity.getBody();
+
+	      if(responseEntity.getStatusCode() == HttpStatus.OK){
+	        // 자바 객체로 변환
+	         // 레파지토리에 객체 저장
+	          return responseMessage;
+	      }else{
+	        // 응답에러 처리 
+	          return responseMessage;
+	      }
+	    }
+
+//=====================================================================================================================
+	//로그인 메인 페이지 
+	@RequestMapping(value="/login/main", method = RequestMethod.GET) 
+	public String main() {
+		return "login/main";
+	}
 	
 	//로그인 페이지
 	@RequestMapping(value="/login/email", method = RequestMethod.GET) 

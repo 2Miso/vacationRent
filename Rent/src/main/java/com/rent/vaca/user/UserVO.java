@@ -13,6 +13,7 @@ public class UserVO {
 	private String delyn;
 	private String banyn;
 	private String banReason;
+	private String accesstoken;
 	
 	public int getId() {
 		return id;
@@ -85,5 +86,11 @@ public class UserVO {
 	}
 	public void setBanReason(String banReason) {
 		this.banReason = banReason;
+	}
+	public String getAccesstoken() {
+		return accesstoken;
+	}
+	public void setAccessToken(String accesstoken) {
+		this.accesstoken = accesstoken;
 	}
 }

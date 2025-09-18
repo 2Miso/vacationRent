@@ -51,9 +51,29 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-	
-
 		
+		<!-- json 파싱 라이브러리 -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.5</version>
+		</dependency>
+		
+		<!-- lombok -->
+		<dependency>  
+			<groupId>org.projectlombok</groupId>   
+			<artifactId>lombok</artifactId>        
+			<version>1.18.12</version>         
+			<scope>provided</scope>   
+		</dependency>
+		
+		<!-- 구글 oauth 라이브러리 -->
+		<dependency>
+		    <groupId>com.google.auth</groupId>
+		    <artifactId>google-auth-library-oauth2-http</artifactId>
+		    <version>1.37.1</version>
+		</dependency>
+
 		<!-- 스프링시큐리티 -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>

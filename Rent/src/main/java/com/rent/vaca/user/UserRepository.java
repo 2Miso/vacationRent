@@ -33,6 +33,22 @@ public class UserRepository {
 		return template.selectOne("userMapper.findEmail",vo);
 	}
 	
-
+	public UserVO pwauto(UserVO vo) {
+		return template.selectOne("userMapper.pwauto",vo);
+	}
+	
+	public UserVO findPw(UserVO vo) {
+		return template.selectOne("userMapper.findPw",vo);
+	}
+	
+	//ȸ������ �޼���
+	public int kakaojoin(String accesstoken){
+		return template.insert("userMapper.kakaojoin", accesstoken);
+	}	
+		
+	//�α��� �޼���
+	public UserVO kakaologin(String accesstoken){
+		return template.selectOne("userMapper.kakaologin", accesstoken);
+	}	
 	
 }

@@ -18,7 +18,15 @@ public class RoomVO{
 	private int extraHead;
 	private String description;
 	private List<ReservVO> reservList;
+	private String thumbnailImage;
 	
+	
+	public String getThumbnailImage() {
+		return thumbnailImage;
+	}
+	public void setThumbnailImage(String thumbnailImage) {
+		this.thumbnailImage = thumbnailImage;
+	}
 	public int getRoomNo() {
 		return roomNo;
 	}

@@ -44,4 +44,11 @@ public class AccoPhotoVO {
 	public void setRoomName(String roomName) {
 		this.roomName = roomName;
 	}
+	@Override
+	public String toString() {
+		return "AccoPhotoVO [photoNo=" + photoNo + ", accoNo=" + accoNo + ", savedName=" + savedName + ", originalName="
+				+ originalName + ", roomNo=" + roomNo + ", roomName=" + roomName + "]";
+	}
+	
+	
 }

@@ -123,6 +123,7 @@ section {
   -webkit-box-orient: vertical;
   white-space: normal;
   text-overflow: ellipsis;
+  word-break:break-all;
 }
 
 .roomList {
@@ -151,7 +152,7 @@ section {
 .room .morePhoto {
 	position: relative;
 	bottom: 30px;
-	left: 210px;
+	left: 145px;
 }
 
 .roomInfo {
@@ -321,7 +322,6 @@ footer {
 					//응답부분
 					success : function(response){
 						if(response==1){
-							timeline.play();
 							$("#heart").addClass("active");
 						} else if(response==0){
 							$("#heart").removeClass("active");
@@ -480,7 +480,7 @@ footer {
 					<div class="col bigImage">
 						<div class="imgContainer" data-bs-toggle="modal"
 							data-bs-target="#mainPhotoModal">
-							<img src="" alt="">
+							<img src="<c:url value="/resources/img/" />${acco.photoList[0].savedName}" alt="">
 						</div>
 					</div>
 					<div class="col smallImage">
@@ -488,28 +488,34 @@ footer {
 							<div class="col">
 								<div class="imgContainer" data-bs-toggle="modal"
 									data-bs-target="#mainPhotoModal">
-									<img src="" alt="">
+									<img src="<c:url value="/resources/img/" />${acco.photoList[1].savedName}" alt="">
 								</div>
 							</div>
 							<div class="col">
+								<c:if test="${acco.photoList[2].savedName != null }">
 								<div class="imgContainer" data-bs-toggle="modal"
 									data-bs-target="#mainPhotoModal">
-									<img src="" alt="">
+									<img src="<c:url value="/resources/img/" />${acco.photoList[2].savedName}" alt="">
 								</div>
+								</c:if>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col">
-								<div class="imgContainer" data-bs-toggle="modal"
-									data-bs-target="#mainPhotoModal">
-									<img src="" alt="">
-								</div>
+								<c:if test="${acco.photoList[3].savedName != null }">
+									<div class="imgContainer" data-bs-toggle="modal"
+										data-bs-target="#mainPhotoModal">
+										<img src="<c:url value="/resources/img/" />${acco.photoList[3].savedName}" alt="">
+									</div>
+								</c:if>
 							</div>
 							<div class="col">
-								<div class="imgContainer" data-bs-toggle="modal"
-									data-bs-target="#mainPhotoModal">
-									<img src="" alt="">
-								</div>
+								<c:if test="${acco.photoList[4].savedName != null }">
+									<div class="imgContainer" data-bs-toggle="modal"
+										data-bs-target="#mainPhotoModal">
+										<img src="<c:url value="/resources/img/" />${acco.photoList[4].savedName}" alt="">
+									</div>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -535,13 +541,7 @@ footer {
 					<span style="color:var(--bs-orange);">✮</span>${starAvg}
 				</div> ${reviewCount}명 평가
 				<div class="topOneReview">
-<!-- 					<script>
-						$(function(){
-							let content = document.querySelector(".reviewText").innerText;
-							$(".topOneReview").text(content);
-						})
-					</script> -->
-							1234567890123456789012345678901234567890123456789012345678901234567890
+					<c:out value="${reviewList[0].content}" />
 				</div>
 			</div>
 			<div id="facil" class="orangeContainer">서비스 및 부대시설</div>
@@ -555,7 +555,7 @@ footer {
 				<div class="room container orangeContainer row">
 					<div class="col-3 roomPhoto" data-bs-toggle="modal"
 						data-bs-target="#mainPhotoModal">
-						<img src="" alt="">
+							<img src="<c:url value="/resources/img/" />${room.thumbnailImage}" alt="">
 						<div class="morePhoto" data-bs-toggle="modal"
 							data-bs-target="#mainPhotoModal">+n</div>
 					</div>

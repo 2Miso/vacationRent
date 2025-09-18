@@ -47,15 +47,15 @@
 	</resultMap>
 	
 	
-	<insert id="insertPhoto" parameterType="accoPhoto">
+	<insert id="insertRoomPhoto" parameterType="accoPhoto">
 	    insert into acco_phototb (original_name, saved_name, room_no)
 	    values (#{originalName}, #{savedName}, 1)
 	</insert>
 	
 	<!-- 객실 1건 등록 -->
 	<insert id="insertRoomOne" parameterType="Room" useGeneratedKeys="true" keyProperty="roomNo">
-		insert into roomtb (ho, name, price, area, bed_type, restroom_no, standard_head, extra_head, description)
-    	values (#{ho}, #{name}, #{price}, #{area}, #{bedType}, #{restroomNo}, #{standardHead}, #{extraHead}, #{description})
+		insert into roomtb (ho, name, price, area, bed_type, restroom_no, standard_head, extra_head, description, acco_no)
+    	values (#{ho}, #{name}, #{price}, #{area}, #{bedType}, #{restroomNo}, #{standardHead}, #{extraHead}, #{description}, #{accoNo})
 	</insert>
 	
 	<!-- 방금 등록한 객실 조회(사진 등록용) -->

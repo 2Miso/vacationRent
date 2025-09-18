@@ -42,6 +42,9 @@
 		top: 50% !important;
 		transform: translateY(-50%);
 	}
+	.active{
+		--bs-nav-pills-link-active-bg:var(--bs-orange);
+	}
     </style>
     <script>
 		function roomAddFn(){
@@ -138,74 +141,7 @@
 			
 			return true;
 			
-		}
-		
-		document.addEventListener('DOMContentLoaded', function () {
-		    let imageUpload = document.getElementById('imageUpload');
-		    let previewContainer = document.getElementById('imagePreviewContainer');
-
-		    imageUpload.addEventListener('change', function () {
-		        previewContainer.innerHTML = ''; // 기존 미리보기 초기화
-
-		        let files = imageUpload.files;
-
-		        Array.from(files).forEach((file, index) => {
-		            if (!file.type.startsWith('image/')) {
-		                alert("이미지 파일만 업로드할 수 있습니다.");
-		                return;
-		            }
-
-		            let reader = new FileReader();
-
-		            reader.onload = function (e) {
-		                let imgDiv = document.createElement('div');
-		                imgDiv.style.position = 'relative';
-
-		                let img = document.createElement('img');
-		                img.src = e.target.result;
-		                img.style.width = '150px';
-		                img.style.height = '150px';
-		                img.style.objectFit = 'cover';
-		                img.style.border = '1px solid #ccc';
-		                img.style.borderRadius = '5px';
-
-		                // 삭제 버튼
-		                let delBtn = document.createElement('button');
-		                delBtn.innerText = 'X';
-		                delBtn.style.position = 'absolute';
-		                delBtn.style.top = '5px';
-		                delBtn.style.right = '5px';
-		                delBtn.style.background = 'black';
-		                delBtn.style.color = 'white';
-		                delBtn.style.border = 'none';
-		                delBtn.style.borderRadius = '50%';
-		                delBtn.style.width = '24px';
-		                delBtn.style.height = '24px';
-		                delBtn.style.cursor = 'pointer';
-		                delBtn.onclick = function () {
-		                    // 삭제 클릭 시 미리보기에서 제거
-		                    imgDiv.remove();
-
-		                    // 파일 리스트 재구성
-		                    let dataTransfer = new DataTransfer();
-		                    Array.from(imageUpload.files).forEach((f, i) => {
-		                        if (i !== index) {
-		                            dataTransfer.items.add(f);
-		                        }
-		                    });
-		                    imageUpload.files = dataTransfer.files;
-		                };
-
-		                imgDiv.appendChild(img);
-		                imgDiv.appendChild(delBtn);
-		                previewContainer.appendChild(imgDiv);
-		            };
-
-		            reader.readAsDataURL(file);
-		        });
-		    });
-		});
-		
+		}		
     </script>
 </head>
 
@@ -331,7 +267,7 @@
           <div id="imagePreviewContainer" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
 
           <!-- 대표 이미지 인덱스를 서버로 보내기 위한 hidden input -->
-		  <input type="hidden" id="mainImageIndex" name="mainImageIndex" value="">
+		  <input type="hidden" id="mainImageIndex" name="mainImageIndex" value="2">
           
             <button class="btn btn-primary " type="submit" onclick="return roomAddFn()">등록하기</button>
         </form>
@@ -377,6 +313,109 @@
 			});
 		</c:forEach>
 	});
+	
+	document.addEventListener('DOMContentLoaded', function () {
+	    let imageUpload = document.getElementById('imageUpload');
+	    let previewContainer = document.getElementById('imagePreviewContainer');
+
+	    imageUpload.addEventListener('change', function () {
+	        previewContainer.innerHTML = ''; // 기존 미리보기 초기화
+
+	        let files = imageUpload.files;
+
+	        Array.from(files).forEach((file, index) => {
+	            if (!file.type.startsWith('image/')) {
+	                alert("이미지 파일만 업로드할 수 있습니다.");
+	                return;
+	            }
+
+	            let reader = new FileReader();
+
+	            reader.onload = function (e) {
+	                let imgDiv = document.createElement('div');
+	                imgDiv.style.position = 'relative';
+
+	                // 이미지 미리보기 정보
+	                let img = document.createElement('img');
+	                img.src = e.target.result;
+	                img.style.width = '150px';
+	                img.style.height = '150px';
+	                img.style.objectFit = 'cover';
+	                img.style.border = '1px solid #ccc';
+	                img.style.borderRadius = '5px';
+
+	                // 대표 사진 선택
+	                let mainBtn = document.createElement('button');
+	                mainBtn.innerText = '대표';
+	                mainBtn.type = 'button';
+	                mainBtn.style.position = 'absolute';
+	                mainBtn.style.bottom = '5px';
+	                mainBtn.style.left = '5px';
+	                mainBtn.style.background = 'white';
+	                mainBtn.style.color = 'black';
+	                mainBtn.style.border = '1px solid black';
+	                mainBtn.style.borderRadius = '4px';
+	                mainBtn.style.fontSize = '12px';
+	                mainBtn.style.padding = '2px 6px';
+	                mainBtn.style.cursor = 'pointer';
+	                
+                    mainBtn.addEventListener('click', function () {
+                        document.getElementById('mainImageIndex').value = index; // 대표 이미지 인덱스 설정
+
+                        // UI 강조 효과 (선택된 대표만 표시)
+                        document.querySelectorAll('#imagePreviewContainer div').forEach(div => {
+                            mainBtn.style.background = '#fd7e14';
+                            mainBtn.style.color = 'white';
+                            let btn = div.querySelector('button');
+                            if (btn && btn.innerText.includes('대표(선택됨)')) {
+                                btn.innerText = '대표';
+                            }
+                        });
+                        mainBtn.innerText = '대표(선택됨)';
+                    });
+	                
+	                // 삭제 버튼
+	                let delBtn = document.createElement('button');
+	                delBtn.innerText = 'X';
+	                delBtn.style.position = 'absolute';
+	                delBtn.style.top = '5px';
+	                delBtn.style.right = '5px';
+	                delBtn.style.background = 'black';
+	                delBtn.style.color = 'white';
+	                delBtn.style.border = 'none';
+	                delBtn.style.borderRadius = '50%';
+	                delBtn.style.width = '24px';
+	                delBtn.style.height = '24px';
+	                delBtn.style.cursor = 'pointer';
+	                delBtn.onclick = function () {
+	                    
+                	// 삭제 클릭 시 미리보기에서 제거
+                    imgDiv.remove();
+
+                    // 파일 리스트 재구성
+                    let dataTransfer = new DataTransfer();
+                    Array.from(imageUpload.files).forEach((f, i) => {
+                        if (i !== index) {
+                            dataTransfer.items.add(f);
+                        }
+                    });
+                    
+                    imageUpload.files = dataTransfer.files;
+                    
+                    document.getElementById('mainImageIndex').value = '';
+                };
+
+	                imgDiv.appendChild(img);
+	                imgDiv.appendChild(mainBtn);
+	                imgDiv.appendChild(delBtn);
+	                previewContainer.appendChild(imgDiv);
+	            };
+
+	            reader.readAsDataURL(file);
+	        });
+	    });
+	});
+
 </script>
 
 </body>

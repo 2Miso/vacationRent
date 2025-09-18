@@ -80,6 +80,12 @@
 			<result property="roomNo" column="room_no" />
 		</collection>
 	</resultMap>
+	
+	<!-- 객실 등록용 해당 사업자 숙소 1건 조회 -->
+	<insert id="insertAccoOne" parameterType="acco">
+		insert into accotb(type, name, addr, phone, description, biz_hour, checkin, checkout)
+		values(#{type}, #{name}, #{addr}, #{phone}, #{description}, #{bizHour}, #{checkin}, #{checkout})
+	</insert>
 
 	<!-- 객실 등록용 해당 사업자 숙소 1건 조회 -->
 	<select id="selectBizCntByBizId" parameterType="int" resultMap="accoRoomMap">

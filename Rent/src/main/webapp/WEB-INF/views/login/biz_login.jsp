@@ -12,7 +12,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
-    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/size.css" />">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js" integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/color_orange.css" />">
     <style>
@@ -56,7 +55,7 @@
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder"> 비즈니스 회원 로그인 </h1>
 
-    <form action="#" method="post" id="inputform"> <!--이메일과 비밀번호 전송할 주소를 지정해야 합니다-->
+    <form method="post" id="inputform"> <!--이메일과 비밀번호 전송할 주소를 지정해야 합니다-->
       <div class="form-floating form-field">
         <input type="email" class="form-control" id="floatingInput" placeholder="이메일 주소 입력" name="email">
         <label for="floatingInput">이메일 주소 입력</label>
@@ -70,7 +69,7 @@
       </div>
 
       <div class="d-grid gap-2"><!--버튼-->
-        <button link="#" class="btn btn-primary " type="button" style="height:50px;" onclick="loginFn()">로그인</button><!--이메일과 비밀번호를 전송할 버튼-->
+        <button class="btn btn-primary " type="submit" style="height:50px;" onclick="return loginFn()">로그인</button><!--이메일과 비밀번호를 전송할 버튼-->
       </div>
     </form>
   

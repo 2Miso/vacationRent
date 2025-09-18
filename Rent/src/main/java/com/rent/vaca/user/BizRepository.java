@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.rent.vaca.acco.AccoPhotoVO;
 import com.rent.vaca.acco.AccoVO;
 import com.rent.vaca.room.RoomVO;
 
@@ -17,32 +18,52 @@ public class BizRepository {
 	}
 	
 	// 회원가입
-	public int insertBizOne(BizVO vo) {
+	public Integer insertBizOne(BizVO vo) {
 		return template.insert("bizMapper.insertBizOne", vo);
 	}
 	
 	// 로그인
 	public BizVO selectBizOne(BizVO vo) {
-		return template.selectOne("bizMapper.insertBizOne", vo);
+		return template.selectOne("bizMapper.selectBizOne", vo);
 	}
 	
 	// 이메일 중복확인
-	public int selectBizCntByEmail(String email) {
+	public Integer selectBizCntByEmail(String email) {
 		return template.selectOne("bizMapper.selectBizCntByEmail", email);
 	}
 	
+	// 숙소 한건 등록
+	public Integer insertAccoOne(AccoVO vo) {
+		return template.insert("bizMapper.insertAccoOne", vo);
+	}
+	
+	// 숙소 사진 등록
+	public Integer insertAccoPhoto(AccoPhotoVO vo) {
+		return template.insert("accoMapper.insertAccoPhoto", vo);
+	}
+	
+	// 방금 등록한 숙소 조회(사진 등록용)
+	public Integer selectLastInsertedAccoNo(int accoNo) {
+		return template.insert("accoMapper.selectBizCntByBizId", accoNo);
+	}
+	
 	// 숙소 한건 조회
-	public int selectBizCntByBizId(int bizId) {
-		return template.insert("accoMapper.selectBizCntByBizId", bizId);
+	public Integer selectBizCntByBizId(int bizId) {
+		return template.selectOne("accoMapper.selectBizCntByBizId", bizId);
 	}
 	
 	// 객실 한건 등록
-	public int insertRoomOne(RoomVO vo) {
+	public Integer insertRoomOne(RoomVO vo) {
 		return template.insert("bizMapper.insertRoomOne", vo);
 	}
 	
+	// 객실 사진 등록
+	public Integer insertRoomPhoto(AccoPhotoVO vo) {
+		return template.insert("roomMapper.insertRoomPhoto", vo);
+	}
+	
 	// 방금 등록한 객실 조회(사진 등록용)
-	public int selectLastInsertedRoomNo(int roomNo) {
+	public Integer selectLastInsertedRoomNo(int roomNo) {
 		return template.insert("accoMapper.selectBizCntByBizId", roomNo);
 	}
 	

@@ -7,49 +7,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>비즈니스 회원 - 숙소 관리</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+    <script src="<c:url value='/resources/js/jquery-3.7.1.min.js' />"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/color_orange.css" />">
     <style>
     body {
         --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
     }
+    .swiper {
+    	width:100%;
+    	max-width:800px;
+		height:200px;
+	}
+    .swiper-slide{
+    	width:200px !important;
+    	height:200px;
+    	display: flex;
+		justify-content: center;
+		align-items: center;
+    }
+    .swiper-slide img {
+		width: 200px;
+		height: 200px;
+		object-fit: cover;
+		border-radius: 5px;
+	}
+	.swiper-button-next,
+	.swiper-button-prev {
+		top: 50% !important;
+		transform: translateY(-50%);
+	}   
+    .active{
+		--bs-nav-pills-link-active-bg:var(--bs-orange);
+	}
     </style>
     <script>
       function accochangeFn(){
-        if($("input[name=acconame]").val() == ""){//숙소이름유효성검사
+    	// 숙소이름유효성검사
+        if($("input[name=acconame]").val() == ""){
           $("input[name=acconame]").parent().children("span").text("숙소 이름을 입력해 주세요.").css("color","red");
         }else{
           $("input[name=acconame]").parent().children("span").text("");
         }
 
-        if($("input[name=accostartime]").val() == ""){//숙소시작시간유효성검사
+      	// 숙소시작시간유효성검사
+        if($("input[name=accostartime]").val() == ""){
           $("input[name=accostartime]").parent().children("span").text("시작시간을 입력해 주세요.").css("color","red");
         }else{
           $("input[name=accostartime]").parent().children("span").text("");
         }
 
-        if($("input[name=accoendtime]").val() == ""){//숙소마감시간유효성검사
+      	//숙소마감시간유효성검사
+        if($("input[name=accoendtime]").val() == ""){
           $("input[name=accoendtime]").parent().children("span").text("마감시간을 입력해 주세요.").css("color","red");
         }else{
           $("input[name=accoendtime]").parent().children("span").text("");
         }
 
-        if($("input[name=accophone]").val() == ""){//숙소전화번호유효성검사
+      	// 숙소전화번호유효성검사
+        if($("input[name=accophone]").val() == ""){
           $("input[name=accophone]").parent().children("span").text("전화번호를 입력해 주세요.").css("color","red");
         }else{
           $("input[name=accophone]").parent().children("span").text("");
         }
 
-        if($("input[name=accoprice]").val() == ""){//숙소가격유효성검사
+     	 // 숙소가격유효성검사
+        if($("input[name=accoprice]").val() == ""){
           $("input[name=accoprice]").parent().children("span").text("숙소가격을 입력해 주세요.").css("color","red");
         }else{
           $("input[name=accoprice]").parent().children("span").text("");
         }
 
-        if($("input[name=accodesc]").val() == ""){//숙소설명유효성검사
+      	// 숙소설명유효성검사
+        if($("input[name=accodesc]").val() == ""){
           $("input[name=accodesc]").parent().children("span").text("숙소설명을 입력해 주세요.").css("color","red");
         }else{
           $("input[name=accodesc]").parent().children("span").text("");
@@ -113,77 +146,145 @@
 
   <div class="d-flex mx-3 my-3"><!--내용 시작입니다. 이곳에 내용을 작성하면 됩니다-->
           
-        <div><!--숙소 정보 글로 수정하기-->
+        <div><!--숙소 정보 등록-->
           <h3 class="fw-bold">숙소 관리</h3>
-          <div>숙소 이름 변경</div>
+          <h4>숙소 등록</h4>
+          <form action="<c:url value="/biz/biz_mypage_acco" />" method="post" enctype="multipart/form-data">
+          
+          <div>숙소 타입</div>
           <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="acconame">
-            <label for="floatingInput">변경할 숙소 이름 입력</label>
+            <input type="text" class="form-control" id="accoType" name="type">
+            <label for="accoType">숙소 타입을 입력해주세요. 예) 호텔, 모텔, 펜션 등</label>
+            <span></span>
+          </div>
+          
+          <div>숙소 이름</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="accoName" name="name">
+            <label for="accoName">숙소 이름을 입력해주세요.</label>
+            <span></span>
+          </div>
+          
+          <div>숙소 주소</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="accoAddr" name="addr">
+            <label for="accoAddr">숙소 주소를 입력해주세요.</label>
+            <span></span>
+          </div>
+          
+          <div>숙소 전화번호</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput4" name="phone">
+            <label for="floatingInput4">숙소 전화번호를 입력해주세요.</label>
+            <span></span>
+          </div>
+          
+          <div>숙소 정보</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="accoInfo" name="description">
+            <label for="accoInfo">숙소 정보를 입력해주세요. 예) 숙소 장점이나 홍보등</label>
+            <span></span>
+          </div>
+          
+          <div>상담가능시간</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="accoBizHour" name="biz_hour">
+            <label for="accoBizHour">상담가능 시간을 입력해주세요.</label>
             <span></span>
           </div>
 
-          <div>운영 시간 변경</div>
+          <div>운영 시간</div>
           <div class="d-flex">
               <div>
                 <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accostarttime">
-                <label for="floatingInput">입실 시간 ex) 00:00</label>
-                <span>경고 문구창</span>
+                <input type="text" class="form-control" id="accoCheckin" name="checkin">
+                <label for="accoCheckin">입실 시간 ex) 00:00</label>
+                <span></span>
                 </div>
               </div>
 
            
               <div>
                 <div class="form-floating">
-                <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accoendtime">
-                <label for="floatingInput">퇴실 시간 ex) 24:00</label>
-                <span>경고 문구창</span>
+                <input type="text" class="form-control" id="accoCheckout" name="checkout">
+                <label for="accoCheckout">퇴실 시간 ex) 24:00</label>
+                <span></span>
                 </div>
               </div>
           </div>
-
-          <div>숙소 대표번호 변경</div>
-          <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accophone">
-            <label for="floatingInput">변경할 숙소 대표번호 입력</label>
-            <span>제이쿼리 사용해서 불가능한 값 입력될시 빨간색 경고 문구 입력</span>
-          </div>
-
-          <div>숙소 가격 변경</div>
-          <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accoprice">
-            <label for="floatingInput">변경할 숙소 가격 입력</label>
-            <span>제이쿼리 사용해서 불가능한 값 입력될시 빨간색 경고 문구 입력</span>
-          </div>
-
-          <div>숙소 설명 변경</div>
-          <div class="form-floating">
-            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="accodesc">
-            <label for="floatingInput">변경할 숙소 설명 입력</label>
-            <span>제이쿼리 사용해서 불가능한 값 입력될시 빨간색 경고 문구 입력</span>
-          </div>
-
           
-            <button link="#" class="btn btn-primary " type="button" onclick="accochangeFn()">수정하기</button><!--링크를 걸어야 합니다-->
-        </div><!--숙소 정보 글로 수정하기-->
+			<br><button class="btn btn-primary " type="submit" onclick="return accochangeFn()">저장하기</button><!--링크를 걸어야 합니다-->
+        </form>
+        </div><!--숙소 정보 등록 끝-->
           
         <div class="mx-3" style="background-color: aqua; width:400px; height:600px; overflow: auto;"><!--이미지 업로드 or 확인-->
-          <h3 class="fw-bold">이미지 관리</h3>
-          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">1번 이미지 (예시)</div>
-          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
-
-          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">2번 이미지 (예시)</div>
-          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
-
-          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">3번 이미지 (예시)</div>
-          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
-
-          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">4번 이미지 (예시)</div>
-          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
-
-          <div style="width:200px; height:200px; background-color: rgb(3, 0, 189); color: white;">5번 이미지 (예시)</div>
-          <button link="#" class="btn btn-primary " type="button">삭제하기</button>
+          <h3 class="fw-bold">등록된 숙소 관리</h3><!-- 숙소 수정 -->
+			<form action="<c:url value="/biz/biz_mypage_acco" />" method="post" enctype="multipart/form-data">
           
+          <div>숙소 타입</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="editType" name="type">
+            <label for="editType">숙소 타입을 입력해주세요. 예) 호텔, 모텔, 펜션 등</label>
+            <span></span>
+          </div>
+          
+          <div>숙소 이름</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="editName" name="name">
+            <label for="editName">숙소 이름을 입력해주세요.</label>
+            <span></span>
+          </div>
+          
+          <div>숙소 주소</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="editAddr" name="addr">
+            <label for="editAddr">숙소 주소를 입력해주세요.</label>
+            <span></span>
+          </div>
+          
+          <div>숙소 전화번호</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="editPhone" name="phone">
+            <label for="editPhone">숙소 전화번호를 입력해주세요.</label>
+            <span></span>
+          </div>
+          
+          <div>숙소 정보</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="editInfo" name="description">
+            <label for="editInfo">숙소 정보를 입력해주세요. 예) 숙소 장점이나 홍보등</label>
+            <span></span>
+          </div>
+          
+          <div>상담가능시간</div>
+          <div class="form-floating">
+            <input type="text" class="form-control" id="editBizHour" name="biz_hour">
+            <label for="editBizHour">상담가능 시간을 입력해주세요.</label>
+            <span></span>
+          </div>
+
+          <div>운영 시간</div>
+          <div class="d-flex">
+              <div>
+                <div class="form-floating">
+                <input type="text" class="form-control" id="editCheckin" name="checkin">
+                <label for="editCheckin">입실 시간 ex) 00:00</label>
+                <span></span>
+                </div>
+              </div>
+
+           
+              <div>
+                <div class="form-floating">
+                <input type="text" class="form-control" id="editCheckout" name="checkout">
+                <label for="editCheckout">퇴실 시간 ex) 24:00</label>
+                <span></span>
+                </div>
+              </div>
+          </div>
+          
+			<br><button class="btn btn-primary " type="submit" onclick="return accochangeFn()">저장하기</button><!--링크를 걸어야 합니다-->
+        </form>
         </div>
           
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.rent.vaca.acco.AccoPhotoVO;
 import com.rent.vaca.acco.AccoVO;
 import com.rent.vaca.notice.NoticeVO;
 import com.rent.vaca.notice.QuestionAttachVO;
@@ -25,7 +26,7 @@ public class BizServiceImpl implements BizService{
 	}
 
 	@Override
-	public int insertBizOne(BizVO vo) {
+	public Integer insertBizOne(BizVO vo) {
 		
 		// 이메일 중복확인
 		int count = repository.selectBizCntByEmail(vo.getEmail());
@@ -40,20 +41,30 @@ public class BizServiceImpl implements BizService{
 
 	@Override
 	public BizVO selectBizOne(BizVO vo) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.selectBizOne(vo);
 	}
 
 	@Override
-	public int selectBizCntByEmail(String email) {
+	public Integer selectBizCntByEmail(String email) {
 		// TODO Auto-generated method stub
 		return repository.selectBizCntByEmail(email);
 	}
 
 	@Override
-	public void addAccoInfo(AccoVO vo) {
+	public void insertAccoOne(AccoVO vo) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void insertAccoPhoto(AccoPhotoVO vo) {
+		repository.insertAccoPhoto(vo);
+	}
+
+	@Override
+	public Integer selectLastInsertedAccoNo(int accoNo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -63,7 +74,7 @@ public class BizServiceImpl implements BizService{
 	}
 	
 	@Override
-	public int selectBizCntByAccoNo(int bizId) {
+	public Integer selectBizCntByAccoNo(int bizId) {		
 		return repository.selectBizCntByBizId(bizId);
 	}
 
@@ -71,6 +82,11 @@ public class BizServiceImpl implements BizService{
 	public void insertRoomOne(RoomVO vo) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void insertRoomPhoto(AccoPhotoVO vo) {
+		repository.insertRoomPhoto(vo);
 	}
 
 	@Override
@@ -80,7 +96,7 @@ public class BizServiceImpl implements BizService{
 	}
 	
 	@Override
-	public int selectLastInsertedRoomNo(int roomNo) {
+	public Integer selectLastInsertedRoomNo(int roomNo) {
 		return repository.selectLastInsertedRoomNo(roomNo);
 	}
 
@@ -112,6 +128,6 @@ public class BizServiceImpl implements BizService{
 	public List<NoticeVO> myQnaList(NoticeVO vo) {
 		// TODO Auto-generated method stub
 		return null;
-	}	
+	}
 	
 }

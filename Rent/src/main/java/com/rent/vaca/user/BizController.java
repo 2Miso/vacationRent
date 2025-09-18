@@ -24,11 +24,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rent.vaca.acco.AccoController;
+import com.rent.vaca.acco.AccoPhotoVO;
 import com.rent.vaca.acco.AccoService;
+import com.rent.vaca.acco.AccoVO;
 import com.rent.vaca.room.RoomVO;
 
 @Controller
-@RequestMapping("/biz")
 public class BizController {
 	
 	//비즈니스 회원 컨트롤러
@@ -44,13 +45,13 @@ public class BizController {
 	}
 	
 	// 회원가입 약관동의 화면
-	@RequestMapping(value = "/biz_join_terms", method = RequestMethod.GET)
+	@RequestMapping(value = "/biz/biz_join_terms", method = RequestMethod.GET)
 	public String bizSignUpTerms() {
 		return "biz/biz_join_terms";
 	}
 	
 	// 회원가입 화면
-	@RequestMapping(value = "/biz_join_form", method = RequestMethod.GET)
+	@RequestMapping(value = "/biz/biz_join_form", method = RequestMethod.GET)
 	public String bizSignUp(Model model,
 			@RequestParam(value = "termsofuse", required = false) String termsofuse,
 			@RequestParam(value = "termsover14", required = false) String termsover14,
@@ -68,7 +69,7 @@ public class BizController {
 	}
 	
 	// 회원가입 처리
-	@RequestMapping(value = "/biz_join_finished", method = RequestMethod.POST)
+	@RequestMapping(value = "/biz/biz_join_finished", method = RequestMethod.POST)
 	public String bizSignUp(@Valid BizVO vo, BindingResult result,
 			 @RequestParam("certificateFile") MultipartFile certificateFile,
 		        Model model, HttpServletRequest request
@@ -117,14 +118,20 @@ public class BizController {
 	
 	// 이메일 중복검사
 	@ResponseBody
-	@RequestMapping(value = "/check-email", method = RequestMethod.GET)
+	@RequestMapping(value = "/biz/check-email", method = RequestMethod.GET)
 	public boolean checkEmailDuplicate(@RequestParam("email") String email) {
 	    int count = bizService.selectBizCntByEmail(email);
 	    return count == 0; // true: 사용 가능, false: 중복
 	}
 	
-	// 로그인
-	@RequestMapping(value = "/login/biz_login", method = RequestMethod.GET)
+	// 로그인 페이지
+	@RequestMapping(value="/login/biz_login", method = RequestMethod.GET) 
+	public String login() {
+		return "login/biz_login";
+	}
+	
+	// 로그인 처리
+	@RequestMapping(value = "/login/biz_login", method = RequestMethod.POST)
 	public String login(BizVO vo, HttpSession session) {
 		
 		BizVO biz = bizService.selectBizOne(vo);
@@ -139,20 +146,70 @@ public class BizController {
 		
 	}
 	
-	// 숙소 등록
-	
-	// 객실 등록 페이지
-	@RequestMapping(value = "/biz_mypage_room", method = RequestMethod.GET)
-	public String addRoom() {
-		return "/biz/biz_mypage_room";
+	// 숙소 등록 페이지
+	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.GET)
+	public String addAcco(AccoVO vo, HttpSession session) {
+		/*
+		// 현재 로그인 정보 가져오기
+		BizVO biz = (BizVO) session.getAttribute("biz");
+		if(biz == null) {
+			// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
+			return "redirect:/login/biz_login";
+		}
+		
+		int bizId = biz.getId();
+		
+		vo.setBizId(bizId);
+	    */
+		return "biz/biz_mypage_acco";
 	}
 	
-	// 객실 등록 처리 페이지
-	@RequestMapping(value = "/biz_mypage_room", method = RequestMethod.POST)
-	public String addRoom(RoomVO vo, HttpSession session, Model model,
+	// 숙소 등록 처리
+	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.POST)
+	public String addAcco(AccoVO vo, Model model,
 			@RequestParam("image[]") List<MultipartFile> imageFiles,
-			HttpServletRequest request
-			) throws Exception {
+			HttpServletRequest request) {
+	    
+		try {
+	    	// 숙소정보 등록
+	        bizService.insertAccoOne(vo);
+	        
+	        int accoNo = bizService.selectLastInsertedAccoNo(vo.getAccoNo());
+	        
+	        for (MultipartFile image : imageFiles) {
+	            if (!image.isEmpty()) {
+	                String originalName = image.getOriginalFilename();
+	                String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+	                String savedName = timeStamp + "_" + originalName;
+
+	                // 이미지 저장 경로
+	                String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/room");
+	                File saveFile = new File(uploadDir, savedName);
+	                image.transferTo(saveFile);
+
+	                // DB 저장용 VO 세팅
+	                AccoPhotoVO photoVO = new AccoPhotoVO();
+	                photoVO.setRoomNo(accoNo);
+	                photoVO.setOriginalName(originalName);
+	                photoVO.setSavedName(savedName);
+
+	                // DB insert
+	                bizService.insertAccoPhoto(photoVO);
+	            }
+	        }
+	        
+	    } catch (Exception e) {
+	        model.addAttribute("errorMessage", "숙소 등록 실패");
+	        return "/biz/biz_mypage_acco";
+	    }
+	    
+		return "redirect:/biz/biz_mypage_acco";
+	}
+	
+	// 객실 등록 페이지
+	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.GET)
+	public String addRoom(Model model, HttpSession session, RoomVO vo) {
+		/*
 		// 현재 로그인 정보 가져오기
 		BizVO biz = (BizVO) session.getAttribute("biz");
 		if(biz == null) {
@@ -162,20 +219,53 @@ public class BizController {
 		
 		// 로그인한 비즈니스 회원의 숙소정보 가져오기
 	    int bizId = biz.getId();
-	    int accoNo = bizService.selectBizCntByAccoNo(bizId);
-		
-	    if(accoNo == 0){
-	        model.addAttribute("errorMessage", "숙소 정보가 없습니다.");
-	        return "/biz/biz_mypage_room";
+	    
+	    Integer accoNo = bizService.selectBizCntByAccoNo(bizId);
+	   
+	    if(accoNo == null || accoNo == 0){
+	        model.addAttribute("errorMessage", "숙소를 먼저 등록해야 객실을 등록할 수 있습니다.");
+	        return "redirect:/biz/biz_mypage_acco";
 	    }
 	    
 	    vo.setAccoNo(accoNo);
-	    
+		*/
+		return "/biz/biz_mypage_room";
+	}
+	
+	// 객실 등록 처리 페이지
+	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.POST)
+	public String addRoom(RoomVO vo, Model model,
+			@RequestParam("image[]") List<MultipartFile> imageFiles,
+			HttpServletRequest request
+			) throws Exception {
+
 	    try {
 	    	// 객실정보 등록
 	        bizService.insertRoomOne(vo);
 	        
 	        int roomNo = bizService.selectLastInsertedRoomNo(vo.getRoomNo());
+	        
+	        for (MultipartFile image : imageFiles) {
+	            if (!image.isEmpty()) {
+	                String originalName = image.getOriginalFilename();
+	                String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+	                String savedName = timeStamp + "_" + originalName;
+
+	                // 이미지 저장 경로
+	                String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/room");
+	                File saveFile = new File(uploadDir, savedName);
+	                image.transferTo(saveFile);
+
+	                // DB 저장용 VO 세팅
+	                AccoPhotoVO photoVO = new AccoPhotoVO();
+	                photoVO.setRoomNo(roomNo);
+	                photoVO.setOriginalName(originalName);
+	                photoVO.setSavedName(savedName);
+
+	                // DB insert
+	                bizService.insertRoomPhoto(photoVO);
+	            }
+	        }
 	        
 	    } catch (Exception e) {
 	        model.addAttribute("errorMessage", "객실 등록 실패");

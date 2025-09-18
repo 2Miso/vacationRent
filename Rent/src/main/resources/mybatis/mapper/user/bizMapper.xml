@@ -12,6 +12,11 @@
 		values(#{email}, #{pw}, #{phone}, #{name}, #{owner}, #{certificateNo})
 	</insert>
 	
+	<!-- 로그인 -->
+	<select id="selectBizOne" resultType="biz" parameterType="biz">
+		select * from biztb where email = #{email}
+	</select>
+	
 	<select id="selectBizCntByEmail" resultType="int" parameterType="string">
 		select count(*) from biztb where email = #{email}
 	</select>

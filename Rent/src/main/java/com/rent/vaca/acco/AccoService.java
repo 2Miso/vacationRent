@@ -23,4 +23,7 @@ public interface AccoService {
 	
 	//별점 평균 조회
 	Double starAvg(int accoNo);
+	
+	//사진모달 데이터 교체
+	List<AccoPhotoVO> photoModal(AccoPhotoVO vo);
 }

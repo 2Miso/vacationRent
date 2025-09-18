@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis mapper파일 -->
+	<!-- namespace, id, resultType 3가지가 중요 -->
+
+<mapper namespace="accoPhotoMapper">
+<!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
+
+	<select id="photoModal" parameterType="com.rent.vaca.acco.AccoPhotoVO" resultType="com.rent.vaca.acco.AccoPhotoVO">
+		select p.* 
+			from accotb a 
+			inner join roomtb r 
+				on a.acco_no=r.acco_no and a.acco_no=#{accoNo} 
+			inner join acco_phototb p 
+				on r.room_no=p.room_no and r.name=#{roomName};
+	</select>
+</mapper>

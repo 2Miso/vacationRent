@@ -10,7 +10,6 @@
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
 	<resultMap id="accoRoomMap" type="acco">
 		<id property="accoNo" column="acco_no" />
-		<result property="accoNo" column="acco_no" />
 		<result property="type" column="type" />
 		<result property="name" column="name" />
 		<result property="addr" column="addr" />

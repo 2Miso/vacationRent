@@ -6,6 +6,42 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.review .modal-body{
+        position:relative;
+    }
+
+    .review .modal-body {
+      background: #000;
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      font-size: 14px;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .review .swiper {
+      width: 100%;
+      height: 100%;
+    }
+
+    .review .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #444;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .review .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+	
+</style>
 </head>
 <body>
 	<div class="reviewList">
@@ -26,7 +62,7 @@
 						<div class="reviewPhoto">
 							<div class="row justify-content-evenly">
 								<div class="col-2" data-bs-toggle="modal"
-									data-bs-target="#reviewPhotoModal">
+									data-bs-target="#reviewPhotoModal${cnt.count}">
 									<img src="" alt="">
 								</div>
 								<div class="col-2" data-bs-toggle="modal"
@@ -34,17 +70,17 @@
 									<img src="" alt="">
 								</div>
 								<div class="col-2" data-bs-toggle="modal"
-									data-bs-target="#reviewPhotoModal">
+									data-bs-target="#reviewPhotoModal${cnt.count}">
 									<img src="" alt="">
 								</div>
 								<div class="col-2" data-bs-toggle="modal"
-									data-bs-target="#reviewPhotoModal">
+									data-bs-target="#reviewPhotoModal${cnt.count}">
 									<img src="" alt="">
 								</div>
 							</div>
 							<!-- end:.row -->
 							<div class="morePhoto" data-bs-toggle="modal"
-								data-bs-target="#reviewPhotoModal">+n</div>
+								data-bs-target="#reviewPhotoModal${cnt.count}">+n</div>
 						</div>
 						<!-- end:.reviewPhoto -->
 						<!-- Modal -->
@@ -66,15 +102,15 @@
 	                                        -->
 
 												<div class="swiper-slide">
-													<img src="" alt="">
+													<div class="swiper-slide">Slide 1</div>
 												</div>
 												<div class="swiper-slide">Slide 2</div>
 												<div class="swiper-slide">
-													<img src="" alt="">
+													<div class="swiper-slide">Slide 3</div>
 												</div>
 												<div class="swiper-slide">Slide 4</div>
 												<div class="swiper-slide">
-													<img src="" alt="">
+													<div class="swiper-slide">Slide 5</div>
 												</div>
 												<div class="swiper-slide">Slide 6</div>
 												<div class="swiper-slide">Slide 7</div>
@@ -86,8 +122,11 @@
 											<div class="swiper-pagination"></div>
 										</div>
 										<!-- Initialize Swiper -->
+										 <!-- Swiper JS -->
+	  									<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 										<script>
-	                                        var reviewSwiper = new Swiper(".reviewSwiper", {
+										function reviewSwiperFn(){
+	                                        var swiper = new Swiper(".reviewSwiper", {
 	                                        pagination: {
 	                                            el: ".swiper-pagination",
 	                                            type: "fraction",
@@ -95,11 +134,12 @@
 	                                        navigation: {
 	                                            nextEl: ".swiper-button-next",
 	                                            prevEl: ".swiper-button-prev",
-	                                        },
+	                                        }
 	                                        });
+										}
 	                                    </script>
 									</div>
-									<!-- end:movda-body -->
+									<!-- end:modal-body -->
 								</div>
 								<!-- end: .modal-content -->
 							</div>

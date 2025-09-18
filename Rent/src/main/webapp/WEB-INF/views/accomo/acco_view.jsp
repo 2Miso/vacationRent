@@ -27,10 +27,6 @@ UserVO user = (UserVO) session.getAttribute("user");
 	href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/mainSwiper.css" />">
-<link rel="stylesheet"
-	href="<c:url value="/resources/css/reviewSwiper.css" />">
-<script
-	src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <!-- 지도 -->
 <script type="text/javascript"
 	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=767914bf0cfc904dd9cb8b0fd6dd25bc&libraries=services"></script>
@@ -119,6 +115,14 @@ section {
 .subInfo>div {
 	width: 30%;
 	height: 150px;
+}
+.topOneReview{
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  text-overflow: ellipsis;
 }
 
 .roomList {
@@ -258,26 +262,22 @@ hr {
 	padding-top: 20px;
 }
 
-#mainPhotoModal .content_area, #mainPhotoModal .thumb_area {
-	display: none;
-}
-
-#mainPhotoModal .content_area.active, #mainPhotoModal .thumb_area.active
-	{
-	display: block;
-}
-
 footer {
 	margin-top: 150px;
 }
 </style>
 <script>
         $(function(){
+        	reviewSwiperFn();
+        	
+        	//모달 탭 선택
             let navItem = $(".nav-item");
             $(navItem).on("click", function(){
                 navItem.children("a").removeClass("active");
                 $(this).children("a").addClass("active");
             });
+            
+            //리뷰, 부대시설, 주소로 스크롤 이동
             $(".subInfo").children().on("click", function(){
                   $('html, body').animate({scrollTop:$(this.id).position().top}, 'fast');
             });
@@ -305,7 +305,7 @@ footer {
 					error : function(){
 						console.log("관심조회 에러");
 					}
-				});
+			});
             
             //하트 클릭 시 관심에 등록 또는 제거
             $(".heartContainer").on("click", function(){
@@ -374,8 +374,89 @@ footer {
 	        $("#review_order").on("change", function(){
 				let param = $("#review_order option:selected").val();
 				$(".reviewListContainer").load("<c:url value='/accomo/reviewList/${acco.accoNo}' />?orderBy="+param);
+				reviewSwiperFn();
+	        });
+	        
+	        //모달 탭에 따른 객실사진 조회
+	        $("#mainPhotoModal .nav-item").on("click", function(){
+        			$.ajax({
+					//요청부분
+					url : "<c:url value='/acco/photoModal' />",
+					type : "get",
+					data : {
+						"accoNo" : ${acco.accoNo},
+						"roomName" : $(this).find('.active').text()
+					},
+					
+					//응답부분
+					success : function(photoList){
+						let modalBody = $("#mainPhotoModal .modal-body");
+						$(modalBody).html(
+							'<!-- Swiper -->'
+							+'<div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">'
+							    +'<div class="swiper-wrapper">'
+					    );
+						 
+						$.each(photoList, function(index, photo){
+							if(photo.savedName != null){
+								$(".mySwiper2 .swiper-wrapper").append(
+										'<div class="swiper-slide">'
+								        	+'<img src="<c:url value="/resources/img/" />' + photo.savedName + '" />'
+									    +'</div>'
+							    );
+							}
+						});
+						$(modalBody).append(
+							    '</div>'
+							    +'<div class="swiper-button-next"></div>'
+							    +'<div class="swiper-button-prev"></div>'
+							  +'</div><!-- end: .mySwiper2 -->'
+							  +'<div thumbsSlider="" class="swiper mySwiper">'
+							    +'<div class="swiper-wrapper">'
+						);
+						
+						
+						$.each(photoList, function(index, photo){
+							if(photo.savedName != null){
+								$(".mySwiper .swiper-wrapper").append(
+								      '<div class="swiper-slide">'
+								        +'<img src="<c:url value="/resources/img/" />' + photo.savedName + '" />'
+								      +'</div>'
+								);
+							}
+						});
+						$(modalBody).append(
+							    '</div><!-- end: .mySwiper -->'
+							  +'</div><!-- end:Swiper -->'
+						);
+						swiperfn();
+						
+					},
+					error : function(){
+						console.log("사진모달 탭 사진 실패");
+					}
+				});
 	        });
         });
+        
+		 function swiperfn(){
+			    var swiper = new Swiper(".mySwiper", {
+			      spaceBetween: 10,
+			      slidesPerView: 4,
+			      freeMode: true,
+			      watchSlidesProgress: true,
+			    });
+			    var swiper2 = new Swiper(".mySwiper2", {
+			      spaceBetween: 10,
+			      navigation: {
+			        nextEl: ".swiper-button-next",
+			        prevEl: ".swiper-button-prev",
+			      },
+			      thumbs: {
+			        swiper: swiper,
+			      },
+			    });
+			  }
         
         //객실사진 조회 모달 탭 바꾸기
         function changeTabMenu(obj){
@@ -386,6 +467,8 @@ footer {
             $("[data-content-id="+tabId+"]").addClass("active");
             $("[data-thumb-id="+tabId+"]").addClass("active");
         }
+        
+
     </script>
 </head>
 
@@ -447,9 +530,22 @@ footer {
 			</div>
 		</div>
 		<article class="subInfo">
-			<div id="#review" class="orangeContainer">리뷰</div>
-			<div id="#facil" class="orangeContainer">서비스 및 부대시설</div>
-			<div id="#location" class="orangeContainer">
+			<div id="review" class="orangeContainer">
+				<div class="orangeContainer" style="display:inline-block; border-width:1px;">
+					<span style="color:var(--bs-orange);">✮</span>${starAvg}
+				</div> ${reviewCount}명 평가
+				<div class="topOneReview">
+<!-- 					<script>
+						$(function(){
+							let content = document.querySelector(".reviewText").innerText;
+							$(".topOneReview").text(content);
+						})
+					</script> -->
+							1234567890123456789012345678901234567890123456789012345678901234567890
+				</div>
+			</div>
+			<div id="facil" class="orangeContainer">서비스 및 부대시설</div>
+			<div id="location" class="orangeContainer">
 				주소><br>
 				<br>${acco.addr}</div>
 		</article>
@@ -606,7 +702,7 @@ footer {
 			</div>
 		</article>
 		<hr>
-		<article id="review">
+		<article id="reviewArea">
 			<div class="reviewTitle">
 				<h3 style="font-size: 1em;">★리뷰 ${starAvg} ${reviewCount}개</h3>
 				<select id="review_order">
@@ -631,7 +727,7 @@ footer {
 			</div>
 			<!-- end:Page -->
 		</article>
-		<!-- end:#review -->
+		<!-- end:#reviewArea -->
 
 	</section>
 	<!-- mainPhoto Modal -->
@@ -647,11 +743,10 @@ footer {
 				<div class="photo_type_tab">
 					<ul class="nav nav-tabs">
 						<li class="nav-item" data-tab-id="content01"
-							onclick="changeTabMenu(this)"><a class="nav-link active"
-							href="#">전경</a></li>
+							onclick="changeTabMenu(this)"><a class="nav-link active">전경</a></li>
 						<c:forEach var="room" items="${acco.roomList}">
 						<li class="nav-item" data-tab-id="content02"
-							onclick="changeTabMenu(this)"><a class="nav-link" href="#">${room.name}</a>
+							onclick="changeTabMenu(this)"><a class="nav-link">${room.name}</a>
 						</li>
 						</c:forEach>
 					</ul>
@@ -659,49 +754,60 @@ footer {
 				<!-- end:.modal-header -->
 				<div class="modal-body">
 					<!-- Swiper -->
-					<div
-						style="-swiper-navigation-color: #fff; - -swiper-pagination-color: #fff"
-						class="accomo swiper mySwiper2 content_area active"
-						data-content-id="content01">
-						<div class="swiper-wrapper" style="align-items: center;">
-							<c:forEach var="photo" items="${acco.photoList}">
-								<div class="swiper-slide">
-									<img src="<c:url value="/resources/img/sample1.png" />" />
-								</div>
-							</c:forEach>
-						</div>
-						<div class="swiper-button-next"></div>
-						<div class="swiper-button-prev"></div>
-					</div>
-				</div>
-				<!-- end: modal-body -->
+				  <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
+				    <div class="swiper-wrapper">
+				    	<c:forEach var="photo" items="${acco.photoList}">
+				    		<c:if test="${not empty photo.savedName}">
+						      <div class="swiper-slide">
+						        <img src="<c:url value="/resources/img/${photo.savedName}" />" />
+						      </div>
+						     </c:if>
+				      	</c:forEach>
+				    </div>
+				    <div class="swiper-button-next"></div>
+				    <div class="swiper-button-prev"></div>
+				  </div><!-- end: .mySwiper2 -->
+				  <div thumbsSlider="" class="swiper mySwiper">
+				    <div class="swiper-wrapper">
+				    	<c:forEach var="photo" items="${acco.photoList}">
+				    		<c:if test="${not empty photo.savedName}">
+						      <div class="swiper-slide">
+						        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+						      </div>
+						     </c:if>
+				      	</c:forEach>
+				    </div><!-- end: .mySwiper -->
+				  </div><!-- end:Swiper -->
+				</div> <!-- end: modal-body -->
 				<div class="modal-footer">
-					<div thumbsSlider="" class="swiper mySwiper">
-						<div class="swiper-wrapper" style="align-items: center;">
-							<!-- 
-                            swiper-slide클래스에 swiper-slide-prev, swiper-slide-active, swiper-slide-next 추가/삭제
-                            -->
-                            <c:forEach var="photo" items="${acco.photoList}">
-								<div class="swiper-slide">
-									<img src="<c:url value="/resources/img/sample1.png" />" />
-								</div>
-							</c:forEach>
-						</div>
-						<!-- end: swiper-wrapper -->
-					</div>
-					<!-- end:thumbSlider -->
-					<!-- end:Swiper -->
-				</div>
-				<!-- end: modal-footer -->
-			</div>
-			<!-- end:.modal-content -->
-		</div>
-		<!-- end:.modal-dialog -->
-	</div>
-	<!-- end: mainPhoto Modal -->
+				</div> <!-- end: modal-footer -->
+			</div> <!-- end:.modal-content -->
+		</div> <!-- end:.modal-dialog -->
+	</div> <!-- end: mainPhoto Modal -->
 
 	<!-- mainPhoto Swiper -->
-	<script src="<c:url value="/resources/js/initialize_mainSwiper.js" />"></script>
+	  <!-- Swiper JS -->
+	  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+	
+	  <!-- Initialize Swiper -->
+	  <script>
+	    var swiper = new Swiper(".mySwiper", {
+	      spaceBetween: 10,
+	      slidesPerView: 4,
+	      freeMode: true,
+	      watchSlidesProgress: true,
+	    });
+	    var swiper2 = new Swiper(".mySwiper2", {
+	      spaceBetween: 10,
+	      navigation: {
+	        nextEl: ".swiper-button-next",
+	        prevEl: ".swiper-button-prev",
+	      },
+	      thumbs: {
+	        swiper: swiper,
+	      },
+	    });
+	  </script>
 	<!-- heart button -->
 	<script src="<c:url value="/resources/js/heart_button.js" />"></script>
 </body>

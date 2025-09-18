@@ -93,4 +93,13 @@ public class AccoController {
 		vo.setAccoNo(accoNo);
 		return accoService.hitInterestBtn(vo);
 	}
+	
+	//사진모달 데이터 교체
+	@GetMapping("/acco/photoModal")
+	@ResponseBody
+	public List<AccoPhotoVO> photoModal(@RequestParam("accoNo") int accoNo, @RequestParam("roomName") String roomName, AccoPhotoVO vo) {
+		vo.setAccoNo(accoNo);
+		vo.setRoomName(roomName);
+		return accoService.photoModal(vo);
+	}
 }

@@ -22,13 +22,15 @@ public class AccoServiceImpl implements AccoService {
 	private final AccoRepository accoRepository;
 	private final ReviewRepository reviewRepository;
 	private final InterestRepository interestRepository;
+	private final AccoPhotoRepository accoPhotoRepository;
 	
 	@Autowired
-	public AccoServiceImpl(AccoRepository accoRepository, 
-			ReviewRepository reviewRepository, InterestRepository interestRepository) {
+	public AccoServiceImpl(AccoRepository accoRepository, ReviewRepository reviewRepository,
+			InterestRepository interestRepository, AccoPhotoRepository accoPhotoRepository) {
 		this.accoRepository = accoRepository;
 		this.reviewRepository = reviewRepository;
 		this.interestRepository = interestRepository;
+		this.accoPhotoRepository = accoPhotoRepository;
 	}
 	
 	//숙소 1건 조회
@@ -91,5 +93,10 @@ public class AccoServiceImpl implements AccoService {
 	@Override
 	public Double starAvg(int accoNo) {
 		return reviewRepository.starAvg(accoNo);
+	}
+	
+	//사진모달 데이터 교체
+	public List<AccoPhotoVO> photoModal(AccoPhotoVO vo){
+		return accoPhotoRepository.photoModal(vo);
 	}
 }

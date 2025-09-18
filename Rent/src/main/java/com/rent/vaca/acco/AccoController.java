@@ -36,6 +36,8 @@ public class AccoController {
 	@RequestMapping(value="/acco/view/{accoNo}", method=RequestMethod.GET)
 	public String view(@PathVariable("accoNo") int accoNo, AccoVO acco, Model model) {
 		AccoVO accoVO = accoService.selectAccoByAccoNo(accoNo);
+		System.out.println(accoVO);
+		System.out.println(accoVO.getPhotoList().size());
 		model.addAttribute("acco", accoVO);
 
 		//¸®ºä°³¼ö

@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@include file="../include/header_nosearchbar.jsp"%>
 <%
 /* 임시 로그인. 삭제할 것. */
@@ -344,7 +345,7 @@ footer {
 	
 	        // 주소-좌표 변환 객체를 생성합니다
 	        var geocoder = new kakao.maps.services.Geocoder();
-	
+			
 	        // 주소로 좌표를 검색합니다
 	        geocoder.addressSearch('${acco.addr}', function(result, status) {
 	
@@ -663,51 +664,11 @@ footer {
 						class="accomo swiper mySwiper2 content_area active"
 						data-content-id="content01">
 						<div class="swiper-wrapper" style="align-items: center;">
-							<div class="swiper-slide">
-								<img src="resources/img/거실.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="resources/img/오션뷰.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="resources/img/쿼드룸.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-							</div>
-						</div>
-						<div class="swiper-button-next"></div>
-						<div class="swiper-button-prev"></div>
-					</div>
-					<div
-						style="-swiper-navigation-color: #fff; - -swiper-pagination-color: #fff"
-						class="accomo swiper mySwiper2 content_area"
-						data-content-id="content02">
-						<div class="swiper-wrapper" style="align-items: center;">
-							<div class="swiper-slide">
-								<img src="resources/img/다운로드 (1).jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="resources/img/sample1.png" />
-							</div>
-							<div class="swiper-slide">
-								<img src="resources/img/다운로드 (2).jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="resources/img/쿼드룸.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-							</div>
+							<c:forEach var="photo" items="${acco.photoList}">
+								<div class="swiper-slide">
+									<img src="<c:url value="/resources/img/sample1.png" />" />
+								</div>
+							</c:forEach>
 						</div>
 						<div class="swiper-button-next"></div>
 						<div class="swiper-button-prev"></div>
@@ -720,24 +681,11 @@ footer {
 							<!-- 
                             swiper-slide클래스에 swiper-slide-prev, swiper-slide-active, swiper-slide-next 추가/삭제
                             -->
-							<div class="swiper-slide">
-								<img src="resources/img/거실.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="resources/img/오션뷰.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="https://swiperjs.com/demos/images/nature-4.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="resources/img/쿼드룸.jpg" />
-							</div>
-							<div class="swiper-slide">
-								<img src="https://swiperjs.com/demos/images/nature-6.jpg" />
-							</div>
+                            <c:forEach var="photo" items="${acco.photoList}">
+								<div class="swiper-slide">
+									<img src="<c:url value="/resources/img/sample1.png" />" />
+								</div>
+							</c:forEach>
 						</div>
 						<!-- end: swiper-wrapper -->
 					</div>

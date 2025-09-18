@@ -54,7 +54,7 @@
 			</association>
 	</resultMap>
 
-
+	<!-- 리뷰목록 조회 -->
 	<select id="selectReviewsByAccoNo" parameterType="acco" resultMap="accoReviewMap">
 		select reviewtb.*, usertb.nickname 
 		from accotb a 
@@ -62,11 +62,37 @@
 				on a.acco_no=r.acco_no and r.delyn='N' 
 			left join reservtb 
 				on r.room_no=reservtb.room_no and reservtb.cancelyn='N' 
-			left join reviewtb 
+			inner join reviewtb 
 				on reservtb.reserv_code=reviewtb.reserv_code 
 			left join usertb 
 				on reviewtb.user_id=usertb.id 
 		where a.acco_no=#{accoNo}
 			order by ${orderBy};
+	</select>
+	
+		<!-- 리뷰개수 조회 -->
+	<select id="countReview" parameterType="int" resultType="int">
+		select count(*) 
+			from accotb 
+			inner join roomtb 
+				on accotb.acco_no=roomtb.acco_no 
+			inner join reservtb 
+				on roomtb.room_no=reservtb.room_no 
+			inner join reviewtb 
+				on reservtb.reserv_code=reviewtb.reserv_code
+		where accotb.acco_no=${accoNo};
+	</select>
+	
+	<!-- 별점평균 조회 -->
+	<select id="starAvg" parameterType="int" resultType="Double">
+		select avg(star) 
+			from accotb 
+			inner join roomtb 
+				on accotb.acco_no=roomtb.acco_no 
+			inner join reservtb 
+				on roomtb.room_no=reservtb.room_no 
+			inner join reviewtb
+				on reservtb.reserv_code=reviewtb.reserv_code
+		where accotb.acco_no=#{accoNo};
 	</select>
 </mapper>

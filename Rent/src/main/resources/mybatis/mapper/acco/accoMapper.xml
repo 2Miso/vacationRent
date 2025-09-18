@@ -74,6 +74,7 @@
 		<!-- 1:n 테이블 관계 매핑 -->
 		<collection property="photoList" ofType="com.rent.vaca.acco.AccoPhotoVO">
 			<id property="photoNo" column="photo_no" />
+			<result property="accoNo" column="acco_no" />
 			<result property="savedName" column="saved_name" />
 			<result property="originalName" column="original_name" />
 			<result property="roomNo" column="room_no" />
@@ -84,6 +85,7 @@
 	<select id="selectBizCntByBizId" parameterType="int" resultMap="accoRoomMap">
 		select acco_no from accotb where biz_id = #{bizId}
 	</select>
+	
 	<!-- 숙소1건 조회 -->
 	<select id="selectAccoByAccoNo" parameterType="int" resultMap="accoRoomMap">
 		select 
@@ -96,58 +98,16 @@
 			r.restroom_no, 
 			r.standard_head, 
 			r.extra_head, 
-			r.description as r_description,  
+			r.description as r_description, 
 			p.* 
 		from accotb a 
-			left join biztb b 
+			inner join biztb b 
 				on a.biz_id=b.id and a.delyn='N' 
-			left join roomtb r 	
+			inner join roomtb r 
 				on a.acco_no=r.acco_no and r.delyn='N' 
-			left join acco_phototb p
-				on a.acco_no=p.acco_no 
-			left join reservtb 
-				on r.room_no=reservtb.room_no and reservtb.cancelyn='N' 
+			left join acco_phototb p 
+				on a.acco_no=p.acco_no and r.room_no=p.room_no 
 		where a.acco_no=#{accoNo};
 	</select>
 	
-	<!-- 관심숙소 등록 -->
-	<insert id="insertInterestOne" parameterType="com.rent.vaca.user.InterestVO">
-		insert into interesttb(user_id, acco_no) values(#{userId}, #{accoNo});
-	</insert>
-	
-	<!-- 관심숙소 삭제 -->
-	<delete id="deleteInterestOne" parameterType="com.rent.vaca.user.InterestVO">
-		delete from interesttb where user_id=#{userId} and acco_no=#{accoNo};
-	</delete>
-
-	<!-- 관심숙소 조회 -->
-	<select id="selectInterestOne" parameterType="com.rent.vaca.user.InterestVO" resultType="int">
-		select count(*) from interesttb where user_id=#{userId} and acco_no=#{accoNo};
-	</select>
-	
-	<!-- 리뷰개수 조회 -->
-	<select id="countReview" parameterType="int" resultType="int">
-		select count(*) 
-			from accotb 
-			inner join roomtb 
-				on accotb.acco_no=roomtb.acco_no 
-			inner join reservtb 
-				on roomtb.room_no=reservtb.room_no 
-			inner join reviewtb 
-				on reservtb.reserv_code=reviewtb.reserv_code
-		where accotb.acco_no=${accoNo};
-	</select>
-	
-	<!-- 별점평균 조회 -->
-	<select id="starAvg" parameterType="int" resultType="Double">
-		select avg(star) 
-			from accotb 
-			inner join roomtb 
-				on accotb.acco_no=roomtb.acco_no 
-			inner join reservtb 
-				on roomtb.room_no=reservtb.room_no 
-			inner join reviewtb
-				on reservtb.reserv_code=reviewtb.reserv_code
-		where accotb.acco_no=#{accoNo};
-	</select>
 </mapper>

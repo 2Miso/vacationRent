@@ -4,9 +4,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.rent.vaca.user.InterestVO;
-
-
 @Repository
 public class AccoRepository {
 	
@@ -21,29 +18,5 @@ public class AccoRepository {
 	public AccoVO selectAccoByAccoNo(int accoNo) {
 		return template.selectOne("accoMapper.selectAccoByAccoNo", accoNo);
 	}
-	
-	//관심숙소 등록
-	int insertInterestOne(InterestVO vo){
-		return template.insert("accoMapper.insertInterestOne", vo);
-	}
-	
-	//관심숙소 삭제
-	int deleteInterestOne(InterestVO vo){
-		return template.delete("accoMapper.deleteInterestOne", vo);
-	}
-	
-	//관심숙소 조회
-	public int selectInterestOne(InterestVO vo) {
-		return template.selectOne("accoMapper.selectInterestOne", vo);
-	}
-	
-	//리뷰개수 조회
-	public int countReview(int accoNo) {
-		return template.selectOne("accoMapper.countReview", accoNo);
-	}
-	
-	//별점평균 조회
-	public Double starAvg(int accoNo) {
-		return template.selectOne("accoMapper.starAvg", accoNo);
-	}
+
 }

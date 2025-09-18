@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- mybatis mapper파일 -->
+	<!-- namespace, id, resultType 3가지가 중요 -->
+
+<mapper namespace="interestMapper">
+<!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
+
+	<!-- 관심숙소 등록 -->
+	<insert id="insertInterestOne" parameterType="com.rent.vaca.user.InterestVO">
+		insert into interesttb(user_id, acco_no) values(#{userId}, #{accoNo});
+	</insert>
+	
+	<!-- 관심숙소 삭제 -->
+	<delete id="deleteInterestOne" parameterType="com.rent.vaca.user.InterestVO">
+		delete from interesttb where user_id=#{userId} and acco_no=#{accoNo};
+	</delete>
+
+	<!-- 관심숙소 조회 -->
+	<select id="selectInterestOne" parameterType="com.rent.vaca.user.InterestVO" resultType="int">
+		select count(*) from interesttb where user_id=#{userId} and acco_no=#{accoNo};
+	</select>
+	
+
+</mapper>

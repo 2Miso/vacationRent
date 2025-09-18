@@ -27,19 +27,19 @@
 							<div class="row justify-content-evenly">
 								<div class="col-2" data-bs-toggle="modal"
 									data-bs-target="#reviewPhotoModal">
-									<img src="resources/img/거실.jpg" alt="">
+									<img src="" alt="">
 								</div>
 								<div class="col-2" data-bs-toggle="modal"
 									data-bs-target="#reviewPhotoModal${cnt.count}">
-									<img src="resources/img/오션뷰.jpg" alt="">
+									<img src="" alt="">
 								</div>
 								<div class="col-2" data-bs-toggle="modal"
 									data-bs-target="#reviewPhotoModal">
-									<img src="resources/img/쿼드룸.jpg" alt="">
+									<img src="" alt="">
 								</div>
 								<div class="col-2" data-bs-toggle="modal"
 									data-bs-target="#reviewPhotoModal">
-									<img src="resources/img/쿼드룸.jpg" alt="">
+									<img src="" alt="">
 								</div>
 							</div>
 							<!-- end:.row -->
@@ -66,15 +66,15 @@
 	                                        -->
 
 												<div class="swiper-slide">
-													<img src="resources/img/거실.jpg" alt="">
+													<img src="" alt="">
 												</div>
 												<div class="swiper-slide">Slide 2</div>
 												<div class="swiper-slide">
-													<img src="resources/img/오션뷰.jpg" alt="">
+													<img src="" alt="">
 												</div>
 												<div class="swiper-slide">Slide 4</div>
 												<div class="swiper-slide">
-													<img src="resources/img/쿼드룸.jpg" alt="">
+													<img src="" alt="">
 												</div>
 												<div class="swiper-slide">Slide 6</div>
 												<div class="swiper-slide">Slide 7</div>

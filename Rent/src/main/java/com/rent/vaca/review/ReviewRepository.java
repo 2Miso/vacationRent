@@ -23,4 +23,14 @@ public class ReviewRepository {
 	public List<ReviewVO> selectReviewsByAccoNo(AccoVO acco) {
 		return template.selectList("reviewMapper.selectReviewsByAccoNo", acco);
 	}
+	
+	//리뷰개수 조회
+	public int countReview(int accoNo) {
+		return template.selectOne("reviewMapper.countReview", accoNo);
+	}
+	
+	//별점평균 조회
+	public Double starAvg(int accoNo) {
+		return template.selectOne("reviewMapper.starAvg", accoNo);
+	}
 }

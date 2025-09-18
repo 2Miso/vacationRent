@@ -2,6 +2,7 @@ package com.rent.vaca.acco;
 
 public class AccoPhotoVO {
 	private int photoNo;
+	private int accoNo;
 	private String savedName;
 	private String originalName;
 	private int roomNo;
@@ -11,6 +12,12 @@ public class AccoPhotoVO {
 	}
 	public void setPhotoNo(int photoNo) {
 		this.photoNo = photoNo;
+	}
+	public int getAccoNo() {
+		return accoNo;
+	}
+	public void setAccoNo(int accoNo) {
+		this.accoNo = accoNo;
 	}
 	public String getSavedName() {
 		return savedName;

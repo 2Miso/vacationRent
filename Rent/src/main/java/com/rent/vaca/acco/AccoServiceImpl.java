@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.rent.vaca.review.ReviewRepository;
 import com.rent.vaca.review.ReviewVO;
-import com.rent.vaca.room.RoomRepository;
 import com.rent.vaca.user.InterestRepository;
 import com.rent.vaca.user.InterestVO;
 

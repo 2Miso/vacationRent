@@ -527,7 +527,7 @@ footer {
 		</article>
 		<div class="titleArea">
 			<div>
-				<h6>${acco.type}</h6>
+				<h6>${acco.typeKo}</h6>
 				<h2>${acco.name}</h2>
 			</div>
 			<div class="heartContainer">

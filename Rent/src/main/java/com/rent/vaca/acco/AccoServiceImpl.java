@@ -33,7 +33,12 @@ public class AccoServiceImpl implements AccoService {
 		this.accoPhotoRepository = accoPhotoRepository;
 	}
 	
-	//숙소 1건 조회
+	////상단 사진 5개
+	public List<AccoPhotoVO> selectTopPhotos(int accoNo){
+		return accoPhotoRepository.selectTopPhotos(accoNo);
+	}
+	
+	////숙소, 사업자, 객실목록과 객실사진1개
 	public AccoVO selectAccoByAccoNo(int accoNo) {
 		return accoRepository.selectAccoByAccoNo(accoNo);
 	}

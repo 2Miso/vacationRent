@@ -6,6 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<!-- 스와이퍼 -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <style>
 	.review .modal-body{
         position:relative;
@@ -59,30 +63,22 @@
 								</c:forEach>
 							</span> ${review.wdate}
 						</div>
-						<div class="reviewPhoto">
-							<div class="row justify-content-evenly">
-								<div class="col-2" data-bs-toggle="modal"
-									data-bs-target="#reviewPhotoModal${cnt.count}">
-									<img src="" alt="">
+						<c:if test="${not empty review.photos[0].savedName}">
+								<div class="reviewPhoto">
+									<div class="row justify-content-evenly">
+									<c:forEach var="photo" items="${review.photos}" begin="0" end="3">
+										<div class="col-2" data-bs-toggle="modal"
+											data-bs-target="#reviewPhotoModal${cnt.count}">
+											<img src="<c:url value="/resources/img/" />${photo.savedName}" alt="">
+										</div>
+									</c:forEach>
+									</div>
+									<!-- end:.row -->
+									<div class="morePhoto" data-bs-toggle="modal"
+										data-bs-target="#reviewPhotoModal${cnt.count}">+n</div>
 								</div>
-								<div class="col-2" data-bs-toggle="modal"
-									data-bs-target="#reviewPhotoModal${cnt.count}">
-									<img src="" alt="">
-								</div>
-								<div class="col-2" data-bs-toggle="modal"
-									data-bs-target="#reviewPhotoModal${cnt.count}">
-									<img src="" alt="">
-								</div>
-								<div class="col-2" data-bs-toggle="modal"
-									data-bs-target="#reviewPhotoModal${cnt.count}">
-									<img src="" alt="">
-								</div>
-							</div>
-							<!-- end:.row -->
-							<div class="morePhoto" data-bs-toggle="modal"
-								data-bs-target="#reviewPhotoModal${cnt.count}">+n</div>
-						</div>
-						<!-- end:.reviewPhoto -->
+								<!-- end:.reviewPhoto -->
+						</c:if>
 						<!-- Modal -->
 						<div class="modal fade" id="reviewPhotoModal${cnt.count}" tabindex="-1"
 							aria-hidden="true">
@@ -94,28 +90,17 @@
 									</div>
 									<div class="modal-body">
 										<!-- Swiper -->
-										<div class="swiper reviewSwiper">
+										<div class="swiper reviewSwiper${cnt.count}">
 											<div class="swiper-wrapper">
 
 												<!-- 
 	                                        swiper-slide클래스에 swiper-slide-prev, swiper-slide-active, swiper-slide-next 클래스 추가/삭제
 	                                        -->
-
+	                                        <c:forEach var="photo" items="${review.photos}">
 												<div class="swiper-slide">
-													<div class="swiper-slide">Slide 1</div>
+													<img src="<c:url value="/resources/img/" />${photo.savedName}" alt="">
 												</div>
-												<div class="swiper-slide">Slide 2</div>
-												<div class="swiper-slide">
-													<div class="swiper-slide">Slide 3</div>
-												</div>
-												<div class="swiper-slide">Slide 4</div>
-												<div class="swiper-slide">
-													<div class="swiper-slide">Slide 5</div>
-												</div>
-												<div class="swiper-slide">Slide 6</div>
-												<div class="swiper-slide">Slide 7</div>
-												<div class="swiper-slide">Slide 8</div>
-												<div class="swiper-slide">Slide 9</div>
+											</c:forEach>
 											</div>
 											<div class="swiper-button-next"></div>
 											<div class="swiper-button-prev"></div>
@@ -123,10 +108,8 @@
 										</div>
 										<!-- Initialize Swiper -->
 										 <!-- Swiper JS -->
-	  									<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 										<script>
-										function reviewSwiperFn(){
-	                                        var swiper = new Swiper(".reviewSwiper", {
+	                                        var swiper = new Swiper(".reviewSwiper${cnt.count}", {
 	                                        pagination: {
 	                                            el: ".swiper-pagination",
 	                                            type: "fraction",
@@ -136,7 +119,6 @@
 	                                            prevEl: ".swiper-button-prev",
 	                                        }
 	                                        });
-										}
 	                                    </script>
 									</div>
 									<!-- end:modal-body -->

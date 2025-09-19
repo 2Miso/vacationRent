@@ -16,6 +16,11 @@ public class AccoPhotoRepository {
 		this.template = template;
 	}
 	
+	//상단 사진 5개
+	public List<AccoPhotoVO> selectTopPhotos(int accoNo){
+		return template.selectList("accoPhotoMapper.selectTopPhotos", accoNo);
+	}
+	
 	//사진모달 데이터 교체
 	public List<AccoPhotoVO> photoModal(AccoPhotoVO vo){
 		return template.selectList("accoPhotoMapper.photoModal", vo);

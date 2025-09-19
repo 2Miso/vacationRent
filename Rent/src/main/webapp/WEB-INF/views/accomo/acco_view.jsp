@@ -270,8 +270,6 @@ footer {
 </style>
 <script>
         $(function(){
-        	reviewSwiperFn();
-        	
         	//모달 탭 선택
             let navItem = $(".nav-item");
             $(navItem).on("click", function(){
@@ -376,7 +374,6 @@ footer {
 	        $("#review_order").on("change", function(){
 				let param = $("#review_order option:selected").val();
 				$(".reviewListContainer").load("<c:url value='/accomo/reviewList/${acco.accoNo}' />?orderBy="+param);
-				reviewSwiperFn();
 	        });
 	        
 	        //모달 탭에 따른 객실사진 조회
@@ -482,7 +479,7 @@ footer {
 					<div class="col bigImage">
 						<div class="imgContainer" data-bs-toggle="modal"
 							data-bs-target="#mainPhotoModal">
-							<img src="<c:url value="/resources/img/" />${acco.photoList[0].savedName}" alt="">
+							<img src="<c:url value="/resources/img/" />${topPhotos[0].savedName}" alt="">
 						</div>
 					</div>
 					<div class="col smallImage">
@@ -490,32 +487,32 @@ footer {
 							<div class="col">
 								<div class="imgContainer" data-bs-toggle="modal"
 									data-bs-target="#mainPhotoModal">
-									<img src="<c:url value="/resources/img/" />${acco.photoList[1].savedName}" alt="">
+									<img src="<c:url value="/resources/img/" />${topPhotos[1].savedName}" alt="">
 								</div>
 							</div>
 							<div class="col">
-								<c:if test="${acco.photoList[2].savedName != null }">
+								<c:if test="${topPhotos[2].savedName != null }">
 								<div class="imgContainer" data-bs-toggle="modal"
 									data-bs-target="#mainPhotoModal">
-									<img src="<c:url value="/resources/img/" />${acco.photoList[2].savedName}" alt="">
+									<img src="<c:url value="/resources/img/" />${topPhotos[2].savedName}" alt="">
 								</div>
 								</c:if>
 							</div>
 						</div>
 						<div class="row">
 							<div class="col">
-								<c:if test="${acco.photoList[3].savedName != null }">
+								<c:if test="${topPhotos[3].savedName != null }">
 									<div class="imgContainer" data-bs-toggle="modal"
 										data-bs-target="#mainPhotoModal">
-										<img src="<c:url value="/resources/img/" />${acco.photoList[3].savedName}" alt="">
+										<img src="<c:url value="/resources/img/" />${topPhotos[3].savedName}" alt="">
 									</div>
 								</c:if>
 							</div>
 							<div class="col">
-								<c:if test="${acco.photoList[4].savedName != null }">
+								<c:if test="${topPhotos[4].savedName != null }">
 									<div class="imgContainer" data-bs-toggle="modal"
 										data-bs-target="#mainPhotoModal">
-										<img src="<c:url value="/resources/img/" />${acco.photoList[4].savedName}" alt="">
+										<img src="<c:url value="/resources/img/" />${topPhotos[4].savedName}" alt="">
 									</div>
 								</c:if>
 							</div>

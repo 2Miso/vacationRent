@@ -1,5 +1,7 @@
 package com.rent.vaca.review;
 
+import java.util.List;
+
 import com.rent.vaca.user.UserVO;
 
 public class ReviewVO {
@@ -9,6 +11,7 @@ public class ReviewVO {
 	private String wdate;
 	private String reply;
 	private UserVO author;
+	private List<ReviewPhotoVO> photos;
 	
 	public int getReviewNo() {
 		return reviewNo;
@@ -45,6 +48,12 @@ public class ReviewVO {
 	}
 	public void setAuthor(UserVO author) {
 		this.author = author;
+	}
+	public List<ReviewPhotoVO> getPhotos() {
+		return photos;
+	}
+	public void setPhotos(List<ReviewPhotoVO> photos) {
+		this.photos = photos;
 	}
 	@Override
 	public String toString() {

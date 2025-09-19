@@ -35,9 +35,12 @@ public class AccoController {
 	//숙소 1건 조회
 	@RequestMapping(value="/acco/view/{accoNo}", method=RequestMethod.GET)
 	public String view(@PathVariable("accoNo") int accoNo, AccoVO acco, Model model) {
+		//상단 사진 5개
+		List<AccoPhotoVO> topPhotos = accoService.selectTopPhotos(accoNo);
+		model.addAttribute("topPhotos", topPhotos);
+		
+		//숙소, 사업자, 객실목록과 객실사진1개
 		AccoVO accoVO = accoService.selectAccoByAccoNo(accoNo);
-		System.out.println(accoVO);
-		System.out.println(accoVO.getPhotoList().size());
 		model.addAttribute("acco", accoVO);
 
 		//리뷰개수

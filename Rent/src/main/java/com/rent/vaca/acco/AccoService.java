@@ -6,7 +6,10 @@ import com.rent.vaca.review.ReviewVO;
 import com.rent.vaca.user.InterestVO;
 
 public interface AccoService {
-	//숙소 1건 조회
+	//상단 사진 5개
+	List<AccoPhotoVO> selectTopPhotos(int accoNo);
+	
+	//숙소, 사업자, 객실목록과 객실사진1개
 	AccoVO selectAccoByAccoNo(int accoNo);
 	
 	//리뷰 목록 조회

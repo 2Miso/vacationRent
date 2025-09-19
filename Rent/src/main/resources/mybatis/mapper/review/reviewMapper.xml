@@ -14,6 +14,7 @@
 		<result property="content" column="content" />
 		<result property="wdate" column="wdate" />
 		<result property="reply" column="reply" />
+			<!-- 1:1 테이블 관계 매핑 -->
 			<association property="author" javaType="com.rent.vaca.user.UserVO">
 				<id property="id" column="id" />
 				<result property="name" column="name" />
@@ -28,19 +29,30 @@
 				<result property="banyn" column="banyn" />
 				<result property="banReason" column="ban_reason" />
 			</association>
+			
+			<!-- 1:n 테이블 관계 매핑 -->
+			<collection property="photos" ofType="com.rent.vaca.review.ReviewPhotoVO">
+				<id property="photoNo" column="photo_no" />
+				<result property="reviewNo" column="review_no" />
+				<result property="savedName" column="saved_name" />
+				<result property="originalName" column="original_name" />
+				<result property="photoType" column="photo_type" />
+			</collection>
 	</resultMap>
 
 	<!-- 리뷰목록 조회 -->
 	<select id="selectReviewsByAccoNo" parameterType="acco" resultMap="accoReviewMap">
-		select reviewtb.*, usertb.nickname 
+		select reviewtb.*, usertb.nickname, review_phototb.* 
 		from accotb a 
-			left join roomtb r 	
+			inner join roomtb r 	
 				on a.acco_no=r.acco_no and r.delyn='N' 
-			left join reservtb 
+			inner join reservtb 
 				on r.room_no=reservtb.room_no and reservtb.cancelyn='N' 
 			inner join reviewtb 
 				on reservtb.reserv_code=reviewtb.reserv_code 
-			left join usertb 
+			left join review_phototb
+				on reviewtb.review_no = review_phototb.review_no 
+			inner join usertb 
 				on reviewtb.user_id=usertb.id 
 		where a.acco_no=#{accoNo}
 			order by ${orderBy};

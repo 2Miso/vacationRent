@@ -24,7 +24,8 @@ public class BizServiceImpl implements BizService{
 		this.repository = repository;
 		this.passwordEncoder = passwordEncoder;
 	}
-
+	
+	// 회원가입
 	@Override
 	public Integer insertBizOne(BizVO vo) {
 		
@@ -39,22 +40,26 @@ public class BizServiceImpl implements BizService{
 		return repository.insertBizOne(vo);
 	}
 
+	// 로그인
 	@Override
 	public BizVO selectBizOne(BizVO vo) {
 		return repository.selectBizOne(vo);
 	}
 
+	// 이메일 중복 확인
 	@Override
 	public Integer selectBizCntByEmail(String email) {
 		// TODO Auto-generated method stub
 		return repository.selectBizCntByEmail(email);
 	}
 
+	// 숙소 등록
 	@Override
 	public void insertAccoOne(AccoVO vo) {
 		repository.insertAccoOne(vo);
 	}
 	
+	// 숙소 사진 등록
 	@Override
 	public void insertAccoPhoto(AccoPhotoVO vo) {
 		repository.insertAccoPhoto(vo);
@@ -66,17 +71,26 @@ public class BizServiceImpl implements BizService{
 		
 	}
 	
+	// 숙소 조회
 	@Override
 	public Integer selectBizCntByAccoNo(int bizId) {		
 		return repository.selectBizCntByBizId(bizId);
 	}
 
+	// 숙소 삭제여부 조회
+	@Override
+	public int existsAccoByBizIdAndDelyn(int bizId, String delyn) {
+		return repository.existsAccoByBizIdAndDelyn(bizId, delyn);
+	}
+	
+	// 객실 등록
 	@Override
 	public void insertRoomOne(RoomVO vo) {
 		// TODO Auto-generated method stub
 		
 	}
 	
+	// 객실 사진 등록
 	@Override
 	public void insertRoomPhoto(AccoPhotoVO vo) {
 		repository.insertRoomPhoto(vo);
@@ -87,6 +101,7 @@ public class BizServiceImpl implements BizService{
 		// TODO Auto-generated method stub
 		
 	}
+	
 	
 	@Override
 	public Integer selectLastInsertedRoomNo(int roomNo) {
@@ -122,5 +137,7 @@ public class BizServiceImpl implements BizService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 	
 }

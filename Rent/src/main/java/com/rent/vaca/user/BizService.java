@@ -32,6 +32,9 @@ public interface BizService {
 	// 숙소 정보 수정
 	void updateAccoInfo(AccoVO vo);
 	
+	// 등록된 숙소 조회
+	public int existsAccoByBizIdAndDelyn(int bizId, String delyn);
+	
 	// 숙소 한건 조회
 	Integer selectBizCntByAccoNo(int bizId);
 	

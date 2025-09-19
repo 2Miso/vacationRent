@@ -131,6 +131,11 @@
     
      	return true;
       }
+      
+      function deleteAccoFn(){
+    	  
+      }
+      
     </script>
 </head>
 
@@ -195,7 +200,7 @@
           <form action="<c:url value="/biz/biz_mypage_acco" />" method="post" enctype="multipart/form-data">
           <input type="hidden" name="bizId" value="${biz.id}" />
           <div>숙소 타입</div>
-            <select class="form-control" id="accoType" name="type">
+            <select class="form-control" id="accoType" name="type" <c:if test="${disableInput}">disabled</c:if>>
 			  <option value="">-- 숙소 타입 선택 --</option>
 			  <option value="0">호텔, 리조트</option>
 			  <option value="1">모텔</option>
@@ -204,43 +209,43 @@
             <span style="display: inline-block;"></span>
 
           <div>숙소 이름</div>
-            <input class="form-control" type="text" id="accoName" placeholder="숙소 이름을 입력해주세요." name="name">
+            <input class="form-control" type="text" id="accoName" placeholder="숙소 이름을 입력해주세요." name="name" <c:if test="${disableInput}">disabled</c:if>>
             <span style="display: inline-block;"></span>
           
           <div>숙소 주소</div>
-            <input class="form-control" type="text" id="accoAddr" placeholder="숙소 주소를 입력해주세요." name="addr">
+            <input class="form-control" type="text" id="accoAddr" placeholder="숙소 주소를 입력해주세요." name="addr" <c:if test="${disableInput}">disabled</c:if>>
             <span style="display: inline-block;"></span>
 
            
           <div>숙소 전화번호</div>
-            <input class="form-control" type="text" id="accoPhone" placeholder="숙소 전화번호를 입력해주세요." name="phone">
+            <input class="form-control" type="text" id="accoPhone" placeholder="숙소 전화번호를 입력해주세요." name="phone" <c:if test="${disableInput}">disabled</c:if>>
             <span style="display: inline-block;"></span>
 
           
           <div>숙소 정보</div>
-            <input class="form-control" type="text"id="accoInfo" placeholder="숙소 정보를 입력해주세요. 예) 숙소 장점이나 홍보등" name="description">
+            <input class="form-control" type="text"id="accoInfo" placeholder="숙소 정보를 입력해주세요. 예) 숙소 장점이나 홍보등" name="description" <c:if test="${disableInput}">disabled</c:if>>
 			<span style="display: inline-block;"></span>
 
           
           <div>상담가능시간</div>
-            <input class="form-control" type="text" id="accoBizHour" placeholder="상담가능 시간을 입력해주세요." name="bizHour">
+            <input class="form-control" type="text" id="accoBizHour" placeholder="상담가능 시간을 입력해주세요." name="bizHour" <c:if test="${disableInput}">disabled</c:if>>
             <span style="display: inline-block;"></span>
 
           <div>운영 시간</div>
           <div class="d-flex">
               <div>
-                <input class="form-control" type="text" id="accoCheckin" placeholder="입실 시간 예) 00:00" name="checkin">
+                <input class="form-control" type="text" id="accoCheckin" placeholder="입실 시간 예) 00:00" name="checkin" <c:if test="${disableInput}">disabled</c:if>>
                 <span style="display: inline-block;"></span>
               </div>
 
               <div>
-                <input class="form-control" type="text" id="accoCheckout" placeholder="퇴실 시간 예) 24:00" name="checkout">
+                <input class="form-control" type="text" id="accoCheckout" placeholder="퇴실 시간 예) 24:00" name="checkout" <c:if test="${disableInput}">disabled</c:if>>
                 <span style="display: inline-block;"></span>
               </div>
           </div>
           <div>숙소 사진 첨부</div>
           <div>
-	            <input class="form-control" id="accoUpload" type="file" accept="image/*" name="image" multiple />
+	            <input class="form-control" id="accoUpload" type="file" accept="image/*" name="image" multiple <c:if test="${disableInput}">disabled</c:if> />
 	            <span style="display: inline-block;"></span>
           </div>
           
@@ -305,7 +310,7 @@
 		              <div class="swiper-button-prev"></div>
 		          </div>
 	          </c:forEach>
-	          <button link="#" class="btn btn-primary " type="button">삭제하기</button> 
+	          <button link="#" class="btn btn-primary " type="button">사진삭제</button> 
           </div>
           
           <div>숙소 사진 첨부(기존 사진 삭제 후 첨부해주세요.)</div>
@@ -315,6 +320,7 @@
           </div>
           
 			<br><button class="btn btn-primary " type="submit" onclick="return accochangeFn()">수정하기</button><!--링크를 걸어야 합니다-->
+        	<button class="btn btn-primary btn-delete-acco" type="button" onclick="deleteAccoFn()">삭제하기</button> 
         </form>
         </div>
           

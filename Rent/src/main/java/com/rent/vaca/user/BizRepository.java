@@ -1,5 +1,8 @@
 package com.rent.vaca.user;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,6 +48,19 @@ public class BizRepository {
 	// 숙소 한건 조회
 	public Integer selectBizCntByBizId(int bizId) {
 		return template.selectOne("accoMapper.selectBizCntByBizId", bizId);
+	}
+	
+	// 숙소 삭제 여부 조회
+	public int existsAccoByBizIdAndDelyn(int bizId, String delyn) {
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("bizId", bizId);
+		params.put("delyn", delyn);
+
+		return template.selectOne("accoMapper.existsAccoByBizIdAndDelyn", params);
+		
+
+		
 	}
 	
 	// 객실 한건 등록

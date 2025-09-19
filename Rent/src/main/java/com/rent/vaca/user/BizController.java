@@ -163,7 +163,12 @@ public class BizController {
 //		List<AccoVO> accoList = bizService.getAccoListByBizId(biz.getId());
 //	    model.addAttribute("accoList", accoList);
 		
-		model.addAttribute("biz", biz);
+		int count = bizService.existsAccoByBizIdAndDelyn(biz.getId(), "N");
+	    
+	    boolean disableInput = (count > 0);
+	    
+	    model.addAttribute("biz", biz);
+	    model.addAttribute("disableInput", disableInput);
 	   
 		return "biz/biz_mypage_acco";
 	}

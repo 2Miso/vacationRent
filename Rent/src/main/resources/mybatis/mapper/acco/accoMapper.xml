@@ -89,6 +89,11 @@
 		select acco_no from accotb where biz_id = #{bizId}
 	</select>
 	
+	<!-- 숙소 삭제 여부 조회 -->
+	<select id="existsAccoByBizIdAndDelyn" parameterType="map" resultType="int">
+		select count(*) from accotb where biz_id = #{bizId} and delyn = #{delyn}
+	</select>
+	
 	<!-- 숙소1건 조회 -->
 	<select id="selectAccoByAccoNo" parameterType="int" resultMap="accoRoomMap">
 		select 

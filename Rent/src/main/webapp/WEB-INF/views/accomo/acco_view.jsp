@@ -271,11 +271,83 @@ footer {
 <script>
         $(function(){
         	//모달 탭 선택
-            let navItem = $(".nav-item");
+            let navItem = $("#mainPhotoModal .nav-item");
             $(navItem).on("click", function(){
                 navItem.children("a").removeClass("active");
                 $(this).children("a").addClass("active");
             });
+            
+
+	        //상단 사진 클릭 시 모달 전경 탭 클릭 효과
+	        $(".mainPhoto .imgContainer").on("click", function(){
+	        	$(navItem[0]).click();
+	        });
+	        //객실사진 클릭 시 모달 객실탭 클릭 효과
+	        $(".room .roomPhoto").on("click", function(){
+	        	let tabIndex = $(this).parents(".roomList").find(".roomPhoto").index(this)+1;
+	        	$(navItem[tabIndex]).click();
+	        });
+	        
+	        //모달 탭에 따른 객실사진 조회
+	        $("#mainPhotoModal .nav-item").on("click", function(){
+        			$.ajax({
+					//요청부분
+					url : "<c:url value='/acco/photoModal' />",
+					type : "get",
+					data : {
+						"accoNo" : ${acco.accoNo},
+						"roomName" : $(this).find('.active').text()
+					},
+					
+					//응답부분
+					success : function(photoList){
+						let modalBody = $("#mainPhotoModal .modal-body");
+						$(modalBody).html(
+							'<!-- Swiper -->'
+							+'<div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">'
+							    +'<div class="swiper-wrapper">'
+					    );
+						 
+						$.each(photoList, function(index, photo){
+							if(photo.savedName != null){
+								$(".mySwiper2 .swiper-wrapper").append(
+										'<div class="swiper-slide">'
+								        	+'<img src="<c:url value="/resources/img/" />' + photo.savedName + '" />'
+									    +'</div>'
+							    );
+							}
+						});
+						$(modalBody).append(
+							    '</div>'
+							    +'<div class="swiper-button-next"></div>'
+							    +'<div class="swiper-button-prev"></div>'
+							  +'</div><!-- end: .mySwiper2 -->'
+							  +'<div thumbsSlider="" class="swiper mySwiper">'
+							    +'<div class="swiper-wrapper">'
+						);
+						
+						
+						$.each(photoList, function(index, photo){
+							if(photo.savedName != null){
+								$(".mySwiper .swiper-wrapper").append(
+								      '<div class="swiper-slide">'
+								        +'<img src="<c:url value="/resources/img/" />' + photo.savedName + '" />'
+								      +'</div>'
+								);
+							}
+						});
+						$(modalBody).append(
+							    '</div><!-- end: .mySwiper -->'
+							  +'</div><!-- end:Swiper -->'
+						);
+						swiperfn();
+						
+					},
+					error : function(){
+						console.log("사진모달 탭 사진 실패");
+					}
+				});
+	        });
             
             //리뷰, 부대시설, 주소로 스크롤 이동
             $(".subInfo").children().on("click", function(){
@@ -375,68 +447,7 @@ footer {
 				let param = $("#review_order option:selected").val();
 				$(".reviewListContainer").load("<c:url value='/accomo/reviewList/${acco.accoNo}' />?orderBy="+param);
 	        });
-	        
-	        //모달 탭에 따른 객실사진 조회
-	        $("#mainPhotoModal .nav-item").on("click", function(){
-        			$.ajax({
-					//요청부분
-					url : "<c:url value='/acco/photoModal' />",
-					type : "get",
-					data : {
-						"accoNo" : ${acco.accoNo},
-						"roomName" : $(this).find('.active').text()
-					},
-					
-					//응답부분
-					success : function(photoList){
-						let modalBody = $("#mainPhotoModal .modal-body");
-						$(modalBody).html(
-							'<!-- Swiper -->'
-							+'<div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">'
-							    +'<div class="swiper-wrapper">'
-					    );
-						 
-						$.each(photoList, function(index, photo){
-							if(photo.savedName != null){
-								$(".mySwiper2 .swiper-wrapper").append(
-										'<div class="swiper-slide">'
-								        	+'<img src="<c:url value="/resources/img/" />' + photo.savedName + '" />'
-									    +'</div>'
-							    );
-							}
-						});
-						$(modalBody).append(
-							    '</div>'
-							    +'<div class="swiper-button-next"></div>'
-							    +'<div class="swiper-button-prev"></div>'
-							  +'</div><!-- end: .mySwiper2 -->'
-							  +'<div thumbsSlider="" class="swiper mySwiper">'
-							    +'<div class="swiper-wrapper">'
-						);
-						
-						
-						$.each(photoList, function(index, photo){
-							if(photo.savedName != null){
-								$(".mySwiper .swiper-wrapper").append(
-								      '<div class="swiper-slide">'
-								        +'<img src="<c:url value="/resources/img/" />' + photo.savedName + '" />'
-								      +'</div>'
-								);
-							}
-						});
-						$(modalBody).append(
-							    '</div><!-- end: .mySwiper -->'
-							  +'</div><!-- end:Swiper -->'
-						);
-						swiperfn();
-						
-					},
-					error : function(){
-						console.log("사진모달 탭 사진 실패");
-					}
-				});
-	        });
-        });
+        });/* document.ready 끝 */
         
 		 function swiperfn(){
 			    var swiper = new Swiper(".mySwiper", {
@@ -456,18 +467,6 @@ footer {
 			      },
 			    });
 			  }
-        
-        //객실사진 조회 모달 탭 바꾸기
-        function changeTabMenu(obj){
-            let tabId = $(obj).data("tabId");
-            $("#mainPhotoModal [data-content-id]").removeClass("active");
-            $("#mainPhotoModal [data-thumb-id]").removeClass("active");
-            
-            $("[data-content-id="+tabId+"]").addClass("active");
-            $("[data-thumb-id="+tabId+"]").addClass("active");
-        }
-        
-
     </script>
 </head>
 
@@ -535,7 +534,7 @@ footer {
 			</div>
 		</div>
 		<article class="subInfo">
-			<div id="review" class="orangeContainer">
+			<div id="#reviewArea" class="orangeContainer">
 				<div class="orangeContainer" style="display:inline-block; border-width:1px;">
 					<span style="color:var(--bs-orange);">✮</span>${starAvg}
 				</div> ${reviewCount}명 평가
@@ -543,8 +542,8 @@ footer {
 					<c:out value="${reviewList[0].content}" />
 				</div>
 			</div>
-			<div id="facil" class="orangeContainer">서비스 및 부대시설</div>
-			<div id="location" class="orangeContainer">
+			<div id="#facil" class="orangeContainer">서비스 및 부대시설</div>
+			<div id="#location" class="orangeContainer">
 				주소><br>
 				<br>${acco.addr}</div>
 		</article>
@@ -727,7 +726,6 @@ footer {
 			<!-- end:Page -->
 		</article>
 		<!-- end:#reviewArea -->
-
 	</section>
 	<!-- mainPhoto Modal -->
 	<div class="modal fade" id="mainPhotoModal" tabindex="-1"
@@ -741,11 +739,9 @@ footer {
 				</div>
 				<div class="photo_type_tab">
 					<ul class="nav nav-tabs">
-						<li class="nav-item" data-tab-id="content01"
-							onclick="changeTabMenu(this)"><a class="nav-link active">전경</a></li>
+						<li class="nav-item"><a class="nav-link active">전경</a></li>
 						<c:forEach var="room" items="${acco.roomList}">
-						<li class="nav-item" data-tab-id="content02"
-							onclick="changeTabMenu(this)"><a class="nav-link">${room.name}</a>
+						<li class="nav-item"><a class="nav-link">${room.name}</a>
 						</li>
 						</c:forEach>
 					</ul>

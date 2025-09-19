@@ -30,6 +30,19 @@
     }
     </style>
     <script>
+		$(function(){
+			//체크박스 전체 선택시 모든 체크박스 선택 또는 해제
+			$("#everything").change(function(){
+		        if ($(this).is(':checked')) {
+		        	$(".form-check-input").prop('checked', true);
+		        } else {
+		        	$(".form-check-input").prop('checked', false);
+		        }
+			});
+			
+		});
+    
+    
         let category = false;
         function categorychangeFn(obj){
             if(category == false){
@@ -70,33 +83,28 @@
             <div class="my-2"><!--숙소유형 시작-->
                 <h5 style="font-weight: bold;">숙소유형</h5>
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                    <label class="form-check-label" for="checkDefault">  전체</label>
+                    <input class="form-check-input" type="checkbox" value="" id="everything">
+                    <label class="form-check-label" for="everything">  전체</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                    <label class="form-check-label" for="checkDefault">  모텔</label>
+                    <input class="form-check-input" type="checkbox" value="1" id="hotel">
+                    <label class="form-check-label" for="hotel">  호텔</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                    <label class="form-check-label" for="checkDefault">  호텔,리조트</label>
+                    <input class="form-check-input" type="checkbox" value="2" id="motel">
+                    <label class="form-check-label" for="motel">  모텔</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                    <label class="form-check-label" for="checkDefault"> 펜션</label>
+                    <input class="form-check-input" type="checkbox" value="3" id="resort">
+                    <label class="form-check-label" for="resort"> 리조트</label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                    <label class="form-check-label" for="checkDefault">  홈,빌라</label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="checkDefault">
-                    <label class="form-check-label" for="checkDefault"> 캠핑</label>
+                    <input class="form-check-input" type="checkbox" value="4" id="cottage">
+                    <label class="form-check-label" for="cottage">  펜션</label>
                 </div>
             </div><!--숙소유형 끝-->
         </div><!--사이드바 끝-->

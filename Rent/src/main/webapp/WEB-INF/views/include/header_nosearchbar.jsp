@@ -3,15 +3,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-/* 닉네임 출력 테스트용. 삭제할 것.
-
-UserVO userTest = new UserVO();
-userTest.setId(2);
-userTest.setNickname("닉네임입니다");
-userTest.setGrade("A");
-session.setAttribute("user", userTest);
-
-*/
 if(session.getAttribute("user")!=null) {
 	UserVO user = (UserVO)session.getAttribute("user");
 }
@@ -62,10 +53,12 @@ if(session.getAttribute("user")!=null) {
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid d-flex justify-content-between">
 
-    <a class="navbar-brand" href="#">사이트 로고 삽입</a> <!--로고나 사이트이름을 삽입해야 합니다, 메인페이지 링크도 걸어야 합니다.-->
+    <a class="navbar-brand" href="<c:url value="/" />">사이트 로고 삽입</a> <!--로고나 사이트이름을 삽입해야 합니다, 메인페이지 링크도 걸어야 합니다.-->
     
     <div class="collapse navbar-collapse" style="margin-left: 670px;" id="navbarNavDropdown"><!--로그인버튼 또는 닉네임-->
       <ul class="navbar-nav">
+      <c:choose>
+      	<c:when test="${not empty user.nickname}">
         <span class="navbar-text">
           "${user.nickname}"님
           </span>
@@ -76,10 +69,27 @@ if(session.getAttribute("user")!=null) {
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">마이페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
-            <li><a class="dropdown-item" href="#">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
-            <li><a class="dropdown-item" href="#">로그아웃</a></li><!--고객센터 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="<c:url value="/logout" />">로그아웃</a></li><!--고객센터 링크를 걸어야 합니다-->
           </ul>
         </li>
+        </c:when>
+       	<c:otherwise>
+        <span class="navbar-text">
+          <button class="btn btn-primary reserv-btn" onclick="location.href='<c:url value="/login/main" />'">로그인</button>
+          </span>
+        <li class="nav-item dropdown">
+          
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-list"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="<c:url value="/login/main" />">로그인</a></li> <!--로그인 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
+          </ul>
+        </li>
+        </c:otherwise>
+      </c:choose>
       </ul>
     </div>
 

@@ -29,6 +29,16 @@
 		delete from acco_phototb where acco_no = #{accoNo}
 	</delete>
 
+	<!-- 전경사진 모달 -->
+	<select id="photoModalAcco" parameterType="com.rent.vaca.acco.AccoPhotoVO" resultType="com.rent.vaca.acco.AccoPhotoVO">
+		select acco_phototb.* 
+			from accotb 
+    		inner join acco_phototb 
+				on accotb.acco_no=acco_phototb.acco_no and acco_phototb.room_no=0 
+		where accotb.acco_no=#{accoNo};
+	</select>
+
+	<!-- 객실사진 모달 -->
 	<select id="photoModal" parameterType="com.rent.vaca.acco.AccoPhotoVO" resultType="com.rent.vaca.acco.AccoPhotoVO">
 		select p.* 
 			from accotb a 

@@ -32,8 +32,8 @@
             </div>
             <div class="p-2"><!--서비스-->
                 <h1 style="font-weight:bold; font-size:24px;">서비스</h1>
-                <a href="#" style="text-decoration:none; color:black;">공지사항</a><br><!--링크를 걸어야 합니다-->
-                <a href="#" style="text-decoration:none; color:black;">자주묻는질문</a><!--링크를 걸어야 합니다-->
+                <a href="<c:url value="/notice/list" />" style="text-decoration:none; color:black;">공지사항</a><br><!--링크를 걸어야 합니다-->
+                <a href="<c:url value="/customer/faq" />" style="text-decoration:none; color:black;">자주묻는질문</a><!--링크를 걸어야 합니다-->
             </div>
         </div><!--footer 상단부 끝-->
         <div class="me-auto p-2"><!--footer 하단부-->

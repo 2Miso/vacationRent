@@ -101,6 +101,10 @@ public class AccoServiceImpl implements AccoService {
 	
 	//사진모달 데이터 교체
 	public List<AccoPhotoVO> photoModal(AccoPhotoVO vo){
-		return accoPhotoRepository.photoModal(vo);
+		if(vo.getRoomName().equals("전경")) {
+			return accoPhotoRepository.photoModalAcco(vo);
+		} else {
+			return accoPhotoRepository.photoModal(vo);
+		}
 	}
 }

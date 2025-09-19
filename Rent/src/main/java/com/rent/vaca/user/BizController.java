@@ -242,6 +242,12 @@ public class BizController {
 		return "redirect:/biz/biz_mypage_acco";
 	}
 	
+	// 槛家 荐沥 贸府
+	@PostMapping("/biz/edit_acco")
+	public String accoEdit() {
+		return "redirect:/biz/biz_mypage_acco";
+	}
+	
 	// 槛家 昏力 贸府
 	@PostMapping("/biz/delete_acco")
 	public String accoDelete() {

@@ -84,14 +84,27 @@
 		values(#{type}, #{name}, #{addr}, #{phone}, #{description}, #{bizHour}, #{checkin}, #{checkout}, #{bizId})
 	</insert>
 
-	<!-- 객실 등록용 해당 사업자 숙소 1건 조회 -->
-	<select id="selectBizCntByBizId" parameterType="int" resultType="int">
-		select acco_no from accotb where biz_id = #{bizId}
+	<!-- 사업자 숙소 1건 조회 -->
+	<select id="selectBizAccoOne" parameterType="map" resultType="acco">
+		select * from accotb
+			where biz_id = #{bizId} and delyn = 'N' limit 1
 	</select>
 	
 	<!-- 숙소 삭제 여부 조회 -->
 	<select id="existsAccoByBizIdAndDelyn" parameterType="map" resultType="int">
 		select count(*) from accotb where biz_id = #{bizId} and delyn = #{delyn}
+	</select>
+	
+	<select id="getPhotosByBizId" resultType="com.rent.vaca.acco.AccoPhotoVO">
+		select
+        ap.photo_no as photoNo,
+        ap.acco_no as accoNo,
+        ap.saved_name as savedName,
+        ap.original_name as originalName,
+        ap.room_no as roomNo
+    from accotb a
+    join acco_phototb ap on a.acco_no = ap.acco_no
+    where a.biz_id = #{bizId} and a.delyn = 'N'
 	</select>
 	
 	<!-- 숙소1건 조회 -->

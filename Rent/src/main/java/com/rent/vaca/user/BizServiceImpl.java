@@ -73,8 +73,8 @@ public class BizServiceImpl implements BizService{
 	
 	// 숙소 조회
 	@Override
-	public Integer selectBizCntByAccoNo(int bizId) {		
-		return repository.selectBizCntByBizId(bizId);
+	public AccoVO selectBizAccoOne(int bizId) {		
+		return repository.selectBizAccoOne(bizId);
 	}
 
 	// 숙소 삭제여부 조회
@@ -136,6 +136,12 @@ public class BizServiceImpl implements BizService{
 	public List<NoticeVO> myQnaList(NoticeVO vo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	// 내 숙소 등록한 사진 조회
+	@Override
+	public List<AccoVO> getPhotosByBizId(int bizId) {
+		return repository.getPhotosByBizId(bizId);
 	}
 
 

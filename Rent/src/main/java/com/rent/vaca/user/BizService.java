@@ -33,10 +33,10 @@ public interface BizService {
 	void updateAccoInfo(AccoVO vo);
 	
 	// 등록된 숙소 조회
-	public int existsAccoByBizIdAndDelyn(int bizId, String delyn);
+	int existsAccoByBizIdAndDelyn(int bizId, String delyn);
 	
 	// 숙소 한건 조회
-	Integer selectBizCntByAccoNo(int bizId);
+	AccoVO selectBizAccoOne(int bizId);
 	
 	// 객실 한건 등록
 	void insertRoomOne(RoomVO vo);
@@ -64,5 +64,7 @@ public interface BizService {
 	
 	// 내 문의내역 조회
 	List<NoticeVO> myQnaList(NoticeVO vo);
+	// 내 숙소 등록 사진 조회
+	List<AccoVO> getPhotosByBizId(int bizId);
 	
 }

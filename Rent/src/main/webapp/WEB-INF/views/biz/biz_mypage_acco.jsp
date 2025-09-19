@@ -202,9 +202,10 @@
           <div>숙소 타입</div>
             <select class="form-control" id="accoType" name="type" <c:if test="${disableInput}">disabled</c:if>>
 			  <option value="">-- 숙소 타입 선택 --</option>
-			  <option value="0">호텔, 리조트</option>
-			  <option value="1">모텔</option>
-			  <option value="2">펜션</option>
+			  <option value="1">호텔</option>
+			  <option value="2">모텔</option>
+			  <option value="3">리조트</option>
+			  <option value="4">펜션</option>
 			</select>
             <span style="display: inline-block;"></span>
 
@@ -259,48 +260,46 @@
 			<form action="<c:url value="/biz/biz_mypage_acco" />" method="post" enctype="multipart/form-data">
           
           <div>숙소 타입</div>
-            <input type="text" class="form-control" id="editType" placeholder="${type}" name="type">
+            <input type="text" class="form-control" id="editType" placeholder="${acco.typeKo}" name="type">
             <span></span>
           
           <div>숙소 이름</div>
-            <input type="text" class="form-control" id="editName" placeholder="${name}" name="name">
+            <input type="text" class="form-control" id="editName" placeholder="${acco.name}" name="name">
             <span></span>
           
           <div>숙소 주소</div>
-            <input type="text" class="form-control" id="editAddr" placeholder="${addr}" name="addr">
+            <input type="text" class="form-control" id="editAddr" placeholder="${acco.addr}" name="addr">
             <span></span>
           
           <div>숙소 전화번호</div>
-            <input type="text" class="form-control" id="editPhone" placeholder="${phone}" name="phone">
+            <input type="text" class="form-control" id="editPhone" placeholder="${acco.phone}" name="phone">
             <span></span>
           
           <div>숙소 정보</div>
-            <input type="text" class="form-control" id="editInfo" placeholder="${description}" name="description">
+            <input type="text" class="form-control" id="editInfo" placeholder="${acco.description}" name="description">
             <span></span>
           
           <div>상담가능시간</div>
-            <input type="text" class="form-control" id="editBizHour" placeholder="${biz_hour}" name="bizHour">
+            <input type="text" class="form-control" id="editBizHour" placeholder="${acco.bizHour}" name="bizHour">
             <span></span>
 
           <div>운영 시간</div>
           <div class="d-flex">
               <div>
-                <input type="text" class="form-control" id="editCheckin" placeholder="${checkin}" name="checkin">
+                <input type="text" class="form-control" id="editCheckin" placeholder="${acco.checkin}" name="checkin">
                 <span></span>
               </div>
 
            
               <div>
-                <input type="text" class="form-control" id="editCheckout" placeholder="${checkout}" name="checkout">
+                <input type="text" class="form-control" id="editCheckout" placeholder="${acco.checkout}" name="checkout">
                 <span></span>
               </div>
           </div>
           <div class="selectAcco">
-          	  <c:forEach var="acco" items="${accoList}">
-	          	  <div>${acco.name}</div>
 				  <div class="swiper mySwiper-${acco.accoNo}">
 		              <div class="swiper-wrapper">
-		              	<c:forEach var="img" items="${acco.photoList}">
+		              	<c:forEach var="img" items="${accoList}">
 		                  <div class="swiper-slide">
 		                  	<img src="<c:url value='/resources/img/acco/${img.savedName}' />" alt="acco image" />
 		                  </div>
@@ -309,7 +308,6 @@
 		              <div class="swiper-button-next"></div>
 		              <div class="swiper-button-prev"></div>
 		          </div>
-	          </c:forEach>
 	          <button link="#" class="btn btn-primary " type="button">사진삭제</button> 
           </div>
           

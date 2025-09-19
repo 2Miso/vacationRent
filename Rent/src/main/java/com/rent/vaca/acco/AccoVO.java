@@ -33,9 +33,9 @@ public class AccoVO {
 		this.accoNo = accoNo;
 	}
 
-	public String getType() {
+	public String getTypeKo() {
 		String typeKo;
-		switch (type) {
+		switch (this.type) {
 		case 1:
 			typeKo = "хёез";
 			break;

@@ -1,6 +1,7 @@
 package com.rent.vaca.user;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -46,8 +47,8 @@ public class BizRepository {
 	}
 	
 	// 숙소 한건 조회
-	public Integer selectBizCntByBizId(int bizId) {
-		return template.selectOne("accoMapper.selectBizCntByBizId", bizId);
+	public AccoVO selectBizAccoOne(int bizId) {
+		return template.selectOne("accoMapper.selectBizAccoOne", bizId);
 	}
 	
 	// 숙소 삭제 여부 조회
@@ -58,9 +59,11 @@ public class BizRepository {
 		params.put("delyn", delyn);
 
 		return template.selectOne("accoMapper.existsAccoByBizIdAndDelyn", params);
-		
-
-		
+	}
+	
+	// 내 숙소 등록한 사진 조회
+	public List<AccoVO> getPhotosByBizId(int bizId){
+		return template.selectList("accoMapper.getPhotosByBizId", bizId);
 	}
 	
 	// 객실 한건 등록

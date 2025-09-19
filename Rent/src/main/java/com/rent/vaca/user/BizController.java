@@ -159,14 +159,19 @@ public class BizController {
 			return "redirect:/login/biz_login";
 		}
 		
-		// 숙소 사진 조회
-//		List<AccoVO> accoList = bizService.getAccoListByBizId(biz.getId());
-//	    model.addAttribute("accoList", accoList);
+		// 숙소 정보 조회
+		AccoVO acco = bizService.selectBizAccoOne(biz.getId());
 		
+		// 숙소 사진 조회
+		List<AccoVO> accoList = bizService.getPhotosByBizId(biz.getId());
+	    model.addAttribute("accoList", accoList);
+		
+	    // 숙소 삭제 여부 조회
 		int count = bizService.existsAccoByBizIdAndDelyn(biz.getId(), "N");
 	    
 	    boolean disableInput = (count > 0);
 	    
+	    model.addAttribute("acco", acco);
 	    model.addAttribute("biz", biz);
 	    model.addAttribute("disableInput", disableInput);
 	   
@@ -191,15 +196,11 @@ public class BizController {
 			
 			vo1.setBizId(biz.getId());
 			
-			System.out.println("등록 전 bizId = " + vo1.getBizId());
-			System.out.println("등록할 AccoVO = " + vo1);
-			
 	    	// 숙소정보 등록
 	        bizService.insertAccoOne(vo1);
 	        
 	        int accoNo = vo1.getAccoNo();
-	        System.out.println("이미지 파일 개수: " + imageFiles.size());
-	        System.out.println("등록된 accoNo: " + vo1.getAccoNo());
+	        
 	        for (MultipartFile image : imageFiles) {
 	            if (!image.isEmpty()) {
 	                String originalName = image.getOriginalFilename();
@@ -217,9 +218,7 @@ public class BizController {
 	                photoVO.setRoomNo(0);
 	                photoVO.setOriginalName(originalName);
 	                photoVO.setSavedName(savedName);
-	                
-	                System.out.println("[AccoPhotoVO] 저장할 이미지 정보: " + photoVO);
-
+	         
 	                // DB insert
 	                bizService.insertAccoPhoto(photoVO);
 	            }

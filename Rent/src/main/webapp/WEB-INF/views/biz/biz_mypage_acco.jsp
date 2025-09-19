@@ -12,12 +12,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/color_orange.css" />">
     <style>
     body {
         --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
     }
     .swiper {
+    	margin:20px 0 20px 0;
     	width:100%;
     	max-width:800px;
 		height:200px;
@@ -45,6 +48,7 @@
 	}
     </style>
     <script>
+    
       function accochangeFn(){
     	// 숙소 타입 유효성검사
         if($("#accoType").val() == ""){
@@ -132,8 +136,71 @@
      	return true;
       }
       
+      let photoDeleted = false;
+      
+      function editchangeFn(){
+    	// 사진 삭제 여부 확인을 위한 변수 활용
+    	    let isPhotoDeleted = photoDeleted;
+
+    	    // 수정된 입력값이 하나라도 있는지 확인
+    	    let isEdited =
+    	        $("#editType").val().trim() != "" ||
+    	        $("#editName").val().trim() != "" ||
+    	        $("#editAddr").val().trim() != "" ||
+    	        $("#editPhone").val().trim() != "" ||
+    	        $("#editInfo").val().trim() != "" ||
+    	        $("#editBizHour").val().trim() != "" ||
+    	        $("#editCheckin").val().trim() != "" ||
+    	        $("#editCheckout").val().trim() != "";
+
+    	    if (!isEdited && !isPhotoDeleted) {
+    	        alert("수정할 내용을 입력하세요.");
+    	        return false;
+    	    }
+
+    	    // 사진 삭제된 경우 반드시 새 파일 첨부하도록 체크
+    	    if (isPhotoDeleted) {
+    	        let imageInput = document.getElementById("imageUpload");
+    	        let files = imageInput.files;
+
+    	        if (files.length === 0) {
+    	            $(imageInput).next("span").text("사진을 삭제한 경우, 새 이미지를 반드시 업로드해야 합니다.").css("color", "red");
+    	            return false;
+    	        }
+
+    	        for (let i = 0; i < files.length; i++) {
+    	            if (!files[i].type.startsWith("image/")) {
+    	                $(imageInput).next("span").text("이미지 파일만 등록해 주세요.").css("color", "red");
+    	                return false;
+    	            }
+    	        }
+
+    	        $(imageInput).next("span").text(""); // 에러 제거
+    	    }
+
+    	    return true;
+      }
+      
       function deleteAccoFn(){
-    	  
+    	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return;
+      }
+      
+      function deleteAccoPhotoFn(){
+    	  if (!confirm("정말 사진을 삭제하시겠습니까?")) return;
+
+    	  $.ajax({
+    	    url: "<c:url value='/biz/delete_acco_photo' />",
+    	    type: "POST",
+    	    data: { accoNo: "${acco.accoNo}" },
+    	    success: function() {
+    	      alert("사진이 삭제되었습니다.");
+    	      photoDeleted = true;
+    	      // 필요한 경우 UI 갱신 (사진 목록 갱신 등)
+    	    },
+    	    error: function() {
+    	      alert("사진 삭제에 실패했습니다.");
+    	    }
+    	  });
       }
       
     </script>
@@ -296,8 +363,24 @@
                 <span></span>
               </div>
           </div>
-          <div class="selectAcco">
-				  <div class="swiper mySwiper-${acco.accoNo}">
+          
+          <div>숙소 사진 첨부(기존 사진 삭제 후 첨부해주세요.)</div>
+          <div>
+	            <input id="imageUpload" class="form-control" type="file" multiple accept="image/*" name="image">
+	            <span></span>
+          </div>
+          
+			<br><button class="btn btn-primary " type="submit" onclick="return editchangeFn()">수정하기</button><!--링크를 걸어야 합니다-->
+        </form>
+        
+        <form action="<c:url value="/biz/delete_acco" />" style="display:inline-block;">
+        	<button class="btn btn-primary btn-delete-acco" type="submit" onclick="deleteAccoFn()">삭제하기</button> 
+        </form>
+        
+        <form action="<c:url value="/biz/delete_acco_photo" />" method="post">
+         <input type="hidden" name="accoNo" value="${acco.accoNo}" />
+         <div class="selectAcco">
+				  <div class="swiper mySwiper">
 		              <div class="swiper-wrapper">
 		              	<c:forEach var="img" items="${accoList}">
 		                  <div class="swiper-slide">
@@ -308,17 +391,8 @@
 		              <div class="swiper-button-next"></div>
 		              <div class="swiper-button-prev"></div>
 		          </div>
-	          <button link="#" class="btn btn-primary " type="button">사진삭제</button> 
+	          <button class="btn btn-primary " type="submit" onclick="deleteAccoPhotoFn()">사진삭제</button> 
           </div>
-          
-          <div>숙소 사진 첨부(기존 사진 삭제 후 첨부해주세요.)</div>
-          <div>
-	            <input id="imageUpload" class="form-control" type="file" multiple accept="image/*" name="image">
-	            <span></span>
-          </div>
-          
-			<br><button class="btn btn-primary " type="submit" onclick="return accochangeFn()">수정하기</button><!--링크를 걸어야 합니다-->
-        	<button class="btn btn-primary btn-delete-acco" type="button" onclick="deleteAccoFn()">삭제하기</button> 
         </form>
         </div>
           

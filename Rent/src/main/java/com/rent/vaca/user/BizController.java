@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -163,7 +164,7 @@ public class BizController {
 		AccoVO acco = bizService.selectBizAccoOne(biz.getId());
 		
 		// 숙소 사진 조회
-		List<AccoVO> accoList = bizService.getPhotosByBizId(biz.getId());
+		List<AccoPhotoVO> accoList = bizService.getPhotosByBizId(acco.getAccoNo());
 	    model.addAttribute("accoList", accoList);
 		
 	    // 숙소 삭제 여부 조회
@@ -180,9 +181,10 @@ public class BizController {
 	
 	// 숙소 등록 처리
 	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.POST)
-	public String addAcco(BizVO vo, AccoVO vo1, Model model, HttpSession session,
-			@RequestParam("image") List<MultipartFile> imageFiles,
-			HttpServletRequest request) {
+	public String addAcco(BizVO vo, AccoVO vo1, Model model,
+			HttpSession session, HttpServletRequest request,
+			@RequestParam("image") List<MultipartFile> imageFiles
+			) {
 		
 		try {
 			
@@ -199,7 +201,15 @@ public class BizController {
 	    	// 숙소정보 등록
 	        bizService.insertAccoOne(vo1);
 	        
+	        // 숙소 이미지 등록
+	        
 	        int accoNo = vo1.getAccoNo();
+	        
+	        String uploadDir = request.getSession().getServletContext().getRealPath("resources/img/acco");
+			File dir = new File(uploadDir);
+            if(!dir.exists()) {
+            	dir.mkdirs();
+            }
 	        
 	        for (MultipartFile image : imageFiles) {
 	            if (!image.isEmpty()) {
@@ -208,7 +218,6 @@ public class BizController {
 	                String savedName = timeStamp + "_" + originalName;
 
 	                // 이미지 저장 경로
-	                String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
 	                File saveFile = new File(uploadDir, savedName);
 	                image.transferTo(saveFile);
 
@@ -231,6 +240,92 @@ public class BizController {
 	    }
 	    
 		return "redirect:/biz/biz_mypage_acco";
+	}
+	
+	// 숙소 삭제 처리
+	@PostMapping("/biz/delete_acco")
+	public String accoDelete() {
+		return "redirect:/biz/biz_mypage_acco";
+	}
+	
+	// 사진 등록 처리
+	@PostMapping("/biz/upload_acco_photo")
+	public String uploadAccoPhoto(
+			@RequestParam("accoNo") int accoNo,
+			@RequestParam("image") List<MultipartFile> imageFiles,
+			HttpServletRequest request
+			) {
+		
+		try {
+			String uploadDir = request.getSession().getServletContext().getRealPath("resources/img/acco");
+			File dir = new File(uploadDir);
+            if(!dir.exists()) {
+            	dir.mkdirs();
+            }
+			
+			for (MultipartFile image : imageFiles) {
+	            if (!image.isEmpty()) {
+	                String originalName = image.getOriginalFilename();
+	                String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+	                String savedName = timeStamp + "_" + originalName;
+	                
+	                // 이미지 저장 경로
+	                File saveFile = new File(uploadDir, savedName);
+	                image.transferTo(saveFile);
+
+	                // DB 저장용 VO 세팅
+	                AccoPhotoVO photoVO = new AccoPhotoVO();
+	                photoVO.setAccoNo(accoNo);
+	                photoVO.setRoomNo(0);
+	                photoVO.setOriginalName(originalName);
+	                photoVO.setSavedName(savedName);
+	         
+	                // DB insert
+	                bizService.insertAccoPhoto(photoVO);
+	            }
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return "/biz/biz_mypage_acco";
+	}
+	
+	// 사진 삭제 처리
+	@PostMapping("/biz/delete_acco_photo")
+	public String deleteAccoPhoto(HttpSession session,
+			@RequestParam("accoNo") int accoNo,
+			HttpServletRequest request) {
+		try {
+	        // DB에서 삭제
+		
+			// 현재 로그인 정보 가져오기
+			BizVO biz = (BizVO) session.getAttribute("biz");
+			
+			// 삭제할 숙소 번호
+			int deleteAccoNo = accoNo;
+			
+	        List<AccoPhotoVO> photoList = bizService.getPhotosByBizId(deleteAccoNo);
+
+	        // 실제 파일도 삭제
+	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
+	        
+	        for (AccoPhotoVO photo : photoList) {
+	            String savedName = photo.getSavedName();
+	            File file = new File(uploadDir, savedName);
+	            if (file.exists()) {
+	                file.delete();
+	            }
+	        }
+	        
+	        bizService.deleteAccoPhotoByAccoNo(deleteAccoNo);
+
+	        return "redirect:/biz/biz_mypage_acco";
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/biz/biz_mypage_acco?error=true";
+	    }
 	}
 	
 	// 객실 등록 페이지

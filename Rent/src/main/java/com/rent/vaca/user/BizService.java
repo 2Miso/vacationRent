@@ -38,6 +38,9 @@ public interface BizService {
 	// 숙소 한건 조회
 	AccoVO selectBizAccoOne(int bizId);
 	
+	// 숙소 사진 삭제
+	int deleteAccoPhotoByAccoNo(int accoNo);
+	
 	// 객실 한건 등록
 	void insertRoomOne(RoomVO vo);
 	
@@ -64,7 +67,8 @@ public interface BizService {
 	
 	// 내 문의내역 조회
 	List<NoticeVO> myQnaList(NoticeVO vo);
+	
 	// 내 숙소 등록 사진 조회
-	List<AccoVO> getPhotosByBizId(int bizId);
+	List<AccoPhotoVO> getPhotosByBizId(int accoNo);
 	
 }

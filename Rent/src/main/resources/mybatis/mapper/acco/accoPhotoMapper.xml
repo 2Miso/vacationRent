@@ -12,6 +12,22 @@
 	<select id="selectTopPhotos" parameterType="int" resultType="com.rent.vaca.acco.AccoPhotoVO">
 		select * from acco_phototb where acco_no=#{accoNo} limit 5;
 	</select>
+	
+	<!-- 삭제할 사진 조회 -->
+	<select id="getPhotosByBizId" resultType="com.rent.vaca.acco.AccoPhotoVO">
+	    select
+	        photo_no as photoNo,
+	        acco_no as accoNo,
+	        saved_name as savedName,
+	        original_name as originalName,
+	        room_no as roomNo
+	    from acco_phototb where acco_no = #{accoNo}
+	</select>
+	
+	<!-- 숙소 사진 삭제 -->
+	<delete id="deleteAccoPhotoByAccoNo" parameterType="int">
+		delete from acco_phototb where acco_no = #{accoNo}
+	</delete>
 
 	<select id="photoModal" parameterType="com.rent.vaca.acco.AccoPhotoVO" resultType="com.rent.vaca.acco.AccoPhotoVO">
 		select p.* 

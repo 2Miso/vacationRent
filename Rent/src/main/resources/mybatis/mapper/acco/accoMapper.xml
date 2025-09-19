@@ -95,18 +95,6 @@
 		select count(*) from accotb where biz_id = #{bizId} and delyn = #{delyn}
 	</select>
 	
-	<select id="getPhotosByBizId" resultType="com.rent.vaca.acco.AccoPhotoVO">
-		select
-        ap.photo_no as photoNo,
-        ap.acco_no as accoNo,
-        ap.saved_name as savedName,
-        ap.original_name as originalName,
-        ap.room_no as roomNo
-    from accotb a
-    join acco_phototb ap on a.acco_no = ap.acco_no
-    where a.biz_id = #{bizId} and a.delyn = 'N'
-	</select>
-	
 	<!-- 숙소1건 조회 -->
 	<select id="selectAccoByAccoNo" parameterType="int" resultMap="accoRoomMap">
 		select 

@@ -83,6 +83,18 @@ public class BizServiceImpl implements BizService{
 		return repository.existsAccoByBizIdAndDelyn(bizId, delyn);
 	}
 	
+	// 숙소 사진 삭제
+	@Override
+	public int deleteAccoPhotoByAccoNo(int accoNo) {
+		return repository.deleteAccoPhotoByAccoNo(accoNo);
+	}
+	
+	// 내 숙소 등록한 사진 조회
+	@Override
+	public List<AccoPhotoVO> getPhotosByBizId(int accoNo) {
+		return repository.getPhotosByBizId(accoNo);
+	}
+	
 	// 객실 등록
 	@Override
 	public void insertRoomOne(RoomVO vo) {
@@ -138,11 +150,9 @@ public class BizServiceImpl implements BizService{
 		return null;
 	}
 
-	// 내 숙소 등록한 사진 조회
-	@Override
-	public List<AccoVO> getPhotosByBizId(int bizId) {
-		return repository.getPhotosByBizId(bizId);
-	}
+
+
+
 
 
 	

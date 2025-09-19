@@ -62,8 +62,13 @@ public class BizRepository {
 	}
 	
 	// 내 숙소 등록한 사진 조회
-	public List<AccoVO> getPhotosByBizId(int bizId){
-		return template.selectList("accoMapper.getPhotosByBizId", bizId);
+	public List<AccoPhotoVO> getPhotosByBizId(int accoNo){
+		return template.selectList("accoPhotoMapper.getPhotosByBizId", accoNo);
+	}
+	
+	// 숙소 사진 삭제
+	public int deleteAccoPhotoByAccoNo(int accoNo) {
+		return template.delete("accoPhotoMapper.getDeleteAccoPhotoByAccoNo", accoNo);
 	}
 	
 	// 객실 한건 등록

@@ -8,7 +8,7 @@
 
 <mapper namespace="accoPhotoMapper">
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
-
+	<!-- 숙소1건조회 상단 사진 5개 조회 -->
 	<select id="selectTopPhotos" parameterType="int" resultType="com.rent.vaca.acco.AccoPhotoVO">
 		select * from acco_phototb where acco_no=#{accoNo} limit 5;
 	</select>

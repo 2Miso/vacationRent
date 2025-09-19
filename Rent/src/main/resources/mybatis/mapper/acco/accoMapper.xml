@@ -66,12 +66,6 @@
 		</collection>
 	</resultMap>
 	
-	<resultMap id="accoPhotoMap" type="accoPhoto">
-	    <id property="photoNo" column="photo_no" />
-	    <result property="savedName" column="saved_name" />
-	    <result property="originalName" column="original_name" />
-	</resultMap>
-	
 	<!-- 숙소 사진 등록 -->
 	<insert id="insertAccoPhoto" parameterType="accoPhoto" useGeneratedKeys="true" keyProperty="accoNo">
 	    insert into acco_phototb (original_name, saved_name, acco_no, room_no)
@@ -117,4 +111,14 @@
 		where a.acco_no=#{accoNo};
 	</select>
 	
+	<!-- 메인페이지에서 숙소 검색 -->
+	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
+		select * 
+			from accotb a
+			left join acco_phototb p
+				on a.acco_no=p.acco_no and room_no=0 and type in(#{type}) 
+			inner join roomtb r 
+				on a.acco_no=r.acco_no and price between #{priceLow} and #{priceHigh}
+				
+	</select>
 </mapper>

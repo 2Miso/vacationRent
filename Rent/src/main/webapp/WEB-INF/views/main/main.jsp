@@ -53,14 +53,14 @@
             <div style="height:10px;"></div><!--여백-->
             
             <h3 class="fw-bold mx-2 my-2">검색하기</h3><!--검색하기 시작-->
-            <form action="<c:url value="/search" />" method="post">
+            <form action="<c:url value="" />" method="post">
             <div class="d-flex  justify-content-around " style="height:50px;">
-                <input type="text" class="form-control " placeholder="검색하기" style="width:350px; height:50px;">
+                <input name="text" type="text" class="form-control " placeholder="검색하기" style="width:350px; height:50px;">
                 <div class="d-flex align-items-center">
-                <input type="date" class="form-control" placeholder="일정(부터)" style="width:150px; height:50px;">-
-                <input type="date" class="form-control" placeholder="일정(까지)" style="width:150px; height:50px;">
+                <input name="checkIn" type="date" class="form-control" placeholder="일정(부터)" style="width:150px; height:50px;">-
+                <input name="checkOut" type="date" class="form-control" placeholder="일정(까지)" style="width:150px; height:50px;">
                 </div>
-                <input type="text" class="form-control " placeholder="인원(명)" style="width:100px; height:50px;">
+                <input name="head" type="text" class="form-control " placeholder="인원(명)" style="width:100px; height:50px;">
                 <button link="<c:url value="" />" class="btn btn-primary " type="submit" style="width:200px; height:50px;">검색하기</button>
             </div><!--검색하기 끝-->
 
@@ -69,8 +69,8 @@
                     <div class="mx-2"><!--가격 카테고리 시작-->
                         <h3 class="fw-bold my-3">가격</h3>
                         <div class="d-flex align-items-center ">
-                            <input type="text" class="form-control" placeholder="최저" style="width:150px;">-
-                            <input type="text" class="form-control" placeholder="최대" style="width:150px;">
+                            <input name="priceLow" type="text" class="form-control" placeholder="최저" style="width:150px;">-
+                            <input name="priceHigh" type="text" class="form-control" placeholder="최대" style="width:150px;">
                         </div>
                     </div><!--가격 카테고리 끝-->
                     
@@ -83,22 +83,22 @@
                             </div>
 
                             <div class="form-check mx-2">
-                                <input class="form-check-input" type="checkbox" value="1" id="hotel">
+                                <input name="type" class="form-check-input" type="checkbox" value="1" id="hotel">
                                 <label class="form-check-label">호텔</label>
                             </div>
 
                             <div class="form-check mx-2">
-                                <input class="form-check-input" type="checkbox" value="2" id="motel">
+                                <input name="type" class="form-check-input" type="checkbox" value="2" id="motel">
                                 <label class="form-check-label">모텔</label>
                             </div>
 
                             <div class="form-check mx-2">
-                                <input class="form-check-input" type="checkbox" value="3" id="resort">
+                                <input name="type" class="form-check-input" type="checkbox" value="3" id="resort">
                                 <label class="form-check-label">리조트</label>
                             </div>
 
                             <div class="form-check mx-2">
-                                <input class="form-check-input" type="checkbox" value="4" id="cottage">
+                                <input name="type" class="form-check-input" type="checkbox" value="4" id="cottage">
                                 <label class="form-check-label">펜션</label>
                             </div>
                         </div>

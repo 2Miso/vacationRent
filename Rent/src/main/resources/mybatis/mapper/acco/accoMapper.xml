@@ -53,21 +53,7 @@
 			<result property="standardHead" column="standard_head" />
 			<result property="extraHead" column="extra_head" />
 			<result property="description" column="r_description" />
-			<collection property="reservList" ofType="com.rent.vaca.reserv.ReservVO">
-				<id property="reservCode" column="reserv_code" />
-				<result property="userId" column="user_id" />
-				<result property="roomNo" column="room_no" />
-				<result property="name" column="name" />
-				<result property="phone" column="phone" />
-				<result property="email" column="email" />
-				<result property="checkin" column="checkin" />
-				<result property="checkout" column="checkout" />
-				<result property="reservDate" column="reserv_date" />
-				<result property="cancelyn" column="cancelyn" />
-				<result property="payment" column="payment" />
-				<result property="adultNo" column="adult_no" />
-				<result property="childNo" column="child_no" />
-			</collection>
+			<result property="thumbnailImage" column="thumbnail_image" />
 		</collection>
 		
 		<!-- 1:n 테이블 관계 매핑 -->
@@ -116,14 +102,12 @@
 			r.standard_head, 
 			r.extra_head, 
 			r.description as r_description, 
-			p.* 
+			(select saved_name from acco_phototb p where p.room_no = r.room_no limit 0,1) as thumbnail_image 
 		from accotb a 
 			inner join biztb b 
 				on a.biz_id=b.id and a.delyn='N' 
 			inner join roomtb r 
 				on a.acco_no=r.acco_no and r.delyn='N' 
-			left join acco_phototb p 
-				on a.acco_no=p.acco_no and r.room_no=p.room_no 
 		where a.acco_no=#{accoNo};
 	</select>
 	

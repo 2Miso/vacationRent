@@ -34,6 +34,7 @@ UserVO user = (UserVO) session.getAttribute("user");
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/heart_button.css" />">
 <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
+<script src="<c:url value="/resources/js/heart_button.js" />"></script>
 <style>
 section {
 	padding: 50px 0;
@@ -322,6 +323,7 @@ footer {
 					//응답부분
 					success : function(response){
 						if(response==1){
+							/* timeline.play(); */
 							$("#heart").addClass("active");
 						} else if(response==0){
 							$("#heart").removeClass("active");
@@ -808,8 +810,7 @@ footer {
 	      },
 	    });
 	  </script>
-	<!-- heart button -->
-	<script src="<c:url value="/resources/js/heart_button.js" />"></script>
+
 </body>
 </html>
 <%@include file="../include/footer.jsp"%>

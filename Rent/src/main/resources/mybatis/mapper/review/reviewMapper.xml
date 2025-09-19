@@ -8,30 +8,6 @@
 
 <mapper namespace="reviewMapper">
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
-	<resultMap id="reviewAuthorMap" type="com.rent.vaca.review.ReviewVO">
-			<id property="reviewNo" column="review_no" />
-			<result property="star" column="star" />
-			<result property="content" column="content" />
-			<result property="wdate" column="wdate" />
-			<result property="reply" column="reply" />
-
-		<!-- 1:1 테이블 관계 매핑 -->
-		<association property="author" javaType="com.rent.vaca.user.UserVO">
-			<id property="id" column="id" />
-			<result property="name" column="name" />
-			<result property="nickname" column="nickname" />
-			<result property="pw" column="pw" />
-			<result property="wdate" column="wdate" />
-			<result property="email" column="email" />
-			<result property="phone" column="phone" />
-			<result property="grade" column="grade" />
-			<result property="social" column="social" />
-			<result property="delyn" column="delyn" />
-			<result property="banyn" column="banyn" />
-			<result property="banReason" column="ban_reason" />
-		</association>
-	</resultMap>
-
 	<resultMap id="accoReviewMap" type="review">
 		<id property="reviewNo" column="review_no" />
 		<result property="star" column="star" />

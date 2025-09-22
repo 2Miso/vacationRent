@@ -325,7 +325,8 @@
           <h3 class="fw-bold">등록된 숙소 관리</h3><!-- 숙소 수정 -->
           <h4>숙소 수정</h4>
 			<form action="<c:url value="/biz/edit_acco" />" method="post" enctype="multipart/form-data">
-          
+           	<input type="hidden" name="bizId" value="${biz.id}" />
+           	<input type="hidden" name="accoNo" value="${acco.accoNo}" />
           <div>숙소 타입</div>
             <select class="form-select" id="editType" name="type">
 			  <option value="1" <c:if test="${acco.type == 1}">selected</c:if>>호텔</option>
@@ -336,35 +337,35 @@
             <span></span>
           
           <div>숙소 이름</div>
-            <input type="text" class="form-control" id="editName" placeholder="${acco.name}" name="name">
+            <input type="text" class="form-control" id="editName" value="${acco.name}" name="name">
             <span></span>
           
           <div>숙소 주소</div>
-            <input type="text" class="form-control" id="editAddr" placeholder="${acco.addr}" name="addr">
+            <input type="text" class="form-control" id="editAddr" value="${acco.addr}" name="addr">
             <span></span>
           
           <div>숙소 전화번호</div>
-            <input type="text" class="form-control" id="editPhone" placeholder="${acco.phone}" name="phone">
+            <input type="text" class="form-control" id="editPhone" value="${acco.phone}" name="phone">
             <span></span>
           
           <div>숙소 정보</div>
-            <input type="text" class="form-control" id="editInfo" placeholder="${acco.description}" name="description">
+            <input type="text" class="form-control" id="editInfo" value="${acco.description}" name="description">
             <span></span>
           
           <div>상담가능시간</div>
-            <input type="text" class="form-control" id="editBizHour" placeholder="${acco.bizHour}" name="bizHour">
+            <input type="text" class="form-control" id="editBizHour" value="${acco.bizHour}" name="bizHour">
             <span></span>
 
           <div>운영 시간</div>
           <div class="d-flex">
               <div>
-                <input type="text" class="form-control" id="editCheckin" placeholder="${acco.checkin}" name="checkin">
+                <input type="text" class="form-control" id="editCheckin" value="${acco.checkin}" name="checkin">
                 <span></span>
               </div>
 
            
               <div>
-                <input type="text" class="form-control" id="editCheckout" placeholder="${acco.checkout}" name="checkout">
+                <input type="text" class="form-control" id="editCheckout" value="${acco.checkout}" name="checkout">
                 <span></span>
               </div>
           </div>

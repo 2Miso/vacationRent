@@ -152,7 +152,7 @@ public class BizController {
 	
 	// 숙소 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.GET)
-	public String addAcco(HttpSession session, Model model) {
+	public String addAcco(HttpSession session, Model model, BizVO vo) {
 	
 		// 현재 로그인 정보 가져오기
 		BizVO biz = (BizVO) session.getAttribute("biz");
@@ -161,13 +161,15 @@ public class BizController {
 			// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
 			return "redirect:/login/biz_login";
 		}
-		
+
 		// 숙소 정보 조회
 		AccoVO acco = bizService.selectBizAccoOne(biz.getId());
-		
+
 		// 숙소 사진 조회
-		List<AccoPhotoVO> accoList = bizService.getPhotosByBizId(acco.getAccoNo());
-	    model.addAttribute("accoList", accoList);
+		if(acco != null) {
+			List<AccoPhotoVO> accoList = bizService.getPhotosByBizId(acco.getAccoNo());
+		    model.addAttribute("accoList", accoList);
+		}
 		
 	    // 숙소 삭제 여부 조회
 		int count = bizService.existsAccoByBizIdAndDelyn(biz.getId(), "N");
@@ -246,19 +248,28 @@ public class BizController {
 	
 	// 숙소 수정 처리
 	@PostMapping("/biz/edit_acco")
-	public String accoEdit(@ModelAttribute AccoVO vo,
+	public String accoEdit(@ModelAttribute AccoVO vo, HttpSession session,
 	                       @RequestParam(value = "image", required = false) MultipartFile[] imageFiles) {
 
+		// 현재 로그인 정보 가져오기
+		BizVO biz = (BizVO) session.getAttribute("biz");
+		
+		if(biz == null) {
+			// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
+			return "redirect:/login/biz_login";
+		}
+		
 	    // 기존 숙소 정보 불러오기
-	    AccoVO existingAcco = bizService.selectBizAccoOne(vo.getAccoNo());
+	    AccoVO existingAcco = bizService.selectBizAccoOne(vo.getBizId());
+	    System.out.println(existingAcco);
 	    if (existingAcco == null) {
 	        // 존재하지 않으면 실패 처리
 	        return "redirect:/biz/biz_mypage_acco?error=notfound";
-	    }
-
+	    }	    
+	    
 	    // 2. 클라이언트에서 전달되지 않은 필드는 기존 값 유지
-	    if (vo.getType() != existingAcco.getType()) {
-	    	vo.setType(vo.getType());
+	    if (!StringUtils.hasText(vo.getName())) {
+	    	vo.setName(existingAcco.getName());
 	    }
 	    if (!StringUtils.hasText(vo.getName())) vo.setName(existingAcco.getName());
 	    if (!StringUtils.hasText(vo.getAddr())) vo.setAddr(existingAcco.getAddr());

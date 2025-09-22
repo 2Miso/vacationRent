@@ -6,6 +6,23 @@
 <!-- mybatis mapper파일 -->
 
 <mapper namespace="bizMapper">
+
+<resultMap id="bizResultMap" type="biz">
+	<id property="id" column="id"/>
+	<result property="email" column="email"/>
+	<result property="pw" column="pw"/>
+	<result property="phone" column="phone"/>
+	<result property="wdate" column="wdate"/>
+	<result property="approveyn" column="approveyn"/>
+	<result property="delyn" column="delyn"/>
+	<result property="name" column="name"/>
+	<result property="owner" column="owner"/>
+	<result property="certificateNo" column="certificate_no"/>
+	<result property="certificateSavedName" column="certificate_saved_name"/>
+	<result property="banyn" column="banyn"/>
+	<result property="banReason" column="ban_reason"/>
+</resultMap>
+
 	<!-- 회원가입 -->
 	<insert id="insertBizOne" parameterType="biz">
 		insert into biztb(email, pw, phone, name, owner, certificate_no)
@@ -13,7 +30,7 @@
 	</insert>
 	
 	<!-- 로그인 -->
-	<select id="selectBizOne" resultType="biz" parameterType="biz">
+	<select id="selectBizOne" parameterType="biz" resultMap="bizResultMap">
 		select * from biztb where email = #{email}
 	</select>
 	

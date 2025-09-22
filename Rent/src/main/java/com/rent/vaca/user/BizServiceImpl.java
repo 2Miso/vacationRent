@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rent.vaca.acco.AccoPhotoVO;
@@ -20,6 +21,7 @@ import com.rent.vaca.reserv.ReservVO;
 import com.rent.vaca.room.RoomVO;
 
 @Service
+@Transactional
 public class BizServiceImpl implements BizService{
 
 	private final BizRepository repository;
@@ -53,7 +55,20 @@ public class BizServiceImpl implements BizService{
 	// 로그인
 	@Override
 	public BizVO selectBizOne(BizVO vo) {
-		return repository.selectBizOne(vo);
+		BizVO biz = repository.selectBizOne(vo);
+		
+		if(biz == null) {
+			return null;
+		}else {
+			// db에 저장된 비밀번호랑 사용자가 입력한 비밀번호가 일치하는지 확인
+			boolean match =  passwordEncoder.matches(vo.getPw(), biz.getPw());
+			if(match == true) {
+				return biz;
+			}else {
+				return null;
+			}
+		}
+		
 	}
 
 	// 이메일 중복 확인

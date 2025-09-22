@@ -28,7 +28,30 @@
     	        }
     		});
     		
-    	});
+    		//체크인날짜<체크아웃날짜 검증
+    		
+    		
+    		//가격, 인원엔 숫자만 입력 가능
+    		$(".price input").add($("[name=head]")).keyup(function(){
+    			let value = $(this).val();
+    			let regex = /[^0-9]/g;
+    			let onlyNumber = value.replace(regex, '');
+    			
+    			if (value != onlyNumber) {
+    		        $(this).val(onlyNumber);
+    		    }
+    		});
+    		
+    		//최저가격<최대가격 검증
+    		$(".price input").blur(function(){
+    			priceCheck();
+    		});
+    		
+    		//날짜, 가격 앞뒤 맞을 때 form 제출
+    		$(".searchBtn").on("click", function(){
+    			$("form").submit();
+    		});
+    	});/* document.ready 끝 */
     
     	let category = false;
         function categorychangeFn(obj){
@@ -39,6 +62,15 @@
                 $(obj).text("카테고리 펼치기")
                 category=false;
             }
+        }
+        
+        function priceCheck(){
+				let priceLow = $("[name=priceLow]");
+				let priceHigh = $("[name=priceHigh]");
+				
+				if(priceLow.val() != "" && priceHigh.val() != "" && Number(priceLow.val()) > Number(priceHigh.val())){
+						alert('최대가격을 최저가격보다 높게 입력해야 합니다.');
+				}
         }
     </script>
 </head>
@@ -61,14 +93,14 @@
                 <input name="checkOut" type="date" class="form-control" placeholder="일정(까지)" style="width:150px; height:50px;">
                 </div>
                 <input name="head" type="text" class="form-control " placeholder="인원(명)" style="width:100px; height:50px;">
-                <button class="btn btn-primary " type="submit" style="width:200px; height:50px;">검색하기</button>
+                <button class="btn btn-primary searchBtn" type="button" style="width:200px; height:50px;">검색하기</button>
             </div><!--검색하기 끝-->
 
             <div class="collapse" id="collapseExample" ><!--카테고리 열고 접기-->
                 <div class="d-flex align-items-center" style="height:150px;  background-color: white;"><!--카테고리 내용물 시작-->
                     <div class="mx-2"><!--가격 카테고리 시작-->
                         <h3 class="fw-bold my-3">가격</h3>
-                        <div class="d-flex align-items-center ">
+                        <div class="d-flex align-items-center price">
                             <input name="priceLow" type="text" class="form-control" placeholder="최저" style="width:150px;">-
                             <input name="priceHigh" type="text" class="form-control" placeholder="최대" style="width:150px;">
                         </div>

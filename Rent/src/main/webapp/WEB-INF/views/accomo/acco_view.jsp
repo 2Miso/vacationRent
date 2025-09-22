@@ -346,27 +346,28 @@ footer {
             $(".reserv-btn").on("click", function(){
             	location.href="<c:url value="/reservation/reserv_ok_payment" />";
             });
-            //페이지 로딩 시 관심등록 조회 후 관심숙소면 빨간하트
-            $.ajax({
-					//요청부분
-					url : "<c:url value='/mypage/interest' />",
-					type : "get",
-					data : {
-						"userId" : "${sessionScope.user.id}",
-						"accoNo" : ${acco.accoNo}
-					},
-					
-					//응답부분
-					success : function(response){
-						if(response==true){
-							$("#heart").addClass("active");
+            //페이지 로딩 시 로그인 회원은 관심등록 조회 후 관심숙소면 빨간하트
+            if(${not empty sessionScope.user}){
+	            $.ajax({
+						//요청부분
+						url : "<c:url value='/mypage/interest' />",
+						type : "get",
+						data : {
+							"userId" : "${sessionScope.user.id}",
+							"accoNo" : ${acco.accoNo}
+						},
+						
+						//응답부분
+						success : function(response){
+							if(response==true){
+								$("#heart").addClass("active");
+							}
+						},
+						error : function(){
+							console.log("관심조회 에러");
 						}
-					},
-					error : function(){
-						console.log("관심조회 에러");
-					}
-			});
-            
+				});
+            }
             
             //하트버튼 클릭 시 효과 생성
             var scaleCurve = mojs.easing.path('M0,100 L25,99.9999983 C26.2328835,75.0708847 19.7847843,0 100,0');

@@ -126,16 +126,30 @@
 	</select>
 	
 	<!-- 메인페이지에서 숙소 검색 -->
-<!--  	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
-		select 
+ 	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
+		select distinct
 			a.name, 
-			a.type, 
+			a.type 
 		from accotb a 
 		inner join roomtb r
 			on a.acco_no=r.acco_no 
+		inner join reservtb 
+			on r.room_no = reservtb.room_no
 		<where>
 			<if test='text != null and text != ""'>
 				a.name like concat('%', #{text}, '%')
+			</if>
+			<if test='checkIn != "" and checkOut != ""'>
+				and r.room_no not in 
+					(select 
+						room_no 
+					from reservtb 
+					where checkin between #{checkIn} and #{checkOut} 
+						or checkout between #{checkIn} and #{checkOut}
+					)
+			</if>
+			<if test='head != null and head != ""'>
+				and (r.standard_head + r.extra_head) &gt;=#{head}
 			</if>
 			<if test='priceLow != null and priceLow != ""'>
 				and r.price &gt;= #{priceLow}
@@ -143,7 +157,13 @@
 			<if test='priceHigh != null and priceHigh != ""'>
 				and r.price &lt;= #{priceHigh}
 			</if>
-			
+			<if test='type != null'>
+				and a.type in(
+ 				<foreach item="t" collection="type" separator=",">
+ 					#{t}
+ 				</foreach>
+				)
+			</if>
 		</where>
-	</select> -->
+	</select>
 </mapper>

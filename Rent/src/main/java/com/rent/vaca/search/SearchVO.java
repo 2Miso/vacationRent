@@ -53,4 +53,9 @@ public class SearchVO {
 	public void setType(List<Integer> type) {
 		this.type = type;
 	}
+	@Override
+	public String toString() {
+		return "SearchVO [text=" + text + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", head=" + head
+				+ ", priceLow=" + priceLow + ", priceHigh=" + priceHigh + ", type=" + type + "]";
+	}
 }

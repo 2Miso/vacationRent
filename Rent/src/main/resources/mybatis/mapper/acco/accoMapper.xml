@@ -112,7 +112,7 @@
 	</select>
 	
 	<!-- 메인페이지에서 숙소 검색 -->
-	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
+<!-- 	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
 		select * 
 			from accotb a
 			left join acco_phototb p
@@ -120,5 +120,5 @@
 			inner join roomtb r 
 				on a.acco_no=r.acco_no and price between #{priceLow} and #{priceHigh}
 				
-	</select>
+	</select> -->
 </mapper>

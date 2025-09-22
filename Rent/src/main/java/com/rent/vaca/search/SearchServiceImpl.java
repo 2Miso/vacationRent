@@ -18,8 +18,6 @@ public class SearchServiceImpl implements SearchService{
 		this.accoRepository = accoRepository;
 	}
 
-
-
 	@Override
 	public List<AccoVO> search(SearchVO vo) {
 		return accoRepository.search(vo);

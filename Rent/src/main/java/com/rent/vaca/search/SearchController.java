@@ -31,15 +31,12 @@ public class SearchController {
 		return "main/main";
 	}
 	
-	@RequestMapping(value="/", method=RequestMethod.POST)
-	public String search(SearchVO vo, Model model) {
-		List<AccoVO> accoList = searchService.search(vo);
-		return "main/list";
-	}
-	
 	//검색결과 목록
-	@RequestMapping(value="/search")
-	public String list() {
+	@RequestMapping(value="/search", method=RequestMethod.GET)
+	public String list(SearchVO vo, Model model) {
+		List<AccoVO> accoList = searchService.search(vo);
+		model.addAttribute("accoList", accoList);
+		model.addAttribute("search", vo);
 		return "main/list";
 	}
 }

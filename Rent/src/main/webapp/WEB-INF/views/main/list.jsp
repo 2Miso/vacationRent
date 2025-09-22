@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@include file="../include/header_nosearchbar.jsp" %>
 <!doctype html>
 <html lang="ko">
@@ -111,55 +112,17 @@
 
         <div><!--내용 시작-->
             <div><!--숙소 시작-->
+            	<c:forEach var="acco" items="${accoList}">
                 <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
                     <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
                     <div  class="mx-2">
-                        <h5>숙소 이름 입력</h5>
-                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
+                        <h5>${acco.name}</h5>
+                        <p>${acco.typeKo}</p>
                         <p>여기에 별점 입력</p>
                         <p>여기에 가격 입력 ex)500,000원</p>
                     </div>
                 </div>
-
-                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
-                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
-                    <div  class="mx-2">
-                        <h5>숙소 이름 입력</h5>
-                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
-                        <p>여기에 별점 입력</p>
-                        <p>여기에 가격 입력 ex)500,000원</p>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
-                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
-                    <div  class="mx-2">
-                        <h5>숙소 이름 입력</h5>
-                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
-                        <p>여기에 별점 입력</p>
-                        <p>여기에 가격 입력 ex)500,000원</p>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
-                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
-                    <div  class="mx-2">
-                        <h5>숙소 이름 입력</h5>
-                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
-                        <p>여기에 별점 입력</p>
-                        <p>여기에 가격 입력 ex)500,000원</p>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center my-2" style=" width:800px;"><!--개별숙소리스트-->
-                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px;">여기에 이미지 입력</div>
-                    <div  class="mx-2">
-                        <h5>숙소 이름 입력</h5>
-                        <p>여기에 숙소 타입입력(호텔,모텔등등)</p>
-                        <p>여기에 별점 입력</p>
-                        <p>여기에 가격 입력 ex)500,000원</p>
-                    </div>
-                </div>
+				</c:forEach>
             </div><!--숙소 끝-->
 
             <div><!--페이지네이션 시작-->

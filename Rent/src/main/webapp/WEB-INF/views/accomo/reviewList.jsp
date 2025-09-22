@@ -78,7 +78,6 @@
 										data-bs-target="#reviewPhotoModal${cnt.count}">+n</div>
 								</div>
 								<!-- end:.reviewPhoto -->
-						</c:if>
 						<!-- Modal -->
 						<div class="modal fade" id="reviewPhotoModal${cnt.count}" tabindex="-1"
 							aria-hidden="true">
@@ -129,6 +128,7 @@
 						</div>
 						<!-- end: .modal -->
 						<!-- end:Modal -->
+						</c:if>
 						<div class="reviewText">
 							${review.content}
 						</div>

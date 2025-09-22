@@ -54,6 +54,7 @@ public class NoticeServiceImpl implements NoticeService{
 		noticeRepository.insertQuestionOne(vo);
 
 		//첨부파일 업로드 폴더 준비 : 경로 webapp/questions/파일이름.확장자
+		//워크스페이스  .metadata  .plugins  org.eclipse.wst.server.core  tmp0  wtpwebapps  Rent  questions
 		String path = context.getRealPath("/questions/");
 		File dir = new File(path);
 		if(!dir.exists()) {

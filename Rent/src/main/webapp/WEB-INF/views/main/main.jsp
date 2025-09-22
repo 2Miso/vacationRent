@@ -46,14 +46,14 @@
 <body>
 <section>
 <div class="main_search" style="position:relative;">
-    <div><img src="<c:url value="/resources/img/example.png" />" style="filter: brightness(0.5); width:100vw; height:500px; object-fit:cover;"></div><!--이미지-->
+    <div><img src="<c:url value="/resources/img/main.png" />" style="filter: brightness(0.5); width:100vw; height:500px; object-fit:cover;"></div><!--이미지-->
 
     <div style="position:absolute; top:150px; width:100vw">
         <div style="margin:0 auto; width:1024px; height:140px; background-color: white; border-radius:6px; "><!--내용물-->
             <div style="height:10px;"></div><!--여백-->
             
             <h3 class="fw-bold mx-2 my-2">검색하기</h3><!--검색하기 시작-->
-            <form action="<c:url value="" />" method="post">
+            <form action="<c:url value="/search" />" method="get">
             <div class="d-flex  justify-content-around " style="height:50px;">
                 <input name="text" type="text" class="form-control " placeholder="검색하기" style="width:350px; height:50px;">
                 <div class="d-flex align-items-center">
@@ -61,7 +61,7 @@
                 <input name="checkOut" type="date" class="form-control" placeholder="일정(까지)" style="width:150px; height:50px;">
                 </div>
                 <input name="head" type="text" class="form-control " placeholder="인원(명)" style="width:100px; height:50px;">
-                <button link="<c:url value="" />" class="btn btn-primary " type="submit" style="width:200px; height:50px;">검색하기</button>
+                <button class="btn btn-primary " type="submit" style="width:200px; height:50px;">검색하기</button>
             </div><!--검색하기 끝-->
 
             <div class="collapse" id="collapseExample" ><!--카테고리 열고 접기-->

@@ -5,17 +5,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@include file="../include/header_nosearchbar.jsp"%>
-<%
-/* 임시 로그인. 삭제할 것. */
-UserVO userTest = new UserVO();
-userTest.setId(1);
-userTest.setNickname("닉네임입니다");
-userTest.setGrade("U");
-session.setAttribute("user", userTest);
-
-UserVO user = (UserVO) session.getAttribute("user");
-/* 임시 로그인. 삭제할 것. */
-%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -34,7 +23,6 @@ UserVO user = (UserVO) session.getAttribute("user");
 <link rel="stylesheet"
 	href="<c:url value="/resources/css/heart_button.css" />">
 <script src="https://cdn.jsdelivr.net/npm/@mojs/core"></script>
-<script src="<c:url value="/resources/js/heart_button.js" />"></script>
 <style>
 section {
 	padding: 50px 0;
@@ -379,30 +367,87 @@ footer {
 					}
 			});
             
+            
+            //하트버튼 클릭 시 효과 생성
+            var scaleCurve = mojs.easing.path('M0,100 L25,99.9999983 C26.2328835,75.0708847 19.7847843,0 100,0');
+		    var el = document.querySelector('.button'),
+		        // mo.js timeline obj
+		        timeline = new mojs.Timeline(),
+		
+		        // tweens for the animation:
+		
+		        // burst animation
+		        tween1 = new mojs.Burst({
+		            parent: el,
+		            radius: { 0: 100 },
+		            angle: { 0: 45 },
+		            y: -10,
+		            count: 10,
+		            radius: 50,
+		            children: {
+		                shape: 'circle',
+		                radius: 15,
+		                fill: ['red', 'white'],
+		                strokeWidth: 15,
+		                duration: 500,
+		            }
+		        });
+		
+		
+		    tween2 = new mojs.Tween({
+		        duration: 900,
+		        onUpdate: function (progress) {
+		            var scaleProgress = scaleCurve(progress);
+		            el.style.WebkitTransform = el.style.transform = 'scale3d(' + scaleProgress + ',' + scaleProgress + ',1)';
+		        }
+		    });
+		    tween3 = new mojs.Burst({
+		        parent: el,
+		        radius: { 0: 100 },
+		        angle: { 0: -45 },
+		        y: -10,
+		        count: 10,
+		        radius: 62,
+		        children: {
+		            shape: 'circle',
+		            radius: 15,
+		            fill: ['white', 'red'],
+		            strokeWidth: 15,
+		            duration: 400,
+		        }
+		    });
+		
+		    // add tweens to timeline:
+		    timeline.add(tween1, tween2, tween3);
+            
             //하트 클릭 시 관심에 등록 또는 제거
             $(".heartContainer").on("click", function(){
- 				$.ajax({
-					//요청부분
-					url : "<c:url value='/mypage/interest' />",
-					type : "post",
-					data : {
-						"userId" : "${sessionScope.user.id}",
-						"accoNo" : ${acco.accoNo}
-					},
-					
-					//응답부분
-					success : function(response){
-						if(response==1){
-							/* timeline.play(); */
-							$("#heart").addClass("active");
-						} else if(response==0){
-							$("#heart").removeClass("active");
+            	if(${empty sessionScope.user}){
+            		alert('로그인한 회원만 관심숙소를 등록할 수 있습니다.');
+            	} else {
+	 				$.ajax({
+						//요청부분
+						url : "<c:url value='/mypage/interest' />",
+						type : "post",
+						data : {
+							"userId" : "${sessionScope.user.id}",
+							"accoNo" : ${acco.accoNo}
+						},
+						
+						//응답부분
+						success : function(response){
+							if(response==1){
+								timeline.play();
+								$("#heart").addClass("active");
+							} else if(response==0){
+								$("#heart").removeClass("active");
+							}
+						},
+						error : function(){
+							console.log("관심버튼 클릭 에러");
 						}
-					},
-					error : function(){
-						console.log("관심버튼 클릭 에러");
-					}
-				});
+					});
+            	}
             });
             
             //카카오지도

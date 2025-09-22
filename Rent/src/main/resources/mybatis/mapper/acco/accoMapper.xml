@@ -112,13 +112,15 @@
 	</select>
 	
 	<!-- 메인페이지에서 숙소 검색 -->
-<!-- 	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
-		select * 
-			from accotb a
-			left join acco_phototb p
-				on a.acco_no=p.acco_no and room_no=0 and type in(#{type}) 
-			inner join roomtb r 
-				on a.acco_no=r.acco_no and price between #{priceLow} and #{priceHigh}
-				
-	</select> -->
+ 	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
+		select 
+			a.name, 
+			a.type 
+		from accotb a
+		<where>
+			<if test='#{text} neq null and #{text} neq ""'>
+				a.name like concat('%', #{text}, '%');
+			</if>
+		</where>
+	</select>
 </mapper>

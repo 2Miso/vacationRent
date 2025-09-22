@@ -267,7 +267,7 @@
           <form action="<c:url value="/biz/biz_mypage_acco" />" method="post" enctype="multipart/form-data">
           <input type="hidden" name="bizId" value="${biz.id}" />
           <div>숙소 타입</div>
-            <select class="form-control" id="accoType" name="type" <c:if test="${disableInput}">disabled</c:if>>
+            <select class="form-select" id="accoType" name="type" <c:if test="${disableInput}">disabled</c:if>>
 			  <option value="">-- 숙소 타입 선택 --</option>
 			  <option value="1">호텔</option>
 			  <option value="2">모텔</option>
@@ -320,14 +320,19 @@
 			<br><button class="btn btn-primary " type="submit" onclick="return accochangeFn()">저장하기</button><!--링크를 걸어야 합니다-->
         </form>
         </div><!--숙소 정보 등록 끝-->
-          
+        <input type="hidden" name="accoNo" value="${acco.accoNo}" />
         <div class="mx-3" style="border-left:2px solid var(--bs-orange); padding-left:20px;"><!--이미지 업로드 or 확인-->
           <h3 class="fw-bold">등록된 숙소 관리</h3><!-- 숙소 수정 -->
           <h4>숙소 수정</h4>
-			<form action="<c:url value="/biz/biz_mypage_acco" />" method="post" enctype="multipart/form-data">
+			<form action="<c:url value="/biz/edit_acco" />" method="post" enctype="multipart/form-data">
           
           <div>숙소 타입</div>
-            <input type="text" class="form-control" id="editType" placeholder="${acco.typeKo}" name="type">
+            <select class="form-select" id="editType" name="type">
+			  <option value="1" <c:if test="${acco.type == 1}">selected</c:if>>호텔</option>
+			  <option value="2" <c:if test="${acco.type == 2}">selected</c:if>>모텔</option>
+			  <option value="3" <c:if test="${acco.type == 3}">selected</c:if>>리조트</option>
+			  <option value="4" <c:if test="${acco.type == 4}">selected</c:if>>펜션</option>
+			</select>
             <span></span>
           
           <div>숙소 이름</div>
@@ -378,7 +383,7 @@
         </form>
         
         <form action="<c:url value="/biz/delete_acco_photo" />" method="post">
-         <input type="hidden" name="accoNo" value="${acco.accoNo}" />
+         
          <div class="selectAcco">
 				  <div class="swiper mySwiper">
 		              <div class="swiper-wrapper">

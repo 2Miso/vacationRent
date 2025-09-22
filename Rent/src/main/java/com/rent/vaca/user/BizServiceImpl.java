@@ -1,10 +1,16 @@
 package com.rent.vaca.user;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rent.vaca.acco.AccoPhotoVO;
 import com.rent.vaca.acco.AccoVO;
@@ -18,6 +24,10 @@ public class BizServiceImpl implements BizService{
 
 	private final BizRepository repository;
 	private final PasswordEncoder passwordEncoder;
+	
+	// application.properties 또는 yaml에 설정
+	@Value("${file.upload-dir}") 
+    private String uploadDir;
 	
 	@Autowired
 	public BizServiceImpl(BizRepository repository, PasswordEncoder passwordEncoder) {
@@ -65,10 +75,10 @@ public class BizServiceImpl implements BizService{
 		repository.insertAccoPhoto(vo);
 	}
 
+	// 숙소 정보 업데이트
 	@Override
 	public void updateAccoInfo(AccoVO vo) {
-		// TODO Auto-generated method stub
-		
+		repository.updateAccoInfo(vo);
 	}
 	
 	// 숙소 조회
@@ -81,6 +91,43 @@ public class BizServiceImpl implements BizService{
 	@Override
 	public int existsAccoByBizIdAndDelyn(int bizId, String delyn) {
 		return repository.existsAccoByBizIdAndDelyn(bizId, delyn);
+	}
+	
+	// 숙소 삭제(delyn만 변경)
+	@Override
+	public void deleteAccoDelyn(int accoNo) {
+		repository.deleteAccoDelyn(accoNo);
+	}
+	
+	// 숙소 사진 업데이트
+	@Override
+	public void updateAccoImages(int accoNo, MultipartFile[] imageFiles) {
+		 for (MultipartFile image : imageFiles) {
+	            if (!image.isEmpty()) {
+	                try {
+	                    String originalName = image.getOriginalFilename();
+	                    String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+	                    String savedName = timeStamp + "_" + originalName;
+
+	                    // 실제 파일 저장
+	                    File saveFile = new File(uploadDir, savedName);
+	                    image.transferTo(saveFile);
+
+	                    // VO 세팅
+	                    AccoPhotoVO photoVO = new AccoPhotoVO();
+	                    photoVO.setAccoNo(accoNo);
+	                    photoVO.setRoomNo(0); // 숙소 공통 이미지라면 0
+	                    photoVO.setOriginalName(originalName);
+	                    photoVO.setSavedName(savedName);
+
+	                    // DB 저장
+	                    repository.insertAccoPhoto(photoVO);
+
+	                } catch (IOException e) {
+	                    throw new RuntimeException("이미지 저장 실패", e);
+	                }
+	            }
+		 }
 	}
 	
 	// 숙소 사진 삭제
@@ -149,6 +196,8 @@ public class BizServiceImpl implements BizService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 
 

@@ -15,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -244,13 +246,44 @@ public class BizController {
 	
 	// 숙소 수정 처리
 	@PostMapping("/biz/edit_acco")
-	public String accoEdit() {
-		return "redirect:/biz/biz_mypage_acco";
+	public String accoEdit(@ModelAttribute AccoVO vo,
+	                       @RequestParam(value = "image", required = false) MultipartFile[] imageFiles) {
+
+	    // 기존 숙소 정보 불러오기
+	    AccoVO existingAcco = bizService.selectBizAccoOne(vo.getAccoNo());
+	    if (existingAcco == null) {
+	        // 존재하지 않으면 실패 처리
+	        return "redirect:/biz/biz_mypage_acco?error=notfound";
+	    }
+
+	    // 2. 클라이언트에서 전달되지 않은 필드는 기존 값 유지
+	    if (vo.getType() != existingAcco.getType()) {
+	    	vo.setType(vo.getType());
+	    }
+	    if (!StringUtils.hasText(vo.getName())) vo.setName(existingAcco.getName());
+	    if (!StringUtils.hasText(vo.getAddr())) vo.setAddr(existingAcco.getAddr());
+	    if (!StringUtils.hasText(vo.getPhone())) vo.setPhone(existingAcco.getPhone());
+	    if (!StringUtils.hasText(vo.getDescription())) vo.setDescription(existingAcco.getDescription());
+	    if (!StringUtils.hasText(vo.getBizHour())) vo.setBizHour(existingAcco.getBizHour());
+	    if (!StringUtils.hasText(vo.getCheckin())) vo.setCheckin(existingAcco.getCheckin());
+	    if (!StringUtils.hasText(vo.getCheckout())) vo.setCheckout(existingAcco.getCheckout());
+
+	    // 이미지 처리
+	    if (imageFiles != null && imageFiles.length > 0 && !imageFiles[0].isEmpty()) {
+	        // 새 이미지가 있다면 업로드 처리
+	        bizService.updateAccoImages(vo.getAccoNo(), imageFiles);
+	    }
+
+	    // 숙소 정보 업데이트
+	    bizService.updateAccoInfo(vo);
+
+	    return "redirect:/biz/biz_mypage_acco?success=edit";
 	}
 	
 	// 숙소 삭제 처리
 	@PostMapping("/biz/delete_acco")
-	public String accoDelete() {
+	public String accoDelete(@RequestParam("accoNo") int accoNo) {
+		bizService.deleteAccoDelyn(accoNo);
 		return "redirect:/biz/biz_mypage_acco";
 	}
 	

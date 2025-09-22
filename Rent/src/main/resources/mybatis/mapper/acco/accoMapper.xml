@@ -89,6 +89,17 @@
 		select count(*) from accotb where biz_id = #{bizId} and delyn = #{delyn}
 	</select>
 	
+	<update id="deleteAccoDelyn">
+		update accotb set delyn = 'Y' where acco_no = #{accoNo}
+	</update>
+	<update id = "updateAccoInfo" parameterType="int">
+		update accotb set 
+			type = #{type}, name = #{name}, addr = #{addr},
+			phone = #{phone}, description = #{description}, biz_hour = #{bizHour},
+			checkin = #{checkin}, checkout = #{checkout}
+		where acco_no = #{accoNo}
+	</update>
+	
 	<!-- 숙소1건 조회 -->
 	<select id="selectAccoByAccoNo" parameterType="int" resultMap="accoRoomMap">
 		select 
@@ -112,7 +123,7 @@
 	</select>
 	
 	<!-- 메인페이지에서 숙소 검색 -->
-	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
+<!-- 	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
 		select * 
 			from accotb a
 			left join acco_phototb p
@@ -120,5 +131,5 @@
 			inner join roomtb r 
 				on a.acco_no=r.acco_no and price between #{priceLow} and #{priceHigh}
 				
-	</select>
+	</select> -->
 </mapper>

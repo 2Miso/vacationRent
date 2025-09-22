@@ -46,6 +46,11 @@ public class BizRepository {
 		return template.insert("accoMapper.insertAccoPhoto", vo);
 	}
 	
+	// 숙소 정보 업데이트
+	public int updateAccoInfo(AccoVO vo) {
+		return template.update("accoMapper.updateAccoInfo", vo);
+	}
+	
 	// 숙소 한건 조회
 	public AccoVO selectBizAccoOne(int bizId) {
 		return template.selectOne("accoMapper.selectBizAccoOne", bizId);
@@ -64,6 +69,11 @@ public class BizRepository {
 	// 내 숙소 등록한 사진 조회
 	public List<AccoPhotoVO> getPhotosByBizId(int accoNo){
 		return template.selectList("accoPhotoMapper.getPhotosByBizId", accoNo);
+	}
+	
+	// 
+	public Integer deleteAccoDelyn(int accoNo) {
+		return template.delete("accoMapper.deleteAccoDelyn", accoNo);
 	}
 	
 	// 숙소 사진 삭제

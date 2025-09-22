@@ -54,6 +54,10 @@ public class AccoVO {
 		return typeKo;
 	}
 
+	public int getType() {
+		return type;
+	}
+	
 	public void setType(int type) {
 		this.type = type;
 	}

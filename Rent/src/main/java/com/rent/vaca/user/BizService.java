@@ -2,6 +2,8 @@ package com.rent.vaca.user;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.rent.vaca.acco.AccoPhotoVO;
 import com.rent.vaca.acco.AccoVO;
 import com.rent.vaca.notice.NoticeVO;
@@ -37,6 +39,12 @@ public interface BizService {
 	
 	// 숙소 한건 조회
 	AccoVO selectBizAccoOne(int bizId);
+	
+	// 숙소 삭제(delyn만 변경)
+	void deleteAccoDelyn(int accoNo);
+	
+	// 숙소 사진 업데이트
+	void updateAccoImages(int accoNo, MultipartFile[] imageFiles);
 	
 	// 숙소 사진 삭제
 	int deleteAccoPhotoByAccoNo(int accoNo);

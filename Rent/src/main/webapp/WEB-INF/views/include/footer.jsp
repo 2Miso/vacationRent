@@ -22,7 +22,7 @@
                 <h1 style="font-weight:bold; font-size:24px;">고객센터</h1>
                     <p>전화 운영시간 : xx시-xx시<br>채팅 상담 : 24시간</p>
                 <div>
-                    <button type="button" style="width:200px; height:50px; font-size:20px; border-radius:12px; border-width:0.5px;"><i class="bi bi-telephone-fill" style="margin-right:5px;"></i>0000-0000</button><!--링크를 걸어야 합니다-->
+                    <button type="button" style="width:200px; height:50px; font-size:20px; border-radius:12px; border-width:0.5px; cursor:default;"><i class="bi bi-telephone-fill" style="margin-right:5px;"></i>0000-0000</button><!--링크를 걸어야 합니다-->
                     <button type="button" style="width:200px; height:50px; font-size:20px; border-radius:12px; border-width:0.5px;"><i class="bi bi-chat-fill" style="margin-right:5px;" ></i>채팅 상담</button><!--링크를 걸어야 합니다-->
                 </div>
             </div>

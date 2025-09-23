@@ -127,26 +127,43 @@
 	
 	<!-- 메인페이지에서 숙소 검색 -->
  	<select id="search" parameterType="com.rent.vaca.search.SearchVO" resultType="acco">
-		select distinct
+		select 
+			a.acco_no,
 			a.name, 
-			a.type 
+			a.type, 
+			min(r.price) as price,
+			(select 
+				avg(reviewtb.star) 
+			from reviewtb 
+				inner join reservtb
+					on reviewtb.reserv_code = reservtb.reserv_code
+				left join roomtb
+					on reservtb.room_no = roomtb.room_no
+			where roomtb.acco_no = a.acco_no 
+			) as starAvg,
+			(SELECT saved_name FROM acco_phototb WHERE acco_no = a.acco_no ORDER BY acco_phototb.room_no LIMIT 1) AS thumbnail  
 		from accotb a 
 		inner join roomtb r
 			on a.acco_no=r.acco_no 
-		inner join reservtb 
-			on r.room_no = reservtb.room_no
+		left join reservtb 
+			on r.room_no = reservtb.room_no 
+		left join reviewtb
+			on reservtb.reserv_code=reviewtb.reserv_code 
 		<where>
 			<if test='text != null and text != ""'>
 				a.name like concat('%', #{text}, '%')
 			</if>
 			<if test='checkIn != "" and checkOut != ""'>
+			<![CDATA[
 				and r.room_no not in 
 					(select 
 						room_no 
 					from reservtb 
 					where checkin between #{checkIn} and #{checkOut} 
-						or checkout between #{checkIn} and #{checkOut}
+						or (checkout > #{checkIn} and checkout <= #{checkOut})
 					)
+					or r.room_no is null
+			]]>
 			</if>
 			<if test='head != null and head != ""'>
 				and (r.standard_head + r.extra_head) &gt;=#{head}
@@ -165,5 +182,6 @@
 				)
 			</if>
 		</where>
+		group by a.acco_no, a.name, a.type, thumbnail;
 	</select>
 </mapper>

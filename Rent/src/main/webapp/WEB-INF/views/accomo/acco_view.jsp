@@ -565,8 +565,9 @@ footer {
 					</div>
 				</div>
 				<!-- end: .row -->
-				<div class="morePhoto" data-bs-toggle="modal"
-					data-bs-target="#mainPhotoModal">+n</div>
+				<c:if test="${topPhotos[4].savedName != null }">
+				<div class="morePhoto" data-bs-toggle="modal" data-bs-target="#mainPhotoModal">+n</div>
+				</c:if>
 			</div>
 			<!-- end: .container -->
 		</article>

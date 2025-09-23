@@ -36,6 +36,7 @@ public class SearchController {
 	public String list(SearchVO vo, Model model) {
 		logger.info(vo.toString());
 		List<AccoVO> accoList = searchService.search(vo);
+		logger.info(accoList.toString());
 		model.addAttribute("accoList", accoList);
 		model.addAttribute("search", vo);
 		return "main/list";

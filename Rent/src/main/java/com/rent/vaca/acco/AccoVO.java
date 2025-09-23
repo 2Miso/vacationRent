@@ -19,6 +19,9 @@ public class AccoVO {
 	private String checkin;
 	private String checkout;
 	private int bizId;
+	private Double starAvg;
+	private int price;
+	private String thumbnail;
 	
 	private BizVO biz;
 	private List<RoomVO> roomList;
@@ -132,6 +135,30 @@ public class AccoVO {
 
 	public void setBizId(int bizId) {
 		this.bizId = bizId;
+	}
+
+	public Double getStarAvg() {
+		return starAvg;
+	}
+
+	public void setStarAvg(Double starAvg) {
+		this.starAvg = starAvg;
+	}
+	
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
 	}
 
 	public BizVO getBiz() {

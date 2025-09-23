@@ -48,8 +48,8 @@
 	
 	<!-- 객실 사진 등록 -->
 	<insert id="insertRoomPhoto" parameterType="accoPhoto">
-	    insert into acco_phototb (original_name, saved_name, room_no)
-	    values (#{originalName}, #{savedName}, 1)
+	    insert into acco_phototb (original_name, saved_name, acco_no, room_no)
+	    values (#{originalName}, #{savedName}, #{accoNo}, 1)
 	</insert>
 	
 	<!-- 객실 1건 등록 -->
@@ -57,6 +57,12 @@
 		insert into roomtb (ho, name, price, area, bed_type, restroom_no, standard_head, extra_head, description, acco_no)
     	values (#{ho}, #{name}, #{price}, #{area}, #{bedType}, #{restroomNo}, #{standardHead}, #{extraHead}, #{description}, #{accoNo})
 	</insert>
+	
+	<!-- 객실 조회 -->
+	<select id="selectAccoRoomOne" parameterType="int" resultType="room">
+		select * from roomtb
+			where acco_no = #{accoNo} and delyn = 'N'
+	</select>
 	
 	<!-- 방금 등록한 객실 조회(사진 등록용) -->
 	<select id="selectBizCntByBizId" resultType="int">

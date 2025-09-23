@@ -1,6 +1,7 @@
 package com.rent.vaca.user;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -144,16 +145,19 @@ public class BizController {
 			return "redirect:/login/biz_login";
 		}
 		
+		AccoVO acco = bizService.selectBizAccoOne(biz.getId());
+			
 		session.setAttribute("biz", biz);
-		
+		session.setAttribute("acco", acco);
+	
 		return "redirect:/";
 		
 	}
 	
 	// 숙소 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.GET)
-	public String addAcco(HttpSession session, Model model, BizVO vo) {
-	
+	public String addAcco(HttpServletRequest request, HttpSession session, Model model, BizVO vo) {
+		
 		// 현재 로그인 정보 가져오기
 		BizVO biz = (BizVO) session.getAttribute("biz");
 		
@@ -185,7 +189,7 @@ public class BizController {
 	
 	// 숙소 등록 처리
 	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.POST)
-	public String addAcco(BizVO vo, AccoVO vo1, Model model,
+	public String addAcco(AccoVO vo, Model model,
 			HttpSession session, HttpServletRequest request,
 			@RequestParam("image") List<MultipartFile> imageFiles
 			) {
@@ -200,17 +204,17 @@ public class BizController {
 				return "redirect:/login/biz_login";
 			}
 			
-			vo1.setBizId(biz.getId());
+			vo.setBizId(biz.getId());
 			
 	    	// 숙소정보 등록
-	        bizService.insertAccoOne(vo1);
+	        bizService.insertAccoOne(vo);
 	        
 	        // 숙소 이미지 등록
 	        
-	        int accoNo = vo1.getAccoNo();
+	        int accoNo = vo.getAccoNo();
 	        
-	        String uploadDir = request.getSession().getServletContext().getRealPath("resources/img/acco");
-			File dir = new File(uploadDir);
+	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
+	        File dir = new File(uploadDir);
             if(!dir.exists()) {
             	dir.mkdirs();
             }
@@ -248,8 +252,11 @@ public class BizController {
 	
 	// 숙소 수정 처리
 	@PostMapping("/biz/edit_acco")
-	public String accoEdit(@ModelAttribute AccoVO vo, HttpSession session,
-	                       @RequestParam(value = "image", required = false) MultipartFile[] imageFiles) {
+	public String accoEdit(
+			@ModelAttribute AccoVO vo, HttpSession session, HttpServletRequest request,
+	        @RequestParam(value = "image", required = false) List<MultipartFile> imageFiles,
+	        Model model             
+			) {
 
 		// 현재 로그인 정보 가져오기
 		BizVO biz = (BizVO) session.getAttribute("biz");
@@ -280,11 +287,59 @@ public class BizController {
 	    if (!StringUtils.hasText(vo.getCheckout())) vo.setCheckout(existingAcco.getCheckout());
 
 	    // 이미지 처리
-	    if (imageFiles != null && imageFiles.length > 0 && !imageFiles[0].isEmpty()) {
+	    
+	    int accoNo = vo.getAccoNo();
+	    
+	    List<AccoPhotoVO> existingPhotos = bizService.getPhotosByBizId(accoNo);
+	    
+	    if (imageFiles != null && !imageFiles.isEmpty() && imageFiles.get(0).isEmpty()) {
 	        // 새 이미지가 있다면 업로드 처리
-	        bizService.updateAccoImages(vo.getAccoNo(), imageFiles);
-	    }
+	    	
+	    	if(existingPhotos != null && !existingPhotos.isEmpty()) {
+	    		model.addAttribute("errorMessage", "기존 숙소 사진이 존재합니다. 사진을 먼저 삭제해주세요.");
+	    		model.addAttribute("acco", existingAcco);
+	    		return "/biz/biz_mypage_acco";
+	    	}
+	    	
+	    	String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
+	    	File dir = new File(uploadDir);
+	    	if (!dir.exists()) {
+	    	    dir.mkdirs();
+	    	}
+	    	for (MultipartFile image : imageFiles) {
+	            if (!image.isEmpty()) {
+	                String originalName = image.getOriginalFilename();
+	                String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+	                String savedName = timeStamp + "_" + originalName;
 
+	                // 이미지 저장 경로
+	                File saveFile = new File(uploadDir, savedName);
+	                try {
+	                    image.transferTo(saveFile);
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    throw new RuntimeException("이미지 저장 실패", e);
+	                }
+
+	                // DB 저장용 VO 세팅
+	                AccoPhotoVO photoVO = new AccoPhotoVO();
+	                photoVO.setAccoNo(accoNo);
+	                photoVO.setRoomNo(0);
+	                photoVO.setOriginalName(originalName);
+	                photoVO.setSavedName(savedName);
+	         
+	                // DB insert
+	                bizService.insertAccoPhoto(photoVO);
+	            }
+	        }
+	    }else {
+	        // 새 사진이 없는데 기존 사진도 없다면 경고 처리
+	        if (existingPhotos == null || existingPhotos.isEmpty()) {
+	            model.addAttribute("errorMessage", "숙소 사진을 한 장 이상 업로드해주세요.");
+	            model.addAttribute("acco", existingAcco);
+	            return "/biz/biz_mypage_acco";
+	        }
+	    }
 	    // 숙소 정보 업데이트
 	    bizService.updateAccoInfo(vo);
 
@@ -298,7 +353,7 @@ public class BizController {
 		return "redirect:/biz/biz_mypage_acco";
 	}
 	
-	// 사진 등록 처리
+	// 숙소 사진 등록 처리
 	@PostMapping("/biz/upload_acco_photo")
 	public String uploadAccoPhoto(
 			@RequestParam("accoNo") int accoNo,
@@ -382,41 +437,73 @@ public class BizController {
 	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.GET)
 	public String addRoom(Model model, HttpSession session,
 			BizVO vo, RoomVO vo1) {
-		/*
+		
 		// 현재 로그인 정보 가져오기
-		BizVO biz = (BizVO) session.getAttribute("id");
+		BizVO biz = (BizVO) session.getAttribute("biz");
 		if(biz == null) {
 			// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
 			return "redirect:/login/biz_login";
 		}
 		
 		// 로그인한 비즈니스 회원의 숙소정보 가져오기
-	    int bizId = biz.getId();
+	    AccoVO acco = (AccoVO) session.getAttribute("acco");
 	    
-	    Integer accoNo = bizService.selectBizCntByAccoNo(bizId);
-	   
-	    if(accoNo == null || accoNo == 0){
+	    Integer accoNo = acco.getAccoNo();
+	    
+	    // 객실정보 세션 가져오기
+//	    RoomVO room = bizService.selectAccoRoomOne(acco.getAccoNo());
+//		session.setAttribute("room", room);
+	    
+	    if(accoNo == 0 || accoNo == null){
 	        model.addAttribute("errorMessage", "숙소를 먼저 등록해야 객실을 등록할 수 있습니다.");
 	        return "redirect:/biz/biz_mypage_acco";
 	    }
 	    
 	    vo1.setAccoNo(accoNo);
-		*/
+		
 		return "/biz/biz_mypage_room";
 	}
 	
 	// 객실 등록 처리 페이지
 	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.POST)
-	public String addRoom(RoomVO vo, Model model,
+	public String addRoom(RoomVO vo, Model model, HttpSession session,
 			@RequestParam("image[]") List<MultipartFile> imageFiles,
 			HttpServletRequest request
 			) throws Exception {
 
 	    try {
-	    	// 객실정보 등록
+	    	
+	    	// 현재 로그인 정보 가져오기
+			BizVO biz = (BizVO) session.getAttribute("biz");
+			
+			if(biz == null) {
+				// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
+				return "redirect:/login/biz_login";
+			}
+			
+			// 로그인한 비즈니스 회원의 숙소정보 가져오기
+		    AccoVO acco = (AccoVO) session.getAttribute("acco");
+		    
+		    Integer accoNo = acco.getAccoNo();
+		    
+		    if(accoNo == 0 || accoNo == null){
+		        model.addAttribute("errorMessage", "숙소를 먼저 등록해야 객실을 등록할 수 있습니다.");
+		        return "redirect:/biz/biz_mypage_acco";
+		    }
+	    	
+	    	// 객실 정보 등록
+		    
+		    vo.setAccoNo(accoNo);
+		    
 	        bizService.insertRoomOne(vo);
 	        
-	        int roomNo = bizService.selectLastInsertedRoomNo(vo.getRoomNo());
+	        // 객실 사진 등록
+	        
+	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/room");
+	        File dir = new File(uploadDir);
+            if(!dir.exists()) {
+            	dir.mkdirs();
+            }
 	        
 	        for (MultipartFile image : imageFiles) {
 	            if (!image.isEmpty()) {
@@ -425,13 +512,13 @@ public class BizController {
 	                String savedName = timeStamp + "_" + originalName;
 
 	                // 이미지 저장 경로
-	                String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/room");
 	                File saveFile = new File(uploadDir, savedName);
 	                image.transferTo(saveFile);
 
 	                // DB 저장용 VO 세팅
 	                AccoPhotoVO photoVO = new AccoPhotoVO();
-	                photoVO.setRoomNo(roomNo);
+	                photoVO.setAccoNo(accoNo);
+	                photoVO.setRoomNo(1);
 	                photoVO.setOriginalName(originalName);
 	                photoVO.setSavedName(savedName);
 
@@ -441,6 +528,7 @@ public class BizController {
 	        }
 	        
 	    } catch (Exception e) {
+	    	e.printStackTrace();
 	        model.addAttribute("errorMessage", "객실 등록 실패");
 	        return "/biz/biz_mypage_room";
 	    }

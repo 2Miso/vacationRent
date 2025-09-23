@@ -43,9 +43,6 @@ public interface BizService {
 	// 숙소 삭제(delyn만 변경)
 	void deleteAccoDelyn(int accoNo);
 	
-	// 숙소 사진 업데이트
-	void updateAccoImages(int accoNo, MultipartFile[] imageFiles);
-	
 	// 숙소 사진 삭제
 	int deleteAccoPhotoByAccoNo(int accoNo);
 	
@@ -57,6 +54,9 @@ public interface BizService {
 	
 	// 객실 정보 수정
 	void updateRoom(RoomVO vo);
+	
+	// 객실 한건 조회
+	RoomVO selectAccoRoomOne(int accoNo);
 	
 	// 방금 등록한 객실 정보 조회(객실 사진 등록용)
 	Integer selectLastInsertedRoomNo(int roomNo);

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -139,25 +140,34 @@
       let photoDeleted = false;
       
       function editchangeFn(){
-    	// 사진 삭제 여부 확인을 위한 변수 활용
+    		// 사진 삭제 여부 확인을 위한 변수 활용
     	    let isPhotoDeleted = photoDeleted;
 
-    	    // 수정된 입력값이 하나라도 있는지 확인
-    	    let isEdited =
-    	        $("#editType").val().trim() != "" ||
-    	        $("#editName").val().trim() != "" ||
-    	        $("#editAddr").val().trim() != "" ||
-    	        $("#editPhone").val().trim() != "" ||
-    	        $("#editInfo").val().trim() != "" ||
-    	        $("#editBizHour").val().trim() != "" ||
-    	        $("#editCheckin").val().trim() != "" ||
-    	        $("#editCheckout").val().trim() != "";
-
-    	    if (!isEdited && !isPhotoDeleted) {
-    	        alert("수정할 내용을 입력하세요.");
-    	        return false;
-    	    }
-
+    	    let imageInput = document.getElementById("imageUpload");
+    	    let files = imageInput.files;
+    		let hasNewPhotos = files.length > 0;
+    		let existingPhotoCount = parseInt(document.getElementById("existingPhotoCount").value);
+    		
+		    // 기존 값과 현재 값 비교
+		    let isEdited = false;
+		
+		    $("#editType, #editName, #editAddr, #editPhone, #editInfo, #editBizHour, #editCheckin, #editCheckout").each(function () {
+		        let original = $(this).data("original");
+		        let current = $(this).val().trim();
+		        if (original != current) {
+		            isEdited = true;
+		        }
+		    });
+		    
+		    if (!isEdited && !isPhotoDeleted && hasNewPhotos && existingPhotoCount > 0){
+		    	alert("기존 숙소 사진이 존재합니다. 사진을 먼저 삭제해주세요.");
+		    	return false;
+		    }
+		
+		    if (!isEdited && !isPhotoDeleted) {
+		        alert("수정할 내용을 입력하세요.");
+		        return false;
+		    }
     	    // 사진 삭제된 경우 반드시 새 파일 첨부하도록 체크
     	    if (isPhotoDeleted) {
     	        let imageInput = document.getElementById("imageUpload");
@@ -183,6 +193,21 @@
       
       function deleteAccoFn(){
     	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return;
+    	  
+    	  $.ajax({
+      	    url: "<c:url value='/biz/delete_acco_photo' />",
+      	    type: "POST",
+      	    data: { accoNo: "${acco.accoNo}" },
+      	    success: function() {
+      	      alert("사진이 삭제되었습니다.");
+      	      photoDeleted = true;
+      	      // 필요한 경우 UI 갱신 (사진 목록 갱신 등)
+      	    },
+      	    error: function() {
+      	      alert("사진 삭제에 실패했습니다.");
+      	    }
+      	  });
+    	  
       }
       
       function deleteAccoPhotoFn(){
@@ -261,7 +286,7 @@
 
   <div class="d-flex mx-3 my-3"><!--내용 시작입니다. 이곳에 내용을 작성하면 됩니다-->
           
-        <div><!--숙소 정보 등록-->
+        <div style="min-width:400px;"><!--숙소 정보 등록-->
           <h3 class="fw-bold">숙소 관리</h3>
           <h4>숙소 등록</h4>
           <form action="<c:url value="/biz/biz_mypage_acco" />" method="post" enctype="multipart/form-data">
@@ -316,19 +341,22 @@
 	            <input class="form-control" id="accoUpload" type="file" accept="image/*" name="image" multiple <c:if test="${disableInput}">disabled</c:if> />
 	            <span style="display: inline-block;"></span>
           </div>
-          
+			<div id="imagePreviewContainer" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+			
+			<!-- 대표 이미지 인덱스를 서버로 보내기 위한 hidden input -->
+			<input type="hidden" id="mainImageIndex" name="mainImageIndex" value="2">
 			<br><button class="btn btn-primary " type="submit" onclick="return accochangeFn()">저장하기</button><!--링크를 걸어야 합니다-->
         </form>
         </div><!--숙소 정보 등록 끝-->
         <input type="hidden" name="accoNo" value="${acco.accoNo}" />
-        <div class="mx-3" style="border-left:2px solid var(--bs-orange); padding-left:20px;"><!--이미지 업로드 or 확인-->
+        <div class="mx-3" style="min-width:400px; border-left:2px solid var(--bs-orange); padding-left:20px;"><!--이미지 업로드 or 확인-->
           <h3 class="fw-bold">등록된 숙소 관리</h3><!-- 숙소 수정 -->
           <h4>숙소 수정</h4>
 			<form action="<c:url value="/biz/edit_acco" />" method="post" enctype="multipart/form-data">
            	<input type="hidden" name="bizId" value="${biz.id}" />
            	<input type="hidden" name="accoNo" value="${acco.accoNo}" />
           <div>숙소 타입</div>
-            <select class="form-select" id="editType" name="type">
+            <select class="form-select" id="editType" name="type" data-original="${acco.type}">
 			  <option value="1" <c:if test="${acco.type == 1}">selected</c:if>>호텔</option>
 			  <option value="2" <c:if test="${acco.type == 2}">selected</c:if>>모텔</option>
 			  <option value="3" <c:if test="${acco.type == 3}">selected</c:if>>리조트</option>
@@ -337,35 +365,35 @@
             <span></span>
           
           <div>숙소 이름</div>
-            <input type="text" class="form-control" id="editName" value="${acco.name}" name="name">
+            <input type="text" class="form-control" id="editName" value="${acco.name}" data-original="${acco.name}" name="name">
             <span></span>
           
           <div>숙소 주소</div>
-            <input type="text" class="form-control" id="editAddr" value="${acco.addr}" name="addr">
+            <input type="text" class="form-control" id="editAddr" value="${acco.addr}" data-original="${acco.addr}" name="addr">
             <span></span>
           
           <div>숙소 전화번호</div>
-            <input type="text" class="form-control" id="editPhone" value="${acco.phone}" name="phone">
+            <input type="text" class="form-control" id="editPhone" value="${acco.phone}" data-original="${acco.phone}" name="phone">
             <span></span>
           
           <div>숙소 정보</div>
-            <input type="text" class="form-control" id="editInfo" value="${acco.description}" name="description">
+            <input type="text" class="form-control" id="editInfo" value="${acco.description}" data-original="${acco.description}" name="description">
             <span></span>
           
           <div>상담가능시간</div>
-            <input type="text" class="form-control" id="editBizHour" value="${acco.bizHour}" name="bizHour">
+            <input type="text" class="form-control" id="editBizHour" value="${acco.bizHour}" data-original="${acco.bizHour}" name="bizHour">
             <span></span>
 
           <div>운영 시간</div>
           <div class="d-flex">
               <div>
-                <input type="text" class="form-control" id="editCheckin" value="${acco.checkin}" name="checkin">
+                <input type="text" class="form-control" id="editCheckin" value="${acco.checkin}" data-original="${acco.checkin}" name="checkin">
                 <span></span>
               </div>
 
            
               <div>
-                <input type="text" class="form-control" id="editCheckout" value="${acco.checkout}" name="checkout">
+                <input type="text" class="form-control" id="editCheckout" value="${acco.checkout}" data-original="${acco.checkout}" name="checkout">
                 <span></span>
               </div>
           </div>
@@ -375,22 +403,24 @@
 	            <input id="imageUpload" class="form-control" type="file" multiple accept="image/*" name="image">
 	            <span></span>
           </div>
-          
+          	<input type="hidden" id="existingPhotoCount" value="${fn:length(accoList)}">
 			<br><button class="btn btn-primary " type="submit" onclick="return editchangeFn()">수정하기</button><!--링크를 걸어야 합니다-->
         </form>
         
         <form action="<c:url value="/biz/delete_acco" />" style="display:inline-block;">
+        	<input type="hidden" name="accoNo" value="${acco.accoNo}" />
         	<button class="btn btn-primary btn-delete-acco" type="submit" onclick="deleteAccoFn()">삭제하기</button> 
         </form>
         
         <form action="<c:url value="/biz/delete_acco_photo" />" method="post">
-         
+         <input type="hidden" name="accoNo" value="${acco.accoNo}" />
          <div class="selectAcco">
 				  <div class="swiper mySwiper">
 		              <div class="swiper-wrapper">
 		              	<c:forEach var="img" items="${accoList}">
 		                  <div class="swiper-slide">
-		                  	<img src="<c:url value='/resources/img/acco/${img.savedName}' />" alt="acco image" />
+		                  	<c:url var="imageUrl" value="/resources/img/acco/" />
+		                  	<img src="${imageUrl}${img.savedName}" alt="숙소 이미지" />
 		                  </div>
 		                </c:forEach>
 		              </div>
@@ -400,10 +430,134 @@
 	          <button class="btn btn-primary " type="submit" onclick="deleteAccoPhotoFn()">사진삭제</button> 
           </div>
         </form>
+        <c:if test="${param.success == 'edit'}">
+		    <div class="alert alert-success">
+		        숙소 정보가 성공적으로 수정되었습니다!
+		    </div>
+		</c:if> 
         </div>
-          
-
   </div><!--내용 끝-->
 </section>
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		<c:forEach var="acco" items="${accoList}">
+			new Swiper('.swiper-${acco.accoNo}', {
+				// Optional parameters
+				loop: true,
+				slidesPerView:3,
+				spaceBetween:20,
+			
+				// Navigation arrows
+				navigation: {
+					nextEl: '.mySwiper-${acco.accoNo} .swiper-button-next',
+					prevEl: '.mySwiper-${acco.accoNo} .swiper-button-prev',
+				}
+			});
+		</c:forEach>
+	});
+	
+	document.addEventListener('DOMContentLoaded', function () {
+	    let imageUpload = document.getElementById('imageUpload');
+	    let previewContainer = document.getElementById('imagePreviewContainer');
+
+	    imageUpload.addEventListener('change', function () {
+	        previewContainer.innerHTML = ''; // 기존 미리보기 초기화
+
+	        let files = imageUpload.files;
+
+	        Array.from(files).forEach((file, index) => {
+	            if (!file.type.startsWith('image/')) {
+	                alert("이미지 파일만 업로드할 수 있습니다.");
+	                return;
+	            }
+
+	            let reader = new FileReader();
+
+	            reader.onload = function (e) {
+	                let imgDiv = document.createElement('div');
+	                imgDiv.style.position = 'relative';
+
+	                // 이미지 미리보기 정보
+	                let img = document.createElement('img');
+	                img.src = e.target.result;
+	                img.style.width = '150px';
+	                img.style.height = '150px';
+	                img.style.objectFit = 'cover';
+	                img.style.border = '1px solid #ccc';
+	                img.style.borderRadius = '5px';
+
+	                // 대표 사진 선택
+	                let mainBtn = document.createElement('button');
+	                mainBtn.innerText = '대표';
+	                mainBtn.type = 'button';
+	                mainBtn.style.position = 'absolute';
+	                mainBtn.style.bottom = '5px';
+	                mainBtn.style.left = '5px';
+	                mainBtn.style.background = 'white';
+	                mainBtn.style.color = 'black';
+	                mainBtn.style.border = '1px solid black';
+	                mainBtn.style.borderRadius = '4px';
+	                mainBtn.style.fontSize = '12px';
+	                mainBtn.style.padding = '2px 6px';
+	                mainBtn.style.cursor = 'pointer';
+	                
+                    mainBtn.addEventListener('click', function () {
+                        document.getElementById('mainImageIndex').value = index; // 대표 이미지 인덱스 설정
+
+                        // UI 강조 효과 (선택된 대표만 표시)
+                        document.querySelectorAll('#imagePreviewContainer div').forEach(div => {
+                            mainBtn.style.background = '#fd7e14';
+                            mainBtn.style.color = 'white';
+                            let btn = div.querySelector('button');
+                            if (btn && btn.innerText.includes('대표(선택됨)')) {
+                                btn.innerText = '대표';
+                            }
+                        });
+                        mainBtn.innerText = '대표(선택됨)';
+                    });
+	                
+	                // 삭제 버튼
+	                let delBtn = document.createElement('button');
+	                delBtn.innerText = 'X';
+	                delBtn.style.position = 'absolute';
+	                delBtn.style.top = '5px';
+	                delBtn.style.right = '5px';
+	                delBtn.style.background = 'black';
+	                delBtn.style.color = 'white';
+	                delBtn.style.border = 'none';
+	                delBtn.style.borderRadius = '50%';
+	                delBtn.style.width = '24px';
+	                delBtn.style.height = '24px';
+	                delBtn.style.cursor = 'pointer';
+	                delBtn.onclick = function () {
+	                    
+                	// 삭제 클릭 시 미리보기에서 제거
+                    imgDiv.remove();
+
+                    // 파일 리스트 재구성
+                    let dataTransfer = new DataTransfer();
+                    Array.from(imageUpload.files).forEach((f, i) => {
+                        if (i !== index) {
+                            dataTransfer.items.add(f);
+                        }
+                    });
+                    
+                    imageUpload.files = dataTransfer.files;
+                    
+                    document.getElementById('mainImageIndex').value = '';
+                };
+
+	                imgDiv.appendChild(img);
+	                imgDiv.appendChild(mainBtn);
+	                imgDiv.appendChild(delBtn);
+	                previewContainer.appendChild(imgDiv);
+	            };
+
+	            reader.readAsDataURL(file);
+	        });
+	    });
+	});
+
+</script>
 </body>
 </html>

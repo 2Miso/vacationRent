@@ -158,12 +158,12 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item"> 
-        <a href="#" class="nav-link text-white"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
+        <a href="<c:url value="/biz/biz_mypage_acco" />" class="nav-link text-white"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
           <i class="bi bi-house me-2  "></i>숙소 관리
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link active" ><!--객실 관리 페이지로 링크 걸어야 합니다-->
+        <a href="<c:url value="/biz/biz_mypage_room" />" class="nav-link active" ><!--객실 관리 페이지로 링크 걸어야 합니다-->
           <i class="bi bi-file me-2"></i>
           객실 관리
         </a>
@@ -230,25 +230,25 @@
 		  
 		  <div>
             <h5>침대 타입</h5>
-            <input class="form-control" type="text" placeholder="침대 타입을 입력하세요. 예)트윈베드,온돌방" aria-label="default input example" name="bed_type">
+            <input class="form-control" type="text" placeholder="침대 타입을 입력하세요. 예)트윈베드,온돌방" aria-label="default input example" name="bedType">
             <span style="display: inline-block;"></span>
           </div>
 		  
 		  <div>
             <h5>화장실 개수</h5>
-            <input class="form-control" type="text" placeholder="화장실 개수를 입력하세요." aria-label="default input example" name="restroom_no">
+            <input class="form-control" type="text" placeholder="화장실 개수를 입력하세요." aria-label="default input example" name="restroomNo">
             <span id="" style="display: inline-block;"></span>
           </div>
 		  
 		  <div>
             <h5>객실 최소 수용인원</h5>
-            <input class="form-control" type="text" placeholder="객실 최소 인원수를 입력하세요." aria-label="default input example" name="standard_head">
+            <input class="form-control" type="text" placeholder="객실 최소 인원수를 입력하세요." aria-label="default input example" name="standardHead">
             <span style="display: inline-block;"></span>
           </div>
 
 		  <div>
             <h5>객실 추가가능 인원</h5>
-            <input class="form-control" type="text" placeholder="객실 추가 가능한 인원수를 입력하세요." aria-label="default input example" name="extra_head">
+            <input class="form-control" type="text" placeholder="객실 추가 가능한 인원수를 입력하세요." aria-label="default input example" name="extraHead">
             <span style="display: inline-block;"></span>
           </div>
 

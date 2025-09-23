@@ -114,37 +114,6 @@ public class BizServiceImpl implements BizService{
 		repository.deleteAccoDelyn(accoNo);
 	}
 	
-	// 숙소 사진 업데이트
-	@Override
-	public void updateAccoImages(int accoNo, MultipartFile[] imageFiles) {
-		 for (MultipartFile image : imageFiles) {
-	            if (!image.isEmpty()) {
-	                try {
-	                    String originalName = image.getOriginalFilename();
-	                    String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-	                    String savedName = timeStamp + "_" + originalName;
-
-	                    // 실제 파일 저장
-	                    File saveFile = new File(uploadDir, savedName);
-	                    image.transferTo(saveFile);
-
-	                    // VO 세팅
-	                    AccoPhotoVO photoVO = new AccoPhotoVO();
-	                    photoVO.setAccoNo(accoNo);
-	                    photoVO.setRoomNo(0); // 숙소 공통 이미지라면 0
-	                    photoVO.setOriginalName(originalName);
-	                    photoVO.setSavedName(savedName);
-
-	                    // DB 저장
-	                    repository.insertAccoPhoto(photoVO);
-
-	                } catch (IOException e) {
-	                    throw new RuntimeException("이미지 저장 실패", e);
-	                }
-	            }
-		 }
-	}
-	
 	// 숙소 사진 삭제
 	@Override
 	public int deleteAccoPhotoByAccoNo(int accoNo) {
@@ -160,8 +129,7 @@ public class BizServiceImpl implements BizService{
 	// 객실 등록
 	@Override
 	public void insertRoomOne(RoomVO vo) {
-		// TODO Auto-generated method stub
-		
+		repository.insertRoomOne(vo);
 	}
 	
 	// 객실 사진 등록
@@ -176,6 +144,11 @@ public class BizServiceImpl implements BizService{
 		
 	}
 	
+	// 객실 한건 조회
+	@Override
+	public RoomVO selectAccoRoomOne(int accoNo) {
+		return repository.selectAccoRoomOne(accoNo);
+	}
 	
 	@Override
 	public Integer selectLastInsertedRoomNo(int roomNo) {

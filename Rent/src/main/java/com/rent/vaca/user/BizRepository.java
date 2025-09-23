@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.rent.vaca.acco.AccoPhotoVO;
 import com.rent.vaca.acco.AccoVO;
@@ -78,17 +79,22 @@ public class BizRepository {
 	
 	// 숙소 사진 삭제
 	public int deleteAccoPhotoByAccoNo(int accoNo) {
-		return template.delete("accoPhotoMapper.getDeleteAccoPhotoByAccoNo", accoNo);
+		return template.delete("accoPhotoMapper.deleteAccoPhotoByAccoNo", accoNo);
 	}
 	
 	// 객실 한건 등록
 	public Integer insertRoomOne(RoomVO vo) {
-		return template.insert("bizMapper.insertRoomOne", vo);
+		return template.insert("roomMapper.insertRoomOne", vo);
 	}
 	
 	// 객실 사진 등록
 	public Integer insertRoomPhoto(AccoPhotoVO vo) {
 		return template.insert("roomMapper.insertRoomPhoto", vo);
+	}
+	
+	// 객실 한건 조회
+	public RoomVO selectAccoRoomOne(int accoNo) {
+		return template.selectOne("roomMapper.selectAccoRoomOne", accoNo);
 	}
 	
 	// 방금 등록한 객실 조회(사진 등록용)

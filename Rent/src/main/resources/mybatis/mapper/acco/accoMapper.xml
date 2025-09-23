@@ -90,7 +90,7 @@
 	</select>
 	
 	<!-- 등록한 숙소 삭제 -->
-	<update id="deleteAccoDelyn">
+	<update id="deleteAccoDelyn" parameterType="int">
 		update accotb set delyn = 'Y' where acco_no = #{accoNo}
 	</update>
 	

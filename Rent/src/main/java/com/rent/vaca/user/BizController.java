@@ -3,6 +3,7 @@ package com.rent.vaca.user;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -156,7 +157,8 @@ public class BizController {
 	
 	// 숙소 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.GET)
-	public String addAcco(HttpServletRequest request, HttpSession session, Model model, BizVO vo) {
+	public String addAcco(
+			HttpServletRequest request, HttpSession session, Model model, BizVO vo) {
 		
 		// 현재 로그인 정보 가져오기
 		BizVO biz = (BizVO) session.getAttribute("biz");
@@ -235,7 +237,7 @@ public class BizController {
 	                photoVO.setRoomNo(0);
 	                photoVO.setOriginalName(originalName);
 	                photoVO.setSavedName(savedName);
-	         
+	                
 	                // DB insert
 	                bizService.insertAccoPhoto(photoVO);
 	            }
@@ -396,7 +398,7 @@ public class BizController {
 		return "/biz/biz_mypage_acco";
 	}
 	
-	// 사진 삭제 처리
+	// 숙소 사진 삭제 처리
 	@PostMapping("/biz/delete_acco_photo")
 	public String deleteAccoPhoto(HttpSession session,
 			@RequestParam("accoNo") int accoNo,
@@ -435,8 +437,9 @@ public class BizController {
 	
 	// 객실 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.GET)
-	public String addRoom(Model model, HttpSession session,
-			BizVO vo, RoomVO vo1) {
+	public String addRoom(Model model, HttpSession session, RoomVO vo,
+			 @RequestParam(value="roomNo", required=false) Integer roomNo
+		) {
 		
 		// 현재 로그인 정보 가져오기
 		BizVO biz = (BizVO) session.getAttribute("biz");
@@ -447,20 +450,36 @@ public class BizController {
 		
 		// 로그인한 비즈니스 회원의 숙소정보 가져오기
 	    AccoVO acco = (AccoVO) session.getAttribute("acco");
-	    
-	    Integer accoNo = acco.getAccoNo();
-	    
-	    // 객실정보 세션 가져오기
-//	    RoomVO room = bizService.selectAccoRoomOne(acco.getAccoNo());
-//		session.setAttribute("room", room);
-	    
-	    if(accoNo == 0 || accoNo == null){
-	        model.addAttribute("errorMessage", "숙소를 먼저 등록해야 객실을 등록할 수 있습니다.");
+	    if (acco == null) {
+	        // 숙소 정보도 없는 경우 대비
+	    	model.addAttribute("errorMessage", "숙소를 먼저 등록해야 객실을 등록할 수 있습니다.");
 	        return "redirect:/biz/biz_mypage_acco";
 	    }
+	    Integer accoNo = acco.getAccoNo();
+	    List<RoomVO> allRooms = bizService.selectRoomsByAccoNo(accoNo);
+	    model.addAttribute("allRooms", allRooms);
+
+	    RoomVO room;
+	    List<AccoPhotoVO> roomPhotos = Collections.emptyList();
 	    
-	    vo1.setAccoNo(accoNo);
-		
+	    // 객실정보 가져오기
+	    if (roomNo != null) {
+	    	room = bizService.selectAccoRoomOne(roomNo);
+	     
+		    if(room == null){
+		        room = new RoomVO();
+		        room.setAccoNo(accoNo);
+		    }else {
+		    	roomPhotos = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
+		    }
+	    }else {
+			room = new RoomVO();
+			room.setAccoNo(accoNo);
+	    }
+	    
+	    model.addAttribute("selectedRoom", room);
+	    model.addAttribute("roomPhotos", roomPhotos);
+	    
 		return "/biz/biz_mypage_room";
 	}
 	
@@ -536,4 +555,43 @@ public class BizController {
 		return "redirect:/biz/biz_mypage_room";
 	}
 	
-}
+	// 객실 사진 삭제 처리
+	@PostMapping("/biz/delete_room_photo")
+	public String deleteRoomPhoto(HttpSession session,
+			HttpServletRequest request) {
+		try {
+	        // DB에서 삭제
+			
+			// 숙소 번호
+			// 로그인한 비즈니스 회원의 숙소정보 가져오기
+		    AccoVO acco = (AccoVO) session.getAttribute("acco");
+			
+			int accoNo =acco.getAccoNo();
+			
+			// 삭제할 객실 번호
+			RoomVO room = (RoomVO) session.getAttribute("room");
+			int roomNo = room.getRoomNo();
+			
+	        List<AccoPhotoVO> photoList = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
+
+	        // 실제 파일도 삭제
+	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/room");
+	        
+	        for (AccoPhotoVO photo : photoList) {
+	            String savedName = photo.getSavedName();
+	            File file = new File(uploadDir, savedName);
+	            if (file.exists()) {
+	                file.delete();
+	            }
+	        }
+	        
+	        //bizService.deleteAccoPhotoByRoomNo(deleteRoomNo);
+
+	        return "redirect:/biz/biz_mypage_room";
+	        
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/biz/biz_mypage_room?error=true";
+	    }
+	}
+	}

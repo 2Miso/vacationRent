@@ -192,22 +192,7 @@
       }
       
       function deleteAccoFn(){
-    	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return;
-    	  
-    	  $.ajax({
-      	    url: "<c:url value='/biz/delete_acco_photo' />",
-      	    type: "POST",
-      	    data: { accoNo: "${acco.accoNo}" },
-      	    success: function() {
-      	      alert("사진이 삭제되었습니다.");
-      	      photoDeleted = true;
-      	      // 필요한 경우 UI 갱신 (사진 목록 갱신 등)
-      	    },
-      	    error: function() {
-      	      alert("사진 삭제에 실패했습니다.");
-      	    }
-      	  });
-    	  
+    	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return;  	  
       }
       
       function deleteAccoPhotoFn(){
@@ -244,12 +229,12 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item"> 
-        <a href="#" class="nav-link active" aria-current="page"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
+        <a href="<c:url value="/biz/biz_mypage_acco" />" class="nav-link active" aria-current="page"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
           <i class="bi bi-house me-2  "></i>숙소 관리
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+        <a href="<c:url value="/biz/biz_mypage_room" />" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
           <i class="bi bi-file me-2"></i>
           객실 관리
         </a>
@@ -344,7 +329,7 @@
 			<div id="imagePreviewContainer" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
 			
 			<!-- 대표 이미지 인덱스를 서버로 보내기 위한 hidden input -->
-			<input type="hidden" id="mainImageIndex" name="mainImageIndex" value="2">
+			<input type="hidden" id="mainImageIndex" name="mainImageIndex" value="${mainImageIndex}">
 			<br><button class="btn btn-primary " type="submit" onclick="return accochangeFn()">저장하기</button><!--링크를 걸어야 합니다-->
         </form>
         </div><!--숙소 정보 등록 끝-->
@@ -407,20 +392,34 @@
 			<br><button class="btn btn-primary " type="submit" onclick="return editchangeFn()">수정하기</button><!--링크를 걸어야 합니다-->
         </form>
         
-        <form action="<c:url value="/biz/delete_acco" />" style="display:inline-block;">
+        <form action="<c:url value='/biz/delete_acco' />" style="position:relative; bottom:37.5px; left:100px;" method="post">
         	<input type="hidden" name="accoNo" value="${acco.accoNo}" />
         	<button class="btn btn-primary btn-delete-acco" type="submit" onclick="deleteAccoFn()">삭제하기</button> 
         </form>
         
         <form action="<c:url value="/biz/delete_acco_photo" />" method="post">
          <input type="hidden" name="accoNo" value="${acco.accoNo}" />
+         
          <div class="selectAcco">
 				  <div class="swiper mySwiper">
 		              <div class="swiper-wrapper">
-		              	<c:forEach var="img" items="${accoList}">
-		                  <div class="swiper-slide">
+		              	<c:forEach var="img" items="${accoList}" varStatus="status">
+		                  <div class="swiper-slide" style="position:relative;">
 		                  	<c:url var="imageUrl" value="/resources/img/acco/" />
-		                  	<img src="${imageUrl}${img.savedName}" alt="숙소 이미지" />
+		                  	<img src="${imageUrl}${img.savedName}" alt="숙소 이미지" style="width:100%; height:auto;"/>
+		                  	<c:if test="${status.index == mainImageIndex}">
+		                  		<div style="
+		                  			position:absolute;
+		                  			bottom:5px;
+		                  			left:5px;
+		                  			background-color:#fd7e14;
+		                  			color:white;
+		                  			padding:2px 6px;
+		                  			border-radius:4px;
+		                  			font-size:0.9rem;
+		                  			user-select:none;
+		                  		">대표</div>
+		                  	</c:if>
 		                  </div>
 		                </c:forEach>
 		              </div>
@@ -454,10 +453,8 @@
 				}
 			});
 		</c:forEach>
-	});
 	
-	document.addEventListener('DOMContentLoaded', function () {
-	    let imageUpload = document.getElementById('imageUpload');
+	    let imageUpload = document.getElementById('accoUpload');
 	    let previewContainer = document.getElementById('imagePreviewContainer');
 
 	    imageUpload.addEventListener('change', function () {
@@ -487,6 +484,7 @@
 	                img.style.borderRadius = '5px';
 
 	                // 대표 사진 선택
+	                /*
 	                let mainBtn = document.createElement('button');
 	                mainBtn.innerText = '대표';
 	                mainBtn.type = 'button';
@@ -515,7 +513,7 @@
                         });
                         mainBtn.innerText = '대표(선택됨)';
                     });
-	                
+                    
 	                // 삭제 버튼
 	                let delBtn = document.createElement('button');
 	                delBtn.innerText = 'X';
@@ -533,7 +531,7 @@
 	                    
                 	// 삭제 클릭 시 미리보기에서 제거
                     imgDiv.remove();
-
+                    
                     // 파일 리스트 재구성
                     let dataTransfer = new DataTransfer();
                     Array.from(imageUpload.files).forEach((f, i) => {
@@ -544,12 +542,12 @@
                     
                     imageUpload.files = dataTransfer.files;
                     
-                    document.getElementById('mainImageIndex').value = '';
+                    // document.getElementById('mainImageIndex').value = '';
                 };
-
+                */
 	                imgDiv.appendChild(img);
-	                imgDiv.appendChild(mainBtn);
-	                imgDiv.appendChild(delBtn);
+	                // imgDiv.appendChild(mainBtn);
+	                // imgDiv.appendChild(delBtn);
 	                previewContainer.appendChild(imgDiv);
 	            };
 

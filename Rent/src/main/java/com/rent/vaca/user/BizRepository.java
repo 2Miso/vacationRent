@@ -67,9 +67,17 @@ public class BizRepository {
 		return template.selectOne("accoMapper.existsAccoByBizIdAndDelyn", params);
 	}
 	
-	// 내 숙소 등록한 사진 조회
+	// 숙소 등록한 사진 조회
 	public List<AccoPhotoVO> getPhotosByBizId(int accoNo){
 		return template.selectList("accoPhotoMapper.getPhotosByBizId", accoNo);
+	}
+	
+	// 등록한 객실 사진 조회
+	public List<AccoPhotoVO> getPhotosByBizIdAndRoomNo(int accoNo, int roomNo){
+		Map<String, Object> params = new HashMap<>();
+		params.put("accoNo", accoNo);
+		params.put("roomNo", roomNo);		
+		return template.selectList("accoPhotoMapper.getPhotosByBizIdAndRoomNo", params);
 	}
 	
 	// 
@@ -92,14 +100,22 @@ public class BizRepository {
 		return template.insert("roomMapper.insertRoomPhoto", vo);
 	}
 	
+	public int getPhotosByAccoNo(int roomNo) {
+		return template.delete("roomMapper.deleteAccoPhotoByRoomNo", roomNo);
+	}
+	
+	// 숙소내 객실 전체 조회
+	public List<RoomVO> selectRoomsByAccoNo(int accoNo) {
+		return template.selectList("roomMapper.selectRoomsByAccoNo", accoNo);
+	}
+	
+	public List<AccoPhotoVO> getPhotosByBizIdAndRoomNo(int roomNo){
+		return template.selectList("accoPhotoMapper.getPhotosByBizIdAndRoomNo", roomNo);
+	}
+	
 	// 객실 한건 조회
 	public RoomVO selectAccoRoomOne(int accoNo) {
 		return template.selectOne("roomMapper.selectAccoRoomOne", accoNo);
-	}
-	
-	// 방금 등록한 객실 조회(사진 등록용)
-	public Integer selectLastInsertedRoomNo(int roomNo) {
-		return template.insert("accoMapper.selectBizCntByBizId", roomNo);
 	}
 	
 }

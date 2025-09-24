@@ -2,6 +2,7 @@ package com.rent.vaca.room;
 
 import java.util.List;
 
+import com.rent.vaca.acco.AccoPhotoVO;
 import com.rent.vaca.reserv.ReservVO;
 
 public class RoomVO{
@@ -19,7 +20,7 @@ public class RoomVO{
 	private String description;
 	private List<ReservVO> reservList;
 	private String thumbnailImage;
-	
+	private List<AccoPhotoVO> photoList;
 	
 	public String getThumbnailImage() {
 		return thumbnailImage;
@@ -105,6 +106,13 @@ public class RoomVO{
 	public void setReservList(List<ReservVO> reservList) {
 		this.reservList = reservList;
 	}
+	public List<AccoPhotoVO> getPhotoList() {
+		return photoList;
+	}
+
+	public void setPhotoList(List<AccoPhotoVO> photoList) {
+		this.photoList = photoList;
+	}	
 	@Override
 	public String toString() {
 		return "RoomVO [roomNo=" + roomNo + ", accoNo=" + accoNo + ", ho=" + ho + ", name=" + name + ", price=" + price

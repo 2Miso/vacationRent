@@ -45,6 +45,41 @@
 	.active{
 		--bs-nav-pills-link-active-bg:var(--bs-orange);
 	}
+	.room-card {
+	  border: 1px solid #ddd;
+	  border-radius: 6px;
+	  padding: 12px;
+	  background: #fff;
+	}
+	
+	.room-header h4 {
+	  margin: 0;
+	  font-size: 1.2rem;
+	}
+	
+	.room-meta {
+	  font-size: 0.9rem;
+	  color: #666;
+	}
+	
+	.room-swiper-${room.roomNo} {
+	  width: 100%;
+	  height: 180px; /* 원하는 높이 조절 */
+	  margin-top: 8px;
+	}
+	
+	.room-description {
+	  font-size: 0.9rem;
+	  color: #444;
+	}
+	
+	.room-person span {
+	  margin-right: 8px;
+	}
+	
+	.room-actions {
+	  text-align: right;
+	}
     </style>
     <script>
 		function roomAddFn(){
@@ -204,6 +239,8 @@
           <h3 class="fw-bold">객실 관리</h3>
 		  <h4>객실 등록</h4>
 		  <form action="<c:url value="/biz/biz_mypage_room" />" method="post" enctype="multipart/form-data">
+          	<input type="hidden" name="bizId" value="${biz.id}" />
+       		<input type="hidden" name="accoNo" value="${acco.accoNo}" />
           <div style="width:500px;">
             <h5>객실 이름</h5>
             <input class="form-control" style="height:50px;" type="text" placeholder="객실 이름을 입력하세요." aria-label="default input example" name="name">
@@ -266,19 +303,77 @@
           
           <div id="imagePreviewContainer" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
 
-          <!-- 대표 이미지 인덱스를 서버로 보내기 위한 hidden input -->
+          <!-- 대표 이미지 인덱스를 서버로 보내기 위한 hidden input 
 		  <input type="hidden" id="mainImageIndex" name="mainImageIndex" value="2">
-          
+          -->
             <button class="btn btn-primary " type="submit" onclick="return roomAddFn()">등록하기</button>
         </form>
         </div><!--숙소 정보 글로 수정하기-->
-          
-        <div class="mx-3" style="width:400px; height:600px; overflow: auto;"><!--이미지 업로드 or 확인-->
+        
+        <div class="mx-3" style="width:400px; height:600px; overflow: auto;">
+  <form action="<c:url value="/biz/biz_room_delete" />" method="post">
+    <input type="hidden" name="bizId" value="${biz.id}" />
+    <input type="hidden" name="accoNo" value="${acco.accoNo}" />
+	<input type="hidden" name="roomNo" value="${room.roomNo}">
+    <h3 class="fw-bold">등록된 객실 관리</h3>
+
+    <div class="selectRoom">
+      <c:forEach var="room" items="${roomList}">
+        <div class="room-card mb-4" data-room-no="${room.roomNo}">
+          <!-- 방 기본 정보 -->
+          <div class="room-header">
+            <h4>${room.name}</h4>
+            <div class="room-meta">
+              <span>가격: ${room.price}원</span> |
+              <span>면적: ${room.area}㎡</span> |
+              <span>침대: ${room.bedType}</span> |
+              <span>화장실: ${room.restroomNo}개</span>
+            </div>
+          </div>
+
+          <!-- 이미지 슬라이더 -->
+          <div class="swiper room-swiper-${room.roomNo}">
+            <div class="swiper-wrapper">
+              <c:forEach var="photo" items="${room.photos}">
+                <div class="swiper-slide">
+                  <c:url var="photoUrl" value="/resources/img/room/${photo.savedName}" />
+                  <img src="${photoUrl}" alt="room image" style="width:100%; height:auto; object-fit:cover;" />
+                </div>
+              </c:forEach>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+          </div>
+
+          <!-- 설명 및 인원 정보 -->
+          <div class="room-description mt-2">
+            <p>${room.description}</p>
+            <div class="room-person">
+              <span>기준: ${room.standardHead}명</span>
+              <span>추가: ${room.extraHead}명</span>
+            </div>
+          </div>
+
+          <!-- 삭제 버튼 (각 방 별로 삭제) -->
+          <div class="room-actions mt-2">
+            <input type="hidden" name="roomNo" value="${room.roomNo}" />
+            <button type="submit" class="btn btn-danger btn-sm">삭제하기</button>
+          </div>
+        </div>
+      </c:forEach>
+    </div>
+  </form>
+</div>
+        <!-- 
+        <div class="mx-3" style="width:400px; height:600px; overflow: auto;">
+          <form action="<c:url value="/biz/biz_room_delete"/>" method="post">
+          <input type="hidden" name="bizId" value="${biz.id}" />
+       	  <input type="hidden" name="accoNo" value="${acco.accoNo}" />
           <h3 class="fw-bold">등록된 객실 관리</h3>
           <div class="selectRoom">
           	  <c:forEach var="room" items="${roomList}">
 	          	  <div>${room.name}</div>
-				  <div class="swiper mySwiper-${room.id}">
+				  <div class="swiper mySwiper-${room.roomNo}">
 		              <div class="swiper-wrapper">
 		              	<c:forEach var="img" items="${room.photos}">
 		                  <div class="swiper-slide">
@@ -292,14 +387,16 @@
 	          </c:forEach>
 	          <button link="#" class="btn btn-primary " type="button">삭제하기</button> 
           </div>
+          </form>
         </div>
+         -->
   </div><!--내용 끝-->
 </section>
 
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 		<c:forEach var="room" items="${roomList}">
-			new Swiper('.swiper-${room.id}', {
+			new Swiper('.swiper-${room.roomNo}', {
 				// Optional parameters
 				loop: true,
 				slidesPerView:3,
@@ -307,8 +404,8 @@
 			
 				// Navigation arrows
 				navigation: {
-					nextEl: '.mySwiper-${room.id} .swiper-button-next',
-					prevEl: '.mySwiper-${room.id} .swiper-button-prev',
+					nextEl: '.mySwiper-${room.roomNo} .swiper-button-next',
+					prevEl: '.mySwiper-${room.roomNo} .swiper-button-prev',
 				}
 			});
 		</c:forEach>
@@ -343,7 +440,7 @@
 	                img.style.objectFit = 'cover';
 	                img.style.border = '1px solid #ccc';
 	                img.style.borderRadius = '5px';
-
+					/*
 	                // 대표 사진 선택
 	                let mainBtn = document.createElement('button');
 	                mainBtn.innerText = '대표';
@@ -404,10 +501,10 @@
                     
                     document.getElementById('mainImageIndex').value = '';
                 };
-
+				*/
 	                imgDiv.appendChild(img);
-	                imgDiv.appendChild(mainBtn);
-	                imgDiv.appendChild(delBtn);
+	                // imgDiv.appendChild(mainBtn);
+	                // imgDiv.appendChild(delBtn);
 	                previewContainer.appendChild(imgDiv);
 	            };
 

@@ -126,6 +126,11 @@ public class BizServiceImpl implements BizService{
 		return repository.getPhotosByBizId(accoNo);
 	}
 	
+	@Override
+	public List<AccoPhotoVO> getPhotosByBizIdAndRoomNo(int accoNo, int roomNo){
+		return repository.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
+	}
+	
 	// °´½Ç µî·Ï
 	@Override
 	public void insertRoomOne(RoomVO vo) {
@@ -137,6 +142,11 @@ public class BizServiceImpl implements BizService{
 	public void insertRoomPhoto(AccoPhotoVO vo) {
 		repository.insertRoomPhoto(vo);
 	}
+	
+	@Override
+	public int getPhotosByAccoNo(int roomNo) {
+		return repository.getPhotosByAccoNo(roomNo);
+	}
 
 	@Override
 	public void updateRoom(RoomVO vo) {
@@ -144,15 +154,20 @@ public class BizServiceImpl implements BizService{
 		
 	}
 	
+	@Override
+	public List<RoomVO> selectRoomsByAccoNo(int accoNo) {
+		List<RoomVO> rooms = repository.selectRoomsByAccoNo(accoNo);
+		for(RoomVO room : rooms) {
+			List<AccoPhotoVO> photos = repository.getPhotosByBizIdAndRoomNo(room.getRoomNo());
+			room.setPhotoList(photos);
+		}
+		return rooms;
+	}
+	
 	// °´½Ç ÇÑ°Ç Á¶È¸
 	@Override
 	public RoomVO selectAccoRoomOne(int accoNo) {
 		return repository.selectAccoRoomOne(accoNo);
-	}
-	
-	@Override
-	public Integer selectLastInsertedRoomNo(int roomNo) {
-		return repository.selectLastInsertedRoomNo(roomNo);
 	}
 
 	@Override

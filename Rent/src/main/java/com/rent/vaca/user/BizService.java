@@ -52,14 +52,17 @@ public interface BizService {
 	// 객실 사진 등록
 	void insertRoomPhoto(AccoPhotoVO vo);
 	
+	// 객실 사진 삭제
+	int getPhotosByAccoNo(int roomNo);
+	
 	// 객실 정보 수정
 	void updateRoom(RoomVO vo);
 	
+	// 숙소내 객실 전체 조회
+	List<RoomVO> selectRoomsByAccoNo(int accoNo);
+	
 	// 객실 한건 조회
 	RoomVO selectAccoRoomOne(int accoNo);
-	
-	// 방금 등록한 객실 정보 조회(객실 사진 등록용)
-	Integer selectLastInsertedRoomNo(int roomNo);
 	
 	// 예약자 리스트 조회
 	List<ReservVO> reservList(BizVO vo);
@@ -78,5 +81,8 @@ public interface BizService {
 	
 	// 내 숙소 등록 사진 조회
 	List<AccoPhotoVO> getPhotosByBizId(int accoNo);
+	
+	// 숙소 내 객실 사진 조회
+	List<AccoPhotoVO> getPhotosByBizIdAndRoomNo(int accoNo, int roomNo);
 	
 }

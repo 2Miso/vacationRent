@@ -48,15 +48,14 @@ public class AccoServiceImpl implements AccoService {
 			acco.setOrderBy("newest");
 		}
 		switch(acco.getOrderBy()) {
-			
 			case "highest":
-				acco.setOrderBy("reviewtb.star desc");
+				acco.setOrderQuery("reviewtb.star desc");
 				break;
 			case "lowest":
-				acco.setOrderBy("reviewtb.star asc");
+				acco.setOrderQuery("reviewtb.star asc");
 				break;
 			default:
-				acco.setOrderBy("reviewtb.wdate desc");
+				acco.setOrderQuery("reviewtb.wdate desc");
 		}
 		
 		return reviewRepository.selectReviewsByAccoNo(acco);

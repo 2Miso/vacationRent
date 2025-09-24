@@ -10,6 +10,8 @@ public class SearchVO {
 	private Integer priceLow;
 	private Integer priceHigh;
 	private List<Integer> type;
+	private String orderBy;
+	private String orderQuery;
 	
 	public String getText() {
 		return text;
@@ -53,9 +55,22 @@ public class SearchVO {
 	public void setType(List<Integer> type) {
 		this.type = type;
 	}
+	public String getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+	public String getOrderQuery() {
+		return orderQuery;
+	}
+	public void setOrderQuery(String orderQuery) {
+		this.orderQuery = orderQuery;
+	}
 	@Override
 	public String toString() {
 		return "SearchVO [text=" + text + ", checkIn=" + checkIn + ", checkOut=" + checkOut + ", head=" + head
-				+ ", priceLow=" + priceLow + ", priceHigh=" + priceHigh + ", type=" + type + "]";
+				+ ", priceLow=" + priceLow + ", priceHigh=" + priceHigh + ", type=" + type + ", orderBy=" + orderBy
+				+ ", orderQuery=" + orderQuery + "]";
 	}
 }

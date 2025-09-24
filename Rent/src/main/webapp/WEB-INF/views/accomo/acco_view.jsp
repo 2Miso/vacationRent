@@ -1,9 +1,16 @@
 <!-- URL : /acco/view/{accoNo} -->
+<%@page import="com.rent.vaca.user.UserVO"%>
 <%@page import="com.rent.vaca.acco.AccoVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%
+	UserVO user1 = new UserVO();
+	user1.setId(1);
+	user1.setNickname("개인1");
+	session.setAttribute("user", user1);
+%>
 <%@include file="../include/header_nosearchbar.jsp"%>
 <!DOCTYPE html>
 <html lang="ko">

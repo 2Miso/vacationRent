@@ -68,7 +68,23 @@ if(session.getAttribute("user")!=null) {
             <i class="bi bi-list"></i>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">마이페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/customer/question">마이페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="<c:url value="/logout" />">로그아웃</a></li><!--고객센터 링크를 걸어야 합니다-->
+          </ul>
+        </li>
+        </c:when>
+      	<c:when test="${not empty sessionScope.biz}">
+        <span class="navbar-text">
+          "${sessionScope.biz.name}"님
+          </span>
+        <li class="nav-item dropdown">
+          
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-list"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/biz/biz_mypage_acco">마이페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/logout" />">로그아웃</a></li><!--고객센터 링크를 걸어야 합니다-->
           </ul>
@@ -76,7 +92,7 @@ if(session.getAttribute("user")!=null) {
         </c:when>
        	<c:otherwise>
         <span class="navbar-text">
-          <button class="btn btn-primary reserv-btn" onclick="location.href='<c:url value="/login/main" />'">로그인</button>
+          <button class="btn btn-primary" onclick="location.href='<c:url value="/login/main" />'">로그인</button>
           </span>
         <li class="nav-item dropdown">
           

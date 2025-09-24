@@ -19,6 +19,9 @@
 
     <script>
     	$(function(){
+    		let priceFlag = true;
+    		let dateFlag = true;
+    		
     		//체크박스 전체 선택시 모든 체크박스 선택 또는 해제
     		$("#everything").change(function(){
     	        if ($(this).is(':checked')) {
@@ -28,8 +31,39 @@
     	        }
     		});
     		
+			//전체 체크박스 외 모든 체크박스 선택 시 전체 체크박스도 선택되기
+			if($(".form-check-input:checked").not('#everything').length == 4){
+				$("#everything").prop('checked', true);
+			}
+			
+			//오늘 이전 날짜는 비활성화
+		    let dtToday = new Date();
+    
+		    let month = dtToday.getMonth() + 1;
+		    let day = dtToday.getDate();
+		    let year = dtToday.getFullYear();
+		    if(month < 10)
+		        month = '0' + month.toString();
+		    if(day < 10)
+		        day = '0' + day.toString();
+		    
+		    let maxDate = year + '-' + month + '-' + day;
+		
+		    $('.date input').attr('min', maxDate);
+			
+			
     		//체크인날짜<체크아웃날짜 검증
-    		
+    		$(".date input").change(function(){
+    			dateFlag = false;
+    			if($(".date input:eq(0)").val()!="" && $(".date input:eq(1)").val()!=""){ //체크인, 체크아웃 날짜 둘 다 입력 시
+    				dateFlag = $(".date input:eq(0)").val()<$(".date input:eq(1)").val(); //전후 옳으면 dateFlag = true
+	    			if(!dateFlag){
+	    				/* alert('체크아웃 날짜는 체크인 날짜보다 후여야 합니다.'); */
+	    			}
+    			} else if ($(".date input:eq(0)").val()=="" && $(".date input:eq(1)").val()==""){ //날짜 선택 안 했을 시
+    				dateFlag = true;
+    			}
+    		});
     		
     		//가격, 인원엔 숫자만 입력 가능
     		$(".price input").add($("[name=head]")).keyup(function(){
@@ -44,12 +78,26 @@
     		
     		//최저가격<최대가격 검증
     		$(".price input").blur(function(){
-    			priceCheck();
+    			priceFlag = false;
+    			let priceLow = $("[name=priceLow]");
+				let priceHigh = $("[name=priceHigh]");
+				
+				if(priceLow.val() != "" && priceHigh.val() != "" && Number(priceLow.val()) > Number(priceHigh.val())){
+					/* alert('최대가격을 최저가격보다 높게 입력해야 합니다.'); */
+				} else {
+					priceFlag = true;
+				}
     		});
     		
     		//날짜, 가격 앞뒤 맞을 때 form 제출
     		$(".searchBtn").on("click", function(){
-    			$("form").submit();
+    			if(priceFlag && dateFlag){
+    				$("form").submit();
+    			} else if (dateFlag==false){
+    				alert('체크인/체크아웃 날짜를 확인하세요.');
+    			} else if (priceFlag==false){
+    				alert('최대가격을 최저가격보다 높게 입력해야 합니다.');
+    			}
     		});
     	});/* document.ready 끝 */
     
@@ -62,15 +110,6 @@
                 $(obj).text("카테고리 펼치기")
                 category=false;
             }
-        }
-        
-        function priceCheck(){
-				let priceLow = $("[name=priceLow]");
-				let priceHigh = $("[name=priceHigh]");
-				
-				if(priceLow.val() != "" && priceHigh.val() != "" && Number(priceLow.val()) > Number(priceHigh.val())){
-						alert('최대가격을 최저가격보다 높게 입력해야 합니다.');
-				}
         }
     </script>
 </head>
@@ -86,11 +125,11 @@
             
             <h3 class="fw-bold mx-2 my-2">검색하기</h3><!--검색하기 시작-->
             <form action="<c:url value="/search" />" method="get">
-            <div class="d-flex  justify-content-around " style="height:50px;">
+            <div class="d-flex  justify-content-around" style="height:50px;">
                 <input name="text" type="text" class="form-control " placeholder="검색하기" style="width:350px; height:50px;">
-                <div class="d-flex align-items-center">
-                <input name="checkIn" type="date" class="form-control" placeholder="일정(부터)" style="width:150px; height:50px;">-
-                <input name="checkOut" type="date" class="form-control" placeholder="일정(까지)" style="width:150px; height:50px;">
+                <div class="d-flex align-items-center date">
+	                <input name="checkIn" type="date" class="form-control" placeholder="일정(부터)" style="width:150px; height:50px;">-
+	                <input name="checkOut" type="date" class="form-control" placeholder="일정(까지)" style="width:150px; height:50px;">
                 </div>
                 <input name="head" type="text" class="form-control " placeholder="인원(명)" style="width:100px; height:50px;">
                 <button class="btn btn-primary searchBtn" type="button" style="width:200px; height:50px;">검색하기</button>

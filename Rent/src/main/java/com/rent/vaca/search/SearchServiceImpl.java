@@ -20,6 +20,20 @@ public class SearchServiceImpl implements SearchService{
 
 	@Override
 	public List<AccoVO> search(SearchVO vo) {
+		if(vo.getOrderBy()==null) {
+			vo.setOrderBy("popular");
+		}
+		switch(vo.getOrderBy()) {
+			case "highest":
+				vo.setOrderQuery("price desc");
+				break;
+			case "lowest":
+				vo.setOrderQuery("price asc");
+				break;
+			default:
+				vo.setOrderQuery("starAvg desc");
+		}
+		
 		return accoRepository.search(vo);
 	}
 

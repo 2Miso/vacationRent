@@ -26,6 +26,7 @@ public class AccoVO {
 	private BizVO biz;
 	private List<RoomVO> roomList;
 	private String orderBy;
+	private String orderQuery;
 	private List<AccoPhotoVO> photoList;
 
 	public int getAccoNo() {
@@ -183,6 +184,14 @@ public class AccoVO {
 
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
+	}
+
+	public String getOrderQuery() {
+		return orderQuery;
+	}
+
+	public void setOrderQuery(String orderQuery) {
+		this.orderQuery = orderQuery;
 	}
 
 	public List<AccoPhotoVO> getPhotoList() {

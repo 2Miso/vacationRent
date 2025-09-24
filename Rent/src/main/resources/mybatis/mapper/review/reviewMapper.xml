@@ -55,7 +55,7 @@
 			inner join usertb 
 				on reviewtb.user_id=usertb.id 
 		where a.acco_no=#{accoNo}
-			order by ${orderBy};
+			order by ${orderQuery};
 	</select>
 	
 		<!-- 리뷰개수 조회 -->
@@ -68,7 +68,7 @@
 				on roomtb.room_no=reservtb.room_no 
 			inner join reviewtb 
 				on reservtb.reserv_code=reviewtb.reserv_code
-		where accotb.acco_no=${accoNo};
+		where accotb.acco_no=#{accoNo};
 	</select>
 	
 	<!-- 별점평균 조회 -->

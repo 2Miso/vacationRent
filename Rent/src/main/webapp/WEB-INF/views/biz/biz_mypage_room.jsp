@@ -117,35 +117,35 @@
 			}
 			
 			// 침대 타입 유효성검사
-			if($("input[name=bed_type]").val() == ""){
-				$("input[name=bed_type]").parent().children("span").text("침대 타입을 입력해 주세요.").css("color","red");
+			if($("input[name=bedType]").val() == ""){
+				$("input[name=bedType]").parent().children("span").text("침대 타입을 입력해 주세요.").css("color","red");
 				return false;
 			}else{
-				$("input[name=bed_type]").parent().children("span").text("");
+				$("input[name=bedType]").parent().children("span").text("");
 			}
 			
 			// 화장실 개수 유효성검사
-			if($("input[name=restroom_no]").val() == ""){
-				$("input[name=restroom_no]").parent().children("span").text("화장실 개수를 입력해 주세요.").css("color","red");
+			if($("input[name=restroomNo]").val() == ""){
+				$("input[name=restroomNo]").parent().children("span").text("화장실 개수를 입력해 주세요.").css("color","red");
 				return false;
 			}else{
-				$("input[name=restroom_no]").parent().children("span").text("");
+				$("input[name=restroomNo]").parent().children("span").text("");
 			}
 			
 			// 객실 최소인원 유효성검사
-			if($("input[name=standard_head]").val() == ""){
-				$("input[name=standard_head]").parent().children("span").text("객실 최소인원을 입력해 주세요.").css("color","red");
+			if($("input[name=standardHead]").val() == ""){
+				$("input[name=standardHead]").parent().children("span").text("객실 최소인원을 입력해 주세요.").css("color","red");
 				return false;
 			}else{
-				$("input[name=standard_head]").parent().children("span").text("");
+				$("input[name=standardHead]").parent().children("span").text("");
 			}
 			
 			// 객실 추가가능인원 유효성검사
-			if($("input[name=extra_head]").val() == ""){
-				$("input[name=extra_head]").parent().children("span").text("객실 추가가능 인원을 입력해 주세요.").css("color","red");
+			if($("input[name=extraHead]").val() == ""){
+				$("input[name=extraHead]").parent().children("span").text("객실 추가가능 인원을 입력해 주세요.").css("color","red");
 				return false;
 			}else{
-				$("input[name=extra_head]").parent().children("span").text("");
+				$("input[name=extraHead]").parent().children("span").text("");
 			}
 			
 			// 객실설명 유효성검사
@@ -311,30 +311,31 @@
         </div><!--숙소 정보 글로 수정하기-->
         
         <div class="mx-3" style="width:400px; height:600px; overflow: auto;">
-  <form action="<c:url value="/biz/biz_room_delete" />" method="post">
-    <input type="hidden" name="bizId" value="${biz.id}" />
-    <input type="hidden" name="accoNo" value="${acco.accoNo}" />
-	<input type="hidden" name="roomNo" value="${room.roomNo}">
     <h3 class="fw-bold">등록된 객실 관리</h3>
 
-    <div class="selectRoom">
-      <c:forEach var="room" items="${roomList}">
-        <div class="room-card mb-4" data-room-no="${room.roomNo}">
-          <!-- 방 기본 정보 -->
-          <div class="room-header">
-            <h4>${room.name}</h4>
-            <div class="room-meta">
-              <span>가격: ${room.price}원</span> |
-              <span>면적: ${room.area}㎡</span> |
-              <span>침대: ${room.bedType}</span> |
-              <span>화장실: ${room.restroomNo}개</span>
-            </div>
+	<div class="selectRoom">
+  	<c:forEach var="room" items="${rooms}">
+    
+    <!-- 각 객실별로 삭제용 폼 분리 -->
+    <form action="<c:url value='/biz/biz_room_delete' />" method="post">
+      <div class="room-card mb-4" data-room-no="${room.roomNo}">
+		room = ${room}<br>
+		roomNo = ${room.roomNo}<br>
+        <!-- 방 기본 정보 -->
+        <div class="room-header">
+          <h4>${room.name}</h4>
+          <div class="room-meta">
+            <span>가격: ${room.price}원</span> |
+            <span>면적: ${room.area}㎡</span> |
+            <span>침대: ${room.bedType}</span> |
+            <span>화장실: ${room.restroomNo}개</span>
           </div>
+        </div>
 
-          <!-- 이미지 슬라이더 -->
+        <!-- 이미지 슬라이더 -->
           <div class="swiper room-swiper-${room.roomNo}">
             <div class="swiper-wrapper">
-              <c:forEach var="photo" items="${room.photos}">
+              <c:forEach var="photo" items="${room.photoList}">
                 <div class="swiper-slide">
                   <c:url var="photoUrl" value="/resources/img/room/${photo.savedName}" />
                   <img src="${photoUrl}" alt="room image" style="width:100%; height:auto; object-fit:cover;" />
@@ -345,24 +346,30 @@
             <div class="swiper-button-prev"></div>
           </div>
 
-          <!-- 설명 및 인원 정보 -->
-          <div class="room-description mt-2">
-            <p>${room.description}</p>
-            <div class="room-person">
-              <span>기준: ${room.standardHead}명</span>
-              <span>추가: ${room.extraHead}명</span>
-            </div>
-          </div>
-
-          <!-- 삭제 버튼 (각 방 별로 삭제) -->
-          <div class="room-actions mt-2">
-            <input type="hidden" name="roomNo" value="${room.roomNo}" />
-            <button type="submit" class="btn btn-danger btn-sm">삭제하기</button>
+        <!-- 설명 및 인원 정보 -->
+        <div class="room-description mt-2">
+          <p>${room.description}</p>
+          <div class="room-person">
+            <span>기준: ${room.standardHead}명</span>
+            <span>추가: ${room.extraHead}명</span>
           </div>
         </div>
-      </c:forEach>
+
+        <!-- 삭제용 hidden input -->
+        <input type="hidden" name="roomNo" value="${room.roomNo}" />
+
+        <!-- 삭제 버튼 -->
+        <div class="room-actions mt-2">
+          <button type="submit" class="btn btn-danger btn-sm">삭제하기</button>
+        </div>
+
+      </div>
+    </form>
+
+ 	</c:forEach>
+	</div>
     </div>
-  </form>
+  
 </div>
         <!-- 
         <div class="mx-3" style="width:400px; height:600px; overflow: auto;">

@@ -455,30 +455,36 @@ public class BizController {
 	    	model.addAttribute("errorMessage", "숙소를 먼저 등록해야 객실을 등록할 수 있습니다.");
 	        return "redirect:/biz/biz_mypage_acco";
 	    }
-	    Integer accoNo = acco.getAccoNo();
-	    List<RoomVO> allRooms = bizService.selectRoomsByAccoNo(accoNo);
-	    model.addAttribute("allRooms", allRooms);
+	    System.out.println("Session acco: " + acco);
+	    System.out.println("Session accoNo: " + (acco != null ? acco.getAccoNo() : "null"));
+	    System.out.println("Request param roomNo: " + roomNo);
 
+	    
+	    Integer accoNo = acco.getAccoNo();
+	    List<RoomVO> rooms = bizService.selectRoomsByAccoNo(accoNo);
+	    model.addAttribute("rooms", rooms);
 	    RoomVO room;
-	    List<AccoPhotoVO> roomPhotos = Collections.emptyList();
+	    List<AccoPhotoVO> photoList = Collections.emptyList();
 	    
 	    // 객실정보 가져오기
+	    // 객실정보가 있으면
 	    if (roomNo != null) {
 	    	room = bizService.selectAccoRoomOne(roomNo);
-	     
 		    if(room == null){
 		        room = new RoomVO();
 		        room.setAccoNo(accoNo);
 		    }else {
-		    	roomPhotos = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
+		    	
+		    	photoList = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
 		    }
 	    }else {
+	    	System.out.println("accoNo: " + accoNo + ", roomNo: " + roomNo);
 			room = new RoomVO();
 			room.setAccoNo(accoNo);
 	    }
 	    
-	    model.addAttribute("selectedRoom", room);
-	    model.addAttribute("roomPhotos", roomPhotos);
+	    model.addAttribute("room", room);
+	    model.addAttribute("photoList", photoList);
 	    
 		return "/biz/biz_mypage_room";
 	}
@@ -558,6 +564,7 @@ public class BizController {
 	// 객실 사진 삭제 처리
 	@PostMapping("/biz/delete_room_photo")
 	public String deleteRoomPhoto(HttpSession session,
+			@RequestParam("roomNo") int roomNo,
 			HttpServletRequest request) {
 		try {
 	        // DB에서 삭제
@@ -567,10 +574,6 @@ public class BizController {
 		    AccoVO acco = (AccoVO) session.getAttribute("acco");
 			
 			int accoNo =acco.getAccoNo();
-			
-			// 삭제할 객실 번호
-			RoomVO room = (RoomVO) session.getAttribute("room");
-			int roomNo = room.getRoomNo();
 			
 	        List<AccoPhotoVO> photoList = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
 

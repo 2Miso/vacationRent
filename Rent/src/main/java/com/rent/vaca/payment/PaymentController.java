@@ -5,8 +5,11 @@ import java.util.Date;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rent.vaca.acco.AccoHasFacilVO;
+import com.rent.vaca.acco.AccoVO;
 import com.rent.vaca.reserv.ReservVO;
+import com.rent.vaca.room.RoomVO;
+
 
 @Controller
 public class PaymentController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
 	
 	private final PaymentService paymentService;
 	private final KakaoPayService kakaoPayService;
@@ -36,7 +44,13 @@ public class PaymentController {
     
 	// 숙소 결제 화면
 	@RequestMapping(value = "/reservation/reserv_ok_payment", method = RequestMethod.GET)
-	public String reservOkPayment() {
+	public String reservOkPayment(@RequestParam("accoNo") int accoNo, @RequestParam("name") String name, RoomVO vo, Model model) {
+		vo.setAccoNo(accoNo);
+		vo.setName(name);
+		AccoVO acco = paymentService.selectAccoNoOne(accoNo);
+		model.addAttribute("acco", acco);
+		RoomVO room = paymentService.selectRoomOne(vo);
+		model.addAttribute("room", room);
 		return "reservation/reserv_ok_payment";
 	}
 	
@@ -66,17 +80,19 @@ public class PaymentController {
 	
 	// 숙소 결제 처리
 	@RequestMapping(value = "/payment/payment_ok", method = RequestMethod.POST)
+	@Transactional
 	public String reservOkPayment(
 			@ModelAttribute ReservVO vo, HttpSession session) {
 		// 화면에서 전달한 데이터를 받아 결제 수단 조회
 		
 		
 		String reservCode = RandomCodeGenerator.generateRandomCode(8);
+		logger.debug("페이먼트컨트롤러 예약코드" + reservCode);
 	    vo.setReservCode(reservCode);
 
 	    // 임시 값
 	    vo.setUserId(1);  // 임의의 사용자 ID
-	    vo.setRoomNo(1); // 임의의 객실 번호
+	    vo.setRoomNo(4); // 임의의 객실 번호
 	    vo.setCheckin("2025-09-20 15:00:00");  // 체크인 임시값 (MySQL timestamp 형식)
 	    vo.setCheckout("2025-09-22 11:00:00"); // 체크아웃 임시값
 	    vo.setAdultNo(2); // 성인 2명
@@ -86,7 +102,8 @@ public class PaymentController {
 	    vo.setCancelyn("N");
 	    vo.setEmail("test@example.com");
 	    
-	    paymentService.saveReservation(vo);
+	    ReservVO result = paymentService.saveReservation(vo);
+	    //조회 결과 같은 날 같은 객실 예약 있으면 예약실패 페이지 보여주기(아직 결제 안 됨)
 		
 	    AccoHasFacilVO vo1 = new AccoHasFacilVO();
 	    vo1.setDescription("테스트 숙소 이름");

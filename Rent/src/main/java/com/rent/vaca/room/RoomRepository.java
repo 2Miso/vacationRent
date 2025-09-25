@@ -15,7 +15,7 @@ public class RoomRepository {
 		this.template = template;
 	}
 	
-	public List<RoomVO> selectRoomByAccoNo(int accoNo){
-		return template.selectList("roomMapper.selectRoomByAccoNo", accoNo);
+	public RoomVO selectRoomOne(RoomVO vo){
+		return template.selectOne("roomMapper.selectRoomOne", vo);
 	}
 }

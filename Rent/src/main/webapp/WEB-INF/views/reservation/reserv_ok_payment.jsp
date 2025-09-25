@@ -198,6 +198,7 @@
     	<form id="paymentForm" action="<Rent:url value="/payment/payment_ok" />" method="post">
         <div class="total">
         <div class="content">
+        	<input type="hidden" name="roomNo" value="${param.roomNo}">
             <h2>예약 확인 및 결제</h2>
             <h3>예약자 정보</h3>
             <div class="mb-3">
@@ -338,7 +339,7 @@
                                     </div>
                                     <div class="modal-body" style="height:500px; overflow-y:auto; text-align:left;">
                                          <p style="font-weight:bold;">제공받는 자</p>
-                                         <p>클릭한 숙소이름</p>
+                                         <p>${acco.name}</p>
                                          <p style="font-weight:bold;">제공 목적</p>
                                          <p>숙박예약서비스 이용계약 이행(서비스 제공, 확인, 이용자 정보 확인)</p>
                                          <p style="font-weight:bold;">제공하는 항목</p>
@@ -383,10 +384,10 @@
                                 </div>
                                 <div class="modal-body">
                                     <div>
-                                        <div>숙소이름</div>
-                                        <div>숙소 방 정보</div>
+                                        <div>${acco.name}</div>
+                                        <div>${room.name}</div>
                                         <hr>
-                                        <div>체크인 체크아웃시간</div>
+                                        <div>체크인 ${acco.checkin} - 체크아웃 ${acco.checkout}</div>
                                         <ul>
                                             <li>19세 미만 청소년은 보호자 동반 시 투숙이 가능합니다.</li>
                                             <li><span style="color:red;">취소/환불 규정</span>에 따라 웹내에서 예약취소 가능한 상품입니다. 예약취소 시 취소수수료가 발생할 수 있습니다.</li>

@@ -66,7 +66,7 @@ public class KakaoPayService {
         }catch (URISyntaxException e) {
 		    e.printStackTrace();
 		}
-		return "redirect:/payment/payment_fail";
+		return "/payment/payment_fail";
     }
     
     public KakaoPayApprovalVO kakaoPayInfo(

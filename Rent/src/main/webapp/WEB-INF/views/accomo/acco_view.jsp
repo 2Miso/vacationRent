@@ -351,7 +351,8 @@ footer {
 
             //예약페이지로 이동
             $(".reserv-btn").on("click", function(){
-            	location.href="<c:url value="/reservation/reserv_ok_payment" />";
+            	let roomName = $(this).closest(".roomDetail").prev().text();
+            	location.href="<c:url value="/reservation/reserv_ok_payment?accoNo=${acco.accoNo}&name=" />"+roomName;
             });
             //페이지 로딩 시 로그인 회원은 관심등록 조회 후 관심숙소면 빨간하트
             if(${not empty sessionScope.user}){

@@ -349,11 +349,6 @@ footer {
                   $('html, body').animate({scrollTop:$(this.id).position().top}, 'fast');
             });
 
-            //예약페이지로 이동
-            $(".reserv-btn").on("click", function(){
-            	let roomName = $(this).closest(".roomDetail").prev().text();
-            	location.href="<c:url value="/reservation/reserv_ok_payment?accoNo=${acco.accoNo}&name=" />"+roomName;
-            });
             //페이지 로딩 시 로그인 회원은 관심등록 조회 후 관심숙소면 빨간하트
             if(${not empty sessionScope.user}){
 	            $.ajax({
@@ -618,7 +613,7 @@ footer {
 							<span class="cursorPointer" data-bs-toggle="modal"
 								data-bs-target="#roomModal${cnt.count}">상세정보&gt;</span><br>
 							<c:if test="${not empty sessionScope.user}">
-								<button class="btn btn-primary reserv-btn">예약하기</button>
+								<button class="btn btn-primary reserv-btn" onclick="location.href='/Rent/reservation/reserv_ok_payment?accoNo=${acco.accoNo}&roomNo=${room.roomNo}'">예약하기</button>
 							</c:if>
 						</div>
 						<!-- Modal -->

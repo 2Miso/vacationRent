@@ -199,6 +199,11 @@
         <div class="total">
         <div class="content">
         	<input type="hidden" name="roomNo" value="${param.roomNo}">
+        	체크인 : <input type="date" name="checkin"><br>
+        	체크아웃 : <input type="date" name="checkout"><br>
+        	성인 : <input type="number" name="adultNo"><br>
+        	아동 : <input type="number" name="childNo"><br>
+        	이메일 : <input typep="text" name="email"><br>
             <h2>예약 확인 및 결제</h2>
             <h3>예약자 정보</h3>
             <div class="mb-3">

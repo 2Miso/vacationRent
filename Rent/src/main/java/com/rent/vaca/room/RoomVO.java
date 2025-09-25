@@ -21,6 +21,7 @@ public class RoomVO{
 	private List<ReservVO> reservList;
 	private String thumbnailImage;
 	private List<AccoPhotoVO> photoList;
+	private int available;
 	
 	public String getThumbnailImage() {
 		return thumbnailImage;
@@ -113,6 +114,12 @@ public class RoomVO{
 	public void setPhotoList(List<AccoPhotoVO> photoList) {
 		this.photoList = photoList;
 	}	
+	public int getAvailable() {
+		return available;
+	}
+	public void setAvailable(int available) {
+		this.available = available;
+	}
 	@Override
 	public String toString() {
 		return "RoomVO [roomNo=" + roomNo + ", accoNo=" + accoNo + ", ho=" + ho + ", name=" + name + ", price=" + price

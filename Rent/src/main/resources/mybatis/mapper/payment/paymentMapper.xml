@@ -22,10 +22,10 @@
 	<insert id="insertReservation" parameterType="com.rent.vaca.reserv.ReservVO">
 		insert into reservtb (
 			reserv_code, user_id, room_no, name, phone, email, 
-	        checkin, checkout, reserv_date, cancelyn, payment, adult_no, child_no
+	        checkin, checkout, payment, adult_no, child_no
     	) values (
     		#{reservCode}, #{userId}, #{roomNo}, #{name}, #{phone}, #{email}, 
-        	#{checkin}, #{checkout}, #{reservDate}, #{cancelyn}, #{payment}, #{adultNo}, #{childNo}
+        	#{checkin}, #{checkout}, #{payment}, #{adultNo}, #{childNo}
     	)
 	</insert>
 </mapper>

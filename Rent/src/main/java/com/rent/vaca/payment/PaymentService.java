@@ -14,7 +14,7 @@ public interface PaymentService {
 	AccoVO selectAccoNoOne(int accoNo);
 	
 	// 객실 정보 조회
-	RoomVO selectRoomOne(RoomVO vo);
+	RoomVO selectAccoRoomOne(int roomNo);
 	
 	// 결제 금액 조회
 	AccoHasFacilVO selectPriceOne(int price);

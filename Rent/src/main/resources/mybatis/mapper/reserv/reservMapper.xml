@@ -32,4 +32,15 @@
 			<result property="reply" column="reply" />
 		</association>
 	</resultMap>
+	
+	<!-- 특정일, 특정 객실 예약여부 조회. 결과 1이면 예약불가, 0이면 예약가능-->
+	<select id="checkReservation" parameterType="com.rent.vaca.reserv.ReservVO" resultType="boolean">
+		select exists(
+			select 1
+				from reservtb 
+			where room_no = #{roomNo} 
+				and checkin &lt; #{checkout}
+				and checkout &gt; #{checkin}
+		)
+	</select>
 </mapper>

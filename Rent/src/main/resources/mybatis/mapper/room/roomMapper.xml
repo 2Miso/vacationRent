@@ -67,7 +67,7 @@
 	<!-- 객실 1건 조회 -->
 	<select id="selectAccoRoomOne" parameterType="int" resultType="room">
 		select * from roomtb
-			where acco_no = #{accoNo} and delyn = 'N' and room_no = #{roomNo}
+			where delyn = 'N' and room_no = #{roomNo}
 	</select>
 	
 	<!-- 객실 1건 삭제 -->

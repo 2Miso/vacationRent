@@ -1,21 +1,20 @@
-package com.rent.vaca.room;
-
-import java.util.List;
+package com.rent.vaca.reserv;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RoomRepository {
+public class ReservRepository {
 	private final SqlSession template;
 
 	@Autowired
-	public RoomRepository(SqlSession template) {
+	public ReservRepository(SqlSession template) {
 		this.template = template;
 	}
 	
-	public RoomVO selectAccoRoomOne(int roomNo){
-		return template.selectOne("roomMapper.selectAccoRoomOne", roomNo);
+	//특정일, 특정 객실 예약여부 조회
+	public boolean checkReservation(ReservVO vo){
+		return template.selectOne("reservMapper.checkReservation", vo);
 	}
 }

@@ -108,6 +108,7 @@
 		select 
 			a.*, 
 			b.*, 
+			r.room_no, 
 			r.name as rname,
 			r.price,
 			r.area,

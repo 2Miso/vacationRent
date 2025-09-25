@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.rent.vaca.acco.AccoHasFacilVO;
 import com.rent.vaca.acco.AccoRepository;
 import com.rent.vaca.acco.AccoVO;
+import com.rent.vaca.reserv.ReservRepository;
 import com.rent.vaca.reserv.ReservVO;
 import com.rent.vaca.room.RoomRepository;
 import com.rent.vaca.room.RoomVO;
@@ -28,6 +29,7 @@ public class PaymentServiceImpl implements PaymentService{
 	private final PaymentRepository paymentRepository;
 	private final AccoRepository accoRepository;
 	private final RoomRepository roomRepository;
+	private final ReservRepository reservRepository;
 	
     private final KakaoPayService kakaoPayService;
 
@@ -39,11 +41,13 @@ public class PaymentServiceImpl implements PaymentService{
         PaymentRepository paymentRepository,
         AccoRepository accoRepository,
         RoomRepository roomRepository,
+        ReservRepository reservRepository,
         KakaoPayService kakaoPayService
     ) {
         this.paymentRepository = paymentRepository;
         this.accoRepository = accoRepository;
         this.roomRepository = roomRepository;
+        this.reservRepository = reservRepository;
         this.kakaoPayService = kakaoPayService;
     }
 
@@ -64,8 +68,8 @@ public class PaymentServiceImpl implements PaymentService{
 	}
 
 	@Override
-	public RoomVO selectRoomOne(RoomVO vo) {
-		return roomRepository.selectRoomOne(vo);
+	public RoomVO selectAccoRoomOne(int roomNo) {
+		return roomRepository.selectAccoRoomOne(roomNo);
 	}
 
 	@Override
@@ -90,18 +94,21 @@ public class PaymentServiceImpl implements PaymentService{
 	    // 1) 예약코드 생성
 	    String reservCode = createCode(vo);
 	    logger.debug("페이먼트서비스임플 예약코드" + reservCode);
-	    vo.setReservCode(reservCode);
+	    vo.setReservCode(reservCode); 
 	    
-	    //해당날짜 해당 객실번호에 예약정보가 있는지 조회****
+	    //해당날짜 해당 객실번호에 예약정보가 있는지 조회
+	    boolean reservCheck = reservRepository.checkReservation(vo);
+	    logger.warn("리저브체크" + reservCheck);
+	    
 	    //있으면 
-	    if(true) {
+	    if(reservCheck) {
 	    	return null;
+	    } else {
+		    // DB에 저장
+		    paymentRepository.insertReservation(vo);
+	    
+		    return vo;
 	    }
-	    
-	    // DB에 저장
-	    paymentRepository.insertReservation(vo);
-	    
-	    return vo;
 	}
 
 }

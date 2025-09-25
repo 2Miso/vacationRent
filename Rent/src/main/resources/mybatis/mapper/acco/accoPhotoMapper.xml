@@ -39,6 +39,10 @@
 	<delete id="deleteAccoPhotoByAccoNo" parameterType="int">
 		delete from acco_phototb where acco_no = #{accoNo}
 	</delete>
+	
+	<delete id="deleteAccoPhotoByRoomNo" parameterType="int">
+		delete from acco_phototb where acco_no = #{accoNo} and room_no = #{roomNo}
+	</delete>
 
 	<!-- 전경사진 모달 -->
 	<select id="photoModalAcco" parameterType="com.rent.vaca.acco.AccoPhotoVO" resultType="com.rent.vaca.acco.AccoPhotoVO">

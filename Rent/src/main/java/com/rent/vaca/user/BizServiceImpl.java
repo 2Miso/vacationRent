@@ -143,9 +143,14 @@ public class BizServiceImpl implements BizService{
 		repository.insertRoomPhoto(vo);
 	}
 	
+	// °´½Ç 1°Ç »èÁ¦
 	@Override
-	public int getPhotosByAccoNo(int roomNo) {
-		return repository.getPhotosByAccoNo(roomNo);
+	public void deleteRoomByAccoNo(int accoNo, int roomNo) {
+		
+		repository.deleteAccoPhotoByRoomNo(roomNo);
+		
+		repository.updateRoomDelYn(accoNo, roomNo);
+	
 	}
 
 	@Override
@@ -154,6 +159,7 @@ public class BizServiceImpl implements BizService{
 		
 	}
 	
+	// ¼÷¼Ò³» °´½Ç ÀüÃ¼ Á¶È¸
 	@Override
 	public List<RoomVO> selectRoomsByAccoNo(int accoNo) {
 		List<RoomVO> rooms = repository.selectRoomsByAccoNo(accoNo);
@@ -169,6 +175,8 @@ public class BizServiceImpl implements BizService{
 	public RoomVO selectAccoRoomOne(int accoNo) {
 		return repository.selectAccoRoomOne(accoNo);
 	}
+	
+	
 
 	@Override
 	public List<ReservVO> reservList(BizVO vo) {

@@ -437,8 +437,7 @@ public class BizController {
 	
 	// 객실 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.GET)
-	public String addRoom(Model model, HttpSession session, RoomVO vo,
-			 @RequestParam(value="roomNo", required=false) Integer roomNo
+	public String addRoom(Model model, HttpSession session, RoomVO vo, Integer roomNo
 		) {
 		
 		// 현재 로그인 정보 가져오기
@@ -455,10 +454,6 @@ public class BizController {
 	    	model.addAttribute("errorMessage", "숙소를 먼저 등록해야 객실을 등록할 수 있습니다.");
 	        return "redirect:/biz/biz_mypage_acco";
 	    }
-	    System.out.println("Session acco: " + acco);
-	    System.out.println("Session accoNo: " + (acco != null ? acco.getAccoNo() : "null"));
-	    System.out.println("Request param roomNo: " + roomNo);
-
 	    
 	    Integer accoNo = acco.getAccoNo();
 	    List<RoomVO> rooms = bizService.selectRoomsByAccoNo(accoNo);
@@ -474,11 +469,9 @@ public class BizController {
 		        room = new RoomVO();
 		        room.setAccoNo(accoNo);
 		    }else {
-		    	
 		    	photoList = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
 		    }
 	    }else {
-	    	System.out.println("accoNo: " + accoNo + ", roomNo: " + roomNo);
 			room = new RoomVO();
 			room.setAccoNo(accoNo);
 	    }
@@ -561,19 +554,18 @@ public class BizController {
 		return "redirect:/biz/biz_mypage_room";
 	}
 	
-	// 객실 사진 삭제 처리
-	@PostMapping("/biz/delete_room_photo")
+	// 객실 삭제 처리
+	@PostMapping("/biz/biz_room_delete")
 	public String deleteRoomPhoto(HttpSession session,
 			@RequestParam("roomNo") int roomNo,
 			HttpServletRequest request) {
 		try {
 	        // DB에서 삭제
-			
 			// 숙소 번호
 			// 로그인한 비즈니스 회원의 숙소정보 가져오기
 		    AccoVO acco = (AccoVO) session.getAttribute("acco");
-			
-			int accoNo =acco.getAccoNo();
+			System.out.println(roomNo);
+			int accoNo = acco.getAccoNo();
 			
 	        List<AccoPhotoVO> photoList = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
 
@@ -588,7 +580,7 @@ public class BizController {
 	            }
 	        }
 	        
-	        //bizService.deleteAccoPhotoByRoomNo(deleteRoomNo);
+	        bizService.deleteRoomByAccoNo(accoNo, roomNo);
 
 	        return "redirect:/biz/biz_mypage_room";
 	        

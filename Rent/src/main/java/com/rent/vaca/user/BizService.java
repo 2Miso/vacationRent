@@ -37,7 +37,7 @@ public interface BizService {
 	// 등록된 숙소 조회
 	int existsAccoByBizIdAndDelyn(int bizId, String delyn);
 	
-	// 숙소 한건 조회
+	// 숙소 1건 조회
 	AccoVO selectBizAccoOne(int bizId);
 	
 	// 숙소 삭제(delyn만 변경)
@@ -46,14 +46,14 @@ public interface BizService {
 	// 숙소 사진 삭제
 	int deleteAccoPhotoByAccoNo(int accoNo);
 	
-	// 객실 한건 등록
+	// 객실 1건 등록
 	void insertRoomOne(RoomVO vo);
 	
 	// 객실 사진 등록
 	void insertRoomPhoto(AccoPhotoVO vo);
 	
-	// 객실 사진 삭제
-	int getPhotosByAccoNo(int roomNo);
+	// 객실 1건 삭제
+	void deleteRoomByAccoNo(int accoNo, int roomNo);
 	
 	// 객실 정보 수정
 	void updateRoom(RoomVO vo);

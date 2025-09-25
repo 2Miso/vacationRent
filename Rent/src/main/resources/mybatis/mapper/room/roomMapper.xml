@@ -70,10 +70,9 @@
 			where acco_no = #{accoNo} and delyn = 'N' and room_no = #{roomNo}
 	</select>
 	
-
-	<select id="selectRoomByAccoNo" parameterType="int" resultType="room">
-		select * from roomtb where acco_no=#{accoNo}
-	</select>
-
+	<!-- 객실 1건 삭제 -->
+	<update id="updateRoomDelYn" parameterType="room">
+		update roomtb set delyn = 'Y' where delyn = 'N' and roomNo = #{roomNo}	
+	</update>
 	
 </mapper>

@@ -176,7 +176,10 @@
 			
 			return true;
 			
-		}		
+		}
+		function deleteRoomFn(){
+			if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return;
+		}
     </script>
 </head>
 
@@ -319,8 +322,6 @@
     <!-- 각 객실별로 삭제용 폼 분리 -->
     <form action="<c:url value='/biz/biz_room_delete' />" method="post">
       <div class="room-card mb-4" data-room-no="${room.roomNo}">
-		room = ${room}<br>
-		roomNo = ${room.roomNo}<br>
         <!-- 방 기본 정보 -->
         <div class="room-header">
           <h4>${room.name}</h4>
@@ -360,7 +361,8 @@
 
         <!-- 삭제 버튼 -->
         <div class="room-actions mt-2">
-          <button type="submit" class="btn btn-danger btn-sm">삭제하기</button>
+          <button type="submit" class="btn btn-danger btn-sm"
+          	onclick="deleteRoomFn()">삭제하기</button>
         </div>
 
       </div>
@@ -370,33 +372,7 @@
 	</div>
     </div>
   
-</div>
-        <!-- 
-        <div class="mx-3" style="width:400px; height:600px; overflow: auto;">
-          <form action="<c:url value="/biz/biz_room_delete"/>" method="post">
-          <input type="hidden" name="bizId" value="${biz.id}" />
-       	  <input type="hidden" name="accoNo" value="${acco.accoNo}" />
-          <h3 class="fw-bold">등록된 객실 관리</h3>
-          <div class="selectRoom">
-          	  <c:forEach var="room" items="${roomList}">
-	          	  <div>${room.name}</div>
-				  <div class="swiper mySwiper-${room.roomNo}">
-		              <div class="swiper-wrapper">
-		              	<c:forEach var="img" items="${room.photos}">
-		                  <div class="swiper-slide">
-		                  	<img src="${photo}" alt="room image" />
-		                  </div>
-		                </c:forEach>
-		              </div>
-		              <div class="swiper-button-next"></div>
-		              <div class="swiper-button-prev"></div>
-		          </div>
-	          </c:forEach>
-	          <button link="#" class="btn btn-primary " type="button">삭제하기</button> 
-          </div>
-          </form>
-        </div>
-         -->
+	</div>
   </div><!--내용 끝-->
 </section>
 

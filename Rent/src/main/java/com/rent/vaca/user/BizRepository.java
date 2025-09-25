@@ -37,7 +37,7 @@ public class BizRepository {
 		return template.selectOne("bizMapper.selectBizCntByEmail", email);
 	}
 	
-	// 숙소 한건 등록
+	// 숙소 1건 등록
 	public Integer insertAccoOne(AccoVO vo) {
 		return template.insert("accoMapper.insertAccoOne", vo);
 	}
@@ -52,7 +52,7 @@ public class BizRepository {
 		return template.update("accoMapper.updateAccoInfo", vo);
 	}
 	
-	// 숙소 한건 조회
+	// 숙소 1건 조회
 	public AccoVO selectBizAccoOne(int bizId) {
 		return template.selectOne("accoMapper.selectBizAccoOne", bizId);
 	}
@@ -90,7 +90,7 @@ public class BizRepository {
 		return template.delete("accoPhotoMapper.deleteAccoPhotoByAccoNo", accoNo);
 	}
 	
-	// 객실 한건 등록
+	// 객실 1건 등록
 	public Integer insertRoomOne(RoomVO vo) {
 		return template.insert("roomMapper.insertRoomOne", vo);
 	}
@@ -113,9 +113,22 @@ public class BizRepository {
 		return template.selectList("accoPhotoMapper.getPhotosByBizIdAndRoomNo", roomNo);
 	}
 	
-	// 객실 한건 조회
+	// 객실 1건 조회
 	public RoomVO selectAccoRoomOne(int accoNo) {
 		return template.selectOne("roomMapper.selectAccoRoomOne", accoNo);
 	}
+	
+	// 객실 1건 삭제
+	public void updateRoomDelYn(int accoNo, int roomNo) {
+		Map<String, Object> params = new HashMap<>();
+        params.put("accoNo", accoNo);
+        params.put("roomNo", roomNo);
+
+        template.update("roomMapper.updateRoomDelYn", params);
+	}
+	// 객실 1건 사진 삭제
+	public void deleteAccoPhotoByRoomNo(int roomNo) {
+		template.delete("accoPhotoMapper.deleteAccoPhotoByRoomNo", roomNo);
+    }
 	
 }

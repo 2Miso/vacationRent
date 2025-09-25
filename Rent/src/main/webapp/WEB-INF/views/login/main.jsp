@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -44,7 +45,10 @@
     </div>
 
     <div class="mx-auto py-3">
-      <p class="my-0 mx-auto text-center "><a href="#" class="mx-auto text-center link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">비즈니스 로그인/회원가입</a></p><!--비즈니스 로그인으로 이동하는 링크를 걸어야 합니다-->
+      <p class="my-0 mx-auto text-center ">
+      <a href="<c:url value='/login/biz_login' />"
+   		class="mx-auto text-center link-secondary link-offset-2 
+        link-underline-opacity-0 link-underline-opacity-100-hover">비즈니스 로그인/회원가입</a></p><!--비즈니스 로그인으로 이동하는 링크를 걸어야 합니다-->
     </div>
     
   </div>

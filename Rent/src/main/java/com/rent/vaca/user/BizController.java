@@ -512,8 +512,10 @@ public class BizController {
 	    	// 객실 정보 등록
 		    
 		    vo.setAccoNo(accoNo);
-		    
+	
 	        bizService.insertRoomOne(vo);
+	        
+		    Integer roomNo = vo.getRoomNo();
 	        
 	        // 객실 사진 등록
 	        
@@ -536,7 +538,7 @@ public class BizController {
 	                // DB 저장용 VO 세팅
 	                AccoPhotoVO photoVO = new AccoPhotoVO();
 	                photoVO.setAccoNo(accoNo);
-	                photoVO.setRoomNo(1);
+	                photoVO.setRoomNo(roomNo);
 	                photoVO.setOriginalName(originalName);
 	                photoVO.setSavedName(savedName);
 

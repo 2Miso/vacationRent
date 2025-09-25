@@ -39,7 +39,7 @@
 	<delete id="deleteAccoPhotoByAccoNo" parameterType="int">
 		delete from acco_phototb where acco_no = #{accoNo}
 	</delete>
-	
+	<!-- 객실 사진 삭제 -->
 	<delete id="deleteAccoPhotoByRoomNo" parameterType="int">
 		delete from acco_phototb where acco_no = #{accoNo} and room_no = #{roomNo}
 	</delete>

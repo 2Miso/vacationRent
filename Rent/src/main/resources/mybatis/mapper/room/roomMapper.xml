@@ -49,7 +49,7 @@
 	<!-- 객실 사진 등록 -->
 	<insert id="insertRoomPhoto" parameterType="accoPhoto">
 	    insert into acco_phototb (original_name, saved_name, acco_no, room_no)
-	    values (#{originalName}, #{savedName}, #{accoNo}, 1)
+	    values (#{originalName}, #{savedName}, #{accoNo}, #{roomNo})
 	</insert>
 	
 	<!-- 객실 1건 등록 -->
@@ -72,7 +72,7 @@
 	
 	<!-- 객실 1건 삭제 -->
 	<update id="updateRoomDelYn" parameterType="room">
-		update roomtb set delyn = 'Y' where delyn = 'N' and roomNo = #{roomNo}	
+		update roomtb set delyn = 'Y' where delyn = 'N' and room_no = #{roomNo}	
 	</update>
 	
 </mapper>

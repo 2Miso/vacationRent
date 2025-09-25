@@ -1,8 +1,12 @@
 package com.rent.vaca.user;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.rent.vaca.notice.NoticeVO;
 
 @Repository
 public class UserRepository {
@@ -14,19 +18,20 @@ public class UserRepository {
 		this.template = template;
 	}
 	
-	//ȸ������ �޼���
 	public int join(UserVO vo){
 		return template.insert("userMapper.join", vo);
 	}
 	
-	//�α��� �޼���
 	public UserVO login(UserVO vo){
 		return template.selectOne("userMapper.login", vo);
 	}
 	
-	//�̸��� �ߺ�Ȯ�� �޼���
 	public int emailCheck(String email){
 		return template.selectOne("userMapper.emailCheck", email);
+	}
+	
+	public int phoneCheck(String phone){
+		return template.selectOne("userMapper.phoneCheck", phone);
 	}
 	
 	public UserVO findEmail(UserVO vo) {
@@ -41,14 +46,35 @@ public class UserRepository {
 		return template.selectOne("userMapper.findPw",vo);
 	}
 	
-	//ȸ������ �޼���
 	public int kakaojoin(String accesstoken){
 		return template.insert("userMapper.kakaojoin", accesstoken);
 	}	
 		
-	//�α��� �޼���
 	public UserVO kakaologin(String accesstoken){
 		return template.selectOne("userMapper.kakaologin", accesstoken);
 	}	
 	
+	public int naverjoin(String accesstoken){
+		return template.insert("userMapper.naverjoin", accesstoken);
+	}	
+			
+	public UserVO naverlogin(String accesstoken){
+		return template.selectOne("userMapper.naverlogin", accesstoken);
+	}		
+	
+	public UserVO useraccountupdate(UserVO vo) {
+		return template.selectOne("userMapper.useraccountupdate",vo);
+	}
+
+	public List<Object> getPostsByUserId(int userId) {
+		return template.selectList("userMapper.getPostsByUserId",userId);
+	}
+	
+	public UserVO useraccount(UserVO vo) {
+		return template.selectOne("userMapper.useraccount",vo);
+	}
+	
+	public UserVO useraccountsocial(UserVO vo) {
+		return template.selectOne("userMapper.useraccount",vo);
+	}
 }

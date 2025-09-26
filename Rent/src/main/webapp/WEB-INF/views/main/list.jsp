@@ -263,7 +263,8 @@
             	</c:choose>
             </div><!--숙소 끝-->
 
-            <div><!--페이지네이션 시작-->
+            <!--페이지네이션 시작-->
+           <!--  <div>
                 <nav aria-label="Page navigation example" style="margin: 0 auto;">
                     <ul class="pagination justify-content-center" style="margin: 0 auto;">
                         <li class="page-item">
@@ -281,7 +282,7 @@
                         </li>
                     </ul>
                 </nav>
-            </div><!--페이지네이션 끝-->
+            </div> --><!--페이지네이션 끝-->
 
         </div><!--숙소리스트끝-->
     </div>

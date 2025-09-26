@@ -116,9 +116,25 @@
 	        $("#payBtn").on("click", function (e) {
 	        	e.preventDefault(); // submit 방지
 	        	
+				let checkIn = $("input[name=checkin]").val();
+				let checkOut = $("input[name=checkout]").val();
+				let adultNo = $("input[name=adultNo]").val().trim();
 	        	let name = $("input[name='name']").val().trim();
 	            let phone = $("input[name='phone']").val().trim();
-
+				let email = $("input[name=email]").val().trim();
+	            
+	            if(checkIn===""){
+	            	alert('체크인 날짜를 선택해주세요');
+	            	return;
+	            }
+	            if(checkOut===""){
+	            	alert('체크아웃 날짜를 선택해주세요');
+	            	return;
+	            }
+	            if(adultNo===""){
+	            	alert('숙박인원을 입력해주세요');
+	            	return;
+	            }
 	            if (name === "") {
 	                alert("예약자 이름을 입력해주세요.");
 	                return;
@@ -127,6 +143,10 @@
 	            if (phone === "") {
 	                alert("핸드폰 번호를 입력해주세요.");
 	                return;
+	            }
+	            if(email === ""){
+	            	alert('이메일을 입력해주세요');
+	            	return;
 	            }
 	        	
 	        	let allChecked =
@@ -139,6 +159,11 @@
 	                alert("약관에 모두 동의하셔야 합니다.");
 	                return;
 	            }
+	            //체크인 체크아웃 선후관계
+	            if(dateFlag == false){
+	            	alert("체크아웃은 체크인보다 뒤여야 합니다.");
+	            	return;
+	            }
 	            
 	            // 모든 체크가 완료되었을 때 모달 열기
 	            let confirmModal = new bootstrap.Modal(document.getElementById('exampleModal'));
@@ -147,9 +172,41 @@
 	        
 	     		// 모달 내 '동의 후 결제' 버튼 클릭 시 폼 제출
 	        	$("#confirmPayBtn").on("click", function () {
+	        		let childNo = $("[name=childNo]");
 	            	$("#paymentForm").submit();
 	        	});
 	        
+	     		
+				//오늘 이전 날짜는 비활성화
+			    let dtToday = new Date();
+	    
+			    let month = dtToday.getMonth() + 1;
+			    let day = dtToday.getDate();
+			    let year = dtToday.getFullYear();
+			    if(month < 10)
+			        month = '0' + month.toString();
+			    if(day < 10)
+			        day = '0' + day.toString();
+			    
+			    let maxDate = year + '-' + month + '-' + day;
+			
+			    $('[type=date]').attr('min', maxDate);
+				
+				
+	    		//체크인날짜<체크아웃날짜 검증
+	    		let dateFlag = false;
+	    		$("[type=date]").change(function(){
+	    			dateFlag = false;
+	    			if($("[type=date]:eq(0)").val()!="" && $("[type=date]:eq(1)").val()!=""){ //체크인, 체크아웃 날짜 둘 다 입력 시
+	    				dateFlag = $("[type=date]:eq(0)").val()<$("[type=date]:eq(1)").val(); //전후 옳으면 dateFlag = true
+		    			if(!dateFlag){
+		    				/* alert('체크아웃 날짜는 체크인 날짜보다 후여야 합니다.'); */
+		    			}
+	    			} else {
+	    				dateFlag = true;
+	    			}
+	    		});
+	    		
 	    });
     </script>
 </head>
@@ -199,12 +256,23 @@
         <div class="total">
         <div class="content">
         	<input type="hidden" name="roomNo" value="${param.roomNo}">
-        	체크인 : <input type="date" name="checkin"><br>
-        	체크아웃 : <input type="date" name="checkout"><br>
-        	성인 : <input type="number" name="adultNo"><br>
-        	아동 : <input type="number" name="childNo"><br>
-        	이메일 : <input typep="text" name="email"><br>
             <h2>예약 확인 및 결제</h2>
+            <div class="mb-3">
+                <label for="checkin" class="form-label">체크인</label>
+                <input type="date" name="checkin" class="form-control" id="checkin">
+            </div>
+            <div class="mb-3">
+                <label for="checkout" class="form-label">체크아웃</label>
+                <input type="date" name="checkout" class="form-control" id="checkout">
+            </div>
+            <div class="mb-3">
+                <label for="adultNo" class="form-label">숙박인원 - 성인</label>
+                <input type="number" name="adultNo" class="form-control" id="adultNo" value="1">
+            </div>
+            <div class="mb-3">
+                <label for="childNo" class="form-label">숙박인원 - 아동</label>
+                <input type="number" name="childNo" class="form-control" id="childNo" value="0">
+            </div>
             <h3>예약자 정보</h3>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">예약자 이름</label>
@@ -213,6 +281,10 @@
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">핸드폰 번호</label>
                 <input type="text" name="phone" class="form-control" id="exampleFormControlInput2" placeholder="010-0000-0000">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">이메일</label>
+                <input type="text" name="email" class="form-control" id="email">
             </div>
             <div>결제수단</div>
             <input type="radio" class="btn-check" name="payment" id="option1" value="0" autocomplete="off" checked>

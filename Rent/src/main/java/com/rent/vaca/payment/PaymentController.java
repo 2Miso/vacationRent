@@ -83,12 +83,13 @@ public class PaymentController {
 	@RequestMapping(value = "/payment/payment_ok", method = RequestMethod.POST)
 	@Transactional
 	public String reservOkPayment(
-			@ModelAttribute ReservVO vo, @SessionAttribute("user") UserVO user, HttpSession session) {
+			ReservVO vo, @SessionAttribute("user") UserVO user, HttpSession session) {
 		// 화면에서 전달한 데이터를 받아 결제 수단 조회
 		
-		
 		String reservCode = RandomCodeGenerator.generateRandomCode(8);
-		logger.debug("페이먼트컨트롤러 예약코드" + reservCode);
+		
+		logger.debug(vo.toString());
+		
 		//데이터베이스에 예약 insert
 	    vo.setReservCode(reservCode);
 

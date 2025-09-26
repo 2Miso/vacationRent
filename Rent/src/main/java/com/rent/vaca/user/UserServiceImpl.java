@@ -83,10 +83,20 @@ public class UserServiceImpl implements UserService {
 	public List<Object> getPostsByUserId(int userId) {
 		return repository.getPostsByUserId(userId);
 	}
+	
+	@Override
+	public List<Object> getReservByUserId(int userId) {
+		return repository.getPostsByUserId(userId);
+	}
 
 	@Override
 	public UserVO useraccount(UserVO vo) {
 		return repository.useraccount(vo);
+	}
+	
+	@Override
+	public UserVO useraccountchange(UserVO vo) {
+		return repository.useraccountchange(vo);
 	}
 
 	@Override

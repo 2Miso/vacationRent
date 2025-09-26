@@ -100,8 +100,9 @@ public class UserController {
 	//이메일중복체크 기능구현
 	@RequestMapping(value="user/join/form/emailCheck", method = RequestMethod.POST) 
 	@ResponseBody
-	public Response emailCheck(@RequestParam("email") String email) {
+	public Response emailCheck(@RequestParam(value="email") String email) {
 		System.out.println("코드가 작동됨");
+		System.out.println(email+" = 이메일주소");
 		int cnt = userService.emailCheck(email);
 		System.out.println(cnt);
 		Response res = new Response();
@@ -187,7 +188,7 @@ public class UserController {
 					session.setAttribute("user", user); 
 					System.out.println("유저확인하기"+user);
 					System.out.println("유저확인하기"+user.getNickname());
-					return "main/main";
+					return "redirect:/main/main";
 					
 				}else {
 					System.out.println("user값없ㄷ을때");
@@ -195,14 +196,14 @@ public class UserController {
 					user = userService.kakaologin(kakaoid);
 					System.out.println("유저확인하기"+user);
 					session.setAttribute("user", user); 
-					return "main/main";
+					return "redirect:/main/main";
 				}
 				
 			}catch(Exception e) {
 				userService.kakaojoin(access_Token);
 				UserVO user = userService.kakaologin(access_Token);
 				session.setAttribute("user", user); 
-				return "main/main";
+				return "redirect:/main/main";
 			}finally {
 	
 			}
@@ -277,18 +278,18 @@ public class UserController {
 					session.setAttribute("user", user); 
 					System.out.println("유저확인하기"+user);
 					System.out.println("유저확인하기"+user.getNickname());
-					return "main/main";
+					return "redirect:/main/main";
 				}else {
 					System.out.println("user값없ㄷ을때");
 					userService.naverjoin(naverid);
 					user = userService.naverlogin(naverid);
 					System.out.println("유저확인하기"+user);
 					session.setAttribute("user", user); 
-					return "main/main";
+					return "redirect:/main/main";
 				}
 				
 			}catch(Exception e) {
-				return "main/main";
+				return "redirect:/main/main";
 			}finally {
 	
 			}
@@ -454,216 +455,211 @@ public class UserController {
 		session.getAttribute("user");
 		return "main/main";
 	}
+
+//=========================================================================================================================
 	
-	
-	
+	//유저 비밀번호 수정 페이지 
+		@RequestMapping(value="/user/mypage/pwchange", method = RequestMethod.GET) 
+		public String userpwchange(UserVO vo, HttpSession session) throws IOException {
+			try {
+				String userid = (String) session.getAttribute("user");
+				System.out.println(userid);
+				//1.로그인이 되어있는지 체크한다
+				if(vo == null) {
+					return "login/main";		//2.소셜로그인으로 로그인했는지 체크한다.	
+				}else { 
+					return "user/mypage/pwchange"; 
+				}	
+			}catch(Exception e) {
+				
+			}finally {
+				
+			}
+			return null;
+		}
 	
 	
 	
 //================================================================================================================================	
 	
 
-//	//유저 개인 정보 수정 기능 페이지 (이메일회원)
-//	@RequestMapping(value="/user/mypage/account", method = RequestMethod.GET) 
-//	public String useraccount(UserVO vo, HttpSession session) throws IOException {
-//		try {
-//			vo = (UserVO) session.getAttribute("user");
-//			//1.로그인이 되어있는지 체크한다
-//			if(vo == null) {
-//				return "redirect:/login/main";		//2.소셜로그인으로 로그인했는지 체크한다.	
-//			}else if(vo.getSocial() == "y") { 
-//				return "redirect:/user/mypage/account-social"; 
-//			}	
-//		}catch(Exception e) {
-//			
-//		}finally {
-//			
-//		}
-//		return null;
-//	}
-//	
-//	//유저 개인 정보 수정 기능 페이지 (소셜로그인)
-//	@RequestMapping(value="/user/mypage/account-social", method = RequestMethod.GET) 
-//	public String useraccountsocial(UserVO vo, HttpSession session) throws IOException {
-//		try {
-//			vo = (UserVO) session.getAttribute("user");
-//			//1.로그인이 되어있는지 체크한다
-//			if(vo == null) {
-//				return "redirect:/login/main";		//2.소셜로그인으로 로그인했는지 체크한다.	
-//			}else if(vo.getSocial() == "y") { 
-//				return "redirect:/user/mypage/account-social"; 
-//			}	
-//		}catch(Exception e) {
-//			
-//		}finally {
-//			
-//		}
-//		return null;
-//	}
-//	
-//	//유저 개인 정보 수정 기능 (이메일회원)
-//	@RequestMapping(value="/user/mypage/account", method = RequestMethod.POST) 
-//	public Response useraccount(UserVO vo,HttpSession session,HttpServletResponse response) {
-//		try {
-//			UserVO user = userService.useraccount(vo);
-//			
-//		}catch(Exception e) {
-//			response.setContentType("text/html;charset=UTF-8");
-//		    PrintWriter out = response.getWriter();
-//		    out.println("<script>");
-//		    out.println("alert('정보 수정 중 오류가 발생했습니다. 다시 시도해주세요');");
-//		    out.println("</script>");
-//		    out.flush();
-//		    out.close();
-//		}
-//		return null;
-//	}
-//	
-//
-//
-//	
-//	//유저 개인 정보 수정 기능 (이메일회원)
-//	@RequestMapping(value="/user/mypage/account-social", method = RequestMethod.POST) 
-//	public Response useraccountsocial(UserVO vo,HttpSession session,HttpServletResponse response) {
-//		try {
-//			UserVO user = userService.useraccountsocial(vo);
-//			
-//		}catch(Exception e) {
-//			response.setContentType("text/html;charset=UTF-8");
-//		    PrintWriter out = response.getWriter();
-//		    out.println("<script>");
-//		    out.println("alert('정보 수정 중 오류가 발생했습니다. 다시 시도해주세요');");
-//		    out.println("</script>");
-//		    out.flush();
-//		    out.close();
-//		}
-//		return null;
-//	}	
-////================================================================================================================	
-//	//유저 질문 페이지로 이동
-//		@RequestMapping(value="/user/mypage/question", method = RequestMethod.GET) 
-//		public String userquestion(HttpSession session,HttpServletResponse response,UserVO vo,Model model) throws IOException {
-//			System.out.println("콘솔테스트1111");
-//			try {
-//				if(session.getAttribute("user") == null) {
-//					System.out.println(session.getAttribute("user"));
-//					response.setContentType("text/html;charset=UTF-8");
-//				    PrintWriter out = response.getWriter();
-//				    out.println("<script>");
-//				    out.println("alert('로그인 해주세요');");
-//				    out.println("location.href='/vaca/login/main'"); // 또는 다른 페이지로 이동
-//				    out.println("</script>");
-//				    out.flush();
-//				    out.close();
-//				    System.out.println("콘솔테스트2222");
-//					return "login/main";
-//				}else {
-//						System.out.println("콘솔테스트3333");
-//						vo = (UserVO) session.getAttribute("user");
-//						System.out.println("콘솔테스트4444");
-//
-//				        // 1. 로그인한 사용자의 ID를 가져옴
-// 				        int userId = vo.getId();
-//				    
-//				        System.out.println("콘솔테스트5555");
-//				        // 2. 서비스 호출하여 해당 사용자의 게시글 목록을 조회
-//				       List<Object> myPosts = userService.getPostsByUserId(userId);
-//				        System.out.println("mypost의 값");
-//				        System.out.println( userService.getPostsByUserId(userId) + "리스트값");
-//				        
-//				        // 3. Model에 게시글 목록을 담아 JSP로 전달
-//				       model.addAttribute("myPosts", myPosts);
-//				       System.out.println(myPosts);
-//				        System.out.println("콘솔테스트6666");
-//
-//
-//				        // mypage.jsp 뷰를 반환
-//				        return "user/mypage/question";
-//				    }
-//
-//				
-//				
-//			}catch(Exception e) {
-//				e.printStackTrace();
-//			}
-//			return "user/mypage/question";
-//		}
-//
-////===========================================================================================================================
-//		
-//		//유저 예약 페이지로 이동
-//				@RequestMapping(value="/user/mypage/reserv", method = RequestMethod.GET) 
-//				public String userreserv(HttpSession session,HttpServletResponse response,UserVO vo,Model model) throws IOException {
-//					try {
-//						if(session.getAttribute("user") == null) {
-//							response.setContentType("text/html;charset=UTF-8");
-//						    PrintWriter out = response.getWriter();
-//						    out.println("<script>");
-//						    out.println("alert('로그인 해주세요');");
-//						    out.println("location.href='/vaca/login/main'"); // 또는 다른 페이지로 이동
-//						    out.println("</script>");
-//						    out.flush();
-//						    out.close();
-//							return "login/main";
-//						}else {
-//								System.out.println("콘솔테스트3333");
-//								vo = (UserVO) session.getAttribute("user");
-//								System.out.println("콘솔테스트4444");
-//
-//						        // 1. 로그인한 사용자의 ID를 가져옴
-//		 				        int userId = vo.getId();
-//						    
-//						        System.out.println("콘솔테스트5555");
-//						        // 2. 서비스 호출하여 해당 사용자의 게시글 목록을 조회
-//						       List<Object> myPosts = userService.getReservByUserId(userId);
-//						        System.out.println( userService.getReservByUserId(userId) + "리스트값");
-//						        
-//						        // 3. Model에 게시글 목록을 담아 JSP로 전달
-//						       model.addAttribute("myPosts", myPosts);
-//						       System.out.println(myPosts);
-//						        System.out.println("콘솔테스트6666");
-//
-//
-//						        // mypage.jsp 뷰를 반환
-//						        return "user/mypage/question";
-//						    }
-//
-//						
-//						
-//					}catch(Exception e) {
-//						e.printStackTrace();
-//					}
-//					return "user/mypage/question";
-//				}
-////======================================================================================================================		
-//		//유저 찜목록으로이동
-//		@RequestMapping(value="/user/mypage/wishlist", method = RequestMethod.GET) 
-//		public String userwishlist(HttpSession session,HttpServletResponse response) throws IOException {
-//			try {
-//				if(session.getAttribute("user") == null) {
-//					System.out.println(session.getAttribute("user"));
-//					response.setContentType("text/html;charset=UTF-8");
-//				    PrintWriter out = response.getWriter();.
-//				    out.println("<script>");
-//				    out.println("alert('로그인 해주세요');");
-//				    out.println("location.href='/vaca/login/main'"); // 또는 다른 페이지로 이동
-//				    out.println("</script>");
-//				    out.flush();
-//				    out.close();
-//					return "login/main";
-//				}else {
-//					System.out.println(session.getAttribute("user"));
-//					return "user/mypage/wishlist";
-//				}
-//				
-//			}catch(Exception e) {
-//				
-//			}
-//			return "login/main";
-//		}
-//
-//	
-//	
+	//유저 개인 정보 수정 기능 페이지 
+	@RequestMapping(value="/user/mypage/account", method = RequestMethod.GET) 
+	public String useraccount(UserVO vo, HttpSession session) throws IOException {
+		try {
+			vo = (UserVO) session.getAttribute("user");
+			//1.로그인이 되어있는지 체크한다
+			if(vo == null) {
+				return "login/main";		//2.소셜로그인으로 로그인했는지 체크한다.	
+			}else { 
+				return "user/mypage/account"; 
+			}	
+		}catch(Exception e) {
+			
+		}finally {
+			
+		}
+		return null;
+	}
+	
+
+	
+	//유저 개인 정보 수정 기능 
+	@RequestMapping(value="/user/mypage/account", method = RequestMethod.POST) 
+	public Response useraccountchange(UserVO vo,HttpSession session,HttpServletResponse response,@RequestParam("nickname") String nickname,@RequestParam("phone") String phone) throws IOException {
+		System.out.println("회원정보수정실행됨");
+		vo = (UserVO) session.getAttribute("user");
+		String accountchangenickname = nickname;
+		String accountchangephone = phone;
+		try {
+			System.out.println(vo.getId());
+			System.out.println(vo.getNickname());
+			System.out.println(vo.getPhone());
+			vo.setNickname(accountchangenickname);
+			vo.setNickname(accountchangephone);
+			userService.useraccountchange(vo);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+			response.setContentType("text/html;charset=UTF-8");
+		    PrintWriter out = response.getWriter();
+		    out.println("<script>");
+		    out.println("alert('정보 수정 중 오류가 발생했습니다. 다시 시도해주세요');");
+		    out.println("</script>");
+		    out.flush();
+		    out.close();
+		}
+		return null;
+	}
+	
+
+
+	
+//================================================================================================================	
+	//유저 질문 페이지로 이동
+		@RequestMapping(value="/user/mypage/question", method = RequestMethod.GET) 
+		public String userquestion(HttpSession session,HttpServletResponse response,UserVO vo,Model model) throws IOException {
+			System.out.println("콘솔테스트1111");
+			try {
+				if(session.getAttribute("user") == null) {
+					System.out.println(session.getAttribute("user"));
+					response.setContentType("text/html;charset=UTF-8");
+				    PrintWriter out = response.getWriter();
+				    out.println("<script>");
+				    out.println("alert('로그인 해주세요');");
+				    out.println("location.href='/vaca/login/main'"); // 또는 다른 페이지로 이동
+				    out.println("</script>");
+				    out.flush();
+				    out.close();
+				    System.out.println("콘솔테스트2222");
+					return "login/main";
+				}else {
+						System.out.println("콘솔테스트3333");
+						vo = (UserVO) session.getAttribute("user");
+						System.out.println("콘솔테스트4444");
+
+				        // 1. 로그인한 사용자의 ID를 가져옴
+ 				        int userId = vo.getId();
+				    
+				        System.out.println("콘솔테스트5555");
+				        // 2. 서비스 호출하여 해당 사용자의 게시글 목록을 조회
+				       List<Object> myPosts = userService.getPostsByUserId(userId);
+				        System.out.println("mypost의 값");
+				        System.out.println( userService.getPostsByUserId(userId) + "리스트값");
+				        
+				        // 3. Model에 게시글 목록을 담아 JSP로 전달
+				       model.addAttribute("myPosts", myPosts);
+				       System.out.println(myPosts);
+				        System.out.println("콘솔테스트6666");
+
+
+				        // mypage.jsp 뷰를 반환
+				        return "user/mypage/question";
+				    }
+
+				
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			return "user/mypage/question";
+		}
+
+//===========================================================================================================================
+		
+		//유저 예약 페이지로 이동
+				@RequestMapping(value="/user/mypage/reserv", method = RequestMethod.GET) 
+				public String userreserv(HttpSession session,HttpServletResponse response,UserVO vo,Model model) throws IOException {
+					try {
+						if(session.getAttribute("user") == null) {
+							response.setContentType("text/html;charset=UTF-8");
+						    PrintWriter out = response.getWriter();
+						    out.println("<script>");
+						    out.println("alert('로그인 해주세요');");
+						    out.println("location.href='/vaca/login/main'"); // 또는 다른 페이지로 이동
+						    out.println("</script>");
+						    out.flush();
+						    out.close();
+							return "login/main";
+						}else {
+								System.out.println("콘솔테스트3333");
+								vo = (UserVO) session.getAttribute("user");
+								System.out.println("콘솔테스트4444");
+
+						        // 1. 로그인한 사용자의 ID를 가져옴
+		 				        int userId = vo.getId();
+						    
+						        System.out.println("콘솔테스트5555");
+						        // 2. 서비스 호출하여 해당 사용자의 게시글 목록을 조회
+						       List<Object> myReserv = userService.getReservByUserId(userId);
+						        System.out.println( userService.getReservByUserId(userId) + "리스트값");
+						        
+						        // 3. Model에 게시글 목록을 담아 JSP로 전달
+						       model.addAttribute("myReserv", myReserv);
+						       System.out.println(myReserv);
+						        System.out.println("콘솔테스트6666");
+
+
+						        // mypage.jsp 뷰를 반환
+						        return "user/mypage/reserv";
+						    }
+
+						
+						
+					}catch(Exception e) {
+						e.printStackTrace();
+					}
+					return "user/mypage/question";
+				}
+//======================================================================================================================		
+		//유저 찜목록으로이동
+		@RequestMapping(value="/user/mypage/wishlist", method = RequestMethod.GET) 
+		public String userwishlist(HttpSession session,HttpServletResponse response) throws IOException {
+			try {
+				if(session.getAttribute("user") == null) {
+					System.out.println(session.getAttribute("user"));
+					response.setContentType("text/html;charset=UTF-8");
+				    PrintWriter out = response.getWriter();
+				    out.println("<script>");
+				    out.println("alert('로그인 해주세요');");
+				    out.println("location.href='/vaca/login/main'"); // 또는 다른 페이지로 이동
+				    out.println("</script>");
+				    out.flush();
+				    out.close();
+					return "login/main";
+				}else {
+					System.out.println(session.getAttribute("user"));
+					return "user/mypage/wishlist";
+				}
+				
+			}catch(Exception e) {
+				
+			}
+			return "login/main";
+		}
+
+	
+	
 
 
 //========================================================================================================================================

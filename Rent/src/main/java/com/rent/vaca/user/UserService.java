@@ -62,7 +62,11 @@ public interface UserService {
 	
 	List<Object> getPostsByUserId(int userId);
 	
+	List<Object> getReservByUserId(int userId);
+	
 	UserVO useraccount(UserVO vo);
+	
+	UserVO useraccountchange(UserVO vo);
 	
 	UserVO useraccountsocial(UserVO vo);
 
@@ -174,6 +178,8 @@ public interface UserService {
 		    return new RestTemplate().postForEntity(NAVER_TOKEN_BASE_URL, requestBody, Map.class);
 		    
 	}
+
+	
 
 	
 //==========================================================================================

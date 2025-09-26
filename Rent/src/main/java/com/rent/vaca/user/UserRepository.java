@@ -70,8 +70,16 @@ public class UserRepository {
 		return template.selectList("userMapper.getPostsByUserId",userId);
 	}
 	
+	public List<Object> getReservByUserId(int userId) {
+		return template.selectList("userMapper.getPostsByUserId",userId);
+	}
+	
 	public UserVO useraccount(UserVO vo) {
 		return template.selectOne("userMapper.useraccount",vo);
+	}
+	
+	public UserVO useraccountchange(UserVO vo) {
+		return template.selectOne("userMapper.useraccountchange",vo);
 	}
 	
 	public UserVO useraccountsocial(UserVO vo) {

@@ -18,7 +18,7 @@ import com.rent.vaca.user.UserService;
 import com.rent.vaca.user.UserVO;
 
 @Controller
-@EnableAsync//비동기로 동작하게 하는 어노테이션
+@EnableAsync//鍮���湲곕� ������寃� ���� �대�명���댁��
 public class MailController {
 		
 	@Autowired
@@ -42,20 +42,22 @@ public class MailController {
 		
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
-		System.out.println("테스트용");
+		System.out.println("���ㅽ�몄��");
 		PrintWriter out = response.getWriter();
-		mailService.sendMail("sleepless0527@gmail.com","테스트용 메일 제목","비밀번호는"+pwchangesend+"입니다"); //개인메일주소테스트용...
-		//보낼 메일 주소는 userService.findPw(vo).getEmail()에서 가져오면됩니다
-		out.print("메일 전송 완료");
+		mailService.sendMail("sleepless0527@gmail.com","비밀번호 변경 안내","변경된 비밀번호는"+pwchangesend+"입니다"); 
+		//설명 ("전달할 메일주소","메일제목","메일내용"
+		//다 깨졋습니다
+		//제 개인메일입니다.
+		out.print("硫��� ���� ��猷�");
 		return "user/find/mailsend";
 		}catch(Exception e){
 			response.setContentType("text/html; charset=UTF-8");
 		    PrintWriter writer = response.getWriter();
 		    writer.println("<script>");
-		    writer.println("alert('입력한 정보가 일치하지 않거나 없는 정보입니다');");
+		    writer.println("alert('정보를 입력해 주세요');");
 		    writer.println("window.location.href = '/vaca/user/find/pw';");
 		    writer.println("</script>");
-		    writer.flush(); // 버퍼 비우기
+		    writer.flush(); // 踰��� 鍮��곌린
 		    return null;
 		}finally{
 

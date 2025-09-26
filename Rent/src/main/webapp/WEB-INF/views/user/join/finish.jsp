@@ -13,6 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link rel="stylesheet" href="<c:url value="/resources/css/color_orange.css" />">
     <style>
     body {
         --bs-font-sans-serif:margin:0; padding:0;font-size:14px;line-height:1.6;font-family:'Pretendard','Noto Sans KR', 'Apple SD Gothic Neo', '돋움', Dotum, Arial, Sans-serif;color:#464646;letter-spacing:0;-webkit-text-size-adjust:none;font-weight: 400
@@ -40,7 +41,7 @@
     <p>회원가입 완료되었습니다.<br>다시 로그인 해 주세요.</p>
 
     <div class="d-grid gap-2">
-      <button link="#" class="btn btn-primary " type="button" style="height:50px;">로그인</button><!--링크를 걸어야 합니다-->
+      <button onclick="location.href='/vaca/login/email'" class="btn btn-primary " type="button" style="height:50px;">로그인</button><!--링크를 걸어야 합니다-->
     </div>
   </div>
 </section>

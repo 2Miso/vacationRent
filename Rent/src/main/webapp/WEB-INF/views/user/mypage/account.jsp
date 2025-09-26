@@ -1,21 +1,24 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@include file="../../include/header_nosearchbar.jsp" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 정보 관리</title>
+    <link rel="stylesheet" href="<c:url value="/resources/css/color_orange.css" />">
     <script src="resources/js/jquery-3.7.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link href="resources/css/color_orange.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="resources/css/color_orange.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+     
     <style>
         section{
             margin:0 auto;
@@ -46,22 +49,27 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
           <li class="nav-item"> 
-            <a href="#" class="nav-link text-white" aria-current="page"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
+            <a href="/vaca/user/mypage/reserv" class="nav-link text-white" ><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
               <i class="bi bi-house me-2  "></i>예약 내역
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+            <a href="/vaca/user/mypage/pwchange" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+              <i class="bi bi-file me-2"></i>비밀번호 변경
+            </a>
+          </li>
+          <li>
+            <a href="/vaca/user/mypage/wishlist" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
               <i class="bi bi-file me-2"></i>찜 목록
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link active"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
+            <a href="/vaca/user/mypage/account" class="nav-link active" aria-current="page"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
               <i class="bi bi-people me-2"></i>내 정보 관리
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
+            <a href="/vaca/user/mypage/question" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
               <i class="bi bi-person-circle me-2"></i>내 문의 내역
             </a>
           </li>
@@ -77,31 +85,20 @@
         </div>
       </div><!--사이드바 끝-->
         <div class="content"><!--내용 시작입니다. 이곳에 내용을 작성하면 됩니다-->
+        <form action="#" method="post">
             <h2 style="font-weight:bold; font-size:32px; margin-bottom:30px;">내 정보 관리</h2>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">현재비밀번호</label>
-                <input type="password" class="form-control" id="exampleFormControlInput1">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">변경할 비밀번호</label>
-                <input type="password" class="form-control" id="exampleFormControlInput2">
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">변경할 비밀번호 확인</label>
-                <input type="password" class="form-control" id="exampleFormControlInput3">
-            </div>
+
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">닉네임</label>
-                <input type="nick" class="form-control" id="exampleFormControlInput4" placeholder="현재 닉네임">
+                <input type="text" class="form-control" id="nickname" name="nickname" placeholder="현재 닉네임">
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">휴대폰 번호</label>
-                <input type="phone" class="form-control" id="exampleFormControlInput5" placeholder="현재 휴대폰 번호">
+                <input type="text" class="form-control" id="phone" name="phone"  placeholder="현재 휴대폰 번호">
             </div>
             
-            <button type="button" class="cancel btn btn-primary" id="cancel">취소</button>
-            <button type="button" class="btn btn-primary" id="register">수정</button>
-                
+            <button type="submit" class="btn btn-primary" id="register">수정</button>
+           </form>     
         </div><!--내용 끝-->
     </section>
 </body>

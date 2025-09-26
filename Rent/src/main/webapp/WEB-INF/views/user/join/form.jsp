@@ -24,7 +24,7 @@
     section{
       width:1024px;
       margin:0 auto;
-      margin-top:200px;
+      margin-top:100px;
     }
     .login_form{
       margin:0 auto;
@@ -45,18 +45,28 @@
     let emailCheckFlag=false;
     
     function joincheckFn(){
-    	$.ajax({
+    	
+    	if($("input[name=email]").val() == ""){//이메일유효성검사
+        $("#emailspan").text("이메일을 입력해 주세요").css("color","red");
+        emailcheck = false;
+      }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test($("input[name=email]").val())){
+        $("#emailspan").text("이메일 주소가 아닌것 같습니다.").css("color","red");
+        emailcheck = false;
+      }else{
+    	  
+     
+        $.ajax({
 			url : "/vaca/user/join/form/emailCheck",
 			type : "post",
 			data : {
-				"email" : $("input[name=pw]").val()
+				"email" : $("input[name=email]").val()
 			},
 			//요청부분
 			success : function(response){
 				console.log(response.code);
 				//response의 code가 1이면 가입불가 0이면 가능
 				if(response.code == 1){
-					 $("#emailspan").text(" 중복된 이메일입니다").css("color","red");
+					 $("#emailspan").text(" 사용할 수 없는 이메일입니다").css("color","red");
 					emailCheckFlag = false;
 				}else{
 					 $("#emailspan").text(" ").css("color","red");
@@ -69,16 +79,14 @@
 			}
 		});
     	
-      if($("input[name=email]").val() == ""){//이메일유효성검사
-        $("#emailspan").text("이메일을 입력해 주세요").css("color","red");
-        emailcheck = false;
-      }else if(!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test($("input[name=email]").val())){
-        $("#emailspan").text("사용할 수 없는 이메일 주소입니다.").css("color","red");
-        emailcheck = false;
-      }else{
-        $("#emailspan").text(" ").css("color","red");
+        
+        
+        
         emailcheck = true;
       }
+    	
+    	
+      
 
       if($("input[name=pw]").val() == ""){//비밀번호유효성검사
         $("#pwspan").text("비밀번호를 입력해 주세요").css("color","red");
@@ -136,7 +144,7 @@
       }
 
       if(emailcheck&&pwcheck&&pwcheckcheck&&namecheck&&nicknamecheck&&phonecheck&&emailCheckFlag){
-			return false;
+			return true;
 		}else{
 			return false;
 		}
@@ -150,7 +158,7 @@
 <section>
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder"> 회원가입 </h1>
-    <form onsubmit="return joincheckFn()" action="#" method="POST" > <!--회원가입 정보를 전송할 링크를 걸어야 합니다-->
+    <form onsubmit="return joincheckFn()" method="POST" > <!--회원가입 정보를 전송할 링크를 걸어야 합니다-->
       <div class="form-floating">
         <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
         <label for="floatingInput">이메일 주소 입력</label>

@@ -66,8 +66,16 @@
 		select notice_no,title,content,wdate,answeryn from noticetb where user_id = #{userId} and delyn = "n"
 	</select>
 	
+	<select id="getReservByUserId" parameterType="Int" resultType="notice">
+		select * from reservtb where user_id = #{userId} and delyn = "n"
+	</select>
+	
 	<update id="useraccount" parameterType="String">
 		update usertb set pw = ${pw} pw = ${pw} pw = ${pw}where email=#{email} and name = #{name} and phone = #{phone}
+	</update>
+	
+	<update id="useraccountchange" parameterType="String">
+		update usertb set nicname = #{nickname} phone = #{phone} where id = #{id}
 	</update>
 	
 	<update id="useraccountsocial" parameterType="String">

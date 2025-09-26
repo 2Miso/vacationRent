@@ -1,11 +1,7 @@
-<%@page import="com.rent.vaca.user.UserVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-if(session.getAttribute("user")!=null) {
-	UserVO user = (UserVO)session.getAttribute("user");
-}
 %>
 <!doctype html>
 <html lang="ko">
@@ -100,6 +96,7 @@ if(session.getAttribute("user")!=null) {
             <i class="bi bi-list"></i>
           </a>
           <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="<c:url value="/user/join/agree" />">회원가입</a></li> <!--로그인 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/login/main" />">로그인</a></li> <!--로그인 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
           </ul>

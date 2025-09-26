@@ -1,16 +1,9 @@
 <!-- URL : /acco/view/{accoNo} -->
-<%@page import="com.rent.vaca.user.UserVO"%>
 <%@page import="com.rent.vaca.acco.AccoVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%
-	UserVO user1 = new UserVO();
-	user1.setId(1);
-	user1.setNickname("개인1");
-	session.setAttribute("user", user1);
-%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@include file="../include/header_nosearchbar.jsp"%>
 <!DOCTYPE html>
 <html lang="ko">
@@ -649,7 +642,7 @@ footer {
 						</div>
 						<!-- end:Modal -->
 						<div class="row roomPrice">
-							<strong>${room.price}</strong>원
+							<strong><fmt:formatNumber value="${room.price}" type="number" pattern="#,##0" /></strong>원
 						</div>
 						<div class="row roomSimpleInfo">
 							기준 ${room.standardHead}인 / 추가 ${room.extraHead}인<br>
@@ -764,7 +757,7 @@ footer {
 			<%@ include file="reviewList.jsp" %>
 			<!-- end:reviewList -->
 			</div>
-			<div class="Page">
+			<!--<div class="Page">
 				<ul class="pagination justify-content-center">
 					<li class="page-item"><a class="page-link" href="#">&lt;</a></li>
 					<li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -772,8 +765,7 @@ footer {
 					<li class="page-item"><a class="page-link" href="#">3</a></li>
 					<li class="page-item disabled"><a class="page-link" href="#">&gt;</a></li>
 				</ul>
-			</div>
-			<!-- end:Page -->
+			</div> end:Page -->
 		</article>
 		<!-- end:#reviewArea -->
 	</section>

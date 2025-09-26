@@ -23,8 +23,8 @@
 <body>
     <img src="<Rent:url value="/resources/img/fail.png" />" alt="결제 실패!">
     <h2>이미 예약된 객실입니다.</h2>
-    <form action="<Rent:url value ='/reservation/reserv_ok_payment' />" method="get">
-        <button type="submit" class="btn btn-primary">이전페이지 이동</button>
-    </form>
+    <%-- <form action="<Rent:url value ='/reservation/reserv_ok_payment' />" method="get"> --%>
+        <button type="submit" class="btn btn-primary" onclick="history.back()">이전페이지 이동</button>
+    <!-- </form> -->
 </body>
 </html>

@@ -1,6 +1,4 @@
 <!-- URL : /mypage/question/{noticeNo} -->
-
-<%@page import="com.rent.vaca.user.UserVO"%>
 <%@page import="com.rent.vaca.notice.NoticeVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

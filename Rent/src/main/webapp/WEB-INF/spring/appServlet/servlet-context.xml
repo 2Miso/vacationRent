@@ -35,23 +35,37 @@
 		<beans:property name="maxUploadSize" value="10000000" />
 	</beans:bean>
 	
-	<!-- 인터셉터 설정
+	<!-- 인터셉터 설정 -->
 	<interceptors>
+		<!-- 로그인 인터셉터 -->
 		<interceptor>
-			<mapping path="/**"/>
-			<exclude-mapping path="/user/login"/>
-			<exclude-mapping path="/user/id-check"/>
-			<exclude-mapping path="/"/>
-			<exclude-mapping path="/test"/>
-			<exclude-mapping path="/rest/**"/>
-			<exclude-mapping path="/user/signup"/>
-			<exclude-mapping path="/board/boards/**"/>
-			<exclude-mapping path="/resources/**"/>
-			<exclude-mapping path="/uploads/**"/>
-			<beans:bean class="com.rent.vaca.interceptor.SessionInterceptor" />
+			<mapping path="/reservation/**"/>
+			<mapping path="/payment/**"/>
+			<mapping path="/mypage/**"/>
+			<mapping path="/customer/question"/>
+			<exclude-mapping path="/resources/**" />
+			<exclude-mapping path="/questions/**" />
+			<beans:bean class="com.rent.vaca.interceptor.LoginInterceptor" />
+		</interceptor>
+
+		<!-- 비즈니스회원 인터셉터 -->
+		<interceptor>
+			<mapping path="/biz/**"/>
+			<exclude-mapping path="/resources/**" />
+			<exclude-mapping path="/questions/**" />
+			<beans:bean class="com.rent.vaca.interceptor.BizInterceptor" />
+		</interceptor>
+		
+		<!-- 관리자등급 인터셉터 -->
+		<interceptor>
+			<mapping path="/notice/write"/>
+			<mapping path = "/admin/**"/>
+			<exclude-mapping path="/resources/**" />
+			<exclude-mapping path="/questions/**" />
+			<beans:bean class="com.rent.vaca.interceptor.AdminInterceptor" />
 		</interceptor>
 	</interceptors>
-	 -->
+
 	<!-- 
 		스케줄러
 		주기적으로 특정 클래스의 특정 메서드를 실행할 수 있는 기능

@@ -22,8 +22,8 @@
 <body>
 	<img src="<Rent:url value="/resources/img/succes.png" />" alt="결제 성공!">
     <h2>결제에 성공했습니다.</h2>
-    <form action="${pageContext.request.contextPath}/">
-        <button type="submit" class="btn btn-primary">메인 페이지 이동</button>
+    <form action="${pageContext.request.contextPath}/reservation/reserv">
+        <button type="submit" class="btn btn-primary">예약내역으로 이동</button>
     </form>
 </body>
 </html>

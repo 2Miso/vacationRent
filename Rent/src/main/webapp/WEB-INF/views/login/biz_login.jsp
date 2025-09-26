@@ -76,7 +76,7 @@
     <div class="mx-auto py-3">
       <p class="my-0 mx-auto text-center "><a href="#" class="mx-auto text-center link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">비즈니스 회원 아이디 찾기</a></p><!--아이디 찾기 링크를 걸어야 합니다-->
       <p class="my-0 text-center"><a href="#" class="my-0 link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">비즈니스 회원 비밀번호 찾기</a></p><!--비밀번호 찾기 링크를 걸어야 합니다-->
-      <p class="my-0 text-center  "><a href="<c:url value='/biz/biz_join_terms' />" class="my-0 link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">비즈니스 회원가입</a></p><!--회원가입 링크를 걸어야 합니다-->
+      <p class="my-0 text-center"><a href="<c:url value='/join/biz_join_terms' />" class="my-0 link-secondary link-offset-2 link-underline-opacity-0 link-underline-opacity-100-hover">비즈니스 회원가입</a></p><!--회원가입 링크를 걸어야 합니다-->
     </div>
   </div>
 </section>

@@ -74,7 +74,6 @@ public class BizServiceImpl implements BizService{
 	// 이메일 중복 확인
 	@Override
 	public Integer selectBizCntByEmail(String email) {
-		// TODO Auto-generated method stub
 		return repository.selectBizCntByEmail(email);
 	}
 

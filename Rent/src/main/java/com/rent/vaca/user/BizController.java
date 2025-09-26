@@ -51,13 +51,13 @@ public class BizController {
 	}
 	
 	// 회원가입 약관동의 화면
-	@RequestMapping(value = "/biz/biz_join_terms", method = RequestMethod.GET)
+	@RequestMapping(value = "/join/biz_join_terms", method = RequestMethod.GET)
 	public String bizSignUpTerms() {
-		return "biz/biz_join_terms";
+		return "join/biz_join_terms";
 	}
 	
 	// 회원가입 화면
-	@RequestMapping(value = "/biz/biz_join_form", method = RequestMethod.GET)
+	@RequestMapping(value = "/join/biz_join_form", method = RequestMethod.GET)
 	public String bizSignUp(Model model,
 			@RequestParam(value = "termsofuse", required = false) String termsofuse,
 			@RequestParam(value = "termsover14", required = false) String termsover14,
@@ -67,15 +67,15 @@ public class BizController {
 		model.addAttribute("bizVO", new BizVO());
 		
 		if (termsofuse == null || termsover14 == null || termspersonal1 == null) {
-			return "redirect:/biz/biz_join_terms?error=missing";
+			return "redirect:/join/biz_join_terms?error=missing";
 		}
 		
-		return "biz/biz_join_form";
+		return "join/biz_join_form";
 		
 	}
 	
 	// 회원가입 처리
-	@RequestMapping(value = "/biz/biz_join_finished", method = RequestMethod.POST)
+	@RequestMapping(value = "/join/biz_join_finished", method = RequestMethod.POST)
 	public String bizSignUp(@Valid BizVO vo, BindingResult result,
 			 @RequestParam("certificateFile") MultipartFile certificateFile,
 		        Model model, HttpServletRequest request
@@ -83,12 +83,12 @@ public class BizController {
 		
 		if(result.hasErrors()) {
 			// 유효성 검사 실패 시 회원가입 폼으로 리턴
-			return "biz/biz_join_form";
+			return "join/biz_join_form";
 		}
 		
 		if (certificateFile == null || certificateFile.isEmpty()) {
 	        model.addAttribute("fileError", "사업자등록증 파일을 첨부해주세요.");
-	        return "biz/biz_join_form";
+	        return "join/biz_join_form";
 	    }
 		
 		String uploadDir = "D:/Rent/rent_upload/biz/";
@@ -121,15 +121,15 @@ public class BizController {
 		    bizService.insertBizOne(vo); // 이메일 중복 등 예외 발생 가능
 		} catch (IllegalArgumentException e) {
 		    model.addAttribute("emailError", e.getMessage());
-		return "biz/biz_join_form"; // 다시 가입 폼으로
+		return "join/biz_join_form"; // 다시 가입 폼으로
 		}
 		
-		return "biz/biz_join_finished";
+		return "join/biz_join_finished";
 	}
 	
 	// 이메일 중복검사
 	@ResponseBody
-	@RequestMapping(value = "/biz/check-email", method = RequestMethod.GET)
+	@RequestMapping(value = "/join/check-email", method = RequestMethod.GET)
 	public boolean checkEmailDuplicate(@RequestParam("email") String email) {
 	    int count = bizService.selectBizCntByEmail(email);
 	    return count == 0; // true: 사용 가능, false: 중복

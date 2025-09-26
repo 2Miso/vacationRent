@@ -147,9 +147,17 @@
        $("input[name=email]").on("blur", function() {
          let email = $(this).val();
          if (email === '') return;
+         
+         // 이메일 형식 검사 (정규식)
+         let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+         if (!emailPattern.test(email)) {
+             $("#emailspan").text("유효한 이메일 형식이 아닙니다.").css("color", "red");
+             emailValid = false;
+             return;
+         }
 
          $.ajax({
-           url: "<c:url value='/biz/check-email' />",
+           url: "<c:url value='/join/check-email' />",
            method: "GET",
            data: { email: email },
            success: function(response) {
@@ -177,7 +185,7 @@
 <section>
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder"> 비즈니스 회원가입 </h1>
-    <c:url var="bizJoinFinishedUrl" value="/biz/biz_join_finished" />
+    <c:url var="bizJoinFinishedUrl" value="/join/biz_join_finished" />
     <form:form modelAttribute="bizVO" enctype="multipart/form-data"
     	action="${bizJoinFinishedUrl}" 
     	method="post" onsubmit="return joincheckFn();">

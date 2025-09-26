@@ -68,7 +68,7 @@
 		  필수 약관에 모두 동의해주세요.
 		</div>
 	</c:if>
-    <form action="<c:url value="/biz/biz_join_form" />" method="get" onsubmit="return termscheckFn();">
+    <form action="<c:url value="/join/biz_join_form" />" method="get" onsubmit="return termscheckFn();">
     <div class="d-flex mb-3 align-items-center" style="background-color: rgb(214, 214, 214); border-radius: 6px; height:55px;"><!--전체동의니까 좀 눈에 잘 띄게 수정할 필요가 있습니다.-->
       <input class="form-check-input p-2 form-check-inline my-auto mx-2" type="checkbox" value=""  id="termsall" onclick="termsallcheckFn()">
       <p class="p-2 my-auto" style="font-size: 18px; font-weight: bold;">약관 전체동의(선택항목 포함)</p>

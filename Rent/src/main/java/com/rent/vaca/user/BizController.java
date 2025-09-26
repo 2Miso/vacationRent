@@ -91,8 +91,13 @@ public class BizController {
 	        return "biz/biz_join_form";
 	    }
 		
-		String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/biz");
-
+		String uploadDir = "D:/Rent/rent_upload/biz/";
+		
+		File dir = new File(uploadDir);
+		if (!dir.exists()) {
+		    dir.mkdirs(); // 디렉토리 없으면 생성
+		}
+		
 	    // 원본 파일명 얻기
 	    String originalFileName = certificateFile.getOriginalFilename();
 	    
@@ -249,6 +254,8 @@ public class BizController {
 	        return "/biz/biz_mypage_acco";
 	    }
 	    
+		session.setAttribute("acco", vo);
+		
 		return "redirect:/biz/biz_mypage_acco";
 	}
 	
@@ -270,16 +277,12 @@ public class BizController {
 		
 	    // 기존 숙소 정보 불러오기
 	    AccoVO existingAcco = bizService.selectBizAccoOne(vo.getBizId());
-	    System.out.println(existingAcco);
 	    if (existingAcco == null) {
 	        // 존재하지 않으면 실패 처리
 	        return "redirect:/biz/biz_mypage_acco?error=notfound";
 	    }	    
 	    
-	    // 2. 클라이언트에서 전달되지 않은 필드는 기존 값 유지
-	    if (!StringUtils.hasText(vo.getName())) {
-	    	vo.setName(existingAcco.getName());
-	    }
+	    // 클라이언트에서 전달되지 않은 필드는 기존 값 유지
 	    if (!StringUtils.hasText(vo.getName())) vo.setName(existingAcco.getName());
 	    if (!StringUtils.hasText(vo.getAddr())) vo.setAddr(existingAcco.getAddr());
 	    if (!StringUtils.hasText(vo.getPhone())) vo.setPhone(existingAcco.getPhone());
@@ -345,6 +348,8 @@ public class BizController {
 	    // 숙소 정보 업데이트
 	    bizService.updateAccoInfo(vo);
 
+	    session.setAttribute("acco", vo);
+	    
 	    return "redirect:/biz/biz_mypage_acco?success=edit";
 	}
 	
@@ -427,7 +432,7 @@ public class BizController {
 	        
 	        bizService.deleteAccoPhotoByAccoNo(deleteAccoNo);
 
-	        return "redirect:/biz/biz_mypage_acco";
+	        return "/biz/biz_mypage_acco";
 	        
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -437,7 +442,7 @@ public class BizController {
 	
 	// 객실 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.GET)
-	public String addRoom(Model model, HttpSession session, RoomVO vo, Integer roomNo
+	public String addRoom(Model model, HttpSession session, RoomVO vo
 		) {
 		
 		// 현재 로그인 정보 가져오기
@@ -457,24 +462,40 @@ public class BizController {
 	    
 	    Integer accoNo = acco.getAccoNo();
 	    List<RoomVO> rooms = bizService.selectRoomsByAccoNo(accoNo);
+	    for(RoomVO r : rooms){
+	        List<AccoPhotoVO> photos = bizService.getPhotosByBizIdAndRoomNo(accoNo, r.getRoomNo());
+	        r.setPhotoList(photos);
+	    }
 	    model.addAttribute("rooms", rooms);
+	    
 	    RoomVO room;
+	    
+	    if(vo == null) {
+	    	room = new RoomVO();
+	    }else {
+	    	room = vo;
+	    }
+	    
+	    Integer roomNo = room.getRoomNo();
+	    
 	    List<AccoPhotoVO> photoList = Collections.emptyList();
 	    
 	    // 객실정보 가져오기
-	    // 객실정보가 있으면
+	    
 	    if (roomNo != null) {
-	    	room = bizService.selectAccoRoomOne(roomNo);
-		    if(room == null){
-		        room = new RoomVO();
-		        room.setAccoNo(accoNo);
-		    }else {
+	    	RoomVO dbRoom = bizService.selectAccoRoomOne(roomNo);
+		    if(dbRoom != null) {
+		    	room = dbRoom;
 		    	photoList = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
+		    	room.setPhotoList(photoList);
+		    }else {
+		    	room = new RoomVO();
+		    	room.setAccoNo(accoNo);
 		    }
-	    }else {
-			room = new RoomVO();
-			room.setAccoNo(accoNo);
+	    	
+		    
 	    }
+	    
 	    
 	    model.addAttribute("room", room);
 	    model.addAttribute("photoList", photoList);
@@ -553,6 +574,8 @@ public class BizController {
 	        return "/biz/biz_mypage_room";
 	    }
 	    
+	    session.setAttribute("room", vo);
+	    
 		return "redirect:/biz/biz_mypage_room";
 	}
 	
@@ -591,4 +614,135 @@ public class BizController {
 	        return "redirect:/biz/biz_mypage_room?error=true";
 	    }
 	}
+	
+	// 계정 설정 페이지
+	@GetMapping("/biz/biz_mypage_account")
+	public String editBizInfo(HttpSession session, Model model) {
+		BizVO biz = (BizVO) session.getAttribute("biz");
+        if (biz == null) {
+            return "redirect:/login/biz_login"; // 로그인 안 되어 있으면 리다이렉트
+        }
+
+        model.addAttribute("biz", biz);
+        return "biz/biz_mypage_account";
 	}
+	
+	// 계정 설정 처리 페이지
+	@PostMapping("/biz/biz_mypage_account")
+	public String editBizInfo(@Valid @ModelAttribute BizVO vo, BindingResult bindingResult,
+            @RequestParam(value = "certificateFile", required = false) MultipartFile file,
+            HttpSession session, Model model,
+            @RequestParam(value = "action", required = false) String action,
+            HttpServletRequest request) throws Exception {
+		
+		// 현재 로그인 정보 가져오기
+		BizVO biz = (BizVO) session.getAttribute("biz");
+		
+		if(biz == null) {
+			// 로그인 되어있지 않으면 로그인페이지로 리다이렉트
+			return "redirect:/login/biz_login";
+		}
+		
+		if ("delete".equals(action)) {
+	        // 삭제 처리
+	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/biz");
+	        File oldFile = new File(uploadDir, biz.getCertificateSavedName());
+	        if (oldFile.exists()) oldFile.delete();
+
+	        biz.setCertificateSavedName(null);
+	        biz.setCertificateOriginalName(null);
+	        bizService.updateCertificateDeleted(biz.getId());
+	        session.setAttribute("biz", biz);
+
+	        return "redirect:/biz/biz_mypage_account"; // 삭제 후 다시 계정설정 페이지로
+	    }
+		
+		try {
+            // 사진 필수 체크
+            if((file == null || file.isEmpty()) && (biz.getCertificateSavedName() == null || biz.getCertificateSavedName().isEmpty())) {
+                model.addAttribute("errorMessage", "사업자등록증 이미지를 반드시 업로드해주세요.");
+                return "/biz/biz_mypage_account";
+            }
+
+            // 사진 업로드
+            if(file != null && !file.isEmpty()) {
+                String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/biz");
+                File dir = new File(uploadDir);
+                if(!dir.exists()) {
+                	dir.mkdirs();
+                }
+
+                String originalName = file.getOriginalFilename();
+                String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+                String savedName = timeStamp + "_" + originalName;
+
+                File saveFile = new File(uploadDir, savedName);
+                file.transferTo(saveFile);
+
+                // 기존 사진이 있으면 삭제
+                if(biz.getCertificateSavedName() != null) {
+                    File oldFile = new File(uploadDir, biz.getCertificateSavedName());
+                    if(oldFile.exists()) oldFile.delete();
+                }
+
+                vo.setCertificateSavedName(savedName);
+                vo.setCertificateOriginalName(originalName);
+            } else {
+                // 기존 사진 유지
+                vo.setCertificateSavedName(biz.getCertificateSavedName());
+                vo.setCertificateOriginalName(biz.getCertificateOriginalName());
+            }
+
+            vo.setId(biz.getId());
+            
+            int updated = bizService.updateBizInfo(vo);
+            if(updated == 0) {
+            	model.addAttribute("errorMessage", "수정에 실패했습니다.");
+            	return "/biz/biz_mypage_account";
+            }
+
+            // 세션 업데이트
+            session.setAttribute("biz", vo);
+
+        } catch(Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "수정 실패");
+            return "/biz/biz_mypage_account";
+        }
+
+        return "redirect:/biz/biz_mypage_account?success=edit";
+	}
+	
+	@PostMapping("/biz/deleteCertificate")
+	@ResponseBody
+	public String deleteCertificate(@RequestParam("id") Integer id,
+			HttpSession session) {
+	    
+		BizVO biz = (BizVO) session.getAttribute("biz");
+	    if(biz == null || id == null) {
+	        return "redirect:/login/biz_login";
+	    }
+
+	    try {
+	        // 실제 이미지 파일 삭제
+	        String uploadDir = session.getServletContext().getRealPath("/resources/img/biz");
+	        File file = new File(uploadDir, biz.getCertificateSavedName());
+	        if(file.exists()) file.delete();
+
+	        // DB 컬럼 초기화
+	        bizService.updateCertificateDeleted(id);
+
+	        // session 정보도 초기화
+	        biz.setCertificateSavedName(null);
+	        session.setAttribute("biz", biz);
+
+	        return "redirect:/biz/biz_mypage_account";
+	    } catch(Exception e) {
+	        e.printStackTrace();
+	        return "/biz/biz_mypage_account?error=true";
+	    }
+	}
+	
+}
+
+

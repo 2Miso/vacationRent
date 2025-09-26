@@ -22,25 +22,26 @@
     .swiper {
     	width:100%;
     	max-width:800px;
-		height:200px;
+		height:150px;
 	}
     .swiper-slide{
     	width:200px !important;
-    	height:200px;
+    	height:150px;
     	display: flex;
 		justify-content: center;
 		align-items: center;
     }
     .swiper-slide img {
 		width: 200px;
-		height: 200px;
+		height: 150px;
 		object-fit: cover;
 		border-radius: 5px;
+		border:1px solid var(--bs-orange);
 	}
 	.swiper-button-next,
 	.swiper-button-prev {
-		top: 50% !important;
-		transform: translateY(-50%);
+		top: 70% !important;
+		transform: translateY(-70%);
 	}
 	.active{
 		--bs-nav-pills-link-active-bg:var(--bs-orange);
@@ -62,9 +63,9 @@
 	  color: #666;
 	}
 	
-	.room-swiper-${room.roomNo} {
+	.room-swiper{
 	  width: 100%;
-	  height: 180px; /* 원하는 높이 조절 */
+	  height: 150px; /* 원하는 높이 조절 */
 	  margin-top: 8px;
 	}
 	
@@ -213,7 +214,7 @@
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
+        <a href="<c:url value="/biz/biz_mypage_account" />" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
           <i class="bi bi-person-circle me-2"></i>
           계정 설정
         </a>
@@ -227,7 +228,7 @@
     </ul>
     <hr>
     <div class="dropdown">
-      <a href="#" class="nav-link text-white">
+      <a href="<c:url value='/'/>" class="nav-link text-white">
           <i class="bi bi-house-fill"></i><!--홈으로 이동하는 페이지로 링크 걸어야 합니다-->
           홈으로
         </a>
@@ -313,7 +314,7 @@
         </form>
         </div><!--숙소 정보 글로 수정하기-->
         
-        <div class="mx-3" style="width:400px; height:600px; overflow: auto;">
+        <div class="mx-3" style="width:600px; height:400px;">
     <h3 class="fw-bold">등록된 객실 관리</h3>
 
 	<div class="selectRoom">
@@ -339,7 +340,7 @@
               <c:forEach var="photo" items="${room.photoList}">
                 <div class="swiper-slide">
                   <c:url var="photoUrl" value="/resources/img/room/${photo.savedName}" />
-                  <img src="${photoUrl}" alt="room image" style="width:100%; height:auto; object-fit:cover;" />
+                  <img src="${photoUrl}" alt="room image" style="width:100%; object-fit:cover;" />
                 </div>
               </c:forEach>
             </div>
@@ -360,8 +361,8 @@
         <input type="hidden" name="roomNo" value="${room.roomNo}" />
 
         <!-- 삭제 버튼 -->
-        <div class="room-actions mt-2">
-          <button type="submit" class="btn btn-danger btn-sm"
+        <div class="room-actions">
+          <button type="submit" class="btn btn-primary"
           	onclick="deleteRoomFn()">삭제하기</button>
         </div>
 
@@ -372,14 +373,13 @@
 	</div>
     </div>
   
-	</div>
-  </div><!--내용 끝-->
+	</div><!--내용 끝-->
 </section>
 
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
-		<c:forEach var="room" items="${roomList}">
-			new Swiper('.swiper-${room.roomNo}', {
+		<c:forEach var="room" items="${rooms}">
+			new Swiper('.room-swiper-${room.roomNo}', {
 				// Optional parameters
 				loop: true,
 				slidesPerView:3,
@@ -387,14 +387,14 @@
 			
 				// Navigation arrows
 				navigation: {
-					nextEl: '.mySwiper-${room.roomNo} .swiper-button-next',
-					prevEl: '.mySwiper-${room.roomNo} .swiper-button-prev',
+					nextEl: '.room-swiper-${room.roomNo} .swiper-button-next',
+					prevEl: '.room-swiper-${room.roomNo} .swiper-button-prev',
 				}
 			});
 		</c:forEach>
-	});
 	
-	document.addEventListener('DOMContentLoaded', function () {
+	
+	
 	    let imageUpload = document.getElementById('imageUpload');
 	    let previewContainer = document.getElementById('imagePreviewContainer');
 

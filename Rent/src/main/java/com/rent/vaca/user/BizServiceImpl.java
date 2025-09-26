@@ -78,6 +78,17 @@ public class BizServiceImpl implements BizService{
 		return repository.selectBizCntByEmail(email);
 	}
 
+	// 사업자 정보 수정
+	@Override
+	public int updateBizInfo(BizVO vo) {
+		return repository.updateBizInfo(vo);		
+	}
+	
+	// 사업자등록증 사진 삭제
+	public void updateCertificateDeleted(int id) {
+	    repository.updateCertificateDeleted(id);
+	}
+	
 	// 숙소 등록
 	@Override
 	public void insertAccoOne(AccoVO vo) {
@@ -186,12 +197,6 @@ public class BizServiceImpl implements BizService{
 
 	@Override
 	public void updateReservStatus(ReservVO vo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void updateBizInfo(BizVO vo) {
 		// TODO Auto-generated method stub
 		
 	}

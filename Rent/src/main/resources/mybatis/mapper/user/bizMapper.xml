@@ -25,14 +25,29 @@
 
 	<!-- 회원가입 -->
 	<insert id="insertBizOne" parameterType="biz">
-		insert into biztb(email, pw, phone, name, owner, certificate_no)
-		values(#{email}, #{pw}, #{phone}, #{name}, #{owner}, #{certificateNo})
+		insert into biztb(email, pw, phone, name, owner, certificate_no, certificate_original_name, certificate_saved_name)
+		values(#{email}, #{pw}, #{phone}, #{name}, #{owner}, #{certificateNo}, #{certificateOriginalName}, #{certificateSavedName})
 	</insert>
 	
 	<!-- 로그인 -->
 	<select id="selectBizOne" parameterType="biz" resultMap="bizResultMap">
 		select * from biztb where email = #{email}
 	</select>
+	
+	<!-- 사업자 정보 수정 -->
+	<update id="updateBizInfo" parameterType="biz">
+		update biztb set owner = #{owner}, name = #{name},
+        phone = #{phone}, certificate_no = #{certificateNo},
+        certificate_saved_name = #{certificateSavedName},
+        certificate_original_name = #{certificateOriginalName}
+    where id = #{id}
+	</update>
+	
+	<!-- 사업자등록증 사진 삭제 -->
+	<update id="updateCertificateDeleted" parameterType="int">
+		update biztb set certificate_saved_name = null,
+		certificate_original_name = null where id = #{id}
+	</update>
 	
 	<select id="selectBizCntByEmail" resultType="int" parameterType="string">
 		select count(*) from biztb where email = #{email}

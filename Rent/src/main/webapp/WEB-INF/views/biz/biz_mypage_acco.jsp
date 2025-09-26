@@ -246,7 +246,7 @@
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
+        <a href="<c:url value="/biz/biz_mypage_account" />" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
           <i class="bi bi-person-circle me-2"></i>
           계정 설정
         </a>
@@ -260,7 +260,7 @@
     </ul>
     <hr>
     <div class="dropdown">
-      <a href="#" class="nav-link text-white">
+      <a href="<c:url value='/'/>" class="nav-link text-white">
           <i class="bi bi-house-fill"></i><!--홈으로 이동하는 페이지로 링크 걸어야 합니다-->
           홈으로
         </a>

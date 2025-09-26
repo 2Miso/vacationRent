@@ -37,6 +37,16 @@ public class BizRepository {
 		return template.selectOne("bizMapper.selectBizCntByEmail", email);
 	}
 	
+	// 사업자 정보 수정
+	public int updateBizInfo(BizVO vo) {
+		return template.update("bizMapper.updateBizInfo", vo);
+	}
+	
+	// 사업자등록증 사진 삭제
+	public int updateCertificateDeleted(int id) {
+		return template.delete("bizMapper.updateCertificateDeleted", id);
+	}
+	
 	// 숙소 1건 등록
 	public Integer insertAccoOne(AccoVO vo) {
 		return template.insert("accoMapper.insertAccoOne", vo);

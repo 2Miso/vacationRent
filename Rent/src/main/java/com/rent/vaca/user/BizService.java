@@ -17,72 +17,75 @@ public interface BizService {
 	// 비즈니스 회원
 	
 	// 회원가입
-	Integer insertBizOne(BizVO vo);
+	public Integer insertBizOne(BizVO vo);
 	
 	// 로그인
-	BizVO selectBizOne(BizVO vo);
+	public BizVO selectBizOne(BizVO vo);
 	
 	// 이메일 중복체크
-	Integer selectBizCntByEmail(String email);
+	public Integer selectBizCntByEmail(String email);
+	
+	// 사업자 정보 수정
+	public int updateBizInfo(BizVO vo);
+	
+	// 사업자등록증 사진 삭제
+	public void updateCertificateDeleted(int bizId);
 	
 	// 숙소 정보 등록
-	void insertAccoOne(AccoVO vo);
+	public void insertAccoOne(AccoVO vo);
 	
 	// 숙소 사진 등록
-	void insertAccoPhoto(AccoPhotoVO vo);
+	public void insertAccoPhoto(AccoPhotoVO vo);
 	
 	// 숙소 정보 수정
-	void updateAccoInfo(AccoVO vo);
+	public void updateAccoInfo(AccoVO vo);
 	
 	// 등록된 숙소 조회
-	int existsAccoByBizIdAndDelyn(int bizId, String delyn);
+	public int existsAccoByBizIdAndDelyn(int bizId, String delyn);
 	
 	// 숙소 1건 조회
-	AccoVO selectBizAccoOne(int bizId);
+	public AccoVO selectBizAccoOne(int bizId);
 	
 	// 숙소 삭제(delyn만 변경)
-	void deleteAccoDelyn(int accoNo);
+	public void deleteAccoDelyn(int accoNo);
 	
 	// 숙소 사진 삭제
-	int deleteAccoPhotoByAccoNo(int accoNo);
+	public int deleteAccoPhotoByAccoNo(int accoNo);
 	
 	// 객실 1건 등록
-	void insertRoomOne(RoomVO vo);
+	public void insertRoomOne(RoomVO vo);
 	
 	// 객실 사진 등록
-	void insertRoomPhoto(AccoPhotoVO vo);
+	public void insertRoomPhoto(AccoPhotoVO vo);
 	
 	// 객실 1건 삭제
-	void deleteRoomByAccoNo(int accoNo, int roomNo);
+	public void deleteRoomByAccoNo(int accoNo, int roomNo);
 	
 	// 객실 정보 수정
-	void updateRoom(RoomVO vo);
+	public void updateRoom(RoomVO vo);
 	
 	// 숙소내 객실 전체 조회
-	List<RoomVO> selectRoomsByAccoNo(int accoNo);
+	public List<RoomVO> selectRoomsByAccoNo(int accoNo);
 	
 	// 객실 한건 조회
-	RoomVO selectAccoRoomOne(int accoNo);
+	public RoomVO selectAccoRoomOne(int accoNo);
 	
 	// 예약자 리스트 조회
-	List<ReservVO> reservList(BizVO vo);
+	public List<ReservVO> reservList(BizVO vo);
 	
 	// 예약자 상태 변경
-	void updateReservStatus(ReservVO vo);
-	
-	//  회원정보 수정
-	void updateBizInfo(BizVO vo);
+	public void updateReservStatus(ReservVO vo);
 	
 	// 관리자에게 문의하기
-	void adminQna(QuestionAttachVO vo);
+	public void adminQna(QuestionAttachVO vo);
 	
 	// 내 문의내역 조회
-	List<NoticeVO> myQnaList(NoticeVO vo);
+	public List<NoticeVO> myQnaList(NoticeVO vo);
 	
 	// 내 숙소 등록 사진 조회
-	List<AccoPhotoVO> getPhotosByBizId(int accoNo);
+	public List<AccoPhotoVO> getPhotosByBizId(int accoNo);
 	
 	// 숙소 내 객실 사진 조회
-	List<AccoPhotoVO> getPhotosByBizIdAndRoomNo(int accoNo, int roomNo);
+	public List<AccoPhotoVO> getPhotosByBizIdAndRoomNo(int accoNo, int roomNo);
 	
 }

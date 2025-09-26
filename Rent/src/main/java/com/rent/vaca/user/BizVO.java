@@ -3,7 +3,7 @@ package com.rent.vaca.user;
 import javax.validation.constraints.*;
 
 public class BizVO{
-	private int id;
+	private Integer id;
 	
 	@NotBlank(message = "이메일은 필수입니다.")
 	@Email(message = "올바른 이메일 형식이 아닙니다.")
@@ -37,10 +37,10 @@ public class BizVO{
 	private String banyn;
 	private String banReason;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getEmail() {

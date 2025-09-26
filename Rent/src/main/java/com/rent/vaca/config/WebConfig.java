@@ -14,6 +14,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         	.addResourceLocations("file:///C:/Users/MYCOM/git/team/Rent/src/main/webapp/resources/img/acco/");
         registry.addResourceHandler("/resources/img/room/**")
         	.addResourceLocations("file:///C:/Users/MYCOM/git/team/Rent/src/main/webapp/resources/img/room/");
+        registry.addResourceHandler("/resources/img/biz/**")
+        .addResourceLocations("file:///C:/Users/MYCOM/git/team/Rent/src/main/webapp/resources/img/biz/");
 
     }
 }

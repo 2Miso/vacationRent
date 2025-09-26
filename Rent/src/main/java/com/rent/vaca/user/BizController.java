@@ -91,7 +91,7 @@ public class BizController {
 	        return "join/biz_join_form";
 	    }
 		
-		String uploadDir = "D:/Rent/rent_upload/biz/";
+		String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/biz");
 		
 		File dir = new File(uploadDir);
 		if (!dir.exists()) {

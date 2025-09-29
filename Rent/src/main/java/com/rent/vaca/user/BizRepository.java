@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -30,6 +31,20 @@ public class BizRepository {
 	// 로그인
 	public BizVO selectBizOne(BizVO vo) {
 		return template.selectOne("bizMapper.selectBizOne", vo);
+	}
+	
+	// 비밀번호 변경 처리 확인용 email확인
+	public BizVO selectBizByEmail(String email) {
+		return template.selectOne("bizMapper.selectBizByEmail", email);
+	}
+	
+	// 비밀번호 변경
+	public int updateBizPw(String email, String pw) {
+		Map<String, Object> param = new HashMap<>();
+		param.put("email", email);
+		param.put("pw", pw);
+		
+		return template.update("bizMapper.updateBizPw", param);
 	}
 	
 	// 이메일 중복확인

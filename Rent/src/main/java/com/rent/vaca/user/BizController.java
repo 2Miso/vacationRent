@@ -159,6 +159,37 @@ public class BizController {
 		return "redirect:/";
 		
 	}
+	// 비밀번호 변경 페이지
+	@GetMapping("biz/biz_pw_change_form")
+	public String bizPwChange(HttpSession session) {
+		
+		BizVO biz = (BizVO) session.getAttribute("biz");
+		
+		if(biz == null) {
+			return "redirect:/login/biz_login";
+		}
+		
+		return "/biz/biz_pw_change_form";
+	}
+	// 비밀번호 변경 처리
+	@PostMapping("/biz/biz_pw_change")
+	public String bizPwChange(
+			BizPwChangeVO vo, HttpSession session) {
+		
+		BizVO biz = (BizVO) session.getAttribute("biz");
+		
+		if(biz == null) {
+			return "redirect:/login/biz_login";
+		}
+		
+		boolean success = bizService.bizPwChange(biz.getEmail(), vo);
+		
+		if(success) {
+			return "redirect:/biz/biz_mypage_account?pwChange=success";
+		}else {
+			return "redirect:/biz/biz_mypage_account?pwChange=fail";
+		}
+	}
 	
 	// 숙소 등록 페이지
 	@RequestMapping(value = "/biz/biz_mypage_acco", method = RequestMethod.GET)

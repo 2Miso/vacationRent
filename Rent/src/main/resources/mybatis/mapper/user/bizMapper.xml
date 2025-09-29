@@ -34,6 +34,15 @@
 		select * from biztb where email = #{email}
 	</select>
 	
+	<!-- 비밀번호 변경 시 email 확인 -->
+	<select id="selectBizByEmail" parameterType="String" resultType="biz">
+		select * from biztb where email = #{email}
+	</select>
+	
+	<update id="updateBizPw" parameterType="map">
+		update biztb set pw = #{pw} where email = #{email}
+	</update>
+	
 	<!-- 사업자 정보 수정 -->
 	<update id="updateBizInfo" parameterType="biz">
 		update biztb set owner = #{owner}, name = #{name},

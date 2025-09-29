@@ -29,20 +29,26 @@
     </style>
     <script>
       function pwchangeFn(){
-      if($("input[name=pw]").val() == ""){//비밀번호유효성검사
-        $("#pwspan").text("비밀번호를 입력해 주세요").css("color","red");
-      }else{
-        $("#pwspan").text(" ").css("color","red");
-      }
-
-      if($("input[name=pwcheckspan]").val() == ""){//비밀번호유효성검사
-        $("#pwcheckspan").text("비밀번호를 입력해 주세요").css("color","red");
-      }else if($("input[name=pw]").val() != $("input[name=pwcheck]").val()){
-        $("#pwcheckspan").text("비밀번호가 일치하지 않습니다").css("color","red");
-      }else{
-        $("#pwcheckspan").text(" ").css("color","red");
-      }
-     }
+    	  
+		// 비밀번호 유효성검사
+		if($("input[name=nowPw]").val() == ""){
+			$("#pwspan").text("비밀번호를 입력해 주세요").css("color","red");
+			return false;
+		}else{
+			$("#nowPwSpan").text(" ").css("color","red");
+		}
+		
+		// 비밀번호 유효성검사
+		if($("input[name=editPw]").val() == ""){
+			$("#editPwSpan").text("비밀번호를 입력해 주세요").css("color","red");
+			return false;
+		}else if($("input[name=editPw]").val() != $("input[name=editPwCheck]").val()){
+			$("#pwcheckspan").text("비밀번호가 일치하지 않습니다").css("color","red");
+			return false;
+		}else{
+			$("#pwcheckspan").text(" ").css("color","red");
+		}
+		}
     </script>
 </head>
 
@@ -50,23 +56,40 @@
 <section>
   <div class="login_form">
     <h1 class="fw-bolder"> 비밀번호 변경 </h1>
-
+	<form action="<c:url value='/biz/biz_mypage_account' />" method="post">
+    
     <div class="form-floating">
-      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="pw">
-      <label for="floatingInput">변경할 비밀번호 입력</label>
-      <span id="pwspan" style="display: inline-block;"></span>
+      <input type="password" class="form-control" name="nowPw">
+      <label for="floatingInput">기존 비밀번호</label>
+      <span id="nowPwSpan" style="display: inline-block;"></span>
+    </div>
+    
+    <div class="form-floating">
+      <input type="password" class="form-control" name="editPw">
+      <label for="floatingInput">변경할 비밀번호</label>
+      <span id="editPwSpan" style="display: inline-block;"></span>
     </div>
 
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingInput" placeholder="name@example.com" name="pwcheckspan">
+      <input type="password" class="form-control" name="editPwCheck">
       <label for="floatingInput">비밀번호 확인</label>
       <span id="pwcheckspan" style="display: inline-block;"></span>
     </div>
 
     <div class="d-grid gap-2"><!--버튼-->
-      <button link="#" class="btn btn-primary " type="button" style="height:50px;" onclick="pwchangeFn()">다음</button><!--링크를 걸어야 합니다-->
+      <button class="btn btn-primary " type="submit" style="height:50px;" onclick="return pwchangeFn()">다음</button><!--링크를 걸어야 합니다-->
     </div>
-
+	</form>
+	<c:if test="${param.pwChange == 'success'}">
+	    <div class="alert alert-success">
+	        비밀번호가 성공적으로 변경되었습니다!
+	    </div>
+	</c:if>
+	<c:if test="${param.pwChange == 'fail'}">
+	    <div class="alert alert-danger">
+	        비밀번호 변경에 실패했습니다. 다시 시도해주세요.
+	    </div>
+	</c:if>
   </div>
 </section>
 </body>

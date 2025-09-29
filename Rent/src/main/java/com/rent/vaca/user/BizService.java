@@ -22,6 +22,9 @@ public interface BizService {
 	// 로그인
 	public BizVO selectBizOne(BizVO vo);
 	
+	// 비밀번호 변경 처리
+	public boolean bizPwChange(String email, BizPwChangeVO vo);
+	
 	// 이메일 중복체크
 	public Integer selectBizCntByEmail(String email);
 	

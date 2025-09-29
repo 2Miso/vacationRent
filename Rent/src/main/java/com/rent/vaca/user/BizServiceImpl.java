@@ -70,6 +70,33 @@ public class BizServiceImpl implements BizService{
 		}
 		
 	}
+	
+	// 비밀번호 변경 처리
+	@Override
+	public boolean bizPwChange(String email, BizPwChangeVO vo) {
+		
+		BizVO biz = repository.selectBizByEmail(email);
+
+	    if (biz == null) {
+	    	return false;
+	    }
+
+	    // 현재 비밀번호 확인
+	    if (!passwordEncoder.matches(vo.getCurrentPw(), biz.getPw())) {
+	        return false;
+	    }
+
+	    // 새 비밀번호 = 확인 비밀번호 검증
+	    if (!vo.getNewPw().equals(vo.getConfirmPw())) {
+	        return false;
+	    }
+
+	    // 새 비밀번호 암호화 후 업데이트
+	    String encPw = passwordEncoder.encode(vo.getNewPw());
+	    repository.updateBizPw(email, encPw);
+
+	    return true;
+	}
 
 	// 이메일 중복 확인
 	@Override

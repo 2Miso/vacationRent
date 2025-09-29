@@ -440,7 +440,7 @@
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
 		<c:forEach var="acco" items="${accoList}">
-			new Swiper('.swiper-${acco.accoNo}', {
+			new Swiper('.mySwiper', {
 				// Optional parameters
 				loop: true,
 				slidesPerView:3,
@@ -448,8 +448,8 @@
 			
 				// Navigation arrows
 				navigation: {
-					nextEl: '.mySwiper-${acco.accoNo} .swiper-button-next',
-					prevEl: '.mySwiper-${acco.accoNo} .swiper-button-prev',
+					nextEl: '.mySwiper .swiper-button-next',
+					prevEl: '.mySwiper .swiper-button-prev',
 				}
 			});
 		</c:forEach>

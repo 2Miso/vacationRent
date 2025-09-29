@@ -93,7 +93,7 @@ public class BizServiceImpl implements BizService{
 
 	    // 새 비밀번호 암호화 후 업데이트
 	    String encPw = passwordEncoder.encode(vo.getNewPw());
-	    repository.updateBizPw(email, encPw);
+	    repository.bizPwChange(email, encPw);
 
 	    return true;
 	}

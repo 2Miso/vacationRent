@@ -148,9 +148,6 @@ public class PaymentController {
 	    
 		ReservVO vo = (ReservVO) session.getAttribute("reservVO");
 	    AccoHasFacilVO vo1 = (AccoHasFacilVO) session.getAttribute("accoVO");
-		
-		// 카카오페이 성공 후 처리 로직
-	    System.out.println("kakaoPaySuccess pg_token : " + pg_token);
 	    
 	    // 결제 승인 요청 (pg_token 포함)
 	    KakaoPayApprovalVO approveResponse = kakaoPayService.kakaoPayInfo(pg_token, vo, vo1);

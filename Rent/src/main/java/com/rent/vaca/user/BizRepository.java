@@ -39,12 +39,12 @@ public class BizRepository {
 	}
 	
 	// 비밀번호 변경
-	public int updateBizPw(String email, String pw) {
+	public int bizPwChange(String email, String pw) {
 		Map<String, Object> param = new HashMap<>();
 		param.put("email", email);
 		param.put("pw", pw);
 		
-		return template.update("bizMapper.updateBizPw", param);
+		return template.update("bizMapper.bizPwChange", param);
 	}
 	
 	// 이메일 중복확인

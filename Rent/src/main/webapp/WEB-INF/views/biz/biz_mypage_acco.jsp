@@ -143,7 +143,7 @@
     		// 사진 삭제 여부 확인을 위한 변수 활용
     	    let isPhotoDeleted = photoDeleted;
 
-    	    let imageInput = document.getElementById("imageUpload");
+    	    let imageInput = document.getElementById("editFile");
     	    let files = imageInput.files;
     		let hasNewPhotos = files.length > 0;
     		let existingPhotoCount = parseInt(document.getElementById("existingPhotoCount").value);
@@ -170,7 +170,7 @@
 		    }
     	    // 사진 삭제된 경우 반드시 새 파일 첨부하도록 체크
     	    if (isPhotoDeleted) {
-    	        let imageInput = document.getElementById("imageUpload");
+    	        let imageInput = document.getElementById("editFile");
     	        let files = imageInput.files;
 
     	        if (files.length === 0) {
@@ -192,11 +192,40 @@
       }
       
       function deleteAccoFn(){
-    	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return;  	  
+    	  let hasEmpty = false;
+    	  $("#editType, #editName, #editAddr, #editPhone, #editInfo, #editBizHour, #editCheckin, #editCheckout").each(function () {
+    		  if (!$(this).val() || $(this).val().trim() === "") {
+    	            hasEmpty = true;
+    	            return false; // 하나라도 비어있으면 루프 종료
+    	        }
+    	  });
+    	  
+    	  if (hasEmpty) {
+    	        alert("숙소정보가 없습니다."); // 경고 메시지
+    	        return false; // 삭제 막기
+    	  }
+    	  
+    	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return false;
+    	  
+    	  return true;
       }
       
       function deleteAccoPhotoFn(){
-    	  if (!confirm("정말 사진을 삭제하시겠습니까?")) return;
+    	  
+    	  let hasEmpty = false;
+    	  $("#editType, #editName, #editAddr, #editPhone, #editInfo, #editBizHour, #editCheckin, #editCheckout").each(function () {
+    		  if (!$(this).val() || $(this).val().trim() === "") {
+    	            hasEmpty = true;
+    	            return false; // 하나라도 비어있으면 루프 종료
+    	        }
+    	  });
+    	  
+    	  if (hasEmpty) {
+	  	        alert("숙소정보가 없습니다."); // 경고 메시지
+	  	        return false; // 삭제 막기
+	  	  }
+	  	  
+	  	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return false;
 
     	  $.ajax({
     	    url: "<c:url value='/biz/delete_acco_photo' />",
@@ -211,6 +240,7 @@
     	      alert("사진 삭제에 실패했습니다.");
     	    }
     	  });
+	  	  return true;
       }
       
     </script>
@@ -341,7 +371,10 @@
            	<input type="hidden" name="bizId" value="${biz.id}" />
            	<input type="hidden" name="accoNo" value="${acco.accoNo}" />
           <div>숙소 타입</div>
-            <select class="form-select" id="editType" name="type" data-original="${acco.type}">
+            <select class="form-select" id="editType" name="type"
+            data-original="${acco.type}"
+            <c:if test="${empty acco.type}">disabled</c:if>>
+			  <option value="">-- 숙소 타입 선택 --</option>
 			  <option value="1" <c:if test="${acco.type == 1}">selected</c:if>>호텔</option>
 			  <option value="2" <c:if test="${acco.type == 2}">selected</c:if>>모텔</option>
 			  <option value="3" <c:if test="${acco.type == 3}">selected</c:if>>리조트</option>
@@ -350,42 +383,42 @@
             <span></span>
           
           <div>숙소 이름</div>
-            <input type="text" class="form-control" id="editName" value="${acco.name}" data-original="${acco.name}" name="name">
+            <input type="text" class="form-control" id="editName" value="${empty acco ? '' : acco.name}" data-original="${empty acco ? '' : acco.name}" name="name">
             <span></span>
           
           <div>숙소 주소</div>
-            <input type="text" class="form-control" id="editAddr" value="${acco.addr}" data-original="${acco.addr}" name="addr">
+            <input type="text" class="form-control" id="editAddr" value="${empty acco ? '' : acco.addr}" data-original="${empty acco ? '' : acco.addr}" name="addr">
             <span></span>
           
           <div>숙소 전화번호</div>
-            <input type="text" class="form-control" id="editPhone" value="${acco.phone}" data-original="${acco.phone}" name="phone">
+            <input type="text" class="form-control" id="editPhone" value="${empty acco ? '' : acco.phone}" data-original="${empty acco ? '' : acco.phone}" name="phone">
             <span></span>
           
           <div>숙소 정보</div>
-            <input type="text" class="form-control" id="editInfo" value="${acco.description}" data-original="${acco.description}" name="description">
+            <input type="text" class="form-control" id="editInfo" value="${empty acco ? '' : acco.description}" data-original="${empty acco ? '' : acco.description}" name="description">
             <span></span>
           
           <div>상담가능시간</div>
-            <input type="text" class="form-control" id="editBizHour" value="${acco.bizHour}" data-original="${acco.bizHour}" name="bizHour">
+            <input type="text" class="form-control" id="editBizHour" value="${empty acco ? '' : acco.bizHour}" data-original="${empty acco ? '' : acco.bizHour}" name="bizHour">
             <span></span>
 
           <div>운영 시간</div>
           <div class="d-flex">
               <div>
-                <input type="text" class="form-control" id="editCheckin" value="${acco.checkin}" data-original="${acco.checkin}" name="checkin">
+                <input type="text" class="form-control" id="editCheckin" value="${empty acco ? '' : acco.checkin}" data-original="${empty acco ? '' : acco.checkin}" name="checkin">
                 <span></span>
               </div>
 
            
               <div>
-                <input type="text" class="form-control" id="editCheckout" value="${acco.checkout}" data-original="${acco.checkout}" name="checkout">
+                <input type="text" class="form-control" id="editCheckout" value="${empty acco ? '' : acco.checkout}" data-original="${empty acco ? '' : acco.checkout}" name="checkout">
                 <span></span>
               </div>
           </div>
           
           <div>숙소 사진 첨부(기존 사진 삭제 후 첨부해주세요.)</div>
           <div>
-	            <input id="imageUpload" class="form-control" type="file" multiple accept="image/*" name="image">
+	            <input id="editFile" class="form-control" type="file" multiple accept="image/*" name="image">
 	            <span></span>
           </div>
           	<input type="hidden" id="existingPhotoCount" value="${fn:length(accoList)}">
@@ -394,7 +427,7 @@
         
         <form action="<c:url value='/biz/delete_acco' />" style="position:relative; bottom:37.5px; left:100px;" method="post">
         	<input type="hidden" name="accoNo" value="${acco.accoNo}" />
-        	<button class="btn btn-primary btn-delete-acco" type="submit" onclick="deleteAccoFn()">삭제하기</button> 
+        	<button class="btn btn-primary btn-delete-acco" type="submit" onclick="return deleteAccoFn()">삭제하기</button> 
         </form>
         
         <form action="<c:url value="/biz/delete_acco_photo" />" method="post">
@@ -426,7 +459,7 @@
 		              <div class="swiper-button-next"></div>
 		              <div class="swiper-button-prev"></div>
 		          </div>
-	          <button class="btn btn-primary " type="submit" onclick="deleteAccoPhotoFn()">사진삭제</button> 
+	          <button class="btn btn-primary " type="submit" onclick="return deleteAccoPhotoFn()">사진삭제</button> 
           </div>
         </form>
         <c:if test="${param.success == 'edit'}">
@@ -439,6 +472,22 @@
 </section>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
+		
+		const elements = document.querySelectorAll('#editType, #editName, #editAddr, #editPhone, #editInfo, #editBizHour, #editCheckin, #editCheckout');
+	    let isAnyEnabled = false;
+
+	    elements.forEach(el => {
+	        if (!el.disabled) {
+	            isAnyEnabled = true;
+	        }
+	    });
+
+	    const editFileInput = document.getElementById('editFile');
+	    if (editFileInput) {
+	        // 다른 input이 활성화되어 있거나 사진 삭제된 경우 첨부파일 input 활성화
+	        editFileInput.disabled = !(isAnyEnabled || photoDeleted);
+	    }
+		
 		<c:forEach var="acco" items="${accoList}">
 			new Swiper('.mySwiper', {
 				// Optional parameters

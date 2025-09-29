@@ -46,9 +46,9 @@ public class KakaoPayService {
         params.add("quantity", "1");
         params.add("total_amount", String.valueOf(vo1.getPrice()));
         params.add("tax_free_amount", "0");
-        params.add("approval_url", "http://localhost:8080/Rent/payment/payment_ok");
-        params.add("cancel_url", "http://localhost:8080/Rent/payment/payment_fail");
-        params.add("fail_url", "http://localhost:8080/Rent/payment/payment_");
+        params.add("approval_url", "http://jjezen.cafe24.com/Rent/payment/payment_ok");
+        params.add("cancel_url", "http://jjezen.cafe24.com/Rent/payment/payment_fail");
+        params.add("fail_url", "http://jjezen.cafe24.com/Rent/payment/payment_");
         
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);

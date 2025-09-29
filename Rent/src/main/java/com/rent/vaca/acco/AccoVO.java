@@ -67,7 +67,7 @@ public class AccoVO {
 	}
 
 	public String getName() {
-		return name;
+		return name == null ? "" : name;
 	}
 
 	public void setName(String name) {
@@ -75,7 +75,7 @@ public class AccoVO {
 	}
 
 	public String getAddr() {
-		return addr;
+		return addr == null ? "" : addr;
 	}
 
 	public void setAddr(String addr) {
@@ -83,7 +83,7 @@ public class AccoVO {
 	}
 
 	public String getPhone() {
-		return phone;
+		return phone == null ? "" : phone;
 	}
 
 	public void setPhone(String phone) {
@@ -91,7 +91,7 @@ public class AccoVO {
 	}
 
 	public String getDescription() {
-		return description;
+		return description == null ? "" : description;
 	}
 
 	public void setDescription(String description) {
@@ -99,7 +99,7 @@ public class AccoVO {
 	}
 
 	public String getBizHour() {
-		return bizHour;
+		return bizHour == null ? "" : bizHour;
 	}
 
 	public void setBizHour(String bizHour) {
@@ -115,7 +115,10 @@ public class AccoVO {
 	}
 
 	public String getCheckin() {
-		return checkin.substring(0, 5);
+		if (checkin == null || checkin.length() < 5) {
+	        return "";
+	    }
+	    return checkin.substring(0, 5);
 	}
 
 	public void setCheckin(String checkin) {
@@ -123,7 +126,10 @@ public class AccoVO {
 	}
 
 	public String getCheckout() {
-		return checkout.substring(0, 5);
+		if (checkout == null || checkout.length() < 5) {
+	        return "";
+	    }
+	    return checkout.substring(0, 5);
 	}
 
 	public void setCheckout(String checkout) {

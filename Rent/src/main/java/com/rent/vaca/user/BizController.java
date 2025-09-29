@@ -53,7 +53,7 @@ public class BizController {
 	// 회원가입 약관동의 화면
 	@RequestMapping(value = "/join/biz_join_terms", method = RequestMethod.GET)
 	public String bizSignUpTerms() {
-		return "join/biz_join_terms";
+		return "/join/biz_join_terms";
 	}
 	
 	// 회원가입 화면
@@ -70,7 +70,7 @@ public class BizController {
 			return "redirect:/join/biz_join_terms?error=missing";
 		}
 		
-		return "join/biz_join_form";
+		return "/join/biz_join_form";
 		
 	}
 	
@@ -83,12 +83,12 @@ public class BizController {
 		
 		if(result.hasErrors()) {
 			// 유효성 검사 실패 시 회원가입 폼으로 리턴
-			return "join/biz_join_form";
+			return "/join/biz_join_form";
 		}
 		
 		if (certificateFile == null || certificateFile.isEmpty()) {
 	        model.addAttribute("fileError", "사업자등록증 파일을 첨부해주세요.");
-	        return "join/biz_join_form";
+	        return "/join/biz_join_form";
 	    }
 		
 		String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/biz");
@@ -121,10 +121,10 @@ public class BizController {
 		    bizService.insertBizOne(vo); // 이메일 중복 등 예외 발생 가능
 		} catch (IllegalArgumentException e) {
 		    model.addAttribute("emailError", e.getMessage());
-		return "join/biz_join_form"; // 다시 가입 폼으로
+		return "/join/biz_join_form"; // 다시 가입 폼으로
 		}
 		
-		return "join/biz_join_finished";
+		return "/join/biz_join_finished";
 	}
 	
 	// 이메일 중복검사
@@ -138,7 +138,7 @@ public class BizController {
 	// 로그인 페이지
 	@RequestMapping(value="/login/biz_login", method = RequestMethod.GET) 
 	public String login() {
-		return "login/biz_login";
+		return "/login/biz_login";
 	}
 	
 	// 로그인 처리
@@ -222,7 +222,7 @@ public class BizController {
 	    model.addAttribute("biz", biz);
 	    model.addAttribute("disableInput", disableInput);
 	   
-		return "biz/biz_mypage_acco";
+		return "/biz/biz_mypage_acco";
 	}
 	
 	// 숙소 등록 처리
@@ -386,9 +386,13 @@ public class BizController {
 	
 	// 숙소 삭제 처리
 	@PostMapping("/biz/delete_acco")
-	public String accoDelete(@RequestParam("accoNo") int accoNo) {
+	public String accoDelete(Model model,
+			@RequestParam("accoNo") int accoNo) {
 		bizService.deleteAccoDelyn(accoNo);
-		return "redirect:/biz/biz_mypage_acco";
+		
+		model.addAttribute("acco", new AccoVO());
+		
+		return "/biz/biz_mypage_acco";
 	}
 	
 	// 숙소 사진 등록 처리
@@ -537,7 +541,7 @@ public class BizController {
 	// 객실 등록 처리 페이지
 	@RequestMapping(value = "/biz/biz_mypage_room", method = RequestMethod.POST)
 	public String addRoom(RoomVO vo, Model model, HttpSession session,
-			@RequestParam("image[]") List<MultipartFile> imageFiles,
+			@RequestParam("image") List<MultipartFile> imageFiles,
 			HttpServletRequest request
 			) throws Exception {
 

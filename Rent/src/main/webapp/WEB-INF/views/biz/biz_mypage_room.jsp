@@ -301,7 +301,7 @@
           
           <div>
             <h5>객실 이미지 등록</h5>
-            <input id="imageUpload" class="form-control" type="file" multiple accept="image/*" name="image[]">
+            <input id="imageUpload" class="form-control" type="file" multiple accept="image/*" name="image">
             <span style="display: inline-block;"></span>
           </div>
           
@@ -339,7 +339,7 @@
             <div class="swiper-wrapper">
               <c:forEach var="photo" items="${room.photoList}">
                 <div class="swiper-slide">
-                  <c:url var="photoUrl" value="/resources/img/room/${photo.savedName}" />
+                  <c:url var="photoUrl" value="/resources/img/acco/${photo.savedName}" />
                   <img src="${photoUrl}" alt="room image" style="width:100%; object-fit:cover;" />
                 </div>
               </c:forEach>

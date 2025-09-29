@@ -174,20 +174,20 @@ public class UserController {
 				UserVO user = userService.kakaologin(kakaoid);
 				if(user != null) {
 					session.setAttribute("user", user); 
-					return "redirect:/main/main";
+					return "redirect:/";
 					
 				}else {
 					userService.kakaojoin(kakaoid);
 					user = userService.kakaologin(kakaoid);
 					session.setAttribute("user", user); 
-					return "redirect:/main/main";
+					return "redirect:/";
 				}
 				
 			}catch(Exception e) {
 				userService.kakaojoin(access_Token);
 				UserVO user = userService.kakaologin(access_Token);
 				session.setAttribute("user", user); 
-				return "redirect:/main/main";
+				return "redirect:/";
 			}finally {
 	
 			}
@@ -250,16 +250,16 @@ public class UserController {
 				UserVO user = userService.naverlogin(naverid);
 				if(user != null) {
 					session.setAttribute("user", user); 
-					return "redirect:/main/main";
+					return "redirect:/";
 				}else {
 					userService.naverjoin(naverid);
 					user = userService.naverlogin(naverid);
 					session.setAttribute("user", user); 
-					return "redirect:/main/main";
+					return "redirect:/";
 				}
 				
 			}catch(Exception e) {
-				return "redirect:/main/main";
+				return "redirect:/";
 			}finally {
 	
 			}
@@ -397,14 +397,14 @@ public class UserController {
 		}
 		//로그인 성공
 		session.setAttribute("user", user); 
-		return "redirect:/main/main";
+		return "redirect:/";
 	}
 	
 	//로그아웃 구현
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session){
 		session.invalidate();
-		return "redirect:/main/main";
+		return "redirect:/";
 	}
 	
 	

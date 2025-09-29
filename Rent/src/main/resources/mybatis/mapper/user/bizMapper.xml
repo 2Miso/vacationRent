@@ -39,7 +39,7 @@
 		select * from biztb where email = #{email}
 	</select>
 	
-	<update id="updateBizPw" parameterType="map">
+	<update id="bizPwChange" parameterType="map">
 		update biztb set pw = #{pw} where email = #{email}
 	</update>
 	

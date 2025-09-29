@@ -179,10 +179,8 @@
         <div class="mx-3" style="width:400px; height:600px; overflow: auto;"><!--이미지 업로드 or 확인-->
           <h3 class="fw-bold">비밀번호 변경</h3>
           <div class="d-grid gap-2">
-          <form action="<c:url value='/biz/biz_pw_change_form' />" method="get">
-          	<input type="hidden" name="id" value="${biz.id != null ? biz.id : 0}" />
-            <button class="btn btn-primary" type="submit" style="height:50px;">변경하기</button>
-          </form>
+          <a href="<c:url value='/biz/biz_pw_change_form'/>" class="btn btn-primary" style="height:50px;">변경하기</a>
+
          </div>
           
         </div>

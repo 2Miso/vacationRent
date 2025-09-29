@@ -571,7 +571,7 @@ public class BizController {
 	        
 	        // 객실 사진 등록
 	        
-	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/room");
+	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
 	        File dir = new File(uploadDir);
             if(!dir.exists()) {
             	dir.mkdirs();
@@ -620,13 +620,12 @@ public class BizController {
 			// 숙소 번호
 			// 로그인한 비즈니스 회원의 숙소정보 가져오기
 		    AccoVO acco = (AccoVO) session.getAttribute("acco");
-			System.out.println(roomNo);
 			int accoNo = acco.getAccoNo();
 			
 	        List<AccoPhotoVO> photoList = bizService.getPhotosByBizIdAndRoomNo(accoNo, roomNo);
 
 	        // 실제 파일도 삭제
-	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/room");
+	        String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
 	        
 	        for (AccoPhotoVO photo : photoList) {
 	            String savedName = photo.getSavedName();

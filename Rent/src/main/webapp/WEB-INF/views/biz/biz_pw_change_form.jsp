@@ -31,22 +31,22 @@
       function pwchangeFn(){
     	  
 		// 비밀번호 유효성검사
-		if($("input[name=nowPw]").val() == ""){
-			$("#pwspan").text("비밀번호를 입력해 주세요").css("color","red");
+		if($("input[name=currentPw]").val() == ""){
+			$("#currentPwSpan").text("비밀번호를 입력해 주세요").css("color","red");
 			return false;
 		}else{
-			$("#nowPwSpan").text(" ").css("color","red");
+			$("#currentPwSpan").text("").css("color","red");
 		}
 		
 		// 비밀번호 유효성검사
-		if($("input[name=editPw]").val() == ""){
-			$("#editPwSpan").text("비밀번호를 입력해 주세요").css("color","red");
+		if($("input[name=newPw]").val() == ""){
+			$("#newPwSpan").text("비밀번호를 입력해 주세요").css("color","red");
 			return false;
-		}else if($("input[name=editPw]").val() != $("input[name=editPwCheck]").val()){
-			$("#pwcheckspan").text("비밀번호가 일치하지 않습니다").css("color","red");
+		}else if($("input[name=newPw]").val() != $("input[name=confirmPw]").val()){
+			$("#newPwSpan").text("비밀번호가 일치하지 않습니다").css("color","red");
 			return false;
 		}else{
-			$("#pwcheckspan").text(" ").css("color","red");
+			$("#newPwSpan").text("").css("color","red");
 		}
 		}
     </script>
@@ -56,24 +56,24 @@
 <section>
   <div class="login_form">
     <h1 class="fw-bolder"> 비밀번호 변경 </h1>
-	<form action="<c:url value='/biz/biz_mypage_account' />" method="post">
-    
+	<form action="<c:url value='/biz/biz_pw_change' />" method="post">
+    <input type="hidden" name="id" value="${biz.id != null ? biz.id : 0}" />
     <div class="form-floating">
-      <input type="password" class="form-control" name="nowPw">
+      <input type="password" class="form-control" name="currentPw">
       <label for="floatingInput">기존 비밀번호</label>
-      <span id="nowPwSpan" style="display: inline-block;"></span>
+      <span id="currentPwSpan" style="display: inline-block;"></span>
     </div>
     
     <div class="form-floating">
-      <input type="password" class="form-control" name="editPw">
+      <input type="password" class="form-control" name="newPw">
       <label for="floatingInput">변경할 비밀번호</label>
-      <span id="editPwSpan" style="display: inline-block;"></span>
+      <span id="newPwSpan" style="display: inline-block;"></span>
     </div>
 
     <div class="form-floating">
-      <input type="password" class="form-control" name="editPwCheck">
+      <input type="password" class="form-control" name="confirmPw">
       <label for="floatingInput">비밀번호 확인</label>
-      <span id="pwcheckspan" style="display: inline-block;"></span>
+      <span id="confirmPwSpan" style="display: inline-block;"></span>
     </div>
 
     <div class="d-grid gap-2"><!--버튼-->

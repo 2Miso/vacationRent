@@ -80,7 +80,7 @@
     <section>
     <div class="pageTitle">
         <h1>공지사항</h1>
-        <c:if test="${not empty sessionScope.user && sessionScope.user.grade == 'A'}">
+        <c:if test='${not empty sessionScope.user && sessionScope.user.grade == "A"}'>
         	<button type="button" onclick="location.href='<c:url value="/notice/write" />'" class="btn btn-primary write-btn">글쓰기</button>
         </c:if>
     </div> <!-- end:pageTitle -->

@@ -156,7 +156,7 @@
 <section>
   <div class="login_form"><!--수직수평정렬용-->
     <h1 class="fw-bolder"> 회원가입 </h1>
-    <form onsubmit="return joincheckFn()" method="POST" > <!--회원가입 정보를 전송할 링크를 걸어야 합니다-->
+    <form action="" method="POST" > <!--회원가입 정보를 전송할 링크를 걸어야 합니다-->
       <div class="form-floating">
         <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
         <label for="floatingInput">이메일 주소 입력</label>
@@ -194,7 +194,7 @@
       </div>
 
       <div class="d-grid gap-2"><!--버튼-->
-        <button link="#" class="btn btn-primary " type="submit" onclick="joincheckFn()" style="height:50px;">회원가입</button><!--링크를 걸어야 합니다-->
+        <button link="#" class="btn btn-primary " type="submit" onclick="return joincheckFn()" style="height:50px;">회원가입</button><!--링크를 걸어야 합니다-->
       </div>
     </form>
     

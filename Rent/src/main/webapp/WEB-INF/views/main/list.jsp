@@ -63,8 +63,10 @@
 			<c:if test="${not empty search.head}">
 				$("[name=head]").val(${search.head});
 			</c:if>
-			<c:if test="${not empty search.priceLow and not empty search.priceHigh}">
+			<c:if test="${not empty search.priceLow}">
 				$(".price input:eq(0)").val(${search.priceLow});
+			</c:if>
+			<c:if test="${not empty search.priceHigh}">
 				$(".price input:eq(1)").val(${search.priceHigh});
 			</c:if>
 			<c:if test="${not empty search.type}">

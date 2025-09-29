@@ -28,6 +28,12 @@ public class NoticeController {
 		this.noticeService = noticeService;
 	}
 	
+	//임시 : 헤더 햄버거 아이콘 드롭다운 회원가입 클릭 시 이동할 페이지
+	@RequestMapping(value="join")
+	public String joinPage() {
+		return "/join/main";
+	}
+	
 	//공지 목록 조회
 	@RequestMapping(value="/notice/list", method=RequestMethod.GET)
 	public String list(Model model) {

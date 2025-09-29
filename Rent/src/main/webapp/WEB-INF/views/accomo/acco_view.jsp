@@ -300,7 +300,7 @@ footer {
 							if(photo.savedName != null){
 								$(".mySwiper2 .swiper-wrapper").append(
 										'<div class="swiper-slide">'
-								        	+'<img src="<c:url value="/resources/img/" />' + photo.savedName + '" />'
+								        	+'<img src="<c:url value="/resources/img/acco/" />' + photo.savedName + '" />'
 									    +'</div>'
 							    );
 							}
@@ -319,7 +319,7 @@ footer {
 							if(photo.savedName != null){
 								$(".mySwiper .swiper-wrapper").append(
 								      '<div class="swiper-slide">'
-								        +'<img src="<c:url value="/resources/img/" />' + photo.savedName + '" />'
+								        +'<img src="<c:url value="/resources/img/acco/" />' + photo.savedName + '" />'
 								      +'</div>'
 								);
 							}
@@ -520,7 +520,7 @@ footer {
 					<div class="col bigImage">
 						<div class="imgContainer" data-bs-toggle="modal"
 							data-bs-target="#mainPhotoModal">
-							<img src="<c:url value="/resources/img/" />${topPhotos[0].savedName}" alt="">
+							<img src="<c:url value="/resources/img/acco/" />${topPhotos[0].savedName}" alt="">
 						</div>
 					</div>
 					<div class="col smallImage">
@@ -528,14 +528,14 @@ footer {
 							<div class="col">
 								<div class="imgContainer" data-bs-toggle="modal"
 									data-bs-target="#mainPhotoModal">
-									<img src="<c:url value="/resources/img/" />${topPhotos[1].savedName}" alt="">
+									<img src="<c:url value="/resources/img/acco/" />${topPhotos[1].savedName}" alt="">
 								</div>
 							</div>
 							<div class="col">
 								<c:if test="${topPhotos[2].savedName != null }">
 								<div class="imgContainer" data-bs-toggle="modal"
 									data-bs-target="#mainPhotoModal">
-									<img src="<c:url value="/resources/img/" />${topPhotos[2].savedName}" alt="">
+									<img src="<c:url value="/resources/img/acco/" />${topPhotos[2].savedName}" alt="">
 								</div>
 								</c:if>
 							</div>
@@ -545,7 +545,7 @@ footer {
 								<c:if test="${topPhotos[3].savedName != null }">
 									<div class="imgContainer" data-bs-toggle="modal"
 										data-bs-target="#mainPhotoModal">
-										<img src="<c:url value="/resources/img/" />${topPhotos[3].savedName}" alt="">
+										<img src="<c:url value="/resources/img/acco/" />${topPhotos[3].savedName}" alt="">
 									</div>
 								</c:if>
 							</div>
@@ -553,7 +553,7 @@ footer {
 								<c:if test="${topPhotos[4].savedName != null }">
 									<div class="imgContainer" data-bs-toggle="modal"
 										data-bs-target="#mainPhotoModal">
-										<img src="<c:url value="/resources/img/" />${topPhotos[4].savedName}" alt="">
+										<img src="<c:url value="/resources/img/acco/" />${topPhotos[4].savedName}" alt="">
 									</div>
 								</c:if>
 							</div>
@@ -596,7 +596,7 @@ footer {
 				<div class="room container orangeContainer row">
 					<div class="col-3 roomPhoto" data-bs-toggle="modal"
 						data-bs-target="#mainPhotoModal">
-							<img src="<c:url value="/resources/img/" />${room.thumbnailImage}" alt="">
+							<img src="<c:url value="/resources/img/acco/" />${room.thumbnailImage}" alt="">
 						<div class="morePhoto" data-bs-toggle="modal"
 							data-bs-target="#mainPhotoModal">+n</div>
 					</div>
@@ -629,7 +629,7 @@ footer {
 											${room.area}㎡</div>
 										<hr>
 										<h4>추가정보</h4>
-										<div>추가인원 요금 0,000원</div>
+										<div></div>
 										<hr>
 										<h4>편의시설</h4>
 										<div>TV, 전기포트, 금고, 에어컨, 냉장고, 와이파이</div>
@@ -796,7 +796,7 @@ footer {
 				    	<c:forEach var="photo" items="${acco.photoList}">
 				    		<c:if test="${not empty photo.savedName}">
 						      <div class="swiper-slide">
-						        <img src="<c:url value="/resources/img/${photo.savedName}" />" />
+						        <img src="<c:url value="/resources/img/acco/${photo.savedName}" />" />
 						      </div>
 						     </c:if>
 				      	</c:forEach>

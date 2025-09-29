@@ -49,7 +49,7 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid d-flex justify-content-between">
 
-    <a class="navbar-brand" href="<c:url value="/" />">사이트 로고 삽입</a> <!--로고나 사이트이름을 삽입해야 합니다, 메인페이지 링크도 걸어야 합니다.-->
+    <a class="navbar-brand" href="<c:url value="/" />"><img src="${pageContext.request.contextPath}/resources/img/CI.png" style="width:60px;"><h1 style="display:inline-block; color:var(--bs-orange); position:relative; top:7px;">Rent</h1></a>
     
     <div class="collapse navbar-collapse" style="margin-left: 670px;" id="navbarNavDropdown"><!--로그인버튼 또는 닉네임-->
       <ul class="navbar-nav">
@@ -96,7 +96,7 @@
             <i class="bi bi-list"></i>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="<c:url value="/user/join/agree" />">회원가입</a></li> <!--로그인 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="<c:url value="/join" />">회원가입</a></li> <!--로그인 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/login/main" />">로그인</a></li> <!--로그인 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
           </ul>

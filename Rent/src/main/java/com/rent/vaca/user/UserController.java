@@ -92,7 +92,6 @@ public class UserController {
 	//회원가입 기능구현
 	@RequestMapping(value="user/join/form", method = RequestMethod.POST) 
 	public String join(UserVO vo) {
-		System.out.println("버튼눌림");
 		userService.join(vo);
 		return "redirect:/user/join/finish";
 	}
@@ -101,10 +100,7 @@ public class UserController {
 	@RequestMapping(value="user/join/form/emailCheck", method = RequestMethod.POST) 
 	@ResponseBody
 	public Response emailCheck(@RequestParam(value="email") String email) {
-		System.out.println("코드가 작동됨");
-		System.out.println(email+" = 이메일주소");
 		int cnt = userService.emailCheck(email);
-		System.out.println(cnt);
 		Response res = new Response();
 		res.setCode(cnt);
 		res.setResult("success");
@@ -128,7 +124,6 @@ public class UserController {
 	public String findEmail(UserVO vo,HttpServletRequest request, HttpServletResponse response, Model model) throws Exception{
 		try {
 			String email = userService.findEmail(vo).getEmail();
-			System.out.println(userService.findEmail(vo).getEmail());
 			model.addAttribute("email", email);
 			response.setContentType("text/html; charset=UTF-8");
 		    PrintWriter writer = response.getWriter();
@@ -172,29 +167,18 @@ public class UserController {
 	//카카오는 비즈회원(사업자등록증)없으면 가져올수있는값이 2개정도밖에없습니다
 	@RequestMapping(value="/login/kakaocallback", method=RequestMethod.GET)
 	public String kakaoLogin(@RequestParam(value = "code", required = false) String code,HttpSession session,UserVO vo,Model model) throws Exception {
-		System.out.println("#########" + code);
 		String access_Token = UserService.getAccessToken(code);
-		System.out.println("###access_Token#### : " + access_Token);
 		HashMap<String, Object> userInfo = UserService.getUserInfo(access_Token);
-		System.out.println("###access_Token#### : " + access_Token);
-		System.out.println("###nickname#### : " + userInfo.get("nickname"));
-		System.out.println("###kakaoid#### : " + userInfo.get("kakaoid"));
 		String kakaoid = userInfo.get("kakaoid").toString();
 			try {
 				UserVO user = userService.kakaologin(kakaoid);
 				if(user != null) {
-					System.out.println("존재함");
-					System.out.println(user);
 					session.setAttribute("user", user); 
-					System.out.println("유저확인하기"+user);
-					System.out.println("유저확인하기"+user.getNickname());
 					return "redirect:/main/main";
 					
 				}else {
-					System.out.println("user값없ㄷ을때");
 					userService.kakaojoin(kakaoid);
 					user = userService.kakaologin(kakaoid);
-					System.out.println("유저확인하기"+user);
 					session.setAttribute("user", user); 
 					return "redirect:/main/main";
 				}
@@ -231,9 +215,7 @@ public class UserController {
 
 		   
 	      ResponseEntity<?> responseEntity = UserService.requestAccessToken(authCode, state);
-	      System.out.println("컬백리퀘스트까지실행");
 	      Object responseMessage = responseEntity.getBody();
-	      System.out.println("리스폰스엔티티실행"+responseEntity);
 	      Map<String, String> map = (Map<String, String>) responseMessage;
 	      String accesstokenparsed = map.get("access_token");
 	      String token = accesstokenparsed; // 네이버 로그인 접근 토큰;
@@ -242,7 +224,6 @@ public class UserController {
 	      Map<String, String> requestHeaders = new HashMap<>();
 	      requestHeaders.put("Authorization", header);
 	      String responseBody = get(apiURL,requestHeaders);
-	      System.out.println(responseBody);
 	      
 	      
 	      
@@ -254,15 +235,10 @@ public class UserController {
 	      String naverid = "sdfasdfasdsdfa";// 네이버아이디 가져온값 
 	      ObjectMapper objectMapper = new ObjectMapper();
 	      try {
-	    	  System.out.println("============================================================================================");
 			Map<String, Object> responsebodymap = objectMapper.readValue(responseBody, Map.class);
-			System.out.println(responsebodymap);
-			System.out.println(responsebodymap.get("response"));
 			Object responsebodyresponse = responsebodymap.get("response");
 			 Map<String, String> responsebodyresponseid = (Map<String, String>) responsebodyresponse;
 			  naverid = responsebodyresponseid.get("id");
-			    System.out.println(naverid);
-			 System.out.println("============================================================================================");
 		} catch (JsonMappingException e1) {
 			e1.printStackTrace();
 		} catch (JsonProcessingException e1) {
@@ -273,17 +249,11 @@ public class UserController {
 	      	try {
 				UserVO user = userService.naverlogin(naverid);
 				if(user != null) {
-					System.out.println("존재함");
-					System.out.println(user);
 					session.setAttribute("user", user); 
-					System.out.println("유저확인하기"+user);
-					System.out.println("유저확인하기"+user.getNickname());
 					return "redirect:/main/main";
 				}else {
-					System.out.println("user값없ㄷ을때");
 					userService.naverjoin(naverid);
 					user = userService.naverlogin(naverid);
-					System.out.println("유저확인하기"+user);
 					session.setAttribute("user", user); 
 					return "redirect:/main/main";
 				}
@@ -463,7 +433,6 @@ public class UserController {
 		public String userpwchange(UserVO vo, HttpSession session) throws IOException {
 			try {
 				String userid = (String) session.getAttribute("user");
-				System.out.println(userid);
 				//1.로그인이 되어있는지 체크한다
 				if(vo == null) {
 					return "login/main";		//2.소셜로그인으로 로그인했는지 체크한다.	
@@ -506,19 +475,17 @@ public class UserController {
 	
 	//유저 개인 정보 수정 기능 
 	@RequestMapping(value="/user/mypage/account", method = RequestMethod.POST) 
-	public Response useraccountchange(UserVO vo,HttpSession session,HttpServletResponse response,@RequestParam("nickname") String nickname,@RequestParam("phone") String phone) throws IOException {
-		System.out.println("회원정보수정실행됨");
+	public String useraccountchange(UserVO vo,HttpSession session,HttpServletResponse response,@RequestParam("nickname") String nickname,@RequestParam("phone") String phone) throws IOException {
 		vo = (UserVO) session.getAttribute("user");
 		String accountchangenickname = nickname;
+		
 		String accountchangephone = phone;
 		try {
-			System.out.println(vo.getId());
-			System.out.println(vo.getNickname());
-			System.out.println(vo.getPhone());
+	
 			vo.setNickname(accountchangenickname);
-			vo.setNickname(accountchangephone);
+			vo.setPhone(accountchangephone);
 			userService.useraccountchange(vo);
-			
+			return "redirect:/user/my";
 		}catch(Exception e) {
 			e.printStackTrace();
 			response.setContentType("text/html;charset=UTF-8");
@@ -539,10 +506,8 @@ public class UserController {
 	//유저 질문 페이지로 이동
 		@RequestMapping(value="/user/mypage/question", method = RequestMethod.GET) 
 		public String userquestion(HttpSession session,HttpServletResponse response,UserVO vo,Model model) throws IOException {
-			System.out.println("콘솔테스트1111");
 			try {
 				if(session.getAttribute("user") == null) {
-					System.out.println(session.getAttribute("user"));
 					response.setContentType("text/html;charset=UTF-8");
 				    PrintWriter out = response.getWriter();
 				    out.println("<script>");
@@ -551,26 +516,18 @@ public class UserController {
 				    out.println("</script>");
 				    out.flush();
 				    out.close();
-				    System.out.println("콘솔테스트2222");
 					return "login/main";
 				}else {
-						System.out.println("콘솔테스트3333");
 						vo = (UserVO) session.getAttribute("user");
-						System.out.println("콘솔테스트4444");
 
 				        // 1. 로그인한 사용자의 ID를 가져옴
  				        int userId = vo.getId();
 				    
-				        System.out.println("콘솔테스트5555");
 				        // 2. 서비스 호출하여 해당 사용자의 게시글 목록을 조회
 				       List<Object> myPosts = userService.getPostsByUserId(userId);
-				        System.out.println("mypost의 값");
-				        System.out.println( userService.getPostsByUserId(userId) + "리스트값");
 				        
 				        // 3. Model에 게시글 목록을 담아 JSP로 전달
 				       model.addAttribute("myPosts", myPosts);
-				       System.out.println(myPosts);
-				        System.out.println("콘솔테스트6666");
 
 
 				        // mypage.jsp 뷰를 반환
@@ -602,22 +559,16 @@ public class UserController {
 						    out.close();
 							return "login/main";
 						}else {
-								System.out.println("콘솔테스트3333");
 								vo = (UserVO) session.getAttribute("user");
-								System.out.println("콘솔테스트4444");
 
 						        // 1. 로그인한 사용자의 ID를 가져옴
 		 				        int userId = vo.getId();
 						    
-						        System.out.println("콘솔테스트5555");
 						        // 2. 서비스 호출하여 해당 사용자의 게시글 목록을 조회
 						       List<Object> myReserv = userService.getReservByUserId(userId);
-						        System.out.println( userService.getReservByUserId(userId) + "리스트값");
 						        
 						        // 3. Model에 게시글 목록을 담아 JSP로 전달
 						       model.addAttribute("myReserv", myReserv);
-						       System.out.println(myReserv);
-						        System.out.println("콘솔테스트6666");
 
 
 						        // mypage.jsp 뷰를 반환
@@ -637,7 +588,6 @@ public class UserController {
 		public String userwishlist(HttpSession session,HttpServletResponse response) throws IOException {
 			try {
 				if(session.getAttribute("user") == null) {
-					System.out.println(session.getAttribute("user"));
 					response.setContentType("text/html;charset=UTF-8");
 				    PrintWriter out = response.getWriter();
 				    out.println("<script>");
@@ -648,7 +598,6 @@ public class UserController {
 				    out.close();
 					return "login/main";
 				}else {
-					System.out.println(session.getAttribute("user"));
 					return "user/mypage/wishlist";
 				}
 				

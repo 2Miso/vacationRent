@@ -74,8 +74,8 @@
 		update usertb set pw = ${pw} pw = ${pw} pw = ${pw}where email=#{email} and name = #{name} and phone = #{phone}
 	</update>
 	
-	<update id="useraccountchange" parameterType="String">
-		update usertb set nicname = #{nickname} phone = #{phone} where id = #{id}
+	<update id="useraccountchange" parameterType="user">
+		update usertb set nickname = #{nickname} , phone = #{phone} where id = #{id}
 	</update>
 	
 	<update id="useraccountsocial" parameterType="String">

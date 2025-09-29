@@ -41,7 +41,7 @@
     <p>회원가입 완료되었습니다.<br>다시 로그인 해 주세요.</p>
 
     <div class="d-grid gap-2">
-      <button onclick="location.href='/vaca/login/email'" class="btn btn-primary " type="button" style="height:50px;">로그인</button><!--링크를 걸어야 합니다-->
+      <button onclick="location.href='${pageContext.request.contextPath}/login/email'" class="btn btn-primary " type="button" style="height:50px;">로그인</button><!--링크를 걸어야 합니다-->
     </div>
   </div>
 </section>

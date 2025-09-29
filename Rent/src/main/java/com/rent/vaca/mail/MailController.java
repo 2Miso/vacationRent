@@ -37,12 +37,10 @@ public class MailController {
 	{
 		try {
 		userService.pwauto(vo);
-		System.out.println(userService.findPw(vo).getPw());
 		String pwchangesend = userService.findPw(vo).getPw();
 		
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
-		System.out.println("���ㅽ�몄��");
 		PrintWriter out = response.getWriter();
 		mailService.sendMail("sleepless0527@gmail.com","비밀번호 변경 안내","변경된 비밀번호는"+pwchangesend+"입니다"); 
 		//설명 ("전달할 메일주소","메일제목","메일내용"

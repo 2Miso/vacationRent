@@ -92,7 +92,6 @@ public interface UserService {
 			bw.flush();
 	            
 			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
 			String result = "";
@@ -100,13 +99,10 @@ public interface UserService {
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-				System.out.println("response body : " + result);
 				JsonParser parser = new JsonParser();
 				JsonElement element = parser.parse(result);	            
 				access_Token = element.getAsJsonObject().get("access_token").getAsString();
 				refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();	    
-				System.out.println("access_token : " + access_Token);
-				System.out.println("refresh_token : " + refresh_Token);	            
 				br.close();
 				bw.close();
 		} catch (IOException e) {
@@ -124,22 +120,18 @@ public interface UserService {
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 			int responseCode = conn.getResponseCode();
-			System.out.println("responseCode : " + responseCode);
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
 			String result = "";
 			while ((line = br.readLine()) != null) {
 				result += line;
 			}
-			System.out.println("response body : " + result);
 			JsonParser parser = new JsonParser();
 			JsonElement element = parser.parse(result);				
 			String kakaoid = element.getAsJsonObject().get("id").getAsString();
 			JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 			JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-			System.out.println(nickname);
-			System.out.println(kakaoid);
 			userInfo.put("nickname", nickname);
 			userInfo.put("kakaoid", kakaoid);
 		} catch (IOException e) {
@@ -158,7 +150,6 @@ public interface UserService {
 		    
 	public static String getRequestLoginUrl() {
 		final String state = new BigInteger(130, new SecureRandom()).toString();
-		System.out.println(NAVER_TOKEN_BASE_URL);
 		MultiValueMap<String, String> requestParam = new LinkedMultiValueMap<>();
 			requestParam.add("response_type", "code");
 				requestParam.add("state", state);

@@ -69,13 +69,13 @@
 									<c:forEach var="photo" items="${review.photos}" begin="0" end="3">
 										<div class="col-2" data-bs-toggle="modal"
 											data-bs-target="#reviewPhotoModal${cnt.count}">
-											<img src="<c:url value="/resources/img/" />${photo.savedName}" alt="">
+											<img src="<c:url value="/resources/img/acco/" />${photo.savedName}" alt="">
 										</div>
 									</c:forEach>
 									</div>
 									<!-- end:.row -->
-									<div class="morePhoto" data-bs-toggle="modal"
-										data-bs-target="#reviewPhotoModal${cnt.count}">+n</div>
+									<%-- <div class="morePhoto" data-bs-toggle="modal"
+										data-bs-target="#reviewPhotoModal${cnt.count}">+n</div> --%>
 								</div>
 								<!-- end:.reviewPhoto -->
 						<!-- Modal -->
@@ -97,7 +97,7 @@
 	                                        -->
 	                                        <c:forEach var="photo" items="${review.photos}">
 												<div class="swiper-slide">
-													<img src="<c:url value="/resources/img/" />${photo.savedName}" alt="">
+													<img src="<c:url value="/resources/img/acco/" />${photo.savedName}" alt="">
 												</div>
 											</c:forEach>
 											</div>

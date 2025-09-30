@@ -683,7 +683,7 @@ footer {
 		<hr>
 		<div class="owner_info">
 			<h3 style="display: inline-block; cursor: pointer;"
-				data-bs-toggle="modal" data-bs-target="#ownerModal">판매자정보 &gt;</h3>
+				data-bs-toggle="modal" data-bs-target="#ownerModal">사업자 정보 &gt;</h3>
 			<!-- Modal -->
 			<div class="modal fade" id="ownerModal" tabindex="-1"
 				aria-labelledby="ownerModalLabel" aria-hidden="true">

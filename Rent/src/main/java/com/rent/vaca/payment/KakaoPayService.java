@@ -35,7 +35,7 @@ public class KakaoPayService {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "KakaoAK " + "3d7b04ea706625424c698a4d05fbdc24");
         headers.add("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE);
-        headers.add("Content-Type", MediaType.APPLICATION_FORM_URLENCODED_VALUE + ";charset=UTF-8");
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
      // 서버로 요청할 Body
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
@@ -48,7 +48,7 @@ public class KakaoPayService {
         params.add("tax_free_amount", "0");
         params.add("approval_url", "http://jjezen.cafe24.com/Rent/payment/payment_ok");
         params.add("cancel_url", "http://jjezen.cafe24.com/Rent/payment/payment_fail");
-        params.add("fail_url", "http://jjezen.cafe24.com/Rent/payment/payment_");
+        params.add("fail_url", "http://jjezen.cafe24.com/Rent/payment/payment_fail");
         
         
         HttpEntity<MultiValueMap<String, String>> body = new HttpEntity<MultiValueMap<String, String>>(params, headers);
@@ -56,7 +56,7 @@ public class KakaoPayService {
 		try {
 			
 		    kakaoPayReadyVO = restTemplate.postForObject(new URI(kakaoPayReadyUrl + "/v1/payment/ready"), body, KakaoPayReadyVO.class);
-		
+		    
 		    log.info("" + kakaoPayReadyVO);
 		            
         	return kakaoPayReadyVO.getNext_redirect_pc_url();

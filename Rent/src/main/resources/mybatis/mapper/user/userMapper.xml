@@ -66,8 +66,8 @@
 		select notice_no,title,content,wdate,answeryn from noticetb where user_id = #{userId} and delyn = "n"
 	</select>
 	
-	<select id="getReservByUserId" parameterType="Int" resultType="notice">
-		select * from reservtb where user_id = #{userId} and delyn = "n"
+	<select id="getReservByUserId" parameterType="Int" resultType="reserv">
+		select * from reservtb where user_id = #{userId} 
 	</select>
 	
 	<update id="useraccount" parameterType="String">

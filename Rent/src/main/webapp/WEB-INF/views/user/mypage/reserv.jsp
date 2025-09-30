@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@include file="../../include/header_nosearchbar.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="com.rent.vaca.reserv.ReservVO"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -53,29 +54,29 @@
                     </a>
                 </li>
                 <li>
-            <a href="/vaca/user/mypage/pwchange" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+            <a href="${pageContext.request.contextPath}/user/mypage/pwchange" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
               <i class="bi bi-file me-2"></i>비밀번호 변경
             </a>
           </li>
                 <li>
-                    <a href="/vaca/user/mypage/wishlist" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/wishlist" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-file me-2"></i>찜 목록
                     </a>
                 </li>
                 <li>
-                    <a href="/vaca/user/mypage/account" class="nav-link text-white"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/account" class="nav-link text-white"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-people me-2"></i>내 정보 관리
                     </a>
                 </li>
                 <li>
-                    <a href="/vaca/user/mypage/question" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/question" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-person-circle me-2"></i>내 문의 내역
                     </a>
                 </li>
                 </ul>
                 <hr>
                 <div class="dropdown">
-                <a href="#" class="nav-link text-white">
+                <a href="${pageContext.request.contextPath}" class="nav-link text-white">
                     <i class="bi bi-house-fill"></i><!--홈으로 이동하는 페이지로 링크 걸어야 합니다-->
                     홈으로
                     </a>
@@ -108,18 +109,18 @@
 						    <tr>
 	
 
-						        <td>${myPosts.reserv_code}</td>
-						        <td>${myPosts.room_no}</td>
-						        <td>${myPosts.name}</td>
-						        <td>${myPosts.phone}</td>
-						        <td>${myPosts.email}</td>
-						        <td>${myPosts.checkin}</td>
-						        <td>${myPosts.checkout}</td>
-						        <td>${myPosts.reserv_code}</td>
-						        <td>${myPosts.cancelyn}</td>
-						        <td>${myPosts.payment}</td>
-						        <td>${myPosts.adult_no}</td>
-						        <td>${myPosts.child_no}</td>
+						        <td>${myReserv.reservCode}</td>
+						        <td>${myReserv.roomNo}</td>
+						        <td>${myReserv.name}</td>
+						        <td>${myReserv.phone}</td>
+						        <td>${myReserv.email}</td>
+						        <td>${myReserv.checkin}</td>
+						        <td>${myReserv.checkout}</td>
+						        <td>${myReserv.reservCode}</td>
+						        <td>${myReserv.cancelyn}</td>
+						        <td>${myReserv.payment}</td>
+						        <td>${myReserv.adultNo}</td>
+						        <td>${myReserv.childNo}</td>
 	
 						    </tr>
 						</c:forEach>

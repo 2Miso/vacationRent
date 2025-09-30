@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page import="com.rent.vaca.notice.NoticeVO"%>
- <%@include file="../../include/header_nosearchbar.jsp" %>
+
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -53,34 +53,34 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item"> 
-                    <a href="/vaca/user/mypage/reserv" class="nav-link text-white"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/reserv" class="nav-link text-white"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
                     <i class="bi bi-house me-2  "></i>예약 내역
                     </a>
                 </li>
                 <li>
-		            <a href="/vaca/user/mypage/pwchange" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+		            <a href="${pageContext.request.contextPath}/user/mypage/pwchange" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
 		              <i class="bi bi-file me-2"></i>비밀번호 변경
 		            </a>
 		          </li>
                 <li>
-                    <a href="/vaca/user/mypage/wishlist" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/wishlist" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-file me-2"></i>찜 목록
                     </a>
                 </li>
                 <li>
-                    <a href="/vaca/user/mypage/account" class="nav-link text-white"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/account" class="nav-link text-white"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-people me-2"></i>내 정보 관리
                     </a>
                 </li>
                 <li>
-                    <a href="/vaca/user/mypage/question" class="nav-link active" aria-current="page"><!--계정 설정 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/question" class="nav-link active" style="background-color:#fd7e14;" aria-current="page"><!--계정 설정 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-person-circle me-2"></i>내 문의 내역
                     </a>
                 </li>
                 </ul>
                 <hr>
                 <div class="dropdown">
-                <a href="#" class="nav-link text-white">
+                <a href="${pageContext.request.contextPath}" class="nav-link text-white">
                     <i class="bi bi-house-fill"></i><!--홈으로 이동하는 페이지로 링크 걸어야 합니다-->
                     홈으로
                     </a>
@@ -104,7 +104,7 @@
                 	<c:forEach items="${myPosts}" var="myPosts">
 					    <tr>
 
-					        <td><a href="#">${list.title}</a></td><!-- 질문 링크를 걸어야 합니다 -->
+					        <td><a href="#">${myPosts.title}</a></td><!-- 질문 링크를 걸어야 합니다(링크주소를모름) -->
 					        <td>${myPosts.wdate}</td>
 					        <td>${myPosts.answeryn}</td>
 

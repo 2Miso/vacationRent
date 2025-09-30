@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public List<Object> getReservByUserId(int userId) {
-		return repository.getPostsByUserId(userId);
+		return repository.getReservByUserId(userId);
 	}
 
 	@Override

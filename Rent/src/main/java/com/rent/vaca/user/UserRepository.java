@@ -71,7 +71,7 @@ public class UserRepository {
 	}
 	
 	public List<Object> getReservByUserId(int userId) {
-		return template.selectList("userMapper.getPostsByUserId",userId);
+		return template.selectList("userMapper.getReservByUserId",userId);
 	}
 	
 	public UserVO useraccount(UserVO vo) {

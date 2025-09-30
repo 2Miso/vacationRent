@@ -86,7 +86,7 @@ public interface UserService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=d689d303f45b6b16979a1e2bcb396fe8");
-			sb.append("&redirect_uri=http://localhost:8080/vaca/login/kakaocallback"); 
+			sb.append("&redirect_uri=http://jjezen.cafe24.com/Rent/login/kakaocallback"); 
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
 			bw.flush();
@@ -146,7 +146,7 @@ public interface UserService {
 	String NAVER_CLIENT_SECRET ="txfxP6iiA4";
 	String NAVER_BASE_URL ="https://nid.naver.com/oauth2.0/authorize";
 	String NAVER_TOKEN_BASE_URL ="https://nid.naver.com/oauth2.0/token";
-	String NAVER_CALLBACK_URL ="http://localhost:8080/vaca/login/navercallback";
+	String NAVER_CALLBACK_URL ="http://jjezen.cafe24.com/Rent/login/navercallback";
 		    
 	public static String getRequestLoginUrl() {
 		final String state = new BigInteger(130, new SecureRandom()).toString();
@@ -170,7 +170,7 @@ public interface UserService {
 		    
 	}
 //==========================================================================================
-	//1´ë1 Áú¹®¸ñ·Ï Á¶È¸(°ü¸®ÀÚ¿ë)
+	//1ï¿½ï¿½1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½)
 	public List<NoticeVO> selectQuestionList();
 }
 

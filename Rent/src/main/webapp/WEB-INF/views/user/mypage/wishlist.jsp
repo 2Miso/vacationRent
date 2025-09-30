@@ -1,13 +1,18 @@
+<%@page import="java.util.List"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
- <%@include file="../../include/header_nosearchbar.jsp" %>
+<%@page import="com.rent.vaca.notice.NoticeVO"%>
+
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="<c:url value="/resources/css/color_orange.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/color_orange.css" />">
     <script src="resources/js/jquery-3.7.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
@@ -19,7 +24,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
     <style>
-        section{
+		section{
             margin:0 auto;
         }
         .content{
@@ -48,34 +53,34 @@
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item"> 
-                    <a href="/vaca/user/mypage/reserv" class="nav-link text-white" ><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/reserv" class="nav-link text-white"><!--숙소 관리 페이지로 링크 걸어야 합니다--> <!--aria current가 현재 표시되는 페이지를 강조합니다-->
                     <i class="bi bi-house me-2  "></i>예약 내역
                     </a>
                 </li>
                 <li>
-            <a href="/vaca/user/mypage/pwchange" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
-              <i class="bi bi-file me-2"></i>비밀번호 변경
-            </a>
-          </li>
+		            <a href="${pageContext.request.contextPath}/user/mypage/pwchange" class="nav-link text-white"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+		              <i class="bi bi-file me-2"></i>비밀번호 변경
+		            </a>
+		          </li>
                 <li>
-                    <a href="/vaca/user/mypage/wishlist" class="nav-link active" aria-current="page"><!--객실 관리 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/wishlist" class="nav-link active" style="background-color:#fd7e14;"><!--객실 관리 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-file me-2"></i>찜 목록
                     </a>
                 </li>
                 <li>
-                    <a href="/vaca/user/mypage/account" class="nav-link text-white"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/account" class="nav-link text-white"><!--예약자 관리 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-people me-2"></i>내 정보 관리
                     </a>
                 </li>
                 <li>
-                    <a href="/vaca/user/mypage/question" class="nav-link text-white"><!--계정 설정 페이지로 링크 걸어야 합니다-->
+                    <a href="${pageContext.request.contextPath}/user/mypage/question" class="nav-link text-white" aria-current="page"><!--계정 설정 페이지로 링크 걸어야 합니다-->
                     <i class="bi bi-person-circle me-2"></i>내 문의 내역
                     </a>
                 </li>
                 </ul>
                 <hr>
                 <div class="dropdown">
-                <a href="#" class="nav-link text-white">
+                <a href="${pageContext.request.contextPath}" class="nav-link text-white">
                     <i class="bi bi-house-fill"></i><!--홈으로 이동하는 페이지로 링크 걸어야 합니다-->
                     홈으로
                     </a>
@@ -107,6 +112,11 @@
                 </tbody>
             </table>
         </div>
+        
+        
+     
+
+
     </section>
 </body>
 </html>

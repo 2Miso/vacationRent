@@ -64,7 +64,7 @@
             <i class="bi bi-list"></i>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/reservation/reserv">마이페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/user/mypage/account">마이페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/logout" />">로그아웃</a></li><!--고객센터 링크를 걸어야 합니다-->
           </ul>

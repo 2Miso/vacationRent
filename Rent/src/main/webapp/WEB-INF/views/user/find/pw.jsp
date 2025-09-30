@@ -44,7 +44,7 @@
     <h1 class="fw-bolder"> 비밀번호 찾기 </h1>
     <P>계정에 등록한 이메일, 이름, 전화번호를 입력해 주세요</P>
     
-	<form action="#" method="POST">
+	<form action="" method="POST">
 	    <div class="form-floating">
 	      <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
 	      <label for="floatingInput">이메일 입력</label>

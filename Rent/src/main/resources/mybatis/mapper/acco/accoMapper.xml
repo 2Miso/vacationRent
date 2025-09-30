@@ -151,8 +151,9 @@
 		left join reviewtb
 			on reservtb.reserv_code=reviewtb.reserv_code 
 		<where>
+			a.delyn='N' 
 			<if test='text != null and text != ""'>
-				a.name like concat('%', #{text}, '%')
+				and a.name like concat('%', #{text}, '%')
 			</if>
 			<if test='checkIn != "" and checkOut != ""'>
 			<![CDATA[

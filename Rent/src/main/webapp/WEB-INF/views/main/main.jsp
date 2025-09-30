@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>메인페이지</title>
+    <title>${pageContext.request.contextPath}</title>
     <link href="size.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/@xpressengine/xeicon@2.3.3/xeicon.min.css" rel="stylesheet">
     

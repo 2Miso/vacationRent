@@ -1,5 +1,7 @@
 package com.rent.vaca.payment;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.rent.vaca.reserv.ReservRepository;
 import com.rent.vaca.reserv.ReservVO;
 import com.rent.vaca.room.RoomRepository;
 import com.rent.vaca.room.RoomVO;
+import com.rent.vaca.user.UserVO;
 
 
 @Service
@@ -110,5 +113,16 @@ public class PaymentServiceImpl implements PaymentService{
 		    return vo;
 	    }
 	}
+
+	@Override
+	public List<ReservVO> selectReservList(int user) {
+		return reservRepository.selectReservList(user);
+	}
+	
+	@Override
+	public List<ReservVO> deprecatedReservList(int user) {
+		return reservRepository.deprecatedReservList(user);
+	}
+	
 
 }

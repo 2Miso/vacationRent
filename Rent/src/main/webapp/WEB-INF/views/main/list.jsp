@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>검색</title>
+    <title>검색결과</title>
     <link href="size.css" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/@xpressengine/xeicon@2.3.3/xeicon.min.css" rel="stylesheet">
     <style>
@@ -257,7 +257,7 @@
 			                        	<span style="color:orange;">★</span><fmt:formatNumber value="${acco.starAvg}" pattern="0.0"/>
 			                       	</c:if>
 			                        </p>
-			                        <p><fmt:formatNumber value="${acco.price}" type="currency" currencyCode="KRW" currencySymbol="￦"/></p>
+			                        <p><fmt:formatNumber value="${acco.price}" type="currency" pattern="￦#,##0" /></p>
 			                    </div>
 			                </div>
 						</c:forEach>

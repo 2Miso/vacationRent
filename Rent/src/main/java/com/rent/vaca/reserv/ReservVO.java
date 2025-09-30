@@ -17,6 +17,8 @@ public class ReservVO {
 	private int adultNo;
 	private int childNo;
 	private ReviewVO review;
+	private String thumbnail;
+	private String accoName;
 	
 	public String getReservCode() {
 		return reservCode;
@@ -102,13 +104,24 @@ public class ReservVO {
 	public void setReview(ReviewVO review) {
 		this.review = review;
 	}
+	public String getThumbnail() {
+		return thumbnail;
+	}
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+	
+	public String getAccoName() {
+		return accoName;
+	}
+	public void setAccoName(String accoName) {
+		this.accoName = accoName;
+	}
 	@Override
 	public String toString() {
 		return "ReservVO [reservCode=" + reservCode + ", userId=" + userId + ", roomNo=" + roomNo + ", name=" + name
 				+ ", phone=" + phone + ", email=" + email + ", checkin=" + checkin + ", checkout=" + checkout
 				+ ", reservDate=" + reservDate + ", cancelyn=" + cancelyn + ", payment=" + payment + ", adultNo="
-				+ adultNo + ", childNo=" + childNo + ", review=" + review + "]";
+				+ adultNo + ", childNo=" + childNo + ", review=" + review + ", thumbnail=" + thumbnail + "]";
 	}
-	
-	
 }

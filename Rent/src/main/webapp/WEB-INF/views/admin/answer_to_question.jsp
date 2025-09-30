@@ -37,16 +37,13 @@
         }
     </style>
     <script>
-        let title;
         let content;
 
         $(function(){
             title = $("[name=title]");
             content = $("[name=answerContent]");
             $("#register").on( "click", function() {
-                if(title.val().trim()==""){
-                    alert("제목을 입력하세요.");
-                } else if(content.val().trim()==""){
+                if(content.val().trim()==""){
                     alert("내용을 입력하세요.");
                 } else {
                     $(".write").submit();
@@ -101,17 +98,9 @@
         <div style="margin-left:70px;">${question.content}</div>
         <form class="write" action="" method="post" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">제목</label>
-                <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해주세요.">
+                <label for="exampleFormControlTextarea1" class="form-label">답변</label>
+                <textarea name="answerContent" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="답변을 입력해주세요."></textarea>
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlTextarea1" class="form-label">본문</label>
-                <textarea name="answerContent" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="본문을 입력해주세요."></textarea>
-            </div>
-<!--             <div class="mb-3">
-                <label for="formFile" class="form-label">파일을 첨부해주세요.</label>
-                <input style="width:500px;" class="form-control" type="file" id="formFile" multiple>
-            </div> -->
             <div class="buttonGroup">
                 <button type="button" class="btn btn-primary write-btn" id="cancel">취소</button>
                 <button type="button" class="btn btn-primary write-btn" id="register">등록</button>

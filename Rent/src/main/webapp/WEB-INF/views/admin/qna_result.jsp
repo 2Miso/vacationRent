@@ -47,6 +47,54 @@
         .con{
             margin:30px 0 0 30px;
         }
+        
+        
+        
+                section a{
+            text-decoration:none;
+            color:inherit;
+        }
+        section a:hover{
+            text-decoration:underline;
+        }
+        section i{
+            font-size:2em;
+        }
+        .titleArea table{
+            table-layout: fixed;
+            width:1024px;
+            margin:5px auto;
+        }
+        .titleArea tr{
+            font-size:1.5em;
+            border-bottom:1px solid var(--bs-orange);
+        }
+        .titleArea tr:first-child{
+            border-top:1px solid var(--bs-orange);
+        }
+        .titleArea .title{
+            width:80%;
+            padding:25px;
+        }
+        .titleArea td{
+            padding:20px 5px;
+        }
+        .titleArea .space{
+            width:5%;
+        }
+        .titleArea .wdate{
+            width:15%;
+            color:gray;
+        }
+        .attachment{
+            margin-top:23px;
+        }
+        #delete{
+            float:right;
+        }
+	    footer{
+	    	margin-top:150px;
+	    }
     </style>
     <script>
         let title;
@@ -101,18 +149,36 @@
 
     <div class="con">
         <div class="listTitle">
-            <h1>문의 내역 답변작성</h1>
+        	<i class="bi bi-arrow-left" onclick="location.href='${pageContext.request.contextPath}/admin/private_question'"></i><h1 style="display:inline-block; margin-left:20px;">문의 내역 답변작성</h1>
         </div> <!-- end:listTitle -->
-        <div style="margin-left:70px;">${question.title}</div>
-        <div style="margin-left:70px;">${question.content}</div>
-        <div class="answer">
-            <div class="mb-3">
-            	${question.answerContent}
-            </div>
-            <div class="buttonGroup">
-                <button type="button" class="btn btn-primary write-btn" id="delete">답변삭제?</button>
-            </div>
-        </div>
+   <div class="titleArea">
+        <table>
+            <tr>
+                <td class="title">
+                    ${question.title}
+                </td>
+                <td class="space"></td>
+                <td class="wdate">
+                    ${question.wdate}
+                </td>
+            </tr>
+        </table>
+    </div> <!-- end: .titleArea -->
+    <h2>Q.</h2>
+    <div class="content">
+        ${question.content}
+    </div> <!-- end: .content -->
+    <div class="attachment">
+    	<c:forEach var="file" items="${question.questionAttachList}">
+        	<p><a href="<c:url value="/questions/${file.savedName}" />" download="${file.originalName}" style="color:gray;">${file.originalName}</a></p>
+        </c:forEach>
+    </div>
+    <c:if test="${question.answeryn == 'Y'}">
+	    <h2 style="clear:both;">A.</h2>
+	    <div class="answer">
+	        ${question.answerContent}
+	    </div> <!-- end: .answer -->
+    </c:if>
     </div>
 </body>
 </html>

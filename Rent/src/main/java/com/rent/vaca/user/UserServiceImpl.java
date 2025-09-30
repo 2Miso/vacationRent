@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rent.vaca.notice.NoticeRepository;
 import com.rent.vaca.notice.NoticeVO;
 import com.rent.vaca.user.UserRepository;
 import com.rent.vaca.user.UserService;
@@ -13,10 +14,12 @@ import com.rent.vaca.user.UserService;
 public class UserServiceImpl implements UserService {
 	
 	private final UserRepository repository;
+	private final NoticeRepository noticeRepository;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository repository) {
+	public UserServiceImpl(UserRepository repository, NoticeRepository noticeRepository) {
 		this.repository = repository;
+		this.noticeRepository = noticeRepository;
 	}
 
 	@Override
@@ -102,6 +105,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserVO useraccountsocial(UserVO vo) {
 		return repository.useraccount(vo);
+	}
+
+	@Override
+	public List<NoticeVO> selectQuestionList() {
+		return noticeRepository.selectQuestionList();
 	}
 
 }

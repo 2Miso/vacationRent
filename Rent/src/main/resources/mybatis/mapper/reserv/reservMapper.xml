@@ -43,4 +43,36 @@
 				and checkout &gt; #{checkin}
 		)
 	</select>
+	
+	<!-- 마이페이지 예약내역 : 다가오는 예약 -->
+	<select id="selectReservList" parameterType="int" resultType="com.rent.vaca.reserv.ReservVO">
+		select 
+			reservtb.*, 
+			accotb.name as acco_name, 
+			(select saved_name from acco_phototb where acco_phototb.room_no=0 limit 1) as thumbnail 
+		from reservtb 
+		inner join roomtb
+			on reservtb.room_no = roomtb.room_no
+		inner join accotb
+			on roomtb.acco_no = accotb.acco_no
+		where reservtb.user_id = #{user}
+			and reservtb.cancelyn='N'
+			and reservtb.checkin >= (SELECT SUBDATE(curdate(), 1));
+	</select>
+	
+	<!-- 마이페이지 예약내역 : 지나간 예약, 취소한 예약 -->
+	<select id="deprecatedReservList" parameterType="int" resultType="com.rent.vaca.reserv.ReservVO">
+		select 
+			reservtb.*, 
+			accotb.name as acco_name, 
+			(select saved_name from acco_phototb where acco_phototb.room_no=0 limit 1) as thumbnail 
+		from reservtb 
+		inner join roomtb
+			on reservtb.room_no = roomtb.room_no
+		inner join accotb
+			on roomtb.acco_no = accotb.acco_no
+		where reservtb.user_id = #{user}
+			and (reservtb.cancelyn='Y'
+					or reservtb.checkout &lt;= now());
+	</select>
 </mapper>

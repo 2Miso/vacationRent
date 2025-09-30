@@ -169,16 +169,9 @@ public interface UserService {
 		    return new RestTemplate().postForEntity(NAVER_TOKEN_BASE_URL, requestBody, Map.class);
 		    
 	}
-
-	
-
-	
 //==========================================================================================
-
-//		  fd  
-		    
-		    
-//=============================================================================================		    
+	//1대1 질문목록 조회(관리자용)
+	public List<NoticeVO> selectQuestionList();
 }
 
 

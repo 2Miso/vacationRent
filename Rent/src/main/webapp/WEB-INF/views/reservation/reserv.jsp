@@ -87,12 +87,9 @@
           <br>
           <div class="swiper swiper1">
               <div class="swiper-wrapper">
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample1.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample2.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample3.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample4.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample5.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample6.png" />" alt="sample"></div>
+              <Rent:forEach var="r" items="${reserv}">
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/acco/${r.thumbnail}" />" alt="${r.accoName} 사진"></div>
+              </Rent:forEach>
               </div>
               <div class="swiper-button-next swiper1-button-next"></div>
               <div class="swiper-button-prev swiper1-button-prev"></div>
@@ -102,12 +99,9 @@
           <br>
           <div class="swiper swiper2">
               <div class="swiper-wrapper">
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample1.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample2.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample3.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample4.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample5.png" />" alt="sample"></div>
-                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/sample6.png" />" alt="sample"></div>
+              <Rent:forEach var="d" items="${depre}">
+                  <div class="swiper-slide"><img src="<Rent:url value="/resources/img/acco/${d.thumbnail}" />" alt="${d.accoName} 사진"></div>
+              </Rent:forEach>
               </div>
               <div class="swiper-button-next swiper2-button-next"></div>
               <div class="swiper-button-prev swiper2-button-prev"></div>

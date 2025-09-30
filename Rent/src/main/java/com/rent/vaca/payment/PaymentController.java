@@ -2,6 +2,7 @@ package com.rent.vaca.payment;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -69,7 +70,13 @@ public class PaymentController {
 	
 	// 예약 내역 페이지
 	@RequestMapping(value = "/reservation/reserv", method = RequestMethod.GET)
-	public String reservPage() {
+	public String reservPage(@SessionAttribute("user") UserVO user, Model model) {
+		List<ReservVO> reserv = paymentService.selectReservList(user.getId());
+		model.addAttribute("reserv", reserv);
+		
+		List<ReservVO> depre = paymentService.deprecatedReservList(user.getId());
+		model.addAttribute("depre", depre);
+		
 	    return "reservation/reserv";
 	}
 	

@@ -54,7 +54,7 @@
     <div class="collapse navbar-collapse" style="margin-left: 670px;" id="navbarNavDropdown"><!--로그인버튼 또는 닉네임-->
       <ul class="navbar-nav">
       <c:choose>
-      	<c:when test="${not empty user.nickname}">
+      	<c:when test='${not empty sessionScope.user && user.grade=="U"}'>
         <span class="navbar-text">
           "${user.nickname}"님
           </span>
@@ -64,7 +64,23 @@
             <i class="bi bi-list"></i>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/customer/question">마이페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/reservation/reserv">마이페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
+            <li><a class="dropdown-item" href="<c:url value="/logout" />">로그아웃</a></li><!--고객센터 링크를 걸어야 합니다-->
+          </ul>
+        </li>
+        </c:when>
+      	<c:when test='${not empty sessionScope.user && user.grade=="A"}'>
+        <span class="navbar-text">
+          "${user.nickname}"님
+          </span>
+        <li class="nav-item dropdown">
+          
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-list"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/admin/private_question">관리자 페이지</a></li> <!--로그인 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/customer/faq" />">고객센터</a></li><!--고객센터 링크를 걸어야 합니다-->
             <li><a class="dropdown-item" href="<c:url value="/logout" />">로그아웃</a></li><!--고객센터 링크를 걸어야 합니다-->
           </ul>

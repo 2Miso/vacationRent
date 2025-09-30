@@ -50,4 +50,9 @@ public class NoticeRepository {
 	public int updateAnswerOne(NoticeVO vo) {
 		return template.update("noticeMapper.updateAnswerOne", vo);
 	}
+	
+	//1대1 질문목록 조회
+	public List<NoticeVO> selectQuestionList(){
+		return template.selectList("noticeMapper.selectQuestionList");
+	}
 }

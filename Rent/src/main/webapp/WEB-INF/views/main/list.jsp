@@ -246,7 +246,7 @@
 		            	<c:forEach var="acco" items="${accoList}">
 			                <div class="d-flex align-items-center my-2" style=" width:800px; box-shadow:0 0 10px rgba(0, 0, 0, 0.1);" onclick="location.href='${pageContext.request.contextPath}/acco/view/${acco.accoNo}'"><!--개별숙소리스트-->
 			                    <div style="background-color: rgb(99, 41, 94); width: 400px; height:200px; border-radius: 6px; overflow:hidden;">
-									<img src="${pageContext.request.contextPath}/resources/img/${acco.thumbnail}" alt="${acco.name} 썸네일" style="width:100%; height:100%; object-fit:cover;">
+									<img src="${pageContext.request.contextPath}/resources/img/acco/${acco.thumbnail}" alt="${acco.name} 썸네일" style="width:100%; height:100%; object-fit:cover;">
 								</div>
 								
 			                    <div  class="mx-2">

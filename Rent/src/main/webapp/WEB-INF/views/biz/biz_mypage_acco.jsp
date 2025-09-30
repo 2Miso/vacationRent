@@ -160,6 +160,7 @@
 		        }
 		    });
 		    
+		    
 		    // 기존 사진 삭제 + 새 사진 업로드 시 수정
 		    if (!isEdited && photoDeleted && hasNewPhotos) {
 		    	if (existingPhotoCount > 0) {
@@ -170,14 +171,19 @@
 		        }
 		    }
 		
-		    if (photoDeleted && !hasNewPhotos) {
+		    
+		    
+		    if (!isEdited && !photoDeleted && !hasNewPhotos) {
+		        if(existingPhotoCount > 0);
 		        alert("사진을 삭제한 경우, 새 이미지를 반드시 업로드해야 합니다.");
 		        return false;
 		    }
 		    
-		    if (!isEdited && !photoDeleted && !hasNewPhotos) {
-		        alert("수정할 내용을 입력하세요.");
-		        return false;
+		    if (photoDeleted && !hasNewPhotos) {
+		    	if(!isEdited){
+			        alert("수정할 내용을 입력하세요.");
+			        return false;
+		    	}
 		    }
   
     	    return true;
@@ -211,8 +217,9 @@
 
     	    	    // 수정폼 비우고 비활성화
     	    	    $(".edit-field").val("").prop("disabled", true);
-
+    	    	    $(".swiper").empty();
     	            $("#editImagePreviewContainer").empty();
+    	            $("#accoType, #accoName, #accoAddr, #accoPhone, #accoInfo, #accoBizHour, #accoCheckin, #accoCheckout, #accoUpload").prop("disabled", false);
     	        },
     	        error: function () {
     	            alert("삭제 중 오류가 발생했습니다.");
@@ -245,7 +252,7 @@
     	      alert("사진이 삭제되었습니다.");
     	      photoDeleted = true;
     	      $("#existingPhotoCount").val(0);
-    	      // 필요한 경우 UI 갱신 (사진 목록 갱신 등)
+    	      $("#editFile").prop("disabled", false);
     	    },
     	    error: function() {
     	      alert("사진 삭제에 실패했습니다.");
@@ -350,7 +357,7 @@
             <input class="form-control" type="text" id="accoBizHour" placeholder="상담가능 시간을 입력해주세요." name="bizHour" <c:if test="${disableInput}">disabled</c:if>>
             <span style="display: inline-block;"></span>
 
-          <div>운영 시간</div>
+          <div>입실/퇴실 시간</div>
           <div class="d-flex">
               <div>
                 <input class="form-control" type="text" id="accoCheckin" placeholder="입실 시간 예) 00:00" name="checkin" <c:if test="${disableInput}">disabled</c:if>>
@@ -380,7 +387,7 @@
           <h4>숙소 수정</h4>
 			<form action="<c:url value="/biz/edit_acco" />" method="post" enctype="multipart/form-data">
            	<input type="hidden" name="bizId" value="${biz.id}" />
-           	<input type="hidden" name="accoNo" value="${acco.accoNo}" />
+           	<input id="editAccoNo" type="hidden" name="accoNo" value="${acco.accoNo}" />
           <div>숙소 타입</div>
             <select class="form-select" id="editType" name="type"
             data-original="${acco.type}"
@@ -394,28 +401,28 @@
             <span></span>
           
           <div>숙소 이름</div>
-            <input type="text" class="form-control"
+            <input type="text" class="form-control edit-field"
             id="editName" value="${empty acco ? '' : acco.name}"
             data-original="${empty acco ? '' : acco.name}" name="name"
             <c:if test="${empty acco.name}">disabled</c:if>>
             <span></span>
           
           <div>숙소 주소</div>
-            <input type="text" class="form-control"
+            <input type="text" class="form-control edit-field"
             id="editAddr" value="${empty acco ? '' : acco.addr}"
             data-original="${empty acco ? '' : acco.addr}" name="addr"
             <c:if test="${empty acco.addr}">disabled</c:if>>
             <span></span>
           
           <div>숙소 전화번호</div>
-            <input type="text" class="form-control" id="editPhone"
+            <input type="text" class="form-control edit-field" id="editPhone"
             value="${empty acco ? '' : acco.phone}"
             data-original="${empty acco ? '' : acco.phone}" name="phone"
             <c:if test="${empty acco.phone}">disabled</c:if>>
             <span></span>
           
           <div>숙소 정보</div>
-            <input type="text" class="form-control" id="editInfo"
+            <input type="text" class="form-control edit-field" id="editInfo"
             value="${empty acco ? '' : acco.description}"
             data-original="${empty acco ? '' : acco.description}"
             name="description"
@@ -423,17 +430,17 @@
             <span></span>
           
           <div>상담가능시간</div>
-            <input type="text" class="form-control" id="editBizHour"
+            <input type="text" class="form-control edit-field" id="editBizHour"
             value="${empty acco ? '' : acco.bizHour}"
             data-original="${empty acco ? '' : acco.bizHour}"
             name="bizHour"
             <c:if test="${empty acco.bizHour}">disabled</c:if>>
             <span></span>
 
-          <div>운영 시간</div>
+          <div>입실/퇴실 시간</div>
           <div class="d-flex">
               <div>
-                <input type="text" class="form-control" id="editCheckin"
+                <input type="text" class="form-control edit-field" id="editCheckin"
                 value="${empty acco ? '' : acco.checkin}"
                 data-original="${empty acco ? '' : acco.checkin}"
                 name="checkin"
@@ -443,7 +450,7 @@
 
            
               <div>
-                <input type="text" class="form-control" id="editCheckout"
+                <input type="text" class="form-control edit-field" id="editCheckout"
                 value="${empty acco ? '' : acco.checkout}"
                 data-original="${empty acco ? '' : acco.checkout}"
                 name="checkout"
@@ -454,14 +461,16 @@
           
           <div>숙소 사진 첨부(기존 사진 삭제 후 첨부해주세요.)</div>
           <div>
-	            <input id="editFile" class="form-control" type="file"
+	            <input id="editFile" class="form-control edit-field" type="file"
 	            multiple accept="image/*" name="image"
-	            <c:if test="${empty acco.name}">disabled</c:if>>
+	            <c:if test="${empty acco.type}">disabled</c:if>>
 	            <span></span>
           </div>
           
           	<!-- 기존 + 새 사진 미리보기 영역 -->
-			<div class="edit-field" id="editImagePreviewContainer" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+			<div class="edit-field" id="editImagePreviewContainer"
+			style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"
+			<c:if test="${empty accoList}">disabled</c:if>></div>
 
 			<!-- 기존 사진 개수 hidden -->
 			<input type="hidden" id="existingPhotoCount" value="${fn:length(accoList)}">
@@ -520,6 +529,11 @@
   </div><!--내용 끝-->
 </section>
 <script>
+
+	const editFileInput = document.getElementById('editFile');
+	const editPreviewContainer = document.getElementById('editImagePreviewContainer');
+
+
 	document.addEventListener('DOMContentLoaded', function () {
 		
 		<c:forEach var="acco" items="${accoList}">
@@ -565,72 +579,7 @@
 	                img.style.objectFit = 'cover';
 	                img.style.border = '1px solid #ccc';
 	                img.style.borderRadius = '5px';
-
-	                // 대표 사진 선택
-	                /*
-	                let mainBtn = document.createElement('button');
-	                mainBtn.innerText = '대표';
-	                mainBtn.type = 'button';
-	                mainBtn.style.position = 'absolute';
-	                mainBtn.style.bottom = '5px';
-	                mainBtn.style.left = '5px';
-	                mainBtn.style.background = 'white';
-	                mainBtn.style.color = 'black';
-	                mainBtn.style.border = '1px solid black';
-	                mainBtn.style.borderRadius = '4px';
-	                mainBtn.style.fontSize = '12px';
-	                mainBtn.style.padding = '2px 6px';
-	                mainBtn.style.cursor = 'pointer';
-	                
-                    mainBtn.addEventListener('click', function () {
-                        document.getElementById('mainImageIndex').value = index; // 대표 이미지 인덱스 설정
-
-                        // UI 강조 효과 (선택된 대표만 표시)
-                        document.querySelectorAll('#imagePreviewContainer div').forEach(div => {
-                            mainBtn.style.background = '#fd7e14';
-                            mainBtn.style.color = 'white';
-                            let btn = div.querySelector('button');
-                            if (btn && btn.innerText.includes('대표(선택됨)')) {
-                                btn.innerText = '대표';
-                            }
-                        });
-                        mainBtn.innerText = '대표(선택됨)';
-                    });
-                    
-	                // 삭제 버튼
-	                let delBtn = document.createElement('button');
-	                delBtn.innerText = 'X';
-	                delBtn.style.position = 'absolute';
-	                delBtn.style.top = '5px';
-	                delBtn.style.right = '5px';
-	                delBtn.style.background = 'black';
-	                delBtn.style.color = 'white';
-	                delBtn.style.border = 'none';
-	                delBtn.style.borderRadius = '50%';
-	                delBtn.style.width = '24px';
-	                delBtn.style.height = '24px';
-	                delBtn.style.cursor = 'pointer';
-	                delBtn.onclick = function () {
-	                    
-                	// 삭제 클릭 시 미리보기에서 제거
-                    imgDiv.remove();
-                    
-                    // 파일 리스트 재구성
-                    let dataTransfer = new DataTransfer();
-                    Array.from(imageUpload.files).forEach((f, i) => {
-                        if (i !== index) {
-                            dataTransfer.items.add(f);
-                        }
-                    });
-                    
-                    imageUpload.files = dataTransfer.files;
-                    
-                    // document.getElementById('mainImageIndex').value = '';
-                };
-                */
 	                imgDiv.appendChild(img);
-	                // imgDiv.appendChild(mainBtn);
-	                // imgDiv.appendChild(delBtn);
 	                previewContainer.appendChild(imgDiv);
 	            };
 
@@ -675,43 +624,6 @@
 
 	                };
 
-	                reader.readAsDataURL(file);
-	            });
-	        });
-	    }
-	   
-	    const editFileInput = document.getElementById('editFile');
-	    const editPreviewContainer = document.getElementById('editImagePreviewContainer');
-
-	    if (editFileInput) {
-	        editFileInput.addEventListener('change', function () {
-	            editPreviewContainer.innerHTML = ''; // 기존 미리보기 초기화
-
-	            const files = this.files;
-	            if (files.length === 0) return;
-
-	            Array.from(files).forEach((file) => {
-	                if (!file.type.startsWith('image/')) {
-	                    alert("이미지 파일만 업로드할 수 있습니다.");
-	                    return;
-	                }
-
-	                const reader = new FileReader();
-	                reader.onload = function (e) {
-	                    const imgDiv = document.createElement('div');
-	                    imgDiv.style.position = 'relative';
-
-	                    const img = document.createElement('img');
-	                    img.src = e.target.result;
-	                    img.style.width = '150px';
-	                    img.style.height = '150px';
-	                    img.style.objectFit = 'cover';
-	                    img.style.border = '1px solid #ccc';
-	                    img.style.borderRadius = '5px';
-
-	                    imgDiv.appendChild(img);
-	                    editPreviewContainer.appendChild(imgDiv);
-	                };
 	                reader.readAsDataURL(file);
 	            });
 	        });

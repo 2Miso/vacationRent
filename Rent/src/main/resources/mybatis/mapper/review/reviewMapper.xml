@@ -45,7 +45,7 @@
 		select reviewtb.*, usertb.nickname, review_phototb.* 
 		from accotb a 
 			inner join roomtb r 	
-				on a.acco_no=r.acco_no and r.delyn='N' 
+				on a.acco_no=r.acco_no  
 			inner join reservtb 
 				on r.room_no=reservtb.room_no and reservtb.cancelyn='N' 
 			inner join reviewtb 

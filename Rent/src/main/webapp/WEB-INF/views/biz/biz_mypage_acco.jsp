@@ -134,14 +134,15 @@
 
 		$(imageInput).next("span").text("");
     
+		alert("숙소가 등록되었습니다.");
+        $(".edit-field").prop("disabled", false);
+		
      	return true;
       }
       
       let photoDeleted = false;
       
       function editchangeFn(){
-    		// 사진 삭제 여부 확인을 위한 변수 활용
-    	    let isPhotoDeleted = photoDeleted;
 
     	    let imageInput = document.getElementById("editFile");
     	    let files = imageInput.files;
@@ -159,40 +160,34 @@
 		        }
 		    });
 		    
-		    if (!isEdited && !isPhotoDeleted && hasNewPhotos && existingPhotoCount > 0){
-		    	alert("기존 숙소 사진이 존재합니다. 사진을 먼저 삭제해주세요.");
-		    	return false;
+		    // 기존 사진 삭제 + 새 사진 업로드 시 수정
+		    if (!isEdited && photoDeleted && hasNewPhotos) {
+		    	if (existingPhotoCount > 0) {
+		            alert("기존 숙소 사진이 존재합니다. 사진을 먼저 삭제해주세요.");
+		            return false;
+		        } else {
+		            return true; // 기존 사진 없으면 등록 가능
+		        }
 		    }
 		
-		    if (!isEdited && !isPhotoDeleted) {
+		    if (photoDeleted && !hasNewPhotos) {
+		        alert("사진을 삭제한 경우, 새 이미지를 반드시 업로드해야 합니다.");
+		        return false;
+		    }
+		    
+		    if (!isEdited && !photoDeleted && !hasNewPhotos) {
 		        alert("수정할 내용을 입력하세요.");
 		        return false;
 		    }
-    	    // 사진 삭제된 경우 반드시 새 파일 첨부하도록 체크
-    	    if (isPhotoDeleted) {
-    	        let imageInput = document.getElementById("editFile");
-    	        let files = imageInput.files;
-
-    	        if (files.length === 0) {
-    	            $(imageInput).next("span").text("사진을 삭제한 경우, 새 이미지를 반드시 업로드해야 합니다.").css("color", "red");
-    	            return false;
-    	        }
-
-    	        for (let i = 0; i < files.length; i++) {
-    	            if (!files[i].type.startsWith("image/")) {
-    	                $(imageInput).next("span").text("이미지 파일만 등록해 주세요.").css("color", "red");
-    	                return false;
-    	            }
-    	        }
-
-    	        $(imageInput).next("span").text(""); // 에러 제거
-    	    }
-
+  
     	    return true;
       }
+
+    	    
       
       function deleteAccoFn(){
     	  let hasEmpty = false;
+    	  
     	  $("#editType, #editName, #editAddr, #editPhone, #editInfo, #editBizHour, #editCheckin, #editCheckout").each(function () {
     		  if (!$(this).val() || $(this).val().trim() === "") {
     	            hasEmpty = true;
@@ -201,13 +196,28 @@
     	  });
     	  
     	  if (hasEmpty) {
-    	        alert("숙소정보가 없습니다."); // 경고 메시지
-    	        return false; // 삭제 막기
+    	        alert("숙소 정보가 없습니다."); 
+    	        return; 
     	  }
     	  
-    	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return false;
-    	  
-    	  return true;
+    	  if (!confirm("정말 숙소 정보를 삭제하시겠습니까?")) return;
+    	   
+    	  $.ajax({
+    	        url: "<c:url value='/biz/delete_acco'/>",
+    	        type: "POST",
+    	        data: { accoNo: $("#editAccoNo").val() }, // hidden input
+    	        success: function () {
+    	            alert("숙소 정보가 삭제되었습니다.");
+
+    	    	    // 수정폼 비우고 비활성화
+    	    	    $(".edit-field").val("").prop("disabled", true);
+
+    	            $("#editImagePreviewContainer").empty();
+    	        },
+    	        error: function () {
+    	            alert("삭제 중 오류가 발생했습니다.");
+    	        }
+    	    });
       }
       
       function deleteAccoPhotoFn(){
@@ -221,11 +231,11 @@
     	  });
     	  
     	  if (hasEmpty) {
-	  	        alert("숙소정보가 없습니다."); // 경고 메시지
+	  	        alert("숙소 정보가 없습니다."); // 경고 메시지
 	  	        return false; // 삭제 막기
 	  	  }
 	  	  
-	  	  if (!confirm("정말 숙소정보를 삭제하시겠습니까?")) return false;
+	  	  if (!confirm("정말 숙소 사진을 삭제하시겠습니까?")) return false;
 
     	  $.ajax({
     	    url: "<c:url value='/biz/delete_acco_photo' />",
@@ -234,6 +244,7 @@
     	    success: function() {
     	      alert("사진이 삭제되었습니다.");
     	      photoDeleted = true;
+    	      $("#existingPhotoCount").val(0);
     	      // 필요한 경우 UI 갱신 (사진 목록 갱신 등)
     	    },
     	    error: function() {
@@ -383,51 +394,84 @@
             <span></span>
           
           <div>숙소 이름</div>
-            <input type="text" class="form-control" id="editName" value="${empty acco ? '' : acco.name}" data-original="${empty acco ? '' : acco.name}" name="name">
+            <input type="text" class="form-control"
+            id="editName" value="${empty acco ? '' : acco.name}"
+            data-original="${empty acco ? '' : acco.name}" name="name"
+            <c:if test="${empty acco.name}">disabled</c:if>>
             <span></span>
           
           <div>숙소 주소</div>
-            <input type="text" class="form-control" id="editAddr" value="${empty acco ? '' : acco.addr}" data-original="${empty acco ? '' : acco.addr}" name="addr">
+            <input type="text" class="form-control"
+            id="editAddr" value="${empty acco ? '' : acco.addr}"
+            data-original="${empty acco ? '' : acco.addr}" name="addr"
+            <c:if test="${empty acco.addr}">disabled</c:if>>
             <span></span>
           
           <div>숙소 전화번호</div>
-            <input type="text" class="form-control" id="editPhone" value="${empty acco ? '' : acco.phone}" data-original="${empty acco ? '' : acco.phone}" name="phone">
+            <input type="text" class="form-control" id="editPhone"
+            value="${empty acco ? '' : acco.phone}"
+            data-original="${empty acco ? '' : acco.phone}" name="phone"
+            <c:if test="${empty acco.phone}">disabled</c:if>>
             <span></span>
           
           <div>숙소 정보</div>
-            <input type="text" class="form-control" id="editInfo" value="${empty acco ? '' : acco.description}" data-original="${empty acco ? '' : acco.description}" name="description">
+            <input type="text" class="form-control" id="editInfo"
+            value="${empty acco ? '' : acco.description}"
+            data-original="${empty acco ? '' : acco.description}"
+            name="description"
+            <c:if test="${empty acco.description}">disabled</c:if>>
             <span></span>
           
           <div>상담가능시간</div>
-            <input type="text" class="form-control" id="editBizHour" value="${empty acco ? '' : acco.bizHour}" data-original="${empty acco ? '' : acco.bizHour}" name="bizHour">
+            <input type="text" class="form-control" id="editBizHour"
+            value="${empty acco ? '' : acco.bizHour}"
+            data-original="${empty acco ? '' : acco.bizHour}"
+            name="bizHour"
+            <c:if test="${empty acco.bizHour}">disabled</c:if>>
             <span></span>
 
           <div>운영 시간</div>
           <div class="d-flex">
               <div>
-                <input type="text" class="form-control" id="editCheckin" value="${empty acco ? '' : acco.checkin}" data-original="${empty acco ? '' : acco.checkin}" name="checkin">
+                <input type="text" class="form-control" id="editCheckin"
+                value="${empty acco ? '' : acco.checkin}"
+                data-original="${empty acco ? '' : acco.checkin}"
+                name="checkin"
+                <c:if test="${empty acco.checkin}">disabled</c:if>>
                 <span></span>
               </div>
 
            
               <div>
-                <input type="text" class="form-control" id="editCheckout" value="${empty acco ? '' : acco.checkout}" data-original="${empty acco ? '' : acco.checkout}" name="checkout">
+                <input type="text" class="form-control" id="editCheckout"
+                value="${empty acco ? '' : acco.checkout}"
+                data-original="${empty acco ? '' : acco.checkout}"
+                name="checkout"
+                <c:if test="${empty acco.checkout}">disabled</c:if>>
                 <span></span>
               </div>
           </div>
           
           <div>숙소 사진 첨부(기존 사진 삭제 후 첨부해주세요.)</div>
           <div>
-	            <input id="editFile" class="form-control" type="file" multiple accept="image/*" name="image">
+	            <input id="editFile" class="form-control" type="file"
+	            multiple accept="image/*" name="image"
+	            <c:if test="${empty acco.name}">disabled</c:if>>
 	            <span></span>
           </div>
-          	<input type="hidden" id="existingPhotoCount" value="${fn:length(accoList)}">
+          
+          	<!-- 기존 + 새 사진 미리보기 영역 -->
+			<div class="edit-field" id="editImagePreviewContainer" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;"></div>
+
+			<!-- 기존 사진 개수 hidden -->
+			<input type="hidden" id="existingPhotoCount" value="${fn:length(accoList)}">
+       
 			<br><button class="btn btn-primary " type="submit" onclick="return editchangeFn()">수정하기</button><!--링크를 걸어야 합니다-->
         </form>
         
         <form action="<c:url value='/biz/delete_acco' />" style="position:relative; bottom:37.5px; left:100px;" method="post">
         	<input type="hidden" name="accoNo" value="${acco.accoNo}" />
-        	<button class="btn btn-primary btn-delete-acco" type="submit" onclick="return deleteAccoFn()">삭제하기</button> 
+        	<button class="btn btn-primary btn-delete-acco" type="button" onclick="return deleteAccoFn()">삭제하기</button> 
         </form>
         
         <form action="<c:url value="/biz/delete_acco_photo" />" method="post">
@@ -467,26 +511,16 @@
 		        숙소 정보가 성공적으로 수정되었습니다!
 		    </div>
 		</c:if> 
+        <c:if test="${param.error == 'notfound'}">
+		    <div class="alert alert-success">
+		        숙소 정보가 존재하지 않습니다. 숙소 정보를 등록해주세요.
+		    </div>
+		</c:if> 
         </div>
   </div><!--내용 끝-->
 </section>
 <script>
 	document.addEventListener('DOMContentLoaded', function () {
-		
-		const elements = document.querySelectorAll('#editType, #editName, #editAddr, #editPhone, #editInfo, #editBizHour, #editCheckin, #editCheckout');
-	    let isAnyEnabled = false;
-
-	    elements.forEach(el => {
-	        if (!el.disabled) {
-	            isAnyEnabled = true;
-	        }
-	    });
-
-	    const editFileInput = document.getElementById('editFile');
-	    if (editFileInput) {
-	        // 다른 input이 활성화되어 있거나 사진 삭제된 경우 첨부파일 input 활성화
-	        editFileInput.disabled = !(isAnyEnabled || photoDeleted);
-	    }
 		
 		<c:forEach var="acco" items="${accoList}">
 			new Swiper('.mySwiper', {
@@ -603,6 +637,86 @@
 	            reader.readAsDataURL(file);
 	        });
 	    });
+	    
+	    if (editFileInput) {
+	        const swiperWrapper = document.querySelector('.mySwiper .swiper-wrapper');
+
+	        editFileInput.addEventListener('change', function () {
+	            const files = this.files;
+
+	            // 기존 슬라이드 초기화
+	            swiperWrapper.innerHTML = '';
+
+	            if (files.length === 0) return;
+
+	            Array.from(files).forEach((file) => {
+	                if (!file.type.startsWith('image/')) {
+	                    alert("이미지 파일만 업로드할 수 있습니다.");
+	                    return;
+	                }
+
+	                const reader = new FileReader();
+	                reader.onload = function (e) {
+	                    const slide = document.createElement('div');
+	                    slide.classList.add('swiper-slide');
+	                    slide.style.display = 'flex';
+	                    slide.style.justifyContent = 'center';
+	                    slide.style.alignItems = 'center';
+
+	                    const img = document.createElement('img');
+	                    img.src = e.target.result;
+	                    img.style.width = '200px';
+	                    img.style.height = '200px';
+	                    img.style.objectFit = 'cover';
+	                    img.style.borderRadius = '5px';
+
+	                    slide.appendChild(img);
+	                    swiperWrapper.appendChild(slide);
+
+	                };
+
+	                reader.readAsDataURL(file);
+	            });
+	        });
+	    }
+	   
+	    const editFileInput = document.getElementById('editFile');
+	    const editPreviewContainer = document.getElementById('editImagePreviewContainer');
+
+	    if (editFileInput) {
+	        editFileInput.addEventListener('change', function () {
+	            editPreviewContainer.innerHTML = ''; // 기존 미리보기 초기화
+
+	            const files = this.files;
+	            if (files.length === 0) return;
+
+	            Array.from(files).forEach((file) => {
+	                if (!file.type.startsWith('image/')) {
+	                    alert("이미지 파일만 업로드할 수 있습니다.");
+	                    return;
+	                }
+
+	                const reader = new FileReader();
+	                reader.onload = function (e) {
+	                    const imgDiv = document.createElement('div');
+	                    imgDiv.style.position = 'relative';
+
+	                    const img = document.createElement('img');
+	                    img.src = e.target.result;
+	                    img.style.width = '150px';
+	                    img.style.height = '150px';
+	                    img.style.objectFit = 'cover';
+	                    img.style.border = '1px solid #ccc';
+	                    img.style.borderRadius = '5px';
+
+	                    imgDiv.appendChild(img);
+	                    editPreviewContainer.appendChild(imgDiv);
+	                };
+	                reader.readAsDataURL(file);
+	            });
+	        });
+	    }
+	    
 	});
 
 </script>

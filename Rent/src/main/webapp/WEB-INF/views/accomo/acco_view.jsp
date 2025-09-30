@@ -679,7 +679,6 @@ footer {
 			<h3>숙소정보</h3>
 			<div>체크인 ${acco.checkin} / 체크아웃 ${acco.checkout}</div>
 			<div>추가요금</div>
-			<div>등등 공통정보</div>
 		</article>
 		<hr>
 		<div class="owner_info">

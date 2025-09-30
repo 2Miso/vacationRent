@@ -295,6 +295,7 @@ public class BizController {
 	public String accoEdit(
 			@ModelAttribute AccoVO vo, HttpSession session, HttpServletRequest request,
 	        @RequestParam(value = "image", required = false) List<MultipartFile> imageFiles,
+	        @RequestParam(value = "photoDeleted", required = false) Boolean photoDeleted,
 	        Model model             
 			) {
 
@@ -328,15 +329,19 @@ public class BizController {
 	    
 	    List<AccoPhotoVO> existingPhotos = bizService.getPhotosByBizId(accoNo);
 	    
-	    if (imageFiles != null && !imageFiles.isEmpty() && imageFiles.get(0).isEmpty()) {
-	        // 새 이미지가 있다면 업로드 처리
-	    	
-	    	if(existingPhotos != null && !existingPhotos.isEmpty()) {
-	    		model.addAttribute("errorMessage", "기존 숙소 사진이 존재합니다. 사진을 먼저 삭제해주세요.");
-	    		model.addAttribute("acco", existingAcco);
-	    		return "/biz/biz_mypage_acco";
-	    	}
-	    	
+	    // 새 파일 존재 여부 체크
+	    boolean hasFiles = imageFiles != null && !imageFiles.isEmpty() &&
+	                       imageFiles.stream().anyMatch(f -> !f.isEmpty());
+	    
+	    // 기존 사진이 남아있고 삭제하지 않았다면 업로드 제한
+	    if (existingPhotos != null && !existingPhotos.isEmpty() && (photoDeleted == null || !photoDeleted)) {
+	        if (hasFiles) {
+	            model.addAttribute("errorMessage", "기존 숙소 사진이 존재합니다. 사진을 먼저 삭제해주세요.");
+	            model.addAttribute("acco", existingAcco);
+	            return "/biz/biz_mypage_acco";
+	        }
+	    }
+	    if (hasFiles) {	
 	    	String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
 	    	File dir = new File(uploadDir);
 	    	if (!dir.exists()) {
@@ -354,7 +359,9 @@ public class BizController {
 	                    image.transferTo(saveFile);
 	                } catch (IOException e) {
 	                    e.printStackTrace();
-	                    throw new RuntimeException("이미지 저장 실패", e);
+	                    model.addAttribute("errorMessage", "이미지 저장 실패");
+	                    model.addAttribute("acco", existingAcco);
+	                    return "/biz/biz_mypage_acco";
 	                }
 
 	                // DB 저장용 VO 세팅
@@ -370,7 +377,7 @@ public class BizController {
 	        }
 	    }else {
 	        // 새 사진이 없는데 기존 사진도 없다면 경고 처리
-	        if (existingPhotos == null || existingPhotos.isEmpty()) {
+	        if (existingPhotos == null || existingPhotos.isEmpty() || (photoDeleted != null && photoDeleted)) {
 	            model.addAttribute("errorMessage", "숙소 사진을 한 장 이상 업로드해주세요.");
 	            model.addAttribute("acco", existingAcco);
 	            return "/biz/biz_mypage_acco";
@@ -386,13 +393,36 @@ public class BizController {
 	
 	// 숙소 삭제 처리
 	@PostMapping("/biz/delete_acco")
-	public String accoDelete(Model model,
+	public String accoDelete(Model model, HttpSession session,
+			HttpServletRequest request,
 			@RequestParam("accoNo") int accoNo) {
-		bizService.deleteAccoDelyn(accoNo);
 		
-		model.addAttribute("acco", new AccoVO());
+		try {
+			List<AccoPhotoVO> photoList = bizService.getPhotosByBizId(accoNo);
 		
-		return "/biz/biz_mypage_acco";
+			String uploadDir = request.getSession().getServletContext().getRealPath("/resources/img/acco");
+	        for (AccoPhotoVO photo : photoList) {
+	            String savedName = photo.getSavedName();
+	            File file = new File(uploadDir, savedName);
+	            if (file.exists()) {
+	                file.delete();
+	            }
+	        }
+	        
+	        bizService.deleteAccoPhotoByAccoNo(accoNo);
+			
+			bizService.deleteAccoDelyn(accoNo);
+			
+			model.addAttribute("acco", new AccoVO());
+			
+			return "redirect:/biz/biz_mypage_acco?success=delete";
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			return "redirect:/biz/biz_mypage_acco?error=true";
+		}
+		
+		
 	}
 	
 	// 숙소 사진 등록 처리

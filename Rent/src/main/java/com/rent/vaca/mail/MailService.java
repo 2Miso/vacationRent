@@ -24,10 +24,10 @@ public class MailService {
 		try {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8"); 
 			
-			//ï§ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ëŒ€ï¿½ ï¿½ã…¼ï¿½ï¿½
-			messageHelper.setFrom("3whitedog3@gmail.com","ë¹„ë°€ë²ˆí˜¸ë³€ê²½ì•ˆë‚´ë¬¸ìë©”ì¼");
-			//"ë³´ë‚¼ ë©”ì¼", "í‘œì‹œë˜ëŠ” ì´ë¦„" 
-			//ì„¸ë¶€ ì„¤ì •ì€ root-contextì— ìœ„ì¹˜í•´ìˆìŠµë‹ˆë‹¤
+			//ë©??? ???? ?? ?????? ?´ë? ?¤ì??
+			messageHelper.setFrom("3whitedog3@gmail.com","ºñ¹Ğ¹øÈ£º¯°æ¾È³»¹®ÀÚ¸ŞÀÏ");
+			//"º¸³¾ ¸ŞÀÏ", "Ç¥½ÃµÇ´Â ÀÌ¸§" 
+			//¼¼ºÎ ¼³Á¤Àº root-context¿¡ À§Ä¡ÇØÀÖ½À´Ï´Ù
 			messageHelper.setSubject(subject);
 			messageHelper.setTo(to);
 			messageHelper.setText(body);

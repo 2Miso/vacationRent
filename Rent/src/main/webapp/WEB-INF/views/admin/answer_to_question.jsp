@@ -49,7 +49,11 @@
                     $(".write").submit();
                 }
             } );
-        });
+            
+            $("#cancel").click(function(){
+            	location.href="${pageContext.request.contextPath}/admin/private_question";
+            });
+        });/* document.ready 끝 */
     </script>
 </head>
 <body>

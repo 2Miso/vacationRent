@@ -18,7 +18,7 @@ import com.rent.vaca.user.UserService;
 import com.rent.vaca.user.UserVO;
 
 @Controller
-@EnableAsync//é®ï¿½ï¿½ï¿½æ¹²ê³•ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½å¯ƒï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ëŒ€ï¿½ëª…ï¿½ï¿½ï¿½ëŒï¿½ï¿½
+@EnableAsync//ë¹???ê¸°ë? ??????ê²? ???? ?´ë?¸í???´ì??
 public class MailController {
 		
 	@Autowired
@@ -42,20 +42,20 @@ public class MailController {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		mailService.sendMail("sleepless0527@gmail.com","ë¹„ë°€ë²ˆí˜¸ ë³€ê²½ ì•ˆë‚´","ë³€ê²½ëœ ë¹„ë°€ë²ˆí˜¸ëŠ”"+pwchangesend+"ì…ë‹ˆë‹¤"); 
-		//ì„¤ëª… ("ì „ë‹¬í•  ë©”ì¼ì£¼ì†Œ","ë©”ì¼ì œëª©","ë©”ì¼ë‚´ìš©"
-		//ë‹¤ ê¹¨ì¡‹ìŠµë‹ˆë‹¤
-		//ì œ ê°œì¸ë©”ì¼ì…ë‹ˆë‹¤.
-		out.print("ï§ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½çŒ·ï¿½");
+		mailService.sendMail(vo.getEmail(),"ºñ¹Ğ¹øÈ£ º¯°æ ¾È³»","º¯°æµÈ ºñ¹Ğ¹øÈ£´Â"+pwchangesend+"ÀÔ´Ï´Ù"); 
+		//¼³¸í ("Àü´ŞÇÒ ¸ŞÀÏÁÖ¼Ò","¸ŞÀÏÁ¦¸ñ","¸ŞÀÏ³»¿ë"
+		//´Ù ±ú º½À´Ï´Ù
+		//Á¦ °³ÀÎ¸ŞÀÏÀÔ´Ï´Ù.
+		out.print("¸ŞÀÏÀÌ ¹ß¼ÛµÇ¾ú½À´Ï´Ù.");
 		return "user/find/mailsend";
 		}catch(Exception e){
 			response.setContentType("text/html; charset=UTF-8");
 		    PrintWriter writer = response.getWriter();
 		    writer.println("<script>");
-		    writer.println("alert('ì •ë³´ë¥¼ ì…ë ¥í•´ ì£¼ì„¸ìš”');");
+		    writer.println("alert('Á¤º¸¸¦ ÀÔ·ÂÇØ ÁÖ¼¼¿ä');");
 		    writer.println("window.location.href = '/vaca/user/find/pw';");
 		    writer.println("</script>");
-		    writer.flush(); // è¸°ï¿½ï¿½ï¿½ é®ï¿½ï¿½ê³Œë¦°
+		    writer.flush(); // ë²??? ë¹??°ê¸°
 		    return null;
 		}finally{
 

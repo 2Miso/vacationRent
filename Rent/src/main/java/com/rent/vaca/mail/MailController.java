@@ -18,7 +18,7 @@ import com.rent.vaca.user.UserService;
 import com.rent.vaca.user.UserVO;
 
 @Controller
-@EnableAsync//鍮???湲곕? ??????寃? ???? ?대?명???댁??
+@EnableAsync//비동기 처리 활성화
 public class MailController {
 		
 	@Autowired
@@ -36,26 +36,26 @@ public class MailController {
 	public String findPw(HttpServletRequest request,HttpServletResponse response,UserVO vo) throws Exception
 	{
 		try {
-		userService.pwauto(vo);
+		userService.pwauto(vo); 
 		String pwchangesend = userService.findPw(vo).getPw();
 		
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
-		mailService.sendMail(vo.getEmail(),"비밀번호 변경 안내","변경된 비밀번호는"+pwchangesend+"입니다"); 
-		//설명 ("전달할 메일주소","메일제목","메일내용"
-		//다 깨졋습니다
-		//제 개인메일입니다.
-		out.print("메일이 발송되었습니다.");
+		mailService.sendMail(vo.getEmail(),"example@email.com","임시 비밀번호는 "+pwchangesend+" 입니다"); 
+		//vo.getEmail()로 이메일 주소 가져옴
+		//example@email.com으로 vo.getEmail()주소로 메일을 보냅니다.
+		//pwchangesend는 임시 비밀번호입니다.
+		out.print("이메일이 발송되었습니다.");
 		return "user/find/mailsend";
 		}catch(Exception e){
 			response.setContentType("text/html; charset=UTF-8");
 		    PrintWriter writer = response.getWriter();
 		    writer.println("<script>");
-		    writer.println("alert('정보를 입력해 주세요');");
+		    writer.println("alert('오류가 발생했습니다.");
 		    writer.println("window.location.href = '/vaca/user/find/pw';");
 		    writer.println("</script>");
-		    writer.flush(); // 踰??? 鍮??곌린
+		    writer.flush(); // 버퍼 초기화
 		    return null;
 		}finally{
 

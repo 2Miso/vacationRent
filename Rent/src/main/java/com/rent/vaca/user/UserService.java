@@ -71,7 +71,7 @@ public interface UserService {
 	UserVO useraccountsocial(UserVO vo);
 
 //============================================================================================================================
-//kakao sociallogin
+//Ä«Ä«¿À ¼Ò¼È·Î±×ÀÎ 
 	public static String getAccessToken (String authorize_code) {
 		String access_Token = "";
 		String refresh_Token = "";
@@ -141,7 +141,7 @@ public interface UserService {
 		}
 		
 //====================================================================================================================
-//naver social login	
+//³×ÀÌ¹ö ¼Ò¼È·Î±×ÀÎ	
 	String NAVER_CLIENT_ID ="kefXRLW29KDelSqZkpjS";
 	String NAVER_CLIENT_SECRET ="txfxP6iiA4";
 	String NAVER_BASE_URL ="https://nid.naver.com/oauth2.0/authorize";
@@ -170,7 +170,7 @@ public interface UserService {
 		    
 	}
 //==========================================================================================
-	//1ï¿½ï¿½1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½)
+	//ÀÌ°Ç Á¦°¡ ¸¸µç ÄÚµå°¡ ¾Æ´Õ´Ï´Ù.
 	public List<NoticeVO> selectQuestionList();
 }
 

@@ -24,15 +24,16 @@ public class MailService {
 		try {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(message,true,"UTF-8"); 
 			
-			//硫??? ???? ?? ?????? ?대? ?ㅼ??
-			messageHelper.setFrom("3whitedog3@gmail.com","비밀번호변경안내문자메일");
-			//"보낼 메일", "표시되는 이름" 
-			//세부 설정은 root-context에 위치해있습니다
+
+			messageHelper.setFrom("example@email.com","임시비밀번호전송");
+			//"전달받은 상대에게 표시될 메일 주소","전달 받은 상대에게 표시될 이름"
+			//root-context에서 SMTP 설정
+			//참고 : https://licht-study.tistory.com/entry/Spring-메일-전송하기Gmail
 			messageHelper.setSubject(subject);
 			messageHelper.setTo(to);
 			messageHelper.setText(body);
 			mailSender.send(message);
-			//
+
 		} catch (Exception e) 
 		{
 			e.printStackTrace();

@@ -9,16 +9,16 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
 		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
 		<!-- setDriverClassName() -->
-		<!-- 외부 배포용 데이터베이스 -->
+		<!-- 외부 배포용 데이터베이스 
 		<property name="url" value="jdbc:mysql://jjezen.cafe24.com:3307/fullstack_20250410_b" />
 		<property name="username" value="fullstack_20250410_buser" />
 		<property name="password" value="bteam123!" />
-		
-		<!-- 내부 실험용 데이터베이스 
+		-->
+		<!-- 내부 실험용 데이터베이스 -->
 		<property name="url" value="jdbc:mysql://localhost:3306/Rent" />
 		<property name="username" value="root" />
 		<property name="password" value="ezen" />
-		-->
+		
 	</bean>
 	
 	<!-- mybatis sql 설정 객체 -->

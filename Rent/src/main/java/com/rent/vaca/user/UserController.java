@@ -77,26 +77,26 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//È¸¿ø°¡ÀÔµ¿ÀÇÆäÀÌÁö
 	@RequestMapping(value="/user/join/agree", method = RequestMethod.GET)
 	public String agree() {
 		return "user/join/agree";
 	}
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//È¸¿ø°¡ÀÔÆû ÆäÀÌÁö 
 	@RequestMapping(value="/user/join/form", method = RequestMethod.GET)
 	public String join() {
 		return "user/join/form";
 	}
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½É±ï¿½ï¿½ï¿½
+	//È¸¿ø°¡ÀÔ Æû ±â´É
 	@RequestMapping(value="user/join/form", method = RequestMethod.POST) 
 	public String join(UserVO vo) {
 		userService.join(vo);
 		return "redirect:/user/join/finish";
 	}
 	
-	//ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ßºï¿½Ã¼Å© ï¿½ï¿½É±ï¿½ï¿½ï¿½
+	//È¸¿ø°¡ÀÔ ½Ã ÀÌ¸ŞÀÏ Áßº¹Ã¼Å© ±â´É
 	@RequestMapping(value="user/join/form/emailCheck", method = RequestMethod.POST) 
 	@ResponseBody
 	public Response emailCheck(@RequestParam(value="email") String email) {
@@ -107,19 +107,19 @@ public class UserController {
 		return res;
 	}
 	
-	//È¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	//È¸¿ø°¡ÀÔ ¿Ï·á ÆäÀÌÁö
 	@RequestMapping(value="/user/join/finish", method = RequestMethod.GET) 
 	public String finish() {
 		return "user/join/finish";
 	}
 	
-	//ï¿½Ì¸ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ÀÌ¸ŞÀÏ Ã£±â ÆäÀÌÁö
 	@RequestMapping(value="/user/find/email", method = RequestMethod.GET) 
 	public String findEmail() {
 		return "user/find/email";
 	}
 	
-	//ï¿½Ì¸ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+	//ÀÌ¸ŞÀÏ Ã£±â ±â´É
 	@RequestMapping(value="/user/find/email", method = RequestMethod.POST) 
 	public String findEmail(UserVO vo,HttpServletRequest request, HttpServletResponse response, Model model) throws Exception{
 		try {
@@ -128,20 +128,20 @@ public class UserController {
 			response.setContentType("text/html; charset=UTF-8");
 		    PrintWriter writer = response.getWriter();
 		    writer.println("<script>");
-		    writer.println("alert('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½ï¿½ "+email+"ï¿½Ô´Ï´ï¿½.');");
+		    writer.println("alert('°¡ÀÔÇÑ ÀÌ¸ŞÀÏÀº"+email+"ÀÔ´Ï´Ù.');");
 		    writer.println("window.location.href = '/vaca/login/email';");
 		    writer.println("</script>");
-		    writer.flush(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		    writer.flush(); //¹öÆÛ ÃÊ±âÈ­
 
 		}catch(NullPointerException e){
-			model.addAttribute("email", "ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½");
+			model.addAttribute("email", "°¡ÀÔÇÑ ÀÌ¸ŞÀÏÀÌ ¾ø½À´Ï´Ù");
 			response.setContentType("text/html; charset=UTF-8");
 		    PrintWriter writer = response.getWriter();
 		    writer.println("<script>");
-		    writer.println("alert('ï¿½Ô·ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½');");
+		    writer.println("alert('°¡ÀÔÇÑ ÀÌ¸ŞÀÏÀÌ ¾ø½À´Ï´Ù");
 		    writer.println("window.location.href = '/vaca/user/find/email';");
 		    writer.println("</script>");
-		    writer.flush(); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		    writer.flush(); //¹öÆÛ ÃÊ±âÈ­
 
 		}finally{
 
@@ -150,21 +150,21 @@ public class UserController {
 
 	}
 	
-	//ï¿½ï¿½Ğ¹ï¿½È£Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ºñ¹Ğ¹øÈ£ Ã£±â ÆäÀÌÁö
 	@RequestMapping(value="/user/find/pw", method = RequestMethod.GET) 
 	public String findPw() {
 		return "user/find/pw";
 	}
 	
-	//ï¿½ï¿½Ğ¹ï¿½È£Ã£ï¿½ï¿½ ï¿½ï¿½ï¿½Ïºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	//ºñ¹Ğ¹øÈ£ Ã£±â ¸ŞÀÏÀÌ º¸³»ÁüÀ» ¾Ë¸®´Â ÆäÀÌÁö 
 	@RequestMapping(value="/user/find/mailsend", method = RequestMethod.GET) 
 	public String mailSend() {
 		return "user/find/mailsend";
 	}
 
 //================================================================================================
-	//Ä«Ä«ï¿½ï¿½ ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½...
-	//Ä«Ä«ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È¸ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½Úµï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼ï¿½ï¿½Ö´Â°ï¿½ï¿½ï¿½ 2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Û¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½
+	//Ä«Ä«¿À ¼Ò¼È·Î±×ÀÎ
+
 	@RequestMapping(value="/login/kakaocallback", method=RequestMethod.GET)
 	public String kakaoLogin(@RequestParam(value = "code", required = false) String code,HttpSession session,UserVO vo,Model model) throws Exception {
 		String access_Token = UserService.getAccessToken(code);
@@ -194,10 +194,10 @@ public class UserController {
     	}
 	
 //=======================================================================================================	
-		//ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ ï¿½Ï¼ï¿½....
+		//³×ÀÌ¹ö ¼Ò¼È·Î±×ÀÎ
 		
 	
-	    @GetMapping("/login/naver")//ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ Ã¢ï¿½ï¿½ ï¿½ï¿½ï¿½Ï´ï¿½
+	    @GetMapping("/login/naver")//³×ÀÌ¹ö ¼Ò¼È·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿
 	    public void naverLogin(HttpServletRequest request, HttpServletResponse response){
 	        final String loginUrl = UserService.getRequestLoginUrl();
 	        try {
@@ -208,7 +208,7 @@ public class UserController {
 	    }
 	    
 	    
-	   @GetMapping("/login/navercallback") //ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½É´Ï´ï¿½
+	   @GetMapping("/login/navercallback") //³×ÀÌ¹ö callback url·Î ÀÌµ¿½ÃÅ´
 	  // @ResponseBody
 	    public Object requestAccessCallback( @RequestParam(value = "code") String authCode, 
 	                                         @RequestParam(value = "state") String state,HttpSession session,UserVO vo){
@@ -218,8 +218,8 @@ public class UserController {
 	      Object responseMessage = responseEntity.getBody();
 	      Map<String, String> map = (Map<String, String>) responseMessage;
 	      String accesstokenparsed = map.get("access_token");
-	      String token = accesstokenparsed; // ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å«;
-	      String header = "Bearer " + token; // Bearer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ß°ï¿½
+	      String token = accesstokenparsed; 
+	      String header = "Bearer " + token; 
 	      String apiURL = "https://openapi.naver.com/v1/nid/me";
 	      Map<String, String> requestHeaders = new HashMap<>();
 	      requestHeaders.put("Authorization", header);
@@ -231,8 +231,8 @@ public class UserController {
 	      
 	      
 	      
-	      //naveridï¿½ï¿½ jsonï¿½Ä½ï¿½ï¿½Ñ°ï¿½ ï¿½Ö¾ï¿½ï¿½Ö´ï¿½ï¿½Úµï¿½
-	      String naverid = "sdfasdfasdsdfa";// ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½ 
+	      //naverid¿¡¼­ ¿Â json °ªÀ» ÆÄ½ÌÇØÁÖ´Â ÄÚµå
+	      String naverid = "sdfasdfasdsdfa";// naverid °ªÀ» »ç¿ëÇÏ·Á º¯¼ö ¸¸µé¾ú´Âµ¥ nullÀÌ¸é ¿À·ù³ª¼­ ³ÖÀº ÀÓ½Ã°ª
 	      ObjectMapper objectMapper = new ObjectMapper();
 	      try {
 			Map<String, Object> responsebodymap = objectMapper.readValue(responseBody, Map.class);
@@ -245,7 +245,7 @@ public class UserController {
 			e1.printStackTrace();
 		}
 	      
-	      //ï¿½Î±ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½Úµï¿½ 
+	    
 	      	try {
 				UserVO user = userService.naverlogin(naverid);
 				if(user != null) {
@@ -267,7 +267,7 @@ public class UserController {
 	   
 
 	   
-	   //ï¿½ï¿½ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½è²¸ï¿½ï¿½ ï¿½Úµï¿½ï¿½ 3ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½ ï¿½Ï´Âµï¿½ ï¿½ï¿½ ï¿½Ï´ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ğ¸£°ï¿½ï¿½ï¿½..)
+	   //³×ÀÌ¹ö ¼Ò¼È·Î±×ÀÎ api ¸í¼¼¼­¿¡ ÀÖ´ø °ª (¹«½¼ ÄÚµåÀÎÁö ¸ğ¸§ ,ÀÚ¼¼ÇÑ ³»¿ëÀº ³×ÀÌ¹ö ¼Ò¼È·Î±×ÀÎ api ÆäÀÌÁö)
 	   private static String get(String apiUrl, Map<String, String> requestHeaders){
 	        HttpURLConnection con = connect(apiUrl);
 	        try {
@@ -276,13 +276,13 @@ public class UserController {
 	                con.setRequestProperty(header.getKey(), header.getValue());
 	            }
 	            int responseCode = con.getResponseCode();
-	            if (responseCode == HttpURLConnection.HTTP_OK) { // ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½
+	            if (responseCode == HttpURLConnection.HTTP_OK) { 
 	                return readBody(con.getInputStream());
-	            } else { // ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½
+	            } else { 
 	                return readBody(con.getErrorStream());
 	            }
 	        } catch (IOException e) {
-	            throw new RuntimeException("API ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½", e);
+	            throw new RuntimeException("API ", e);
 	        } finally {
 	            con.disconnect();
 	        }
@@ -298,7 +298,7 @@ public class UserController {
 	            }
 	            return responseBody.toString();
 	        } catch (IOException e) {
-	            throw new RuntimeException("API ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ğ´Âµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½.", e);
+	            throw new RuntimeException("API.", e);
 	        }
 	    }
 
@@ -307,9 +307,9 @@ public class UserController {
 	            URL url = new URL(apiUrl);
 	            return (HttpURLConnection)url.openConnection();
 	        } catch (MalformedURLException e) {
-	            throw new RuntimeException("API URLï¿½ï¿½ ï¿½ß¸ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ï¿½Ï´ï¿½. : " + apiUrl, e);
+	            throw new RuntimeException("API URL: " + apiUrl, e);
 	        } catch (IOException e) {
-	            throw new RuntimeException("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. : " + apiUrl, e);
+	            throw new RuntimeException(" " + apiUrl, e);
 	        }
 	    } 
    
@@ -318,108 +318,47 @@ public class UserController {
 
 //=====================================================================================================================
 	  
-//
-//	      
-//	      
-//	      //naveridï¿½ï¿½ jsonï¿½Ä½ï¿½ï¿½Ñ°ï¿½ ï¿½Ö¾ï¿½ï¿½Ö´ï¿½ï¿½Úµï¿½
-//	      String naverid = "sdfasdfasdsdfa";// ï¿½ï¿½ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Â°ï¿½ 
-//	      ObjectMapper objectMapper = new ObjectMapper();
-//	      try {
-//	    	  System.out.println("============================================================================================");
-//			Map<String, Object> responsebodymap = objectMapper.readValue(responseBody, Map.class);
-//			System.out.println(responsebodymap);
-//			System.out.println(responsebodymap.get("response"));
-//			Object responsebodyresponse = responsebodymap.get("response");
-//			 Map<String, String> responsebodyresponseid = (Map<String, String>) responsebodyresponse;
-//			  naverid = responsebodyresponseid.get("id");
-//			    System.out.println(naverid);
-//			 System.out.println("============================================================================================");
-//		} catch (JsonMappingException e1) {
-//			e1.printStackTrace();
-//		} catch (JsonProcessingException e1) {
-//			e1.printStackTrace();
-//		}
-//	      
-//	      //ï¿½Î±ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½Úµï¿½ 
-//	      	try {
-//				UserVO user = userService.naverlogin(naverid);
-//				if(user != null) {
-//					System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
-//					System.out.println(user);
-//					session.setAttribute("user", user); 
-//					System.out.println("ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ï¿½Ï±ï¿½"+user);
-//					System.out.println("ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ï¿½Ï±ï¿½"+user.getNickname());
-//					return "main/main";
-//				}else {
-//					System.out.println("userï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
-//					userService.naverjoin(naverid);
-//					user = userService.naverlogin(naverid);
-//					System.out.println("ï¿½ï¿½ï¿½ï¿½È®ï¿½ï¿½ï¿½Ï±ï¿½"+user);
-//					session.setAttribute("user", user); 
-//					return "main/main";
-//				}
-//				
-//			}catch(Exception e) {
-//				return "main/main";
-//			}finally {
-//	
-//			}
-//	   }
-//	   
-	    
-//==================================================================================================================
-	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+
+	//·Î±×ÀÎ ¸ŞÀÎ ÆäÀÌÁö
 	@RequestMapping(value="/login/main", method = RequestMethod.GET) 
 	public String main() {
 		return "login/main";
 	}
 	
-	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ÀÌ¸ŞÀÏ·Î ·Î±×ÀÎ ÆäÀÌÁö
 	@RequestMapping(value="/login/email", method = RequestMethod.GET) 
 	public String login() {
 		return "login/email";
 	}
 	
-	//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½É±ï¿½ï¿½ï¿½
+	//ÀÌ¸ŞÀÏ·Î ·Î±×ÀÎ ±â´É
 	@RequestMapping(value="/login/email", method = RequestMethod.POST) 
 	public String login(UserVO vo ,HttpSession session,Model model,HttpServletResponse response) throws IOException {
 		UserVO user = userService.login(vo);
-		//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+
 		if(user == null) {
 			response.setContentType("text/html;charset=UTF-8");
 		    PrintWriter out = response.getWriter();
 		    out.println("<script>");
-		    out.println("alert('ï¿½ï¿½Ğ¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.');");
-		    out.println("history.back();"); // ï¿½Ç´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+		    out.println("alert('ÀÏÄ¡ÇÏ´Â °èÁ¤ÀÌ ¾ø½À´Ï´Ù.');");
+		    out.println("history.back();"); 
 		    out.println("</script>");
 		    out.flush();
 		    out.close();
 		}
-		//ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+		//°èÁ¤ Á¸ÀçÇÒ‹š
 		session.setAttribute("user", user); 
 		return "redirect:/";
 	}
 	
-	//ï¿½Î±×¾Æ¿ï¿½ ï¿½ï¿½ï¿½ï¿½
+	//·Î±×¾Æ¿ô ±â´ÉÀÌÀÚ ÆäÀÌÁö
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpSession session){
 		session.invalidate();
 		return "redirect:/";
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´Â¸Ş¼Òµï¿½
+	//¸ŞÀÎÈ­¸éÀ» ¶ç¿öÁÖ´Â ÆäÀÌÁö
 	@RequestMapping(value="main/main", method = RequestMethod.GET) 
 	public String main(HttpSession session) {
 		session.getAttribute("user");
@@ -428,14 +367,14 @@ public class UserController {
 
 //=========================================================================================================================
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ğ¹ï¿½È£ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	//ºñ¹Ğ¹øÈ£ º¯°æ ÆäÀÌÁö
 		@RequestMapping(value="/user/mypage/pwchange", method = RequestMethod.GET) 
 		public String userpwchange(UserVO vo, HttpSession session) throws IOException {
 			try {
 				String userid = (String) session.getAttribute("user");
-				//1.ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½
+
 				if(vo == null) {
-					return "login/main";		//2.ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.	
+					return "login/main";	
 				}else { 
 					return "user/mypage/pwchange"; 
 				}	
@@ -447,7 +386,7 @@ public class UserController {
 			return null;
 		}
 	
-		
+//	ºñ¹Ğ¹øÈ£ º¯°æ ±â´É ±¸ÇöÁß	
 //		@RequestMapping(value="/user/mypage/pwchange", method = RequestMethod.POST) 
 //		public String userpwchangeFn(@RequestParamUserVO vo, HttpSession session,HttpServletResponse response,@RequestParam("userpw") String userpw,@RequestParam("pwchange") String pwchange) throws IOException {
 //			try {
@@ -459,7 +398,7 @@ public class UserController {
 //					response.setContentType("text/html;charset=UTF-8");
 //				    PrintWriter out = response.getWriter();
 //				    out.println("<script>");
-//				    out.println("alert('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½');");
+//				    out.println("alert('');");
 //				    out.println("</script>");
 //				    out.flush();
 //				    out.close();
@@ -476,14 +415,14 @@ public class UserController {
 //================================================================================================================================	
 	
 
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	//¸¶ÀÌÆäÀÌÁö °èÁ¤ ¼³Á¤ ÆäÀÌÁö
 	@RequestMapping(value="/user/mypage/account", method = RequestMethod.GET) 
 	public String useraccount(UserVO vo, HttpSession session,HttpServletResponse response) throws IOException {
 		try {
 			vo = (UserVO) session.getAttribute("user");
-			//1.ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ç¾ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½
+			
 			if(vo == null) {
-				return "login/main";		//2.ï¿½Ò¼È·Î±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ï¿½ß´ï¿½ï¿½ï¿½ Ã¼Å©ï¿½Ñ´ï¿½.	
+				return "login/main";		
 			}else { 
 				return "user/mypage/account"; 
 			}	
@@ -497,7 +436,7 @@ public class UserController {
 	
 
 	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ 
+	//¸¶ÀÌÆäÀÌÁö °èÁ¤ ¼³Á¤ ±â´É
 	@RequestMapping(value="/user/mypage/account", method = RequestMethod.POST) 
 	public String useraccountchange(UserVO vo,HttpSession session,HttpServletResponse response,@RequestParam("nickname") String nickname,@RequestParam("phone") String phone) throws IOException {
 		vo = (UserVO) session.getAttribute("user");
@@ -512,7 +451,7 @@ public class UserController {
 			response.setContentType("text/html;charset=UTF-8");
 		    PrintWriter out = response.getWriter();
 		    out.println("<script>");
-		    out.println("alert('ë³€ê²½ë˜ì—ˆìŠµë‹ˆë‹¤');");
+		    out.println("alert('º¯°æµÇ¾ú½À´Ï´Ù');");
 		    out.println("</script>");
 		    out.flush();
 		    out.close();
@@ -522,7 +461,7 @@ public class UserController {
 			response.setContentType("text/html;charset=UTF-8");
 		    PrintWriter out = response.getWriter();
 		    out.println("<script>");
-		    out.println("alert('ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ß½ï¿½ï¿½Ï´ï¿½. ï¿½Ù½ï¿½ ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½');");
+		    out.println("alert('¿À·ù°¡ ¹ß»ıÇß½À´Ï´Ù.');");
 		    out.println("</script>");
 		    out.flush();
 		    out.close();
@@ -534,7 +473,7 @@ public class UserController {
 
 	
 //================================================================================================================	
-	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+	//¸¶ÀÌÆäÀÌÁö Áú¹® ÆäÀÌÁö
 		@RequestMapping(value="/user/mypage/question", method = RequestMethod.GET) 
 		public String userquestion(HttpSession session,HttpServletResponse response,UserVO vo,Model model) throws IOException {
 			try {
@@ -542,8 +481,8 @@ public class UserController {
 					response.setContentType("text/html;charset=UTF-8");
 				    PrintWriter out = response.getWriter();
 				    out.println("<script>");
-				    out.println("alert('ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½');");
-				    out.println("location.href='/vaca/login/main'"); // ï¿½Ç´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+				    out.println("alert('·Î±×ÀÎÇØ ÁÖ¼¼¿ä');");
+				    out.println("location.href='/vaca/login/main'"); // ·Î±×ÀÎ ¾È µÆÀ»¶§ ÀÌ ÆäÀÌÁö·Î ÀÌµ¿
 				    out.println("</script>");
 				    out.flush();
 				    out.close();
@@ -551,17 +490,17 @@ public class UserController {
 				}else {
 						vo = (UserVO) session.getAttribute("user");
 
-				        // 1. ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				        // 1. id°ªÀ» °¡Á®¿Â´Ù.
  				        int userId = vo.getId();
 				    
-				        // 2. ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
+				        // 2. id°ªÀ» ÀÌ¿ëÇØ ³»°¡ ¾´ °Ô½Ã±Û¸¸À» °¡Á®¿Í¼­ ÆäÀÌÁö¿¡¼­ »ç¿ë°¡´ÉÇÏ°Ô Çüº¯È¯ÇØÁØ´Ù.
 				       List<Object> myPosts = userService.getPostsByUserId(userId);
 				        
-				        // 3. Modelï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ JSPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+				        // 3. Model¿¡ myPosts¶ó´Â ÀÌ¸§À¸·Î ³»°¡ ¾´ °Ô½Ã±ÛµéÀ» Áı¾î³Ö¾î ¹İÈ¯
 				       model.addAttribute("myPosts", myPosts);
 
 
-				        // mypage.jsp ï¿½ä¸¦ ï¿½ï¿½È¯
+				       
 				        return "user/mypage/question";
 				    }
 
@@ -575,7 +514,7 @@ public class UserController {
 
 //===========================================================================================================================
 		
-		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+		//¿¹¾à ÆäÀÌÁö
 				@RequestMapping(value="/user/mypage/reserv", method = RequestMethod.GET) 
 				public String userreserv(HttpSession session,HttpServletResponse response,UserVO vo,Model model) throws IOException {
 					try {
@@ -583,8 +522,8 @@ public class UserController {
 							response.setContentType("text/html;charset=UTF-8");
 						    PrintWriter out = response.getWriter();
 						    out.println("<script>");
-						    out.println("alert('ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½');");
-						    out.println("location.href='/vaca/login/main'"); // ï¿½Ç´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
+						    out.println("alert('·Î±×ÀÎ ÇØÁÖ¼¼¿ä');");
+						    out.println("location.href='/vaca/login/main'"); // ·Î±×ÀÎ ¾È µÇ¸é ÀÌ ÆäÀÌÁö·Î ÀÌµ¿
 						    out.println("</script>");
 						    out.flush();
 						    out.close();
@@ -592,17 +531,17 @@ public class UserController {
 						}else {
 								vo = (UserVO) session.getAttribute("user");
 
-						        // 1. ï¿½Î±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ IDï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+						        // 1. ¾ÆÀÌµğ °¡Á®¿Â´Ù.
 		 				        int userId = vo.getId();
 						    
-						        // 2. ï¿½ï¿½ï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï¿ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
+						        // 2.À§¿¡Ã³·³ »ç¿ë°¡´ÉÇÏ°Ô Çüº¯È¯ÇØÁØ´Ù.
 						       List<Object> myReserv = userService.getReservByUserId(userId);
 						        
-						        // 3. Modelï¿½ï¿½ ï¿½Ô½Ã±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ JSPï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+						        // 3. Model·Î º¯È¯ÇØ¼­ ÆäÀÌÁö·Î ¹İÈ¯ÇØÁØ´Ù.
 						       model.addAttribute("myReserv", myReserv);
 System.out.println(myReserv);
 
-						        // mypage.jsp ï¿½ä¸¦ ï¿½ï¿½È¯
+						     
 						        return "user/mypage/reserv";
 						    }
 
@@ -614,7 +553,7 @@ System.out.println(myReserv);
 					return "user/mypage/question";
 				}
 //======================================================================================================================		
-		//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½
+		//À§½Ã¸®½ºÆ® ÆäÀÌÁö 
 		@RequestMapping(value="/user/mypage/wishlist", method = RequestMethod.GET) 
 		public String userwishlist(HttpSession session,HttpServletResponse response) throws IOException {
 			try {
@@ -622,9 +561,8 @@ System.out.println(myReserv);
 					response.setContentType("text/html;charset=UTF-8");
 				    PrintWriter out = response.getWriter();
 				    out.println("<script>");
-				    out.println("alert('ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½');");
-				    out.println("location.href='/vaca/login/main'"); // ï¿½Ç´ï¿½ ï¿½Ù¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½
-				    out.println("</script>");
+				    out.println("alert('·Î±×ÀÎ ÇØÁÖ¼¼¿ä');");
+				    out.println("location.href='/vaca/login/main'"); // ·Î±×ÀÎ ¾ÈµÇ¾úÀ»½Ã ÀÌ ÆäÀÌÁö·Î ÀÌµ¿
 				    out.flush();
 				    out.close();
 					return "login/main";
@@ -643,7 +581,9 @@ System.out.println(myReserv);
 
 
 //========================================================================================================================================
-		//1ï¿½ï¿½1 ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½È¸(ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½)
+	
+		
+
 		@GetMapping("/admin/private_question")
 		public String questionList(Model model) {
 			List<NoticeVO> list = userService.selectQuestionList();
@@ -651,7 +591,7 @@ System.out.println(myReserv);
 			return "/admin/private_question";
 		}
 		
-		//ï¿½ï¿½ï¿½ ï¿½Ü¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ó´Ù¿ï¿½ : È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
 		@RequestMapping(value="join")
 		public String joinPage() {
 			return "/join/main";

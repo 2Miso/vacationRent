@@ -117,7 +117,7 @@
 			r.standard_head, 
 			r.extra_head, 
 			r.description as r_description, 
-			(select saved_name from acco_phototb p where p.room_no = r.room_no limit 0,1) as thumbnail_image 
+			(select saved_name from acco_phototb p where p.room_no = r.room_no and r.delyn='N' limit 0,1) as thumbnail_image 
 		from accotb a 
 			inner join biztb b 
 				on a.biz_id=b.id and a.delyn='N' 
@@ -142,7 +142,7 @@
 					on reservtb.room_no = roomtb.room_no
 			where roomtb.acco_no = a.acco_no 
 			) as starAvg,
-			(SELECT saved_name FROM acco_phototb WHERE acco_no = a.acco_no ORDER BY acco_phototb.room_no LIMIT 1) AS thumbnail  
+			(SELECT saved_name FROM acco_phototb left join roomtb on a.acco_no = roomtb.acco_no WHERE acco_phototb.acco_no = a.acco_no and roomtb.delyn='N' ORDER BY acco_phototb.room_no LIMIT 1) AS thumbnail  
 		from accotb a 
 		inner join roomtb r 
 			on a.acco_no=r.acco_no 

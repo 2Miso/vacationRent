@@ -10,7 +10,19 @@
 <!-- namespace는 매퍼를 식별하기 위한 고유한 값 -->
 	<!-- 숙소1건조회 상단 사진 5개 조회 -->
 	<select id="selectTopPhotos" parameterType="int" resultType="com.rent.vaca.acco.AccoPhotoVO">
-		select * from acco_phototb where acco_no=#{accoNo} limit 5;
+		select 
+			acco_phototb.* 
+		from acco_phototb 
+			inner join accotb
+				on acco_phototb.acco_no = accotb.acco_no and delyn='N' 
+			inner join roomtb 
+				on (acco_phototb.room_no = roomtb.room_no 
+					or acco_phototb.room_no=0
+				) 
+				and roomtb.delyn='N' 
+		where acco_phototb.acco_no=#{accoNo} 
+		order by acco_phototb.room_no asc 
+		limit 5;
 	</select>
 	
 	<!-- 숙소 사진 조회 -->
@@ -58,7 +70,7 @@
 		select p.* 
 			from accotb a 
 			inner join roomtb r 
-				on a.acco_no=r.acco_no and a.acco_no=#{accoNo} 
+				on a.acco_no=r.acco_no and a.acco_no=#{accoNo} and r.delyn='N' 
 			inner join acco_phototb p 
 				on r.room_no=p.room_no and r.name=#{roomName};
 	</select>
